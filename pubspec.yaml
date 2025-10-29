@@ -1,0 +1,164 @@
+name: workouch
+description: "AI-Powered Fitness App"
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+
+  # https://pub.dev/packages/flutter_bloc
+  flutter_bloc: ^9.1.1
+
+  # https://pub.dev/packages/freezed_annotation
+  freezed_annotation: ^2.4.4
+
+  # https://pub.dev/packages/flutter_svg
+  flutter_svg: ^2.2.0
+
+  # https://pub.dev/packages/oktoast
+  oktoast: ^3.4.0
+
+  # https://pub.dev/packages/google_fonts
+  google_fonts: ^6.2.1
+
+  # https://pub.dev/packages/flutter_screenutil
+  flutter_screenutil: ^5.9.3
+
+  # https://pub.dev/packages/shared_preferences
+  shared_preferences: ^2.5.3
+
+  # https://pub.dev/packages/get_it
+  get_it: ^8.0.3
+
+  # https://pub.dev/packages/injectable
+  injectable: ^2.5.0
+
+  # https://pub.dev/packages/json_annotation
+  json_annotation: ^4.9.0
+
+  # https://pub.dev/packages/logger
+  logger: ^2.6.0
+
+  # https://pub.dev/packages/supabase_flutter
+  supabase_flutter: ^2.9.1
+
+  # https://pub.dev/packages/google_sign_in
+  google_sign_in: ^6.3.0
+
+  # https://pub.dev/packages/sign_in_with_apple
+  sign_in_with_apple: ^7.0.1
+
+  # https://pub.dev/packages/flutter_dotenv
+  flutter_dotenv: ^5.2.1
+
+  # https://pub.dev/packages/cached_network_image
+  cached_network_image: ^3.4.1
+
+  # https://pub.dev/packages/firebase_crashlytics
+  firebase_crashlytics: ^4.3.9
+
+  # https://pub.dev/packages/firebase_analytics
+  firebase_analytics: ^11.5.2
+
+  # https://pub.dev/packages/firebase_core
+  firebase_core: ^3.15.1
+
+  # https://pub.dev/packages/firebase_remote_config
+  firebase_remote_config: ^5.4.7
+
+  # https://pub.dev/packages/google_mobile_ads
+  google_mobile_ads: ^6.0.0
+
+  # https://pub.dev/packages/in_app_review
+  in_app_review: ^2.0.10
+
+  # https://pub.dev/packages/url_launcher
+  url_launcher: ^6.3.2
+
+  # https://pub.dev/packages/purchases_flutter
+  purchases_flutter: ^8.10.6
+  
+  # https://pub.dev/packages/go_router
+  go_router: ^16.3.0
+  
+  # https://pub.dev/packages/dio
+  dio: ^5.9.0
+  
+  # https://pub.dev/packages/intl
+  intl: ^0.20.2
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # https://pub.dev/packages/flutter_lints
+  flutter_lints: ^6.0.0
+
+  # https://pub.dev/packages/build_runner
+  build_runner: any
+
+  # https://pub.dev/packages/freezed
+  freezed: ^2.5.8
+
+  # https://pub.dev/packages/flutter_gen_runner
+  flutter_gen_runner: ^5.10.0
+
+  # https://pub.dev/packages/json_serializable
+  json_serializable: ^6.9.5
+
+  # https://pub.dev/packages/injectable_generator
+  injectable_generator: ^2.7.0
+
+flutter:
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/fonts/
+    - .env
+
+  fonts:
+    - family: Baloo
+      fonts:
+        - asset: assets/fonts/Baloo-Regular.ttf
+          weight: 400
+
+# Auto generate assets
+flutter_gen:
+  integrations:
+    flutter_svg: true
+
+# Auto sort imports
+import_sorter:
+  comments: false
