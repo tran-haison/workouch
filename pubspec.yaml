@@ -96,7 +96,7 @@ dependencies:
   firebase_remote_config: ^5.4.7
 
   # https://pub.dev/packages/google_mobile_ads
-  google_mobile_ads: ^6.0.0
+  # google_mobile_ads: ^6.0.0
 
   # https://pub.dev/packages/in_app_review
   in_app_review: ^2.0.10
@@ -147,12 +147,6 @@ flutter:
     - assets/icons/
     - assets/fonts/
     - .env
-
-  fonts:
-    - family: Baloo
-      fonts:
-        - asset: assets/fonts/Baloo-Regular.ttf
-          weight: 400
 
 # Auto generate assets
 flutter_gen:
