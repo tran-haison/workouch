@@ -23,6 +23,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/arrow_back.svg
   SvgGenImage get arrowBack => const SvgGenImage('assets/icons/arrow_back.svg');
 
+  /// File path: assets/icons/arrow_down.svg
+  SvgGenImage get arrowDown => const SvgGenImage('assets/icons/arrow_down.svg');
+
   /// File path: assets/icons/arrow_right_wide.svg
   SvgGenImage get arrowRightWide =>
       const SvgGenImage('assets/icons/arrow_right_wide.svg');
@@ -31,14 +34,33 @@ class $AssetsIconsGen {
   SvgGenImage get arrowTopRight =>
       const SvgGenImage('assets/icons/arrow_top_right.svg');
 
+  /// File path: assets/icons/arrow_up.svg
+  SvgGenImage get arrowUp => const SvgGenImage('assets/icons/arrow_up.svg');
+
+  /// File path: assets/icons/check.svg
+  SvgGenImage get check => const SvgGenImage('assets/icons/check.svg');
+
+  /// File path: assets/icons/clock.svg
+  SvgGenImage get clock => const SvgGenImage('assets/icons/clock.svg');
+
   /// File path: assets/icons/error.svg
   SvgGenImage get error => const SvgGenImage('assets/icons/error.svg');
 
   /// File path: assets/icons/fire.svg
   SvgGenImage get fire => const SvgGenImage('assets/icons/fire.svg');
 
+  /// File path: assets/icons/line_weight.svg
+  SvgGenImage get lineWeight =>
+      const SvgGenImage('assets/icons/line_weight.svg');
+
+  /// File path: assets/icons/namespace.svg
+  SvgGenImage get namespace => const SvgGenImage('assets/icons/namespace.svg');
+
   /// File path: assets/icons/puregym.svg
   SvgGenImage get puregym => const SvgGenImage('assets/icons/puregym.svg');
+
+  /// File path: assets/icons/rest.svg
+  SvgGenImage get rest => const SvgGenImage('assets/icons/rest.svg');
 
   /// File path: assets/icons/rocket.svg
   SvgGenImage get rocket => const SvgGenImage('assets/icons/rocket.svg');
@@ -52,19 +74,30 @@ class $AssetsIconsGen {
   /// File path: assets/icons/weight.svg
   SvgGenImage get weight => const SvgGenImage('assets/icons/weight.svg');
 
+  /// File path: assets/icons/work.svg
+  SvgGenImage get work => const SvgGenImage('assets/icons/work.svg');
+
   /// List of all assets
   List<SvgGenImage> get values => [
     add,
     arrowBack,
+    arrowDown,
     arrowRightWide,
     arrowTopRight,
+    arrowUp,
+    check,
+    clock,
     error,
     fire,
+    lineWeight,
+    namespace,
     puregym,
+    rest,
     rocket,
     userLay,
     userWalk,
     weight,
+    work,
   ];
 }
 

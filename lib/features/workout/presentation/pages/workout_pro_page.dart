@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workouch/core/widgets/common_button.dart';
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_gaps.dart';
@@ -58,7 +59,9 @@ class WorkoutProPage extends StatelessWidget {
                     icon: Assets.icons.add,
                     iconColor: AppColors.black,
                     radius: 30.r,
-                    onTap: () {},
+                    onTap: () {
+                      context.pushNamed(AppRoute.workoutCreation.name);
+                    },
                   ),
                 ],
               ),

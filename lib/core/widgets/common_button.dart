@@ -9,7 +9,7 @@ import 'common_icons.dart';
 
 class CommonButton extends StatefulWidget {
   const CommonButton({
-    required this.title,
+    required this.text,
     required this.onPressed,
     this.isDisabled = false,
     this.alignCenter = true,
@@ -21,10 +21,13 @@ class CommonButton extends StatefulWidget {
     this.radius,
     this.leading,
     this.trailing,
+    this.spaceWithLeading,
+    this.spaceWithTrailing,
+    this.borderColor,
     super.key,
   });
 
-  final String title;
+  final String text;
   final VoidCallback onPressed;
   final bool isDisabled;
   final bool alignCenter;
@@ -36,6 +39,9 @@ class CommonButton extends StatefulWidget {
   final double? radius;
   final Widget? leading;
   final Widget? trailing;
+  final double? spaceWithLeading;
+  final double? spaceWithTrailing;
+  final Color? borderColor;
 
   @override
   State<CommonButton> createState() => _CommonButtonState();
@@ -55,7 +61,7 @@ class _CommonButtonState extends State<CommonButton>
     );
     _scaleAnimation = Tween<double>(
       begin: 1.0,
-      end: 0.90,
+      end: 0.95,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
@@ -92,6 +98,9 @@ class _CommonButtonState extends State<CommonButton>
           padding: EdgeInsets.zero,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(widget.radius ?? 30.r),
+            border: widget.borderColor != null
+                ? Border.all(color: widget.borderColor!)
+                : null,
             color: widget.backgroundColor ?? AppColors.primary,
           ),
           child: ElevatedButton(
@@ -113,7 +122,7 @@ class _CommonButtonState extends State<CommonButton>
               ),
               overlayColor: WidgetStateProperty.resolveWith(
                 (states) => states.contains(WidgetState.pressed)
-                    ? AppColors.overlay
+                    ? AppColors.transparent
                     : null,
               ),
               shadowColor: WidgetStateProperty.resolveWith(
@@ -124,6 +133,8 @@ class _CommonButtonState extends State<CommonButton>
                     widget.padding ??
                     EdgeInsets.symmetric(vertical: 14.h, horizontal: 20.w),
               ),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              minimumSize: WidgetStateProperty.all(Size.zero),
               shape: WidgetStateProperty.resolveWith(
                 (states) => RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(widget.radius ?? 30.r),
@@ -138,10 +149,13 @@ class _CommonButtonState extends State<CommonButton>
                   ? MainAxisAlignment.center
                   : MainAxisAlignment.start,
               children: [
-                if (widget.leading != null) ...[widget.leading!, Gaps.hGap12],
+                if (widget.leading != null) ...[
+                  widget.leading!,
+                  Gaps.hGap(widget.spaceWithLeading ?? 12.w),
+                ],
                 Flexible(
                   child: Text(
-                    widget.title,
+                    widget.text,
                     style:
                         widget.textStyle ??
                         AppTextStyles.h3.copyWith(
@@ -153,7 +167,10 @@ class _CommonButtonState extends State<CommonButton>
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                if (widget.trailing != null) ...[Gaps.hGap12, widget.trailing!],
+                if (widget.trailing != null) ...[
+                  Gaps.hGap(widget.spaceWithTrailing ?? 12.w),
+                  widget.trailing!,
+                ],
               ],
             ),
           ),
@@ -215,7 +232,7 @@ class _CommonIconButtonState extends State<CommonIconButton>
 
   @override
   Widget build(BuildContext context) {
-    final borderRadius = widget.radius ?? 10.r;
+    final borderRadius = widget.radius ?? 50.r;
 
     return GestureDetector(
       onTapDown: (_) => _controller.forward(),

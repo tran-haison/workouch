@@ -15,4 +15,8 @@ class AppConstants {
   static const total = 'Total';
   static const mode = 'Mode';
   static const exercises = 'Exercises';
+  static const newWorkout = 'New workout';
+  static const name = 'Name';
+  static const nameHint = 'E.g. Chest Workout';
+  static const restBetweenExercises = 'Rest between exercises';
 }

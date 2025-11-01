@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/home/presentation/pages/home_page.dart';
-import '../../features/workout/pages/workouts_page.dart';
+import '../../features/workout/presentation/pages/workout_creation_page.dart';
 import '../../features/workout/presentation/pages/workout_pro_page.dart';
 
-enum AppRoute { home, workouts, workoutPro }
+enum AppRoute { home, workoutPro, workoutCreation }
 
 Page<T> _buildSlidePage<T extends Object>(
   Widget child, {
@@ -40,20 +40,20 @@ final appRouter = GoRouter(
           const NoTransitionPage(child: HomePage()),
     ),
     GoRoute(
-      name: AppRoute.workouts.name,
-      path: '/workouts',
+      name: AppRoute.workoutPro.name,
+      path: '/workout-pro',
       pageBuilder: (context, state) => _buildSlidePage(
-        const WorkoutsPage(),
+        const WorkoutProPage(),
         key: state.pageKey,
         name: state.name,
         arguments: state.extra,
       ),
     ),
     GoRoute(
-      name: AppRoute.workoutPro.name,
-      path: '/workout-pro',
+      name: AppRoute.workoutCreation.name,
+      path: '/workout-creation',
       pageBuilder: (context, state) => _buildSlidePage(
-        const WorkoutProPage(),
+        const WorkoutCreationPage(),
         key: state.pageKey,
         name: state.name,
         arguments: state.extra,

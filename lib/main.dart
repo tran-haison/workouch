@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:workouch/features/home/presentation/pages/home_page.dart';
+import 'core/router/app_router.dart';
 
 import 'core/constants/app_constants.dart';
 import 'core/di/injection.dart';
@@ -40,20 +40,14 @@ class _WorkouchAppState extends State<WorkouchApp> {
       splitScreenMode: true,
       builder: (context, child) {
         return OKToast(
-          child: MaterialApp(
+          child: MaterialApp.router(
             title: AppConstants.appName,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
             debugShowCheckedModeBanner: false,
             showSemanticsDebugger: false,
-            home: GestureDetector(
-              onTap: () {
-                // Dismiss keyboard when tapping outside of text fields
-                FocusScope.of(context).unfocus();
-              },
-              child: const HomePage(),
-            ),
+            routerConfig: appRouter,
           ),
         );
       },
