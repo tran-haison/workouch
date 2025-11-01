@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/utils/date_utils.dart';
 import 'package:workouch/features/home/presentation/widgets/home_workout_card.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -38,7 +40,12 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               Gaps.vGap40,
-              HomeWorkoutCard(onLazyTap: () {}, onProTap: () {}),
+              HomeWorkoutCard(
+                onLazyTap: () {},
+                onProTap: () {
+                  context.pushNamed(AppRoute.workoutPro.name);
+                },
+              ),
               Gaps.vGap40,
               HomeHealthMetrics(weight: 80.9, bmi: 25.7, calories: 2123),
             ],

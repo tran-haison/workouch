@@ -9,6 +9,7 @@ class Gaps {
   /// Blank space between items in row
   static final hGap2 = SizedBox(width: 2.w);
   static final hGap4 = SizedBox(width: 4.w);
+  static final hGap6 = SizedBox(width: 6.w);
   static final hGap8 = SizedBox(width: 8.w);
   static final hGap10 = SizedBox(width: 10.w);
   static final hGap12 = SizedBox(width: 12.w);
@@ -24,6 +25,7 @@ class Gaps {
   /// Blank space between items in column
   static final vGap2 = SizedBox(height: 2.h);
   static final vGap4 = SizedBox(height: 4.h);
+  static final vGap6 = SizedBox(height: 6.h);
   static final vGap8 = SizedBox(height: 8.h);
   static final vGap10 = SizedBox(height: 10.h);
   static final vGap12 = SizedBox(height: 12.h);

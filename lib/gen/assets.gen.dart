@@ -17,6 +17,16 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/add.svg
+  SvgGenImage get add => const SvgGenImage('assets/icons/add.svg');
+
+  /// File path: assets/icons/arrow_back.svg
+  SvgGenImage get arrowBack => const SvgGenImage('assets/icons/arrow_back.svg');
+
+  /// File path: assets/icons/arrow_right_wide.svg
+  SvgGenImage get arrowRightWide =>
+      const SvgGenImage('assets/icons/arrow_right_wide.svg');
+
   /// File path: assets/icons/arrow_top_right.svg
   SvgGenImage get arrowTopRight =>
       const SvgGenImage('assets/icons/arrow_top_right.svg');
@@ -24,8 +34,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/error.svg
   SvgGenImage get error => const SvgGenImage('assets/icons/error.svg');
 
+  /// File path: assets/icons/fire.svg
+  SvgGenImage get fire => const SvgGenImage('assets/icons/fire.svg');
+
   /// File path: assets/icons/puregym.svg
   SvgGenImage get puregym => const SvgGenImage('assets/icons/puregym.svg');
+
+  /// File path: assets/icons/rocket.svg
+  SvgGenImage get rocket => const SvgGenImage('assets/icons/rocket.svg');
 
   /// File path: assets/icons/user_lay.svg
   SvgGenImage get userLay => const SvgGenImage('assets/icons/user_lay.svg');
@@ -33,13 +49,22 @@ class $AssetsIconsGen {
   /// File path: assets/icons/user_walk.svg
   SvgGenImage get userWalk => const SvgGenImage('assets/icons/user_walk.svg');
 
+  /// File path: assets/icons/weight.svg
+  SvgGenImage get weight => const SvgGenImage('assets/icons/weight.svg');
+
   /// List of all assets
   List<SvgGenImage> get values => [
+    add,
+    arrowBack,
+    arrowRightWide,
     arrowTopRight,
     error,
+    fire,
     puregym,
+    rocket,
     userLay,
     userWalk,
+    weight,
   ];
 }
 

@@ -55,9 +55,13 @@ class AppColors {
   static const onSurfaceVariantDark = Color(0xFFB0B0B0);
 
   // Neutral Colors for main design
+  static const darkBlack = Color(0xFF121212);
   static const black = Color(0xFF2B3031);
   static const white = Color(0xFFFFFFFF);
   static const lightGray = Color(0xFFFAFAFA);
   static const mediumGray = Color(0xFF9E9E9E);
   static const darkGray = Color(0xFF424242);
+  static const grayBlue = Color(0xFFEEF0F4);
+  static const transparent = Colors.transparent;
+  static const overlay = Color.fromARGB(49, 200, 200, 200);
 }

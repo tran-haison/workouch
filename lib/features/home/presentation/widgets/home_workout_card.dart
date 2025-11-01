@@ -119,7 +119,7 @@ class HomeWorkoutCard extends StatelessWidget {
   }
 }
 
-class _HomeWorkoutOption extends StatelessWidget {
+class _HomeWorkoutOption extends StatefulWidget {
   const _HomeWorkoutOption({
     required this.title,
     required this.description,
@@ -139,48 +139,87 @@ class _HomeWorkoutOption extends StatelessWidget {
   final VoidCallback onTap;
 
   @override
+  State<_HomeWorkoutOption> createState() => _HomeWorkoutOptionState();
+}
+
+class _HomeWorkoutOptionState extends State<_HomeWorkoutOption>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 150),
+    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.98,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.all(12.r),
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(20.r),
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(12.r),
-              child: CommonAssetIcon(icon, color: iconColor),
-            ),
-            Gaps.hGap10,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    title,
-                    style: AppTextStyles.orbitron.copyWith(
-                      color: textColor,
-                      fontSize: 16.sp,
-                    ),
-                  ),
-                  Text(
-                    description,
-                    style: AppTextStyles.h5.copyWith(
-                      color: textColor,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                ],
+      onTapDown: (_) => _controller.forward(),
+      onTapUp: (_) {
+        _controller.reverse();
+        widget.onTap();
+      },
+      onTapCancel: () => _controller.reverse(),
+      child: ScaleTransition(
+        scale: _scaleAnimation,
+        child: Container(
+          padding: EdgeInsets.all(12.r),
+          decoration: BoxDecoration(
+            color: widget.backgroundColor,
+            borderRadius: BorderRadius.circular(20.r),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(12.r),
+                child: CommonAssetIcon(widget.icon, color: widget.iconColor),
               ),
-            ),
-            Gaps.hGap10,
-            CommonAssetIcon(Assets.icons.arrowTopRight, color: iconColor),
-          ],
+              Gaps.hGap10,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.title,
+                      style: AppTextStyles.orbitron.copyWith(
+                        color: widget.textColor,
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                    Text(
+                      widget.description,
+                      style: AppTextStyles.h5.copyWith(
+                        color: widget.textColor,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Gaps.hGap10,
+              CommonAssetIcon(
+                Assets.icons.arrowTopRight,
+                color: widget.iconColor,
+              ),
+            ],
+          ),
         ),
       ),
     );
