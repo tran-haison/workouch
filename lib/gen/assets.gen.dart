@@ -43,8 +43,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/clock.svg
   SvgGenImage get clock => const SvgGenImage('assets/icons/clock.svg');
 
+  /// File path: assets/icons/close.svg
+  SvgGenImage get close => const SvgGenImage('assets/icons/close.svg');
+
   /// File path: assets/icons/error.svg
   SvgGenImage get error => const SvgGenImage('assets/icons/error.svg');
+
+  /// File path: assets/icons/filter.svg
+  SvgGenImage get filter => const SvgGenImage('assets/icons/filter.svg');
 
   /// File path: assets/icons/fire.svg
   SvgGenImage get fire => const SvgGenImage('assets/icons/fire.svg');
@@ -64,6 +70,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/rocket.svg
   SvgGenImage get rocket => const SvgGenImage('assets/icons/rocket.svg');
+
+  /// File path: assets/icons/search.svg
+  SvgGenImage get search => const SvgGenImage('assets/icons/search.svg');
 
   /// File path: assets/icons/user_lay.svg
   SvgGenImage get userLay => const SvgGenImage('assets/icons/user_lay.svg');
@@ -87,13 +96,16 @@ class $AssetsIconsGen {
     arrowUp,
     check,
     clock,
+    close,
     error,
+    filter,
     fire,
     lineWeight,
     namespace,
     puregym,
     rest,
     rocket,
+    search,
     userLay,
     userWalk,
     weight,

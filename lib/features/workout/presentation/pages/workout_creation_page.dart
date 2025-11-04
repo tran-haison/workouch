@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_button.dart';
@@ -44,8 +45,7 @@ class _WorkoutCreationPageState extends State<WorkoutCreationPage> {
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              width: 1.sw,
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
               child: Row(
                 children: [
@@ -216,7 +216,9 @@ class _WorkoutCreationPageState extends State<WorkoutCreationPage> {
                                   icon: Assets.icons.add,
                                   iconSize: 20.r,
                                   iconColor: AppColors.black,
-                                  onTap: () {},
+                                  onTap: () {
+                                    context.pushNamed(AppRoute.exercises.name);
+                                  },
                                 ),
                               ),
                             ],

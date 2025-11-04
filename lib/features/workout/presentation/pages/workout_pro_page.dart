@@ -22,8 +22,7 @@ class WorkoutProPage extends StatelessWidget {
         bottom: false,
         child: Column(
           children: [
-            Container(
-              width: 1.sw,
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
               child: Row(
                 children: [
