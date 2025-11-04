@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:workouch/core/extension/duration_extension.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/router/app_router.dart';
@@ -11,6 +12,7 @@ import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../core/widgets/common_text_field.dart';
 import '../../../../gen/assets.gen.dart';
+import '../widgets/rest_time_spinner_dialog.dart';
 import '../widgets/workout_exercise_card.dart';
 
 class WorkoutCreationPage extends StatefulWidget {
@@ -21,7 +23,7 @@ class WorkoutCreationPage extends StatefulWidget {
 }
 
 class _WorkoutCreationPageState extends State<WorkoutCreationPage> {
-  final _restTime = '1m30s';
+  var _restTime = Duration(minutes: 1, seconds: 30);
 
   // Sample exercises - will be replaced with actual data later
   final List<Map<String, String>> _exercises = [
@@ -150,7 +152,7 @@ class _WorkoutCreationPageState extends State<WorkoutCreationPage> {
                           ),
                           Gaps.hGap10,
                           CommonButton(
-                            text: _restTime,
+                            text: _restTime.mmss,
                             onPressed: _showRestTimeDialog,
                             isFullWidth: false,
                             textStyle: AppTextStyles.h5,
@@ -248,32 +250,16 @@ class _WorkoutCreationPageState extends State<WorkoutCreationPage> {
     );
   }
 
-  void _showRestTimeDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.r),
-        ),
-        title: Text('Rest Time', style: AppTextStyles.h1),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              '1m30s',
-              style: AppTextStyles.h0.copyWith(fontWeight: FontWeight.w700),
-            ),
-            Gaps.vGap20,
-            // Add your time picker here
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => context.pop(),
-            child: Text('Done', style: AppTextStyles.h3),
-          ),
-        ],
-      ),
+  Future<void> _showRestTimeDialog() async {
+    final restTime = await showRestTimeSpinnerDialog(
+      context,
+      title: AppConstants.restBetweenExercises,
+      initialValue: _restTime,
     );
+    if (mounted && restTime is Duration) {
+      setState(() {
+        _restTime = restTime;
+      });
+    }
   }
 }

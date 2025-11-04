@@ -10,6 +10,8 @@ import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../core/widgets/common_text_field.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../domain/entities/exercise_filter.dart';
+import '../widgets/exercise_filter_dialog.dart';
 import '../widgets/exercise_list_item.dart';
 
 class ExercisesPage extends StatefulWidget {
@@ -20,17 +22,8 @@ class ExercisesPage extends StatefulWidget {
 }
 
 class _ExercisesPageState extends State<ExercisesPage> {
-  final List<String> _categories = const [
-    'All',
-    'Chest',
-    'Back',
-    'Legs',
-    'Shoulders',
-    'Arms',
-    'Core',
-  ];
-  int _selectedCategoryIndex = 0;
   final Set<int> _selectedExercises = <int>{};
+  var _filter = ExerciseFilter(muscle: '', equipment: '');
 
   final List<Map<String, String>> _exercises = const [
     {'name': 'Barbell bench press', 'group': 'Chest > Barbell'},
@@ -42,7 +35,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
 
   void _clearAll() {
     setState(() {
-      _selectedCategoryIndex = 0;
+      _selectedExercises.clear();
+      _filter = ExerciseFilter(muscle: '', equipment: '');
     });
   }
 
@@ -126,11 +120,12 @@ class _ExercisesPageState extends State<ExercisesPage> {
                       Expanded(
                         child: CommonTextField(
                           hintText: AppConstants.searchByName,
+                          backgroundColor: AppColors.grayBlue,
                           prefix: CommonAssetIcon(
                             Assets.icons.search,
                             width: 20.r,
                             height: 20.r,
-                            useDefaultColor: true,
+                            color: AppColors.black,
                           ),
                           onChanged: (value) {},
                         ),
@@ -140,8 +135,10 @@ class _ExercisesPageState extends State<ExercisesPage> {
                         icon: Assets.icons.filter,
                         iconColor: AppColors.black,
                         iconSize: 20.r,
-                        backgroundColor: AppColors.grayBlue,
-                        onTap: () {},
+                        backgroundColor: _filter.hasAnyFilter
+                            ? AppColors.secondary
+                            : AppColors.grayBlue,
+                        onTap: _showExerciseFilterDialog,
                       ),
                     ],
                   ),
@@ -189,11 +186,13 @@ class _ExercisesPageState extends State<ExercisesPage> {
                         isFullWidth: false,
                         text:
                             '${_selectedExercises.length} ${AppConstants.exercises.toLowerCase()}',
-                        onPressed: _showSelectedExercisesDialog,
-                        textStyle: AppTextStyles.h5.copyWith(
-                          color: AppColors.black,
-                          fontWeight: FontWeight.w600,
+                        backgroundColor: AppColors.primary,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.w,
+                          vertical: 10.h,
                         ),
+                        onPressed: _showSelectedExercisesDialog,
+                        textStyle: AppTextStyles.h5,
                       ),
                     ),
                   ],
@@ -203,5 +202,20 @@ class _ExercisesPageState extends State<ExercisesPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _showExerciseFilterDialog() async {
+    final filter = await showExerciseFilterDialog(
+      context,
+      muscles: ['Muscle 1', 'Muscle 2', 'Muscle 3'],
+      equipments: ['Equipment 1', 'Equipment 2', 'Equipment 3'],
+      initialFilter: _filter,
+    );
+
+    if (mounted && filter is ExerciseFilter) {
+      setState(() {
+        _filter = filter;
+      });
+    }
   }
 }

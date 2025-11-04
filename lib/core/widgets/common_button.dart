@@ -101,7 +101,7 @@ class _CommonButtonState extends State<CommonButton>
             border: widget.borderColor != null
                 ? Border.all(color: widget.borderColor!)
                 : null,
-            color: widget.backgroundColor ?? AppColors.primary,
+            color: widget.backgroundColor ?? AppColors.black,
           ),
           child: ElevatedButton(
             onPressed: widget.isDisabled

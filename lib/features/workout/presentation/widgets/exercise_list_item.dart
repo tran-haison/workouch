@@ -26,20 +26,14 @@ class ExerciseListItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(16.r),
+        padding: EdgeInsets.all(20.r),
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(20.r),
-          border: isSelected
-              ? Border.all(color: AppColors.black, width: 1.r)
-              : null,
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.grayBlue,
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          border: Border.all(
+            color: isSelected ? AppColors.black : AppColors.grayBlue,
+            width: 1.r,
+          ),
         ),
         child: Row(
           children: [

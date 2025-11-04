@@ -1,6 +1,8 @@
 class AppConstants {
   AppConstants._();
 
+  static final time = _Time();
+
   static const appName = 'Workouch';
   static const workout = 'Workout';
   static const lazy = 'LAZY';
@@ -22,4 +24,21 @@ class AppConstants {
   static const clearAll = 'Clear all';
   static const searchByName = 'Search by name';
   static const selectExercises = 'Select exercises';
+  static const error = 'Error';
+  static const close = 'Close';
+  static const cancel = 'Cancel';
+  static const confirm = 'Confirm';
+  static const exerciseFilter = 'Exercise filter';
+  static const muscle = 'Muscle';
+  static const anyMuscle = 'Any muscle';
+  static const equipment = 'Equipment';
+  static const anyEquipment = 'Any equipment';
+}
+
+class _Time {
+  List<int> get mins => [for (var i = 0; i < 60; i++) i];
+
+  List<int> get secs => [for (var i = 0; i < 60; i++) i];
+
+  int get searchDebounce => 500; // milliseconds
 }
