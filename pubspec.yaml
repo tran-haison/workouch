@@ -112,6 +112,15 @@ dependencies:
   
   # https://pub.dev/packages/dio
   dio: ^5.9.0
+
+  # https://pub.dev/packages/retrofit
+  retrofit: ^4.9.0
+
+  # https://pub.dev/packages/pretty_dio_logger
+  pretty_dio_logger: ^1.4.0
+  
+  # https://pub.dev/packages/either_dart
+  either_dart: ^1.0.0
   
   # https://pub.dev/packages/intl
   intl: ^0.20.2
@@ -137,6 +146,9 @@ dev_dependencies:
 
   # https://pub.dev/packages/injectable_generator
   injectable_generator: ^2.7.0
+
+  # https://pub.dev/packages/retrofit_generator
+  retrofit_generator: ^9.7.0
 
 flutter:
   uses-material-design: true

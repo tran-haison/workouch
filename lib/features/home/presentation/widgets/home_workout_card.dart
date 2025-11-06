@@ -43,7 +43,7 @@ class HomeWorkoutCard extends StatelessWidget {
           width: 1.sw,
           padding: EdgeInsets.symmetric(vertical: 24.r, horizontal: 12.r),
           decoration: BoxDecoration(
-            color: AppColors.black,
+            color: AppColors.darkBlack,
             borderRadius: BorderRadius.circular(36.r),
           ),
           child: Column(
@@ -84,7 +84,7 @@ class HomeWorkoutCard extends StatelessWidget {
                 icon: Assets.icons.userWalk,
                 textColor: AppColors.white,
                 iconColor: AppColors.white,
-                backgroundColor: AppColors.black,
+                backgroundColor: AppColors.darkBlack,
                 onTap: onProTap,
               ),
             ],

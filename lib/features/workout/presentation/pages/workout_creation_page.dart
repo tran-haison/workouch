@@ -61,7 +61,7 @@ class _WorkoutCreationPageState extends State<WorkoutCreationPage> {
                   ),
                   const Spacer(),
                   CommonIconButton(
-                    backgroundColor: AppColors.black,
+                    backgroundColor: AppColors.darkBlack,
                     icon: Assets.icons.check,
                     iconColor: AppColors.white,
                     onTap: () {},
@@ -91,7 +91,7 @@ class _WorkoutCreationPageState extends State<WorkoutCreationPage> {
                       width: 1.sw,
                       padding: EdgeInsets.all(20.r),
                       decoration: BoxDecoration(
-                        color: AppColors.black,
+                        color: AppColors.darkBlack,
                         borderRadius: BorderRadius.circular(20.r),
                       ),
                       child: Column(
@@ -205,7 +205,7 @@ class _WorkoutCreationPageState extends State<WorkoutCreationPage> {
                               ),
                               Gaps.hGap10,
                               Container(
-                                padding: EdgeInsets.all(2.r),
+                                padding: EdgeInsets.all(3.r),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: AppColors.primary.withValues(

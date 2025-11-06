@@ -1,8 +1,21 @@
 class AppConstants {
   AppConstants._();
 
+  // Class constants
   static final time = _Time();
 
+  // Exercise DB
+  static const exerciseDb = 'exercise-db';
+  static const exerciseDbUrl = 'https://workouch-exercise-db.vercel.app';
+  static const exerciseDbApiVersion = '/api/v1';
+  static const exerciseDbApiKeyHeader = 'x-api-key';
+  static const exerciseDbApiKeyEnv = 'EXERCISE_DB_API_KEY';
+
+  // Errors
+  static const networkError = 'Network error';
+  static const commonError = 'Something went wrong';
+
+  // Text
   static const appName = 'Workouch';
   static const workout = 'Workout';
   static const lazy = 'LAZY';
@@ -33,6 +46,8 @@ class AppConstants {
   static const anyMuscle = 'Any muscle';
   static const equipment = 'Equipment';
   static const anyEquipment = 'Any equipment';
+  static const retry = 'Retry';
+  static const noExercisesFound = 'No exercises found';
 }
 
 class _Time {

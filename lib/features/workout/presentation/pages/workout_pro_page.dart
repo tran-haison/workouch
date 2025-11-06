@@ -100,7 +100,7 @@ class WorkoutProPage extends StatelessWidget {
                                 bottom: 80.h,
                               ),
                               itemCount: 5,
-                              separatorBuilder: (context, index) => Gaps.vGap16,
+                              separatorBuilder: (context, index) => Gaps.vGap12,
                               itemBuilder: (context, index) {
                                 return WorkoutCardItem(
                                   title: 'Chest Workout',

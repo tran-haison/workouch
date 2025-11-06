@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/di/injection.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_button.dart';
@@ -10,212 +14,311 @@ import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../core/widgets/common_text_field.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../domain/entities/exercise.dart';
 import '../../domain/entities/exercise_filter.dart';
+import '../cubit/exercise_cubit.dart';
+import '../cubit/exercise_state.dart';
 import '../widgets/exercise_filter_dialog.dart';
-import '../widgets/exercise_list_item.dart';
+import '../widgets/exercise_card_item.dart';
 
-class ExercisesPage extends StatefulWidget {
+class ExercisesPage extends StatelessWidget {
   const ExercisesPage({super.key});
 
   @override
-  State<ExercisesPage> createState() => _ExercisesPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => getIt<ExerciseCubit>(),
+      child: const _ExercisesView(),
+    );
+  }
 }
 
-class _ExercisesPageState extends State<ExercisesPage> {
-  final Set<int> _selectedExercises = <int>{};
-  var _filter = ExerciseFilter(muscle: '', equipment: '');
+class _ExercisesView extends StatefulWidget {
+  const _ExercisesView();
 
-  final List<Map<String, String>> _exercises = const [
-    {'name': 'Barbell bench press', 'group': 'Chest > Barbell'},
-    {'name': 'Dumbbell incline press', 'group': 'Chest > Dumbbell'},
-    {'name': 'Pull ups', 'group': 'Back > Bodyweight'},
-    {'name': 'Barbell back squat', 'group': 'Legs > Barbell'},
-    {'name': 'Romanian deadlift', 'group': 'Legs > Barbell'},
-  ];
+  @override
+  State<_ExercisesView> createState() => _ExercisesViewState();
+}
+
+class _ExercisesViewState extends State<_ExercisesView> {
+  final _searchController = TextEditingController();
+  final _scrollController = ScrollController();
+  Timer? _searchDebounce;
+
+  @override
+  void initState() {
+    super.initState();
+    // Setup pagination on scroll
+    _scrollController.addListener(_onScroll);
+
+    // Load initial data
+    context.read<ExerciseCubit>().getExercises();
+    context.read<ExerciseCubit>().getBodyParts();
+    context.read<ExerciseCubit>().getEquipments();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    _searchDebounce?.cancel();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      // Load more when near bottom
+      context.read<ExerciseCubit>().getExercises(loadMore: true);
+    }
+  }
 
   void _clearAll() {
-    setState(() {
-      _selectedExercises.clear();
-      _filter = ExerciseFilter(muscle: '', equipment: '');
-    });
+    _searchController.clear();
+    context.read<ExerciseCubit>().clearAll();
+    context.read<ExerciseCubit>().getExercises();
   }
 
-  void _toggleExercise(int index) {
-    setState(() {
-      if (_selectedExercises.contains(index)) {
-        _selectedExercises.remove(index);
-      } else {
-        _selectedExercises.add(index);
-      }
-    });
+  void _toggleExercise(Exercise exercise) {
+    context.read<ExerciseCubit>().toggleExerciseSelection(exercise);
   }
 
-  void _showSelectedExercisesDialog() {
-    // TODO: Implement dialog to show selected exercises
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Selected Exercises (${_selectedExercises.length})'),
-        content: const Text('Dialog will be implemented later'),
-        actions: [
-          TextButton(
-            onPressed: () => context.pop(),
-            child: const Text('Close'),
-          ),
-        ],
-      ),
+  void _onSearchChanged(String value) {
+    _searchDebounce?.cancel();
+    _searchDebounce = Timer(
+      Duration(milliseconds: AppConstants.time.searchDebounce),
+      () {
+        // Update search and get exercises with the new search
+        context.read<ExerciseCubit>().updateSearch(value);
+        context.read<ExerciseCubit>().getExercises();
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 20.h),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      CommonIconButton(
-                        backgroundColor: AppColors.grayBlue,
-                        icon: Assets.icons.close,
-                        iconColor: AppColors.black,
-                        onTap: () {
-                          context.pop();
-                        },
-                      ),
-                      const Spacer(),
-                      CommonButton(
-                        isFullWidth: false,
-                        text: AppConstants.clearAll,
-                        onPressed: _clearAll,
-                        textStyle: AppTextStyles.h4.copyWith(
-                          color: AppColors.text,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 8.h,
-                        ),
-                        backgroundColor: AppColors.transparent,
-                      ),
-                    ],
-                  ),
-                  Gaps.vGap20,
-                  Row(
-                    children: [
-                      Text(
-                        AppConstants.selectExercises,
-                        style: AppTextStyles.h0,
-                      ),
-                    ],
-                  ),
-                  Gaps.vGap20,
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: CommonTextField(
-                          hintText: AppConstants.searchByName,
-                          backgroundColor: AppColors.grayBlue,
-                          prefix: CommonAssetIcon(
-                            Assets.icons.search,
-                            width: 20.r,
-                            height: 20.r,
-                            color: AppColors.black,
-                          ),
-                          onChanged: (value) {},
-                        ),
-                      ),
-                      Gaps.hGap10,
-                      CommonIconButton(
-                        icon: Assets.icons.filter,
-                        iconColor: AppColors.black,
-                        iconSize: 20.r,
-                        backgroundColor: _filter.hasAnyFilter
-                            ? AppColors.secondary
-                            : AppColors.grayBlue,
-                        onTap: _showExerciseFilterDialog,
-                      ),
-                    ],
-                  ),
-                  Gaps.vGap16,
-                  Expanded(
-                    child: ListView.separated(
-                      padding: EdgeInsets.only(bottom: 80.h),
-                      itemBuilder: (context, index) {
-                        final ex = _exercises[index];
-                        final isSelected = _selectedExercises.contains(index);
-                        return ExerciseListItem(
-                          title: ex['name']!,
-                          subtitle: ex['group']!,
-                          isSelected: isSelected,
-                          onTap: () => _toggleExercise(index),
-                        );
-                      },
-                      separatorBuilder: (context, index) => Gaps.vGap12,
-                      itemCount: _exercises.length,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            if (_selectedExercises.isNotEmpty)
-              Positioned(
-                bottom: 10.h,
-                right: 0,
-                left: 0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+    return BlocBuilder<ExerciseCubit, ExerciseState>(
+      builder: (context, state) {
+        return Scaffold(
+          body: SafeArea(
+            child: Stack(
+              children: [
+                Column(
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.primary,
-                            blurRadius: 10.r,
-                            offset: const Offset(0, 1),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: 20.w,
+                        right: 20.w,
+                        top: 20.h,
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              CommonIconButton(
+                                backgroundColor: AppColors.grayBlue,
+                                icon: Assets.icons.close,
+                                iconColor: AppColors.black,
+                                onTap: () {
+                                  context.pop();
+                                },
+                              ),
+                              const Spacer(),
+                              CommonButton(
+                                isFullWidth: false,
+                                text: AppConstants.clearAll,
+                                onPressed: _clearAll,
+                                textStyle: AppTextStyles.h4.copyWith(
+                                  color: AppColors.text,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10.w,
+                                  vertical: 8.h,
+                                ),
+                                backgroundColor: AppColors.transparent,
+                              ),
+                            ],
                           ),
+                          Gaps.vGap20,
+                          Row(
+                            children: [
+                              Text(
+                                AppConstants.selectExercises,
+                                style: AppTextStyles.h0,
+                              ),
+                            ],
+                          ),
+                          Gaps.vGap20,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: CommonTextField(
+                                  controller: _searchController,
+                                  hintText: AppConstants.searchByName,
+                                  backgroundColor: AppColors.grayBlue,
+                                  prefix: CommonAssetIcon(
+                                    Assets.icons.search,
+                                    width: 20.r,
+                                    height: 20.r,
+                                    color: AppColors.black,
+                                  ),
+                                  onChanged: _onSearchChanged,
+                                ),
+                              ),
+                              Gaps.hGap10,
+                              CommonIconButton(
+                                icon: Assets.icons.filter,
+                                iconColor: AppColors.black,
+                                iconSize: 20.r,
+                                backgroundColor: state.filter.hasAnyFilter
+                                    ? AppColors.secondary
+                                    : AppColors.grayBlue,
+                                onTap: _showExerciseFilterDialog,
+                              ),
+                            ],
+                          ),
+                          Gaps.vGap16,
                         ],
                       ),
-                      child: CommonButton(
-                        isFullWidth: false,
-                        text:
-                            '${_selectedExercises.length} ${AppConstants.exercises.toLowerCase()}',
-                        backgroundColor: AppColors.primary,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20.w,
-                          vertical: 10.h,
-                        ),
-                        onPressed: _showSelectedExercisesDialog,
-                        textStyle: AppTextStyles.h5,
-                      ),
                     ),
+                    Expanded(child: _buildExerciseList(state)),
                   ],
                 ),
+                if (state.selectedExercises.isNotEmpty)
+                  Positioned(
+                    bottom: 10.h,
+                    right: 0,
+                    left: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50.r),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary,
+                                blurRadius: 10.r,
+                                offset: const Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                          child: CommonButton(
+                            isFullWidth: false,
+                            text:
+                                '${state.selectedExercises.length} ${AppConstants.exercises.toLowerCase()}',
+                            backgroundColor: AppColors.primary,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20.w,
+                              vertical: 10.h,
+                            ),
+                            onPressed: () {},
+                            textStyle: AppTextStyles.h5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildExerciseList(ExerciseState state) {
+    if (state.status == ExerciseStateStatus.initial ||
+        state.status == ExerciseStateStatus.loading) {
+      return const Center(
+        child: CircularProgressIndicator(color: AppColors.black),
+      );
+    }
+
+    if (state.status == ExerciseStateStatus.error) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              state.error?.message ?? AppConstants.commonError,
+              style: AppTextStyles.h4,
+              textAlign: TextAlign.center,
+            ),
+            Gaps.vGap16,
+            CommonButton(
+              text: AppConstants.retry,
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+              textStyle: AppTextStyles.h5.copyWith(
+                color: AppColors.white,
+                fontWeight: FontWeight.w600,
               ),
+              isFullWidth: false,
+              onPressed: () {
+                context.read<ExerciseCubit>().getExercises();
+              },
+            ),
           ],
         ),
-      ),
+      );
+    }
+
+    if (state.exercises.isEmpty) {
+      return Center(
+        child: Text(
+          AppConstants.noExercisesFound,
+          style: AppTextStyles.h4.copyWith(color: AppColors.mediumGray),
+        ),
+      );
+    }
+
+    return ListView.separated(
+      controller: _scrollController,
+      padding: EdgeInsets.only(left: 10.w, right: 10.w, bottom: 80.h),
+      itemBuilder: (context, index) {
+        if (index >= state.exercises.length) {
+          // Loading more indicator
+          if (state.status == ExerciseStateStatus.loadingMore) {
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.all(16.r),
+                child: CircularProgressIndicator(color: AppColors.black),
+              ),
+            );
+          }
+          return const SizedBox.shrink();
+        }
+
+        final exercise = state.exercises[index];
+        final isSelected = state.selectedExercises.any(
+          (e) => e.exerciseId == exercise.exerciseId,
+        );
+        return ExerciseCardItem(
+          exercise: exercise,
+          isSelected: isSelected,
+          onTap: () => _toggleExercise(exercise),
+        );
+      },
+      separatorBuilder: (context, index) => Gaps.vGap10,
+      itemCount: state.exercises.length + (state.hasMore ? 1 : 0),
     );
   }
 
   Future<void> _showExerciseFilterDialog() async {
+    final cubit = context.read<ExerciseCubit>();
+    final state = cubit.state;
     final filter = await showExerciseFilterDialog(
       context,
-      muscles: ['Muscle 1', 'Muscle 2', 'Muscle 3'],
-      equipments: ['Equipment 1', 'Equipment 2', 'Equipment 3'],
-      initialFilter: _filter,
+      muscles: state.bodyParts,
+      equipments: state.equipments,
+      initialFilter: state.filter,
     );
 
     if (mounted && filter is ExerciseFilter) {
-      setState(() {
-        _filter = filter;
-      });
+      cubit.updateFilter(filter);
+      cubit.getExercises();
     }
   }
 }

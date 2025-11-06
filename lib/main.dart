@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'core/router/app_router.dart';
 
 import 'core/constants/app_constants.dart';
@@ -12,8 +13,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
-    // TODO: Init services here
-    // await dotenv.load(fileName: ".env");
+    await dotenv.load(fileName: ".env");
     await configureDependencies();
   } catch (e) {
     Log.e('Failed to initialize dependencies: $e');

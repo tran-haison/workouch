@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:workouch/core/widgets/common_images.dart';
+import 'package:workouch/features/workout/domain/entities/exercise.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -7,17 +9,15 @@ import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../gen/assets.gen.dart';
 
-class ExerciseListItem extends StatelessWidget {
-  const ExerciseListItem({
+class ExerciseCardItem extends StatelessWidget {
+  const ExerciseCardItem({
     super.key,
-    required this.title,
-    required this.subtitle,
+    required this.exercise,
     this.isSelected = false,
     this.onTap,
   });
 
-  final String title;
-  final String subtitle;
+  final Exercise exercise;
   final bool isSelected;
   final VoidCallback? onTap;
 
@@ -38,16 +38,16 @@ class ExerciseListItem extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              padding: EdgeInsets.all(10.r),
+              padding: EdgeInsets.all(4.r),
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.25),
                 borderRadius: BorderRadius.circular(12.r),
+                border: Border.all(color: AppColors.grayBlue, width: 1.r),
               ),
-              child: CommonAssetIcon(
-                Assets.icons.weight,
-                width: 28.r,
-                height: 28.r,
-                useDefaultColor: true,
+              child: CommonNetworkImage(
+                url: exercise.gifUrl,
+                width: 60.r,
+                height: 60.r,
+                backgroundColor: AppColors.transparent,
               ),
             ),
             Gaps.hGap12,
@@ -56,14 +56,14 @@ class ExerciseListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    exercise.name,
                     style: AppTextStyles.h4.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   Gaps.vGap4,
                   Text(
-                    subtitle,
+                    exercise.type,
                     style: AppTextStyles.h5.copyWith(
                       color: AppColors.mediumGray,
                     ),
