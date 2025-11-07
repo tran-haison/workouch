@@ -158,9 +158,9 @@ class _CommonButtonState extends State<CommonButton>
                     widget.text,
                     style:
                         widget.textStyle ??
-                        AppTextStyles.h3.copyWith(
+                        AppTextStyles.h4.copyWith(
                           color: AppColors.white,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w600,
                         ),
                     softWrap: false,
                     maxLines: 1,

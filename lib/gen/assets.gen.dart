@@ -46,6 +46,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/close.svg
   SvgGenImage get close => const SvgGenImage('assets/icons/close.svg');
 
+  /// File path: assets/icons/delete.svg
+  SvgGenImage get delete => const SvgGenImage('assets/icons/delete.svg');
+
   /// File path: assets/icons/error.svg
   SvgGenImage get error => const SvgGenImage('assets/icons/error.svg');
 
@@ -97,6 +100,7 @@ class $AssetsIconsGen {
     check,
     clock,
     close,
+    delete,
     error,
     filter,
     fire,

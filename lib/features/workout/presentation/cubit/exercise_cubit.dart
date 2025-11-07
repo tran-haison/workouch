@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:workouch/features/workout/domain/entities/working_exercise.dart';
 import 'package:workouch/features/workout/presentation/cubit/exercise_state.dart';
 
 import '../../data/models/requests/exercise_filter_request.dart';
@@ -102,18 +103,16 @@ class ExerciseCubit extends Cubit<ExerciseState> {
     );
   }
 
-  /// Toggle exercise selection
-  void toggleExerciseSelection(Exercise exercise) {
-    final currentSelected = List<Exercise>.from(state.selectedExercises);
-    final isSelected = currentSelected.any(
-      (e) => e.exerciseId == exercise.exerciseId,
-    );
+  /// Select exercise
+  void selectExercise(WorkingExercise workingExercise) {
+    final currentSelected = List<WorkingExercise>.from(state.selectedExercises);
 
-    if (isSelected) {
-      currentSelected.removeWhere((e) => e.exerciseId == exercise.exerciseId);
-    } else {
-      currentSelected.add(exercise);
-    }
+    // Remove the selected exercise if already selected
+    currentSelected.removeWhere(
+      (e) => e.exerciseId == workingExercise.exerciseId,
+    );
+    // Add the new selected exercise
+    currentSelected.add(workingExercise);
 
     emit(state.copyWith(selectedExercises: currentSelected));
   }
@@ -139,6 +138,13 @@ class ExerciseCubit extends Cubit<ExerciseState> {
         error: null,
       ),
     );
+  }
+
+  WorkingExercise? findSelectedExercise(Exercise exercise) {
+    final matches = state.selectedExercises.where(
+      (e) => e.exerciseId == exercise.exerciseId,
+    );
+    return matches.isEmpty ? null : matches.first;
   }
 
   ExerciseFilterRequest? _convertFilterToRequest() {

@@ -19,7 +19,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ExerciseState {
   ExerciseStateStatus get status => throw _privateConstructorUsedError;
   List<Exercise> get exercises => throw _privateConstructorUsedError;
-  List<Exercise> get selectedExercises => throw _privateConstructorUsedError;
+  List<WorkingExercise> get selectedExercises =>
+      throw _privateConstructorUsedError;
   List<String> get bodyParts => throw _privateConstructorUsedError;
   List<String> get equipments => throw _privateConstructorUsedError;
   ExerciseFilter get filter => throw _privateConstructorUsedError;
@@ -46,7 +47,7 @@ abstract class $ExerciseStateCopyWith<$Res> {
   $Res call({
     ExerciseStateStatus status,
     List<Exercise> exercises,
-    List<Exercise> selectedExercises,
+    List<WorkingExercise> selectedExercises,
     List<String> bodyParts,
     List<String> equipments,
     ExerciseFilter filter,
@@ -101,7 +102,7 @@ class _$ExerciseStateCopyWithImpl<$Res, $Val extends ExerciseState>
             selectedExercises: null == selectedExercises
                 ? _value.selectedExercises
                 : selectedExercises // ignore: cast_nullable_to_non_nullable
-                      as List<Exercise>,
+                      as List<WorkingExercise>,
             bodyParts: null == bodyParts
                 ? _value.bodyParts
                 : bodyParts // ignore: cast_nullable_to_non_nullable
@@ -176,7 +177,7 @@ abstract class _$$ExerciseStateImplCopyWith<$Res>
   $Res call({
     ExerciseStateStatus status,
     List<Exercise> exercises,
-    List<Exercise> selectedExercises,
+    List<WorkingExercise> selectedExercises,
     List<String> bodyParts,
     List<String> equipments,
     ExerciseFilter filter,
@@ -232,7 +233,7 @@ class __$$ExerciseStateImplCopyWithImpl<$Res>
         selectedExercises: null == selectedExercises
             ? _value._selectedExercises
             : selectedExercises // ignore: cast_nullable_to_non_nullable
-                  as List<Exercise>,
+                  as List<WorkingExercise>,
         bodyParts: null == bodyParts
             ? _value._bodyParts
             : bodyParts // ignore: cast_nullable_to_non_nullable
@@ -276,7 +277,7 @@ class _$ExerciseStateImpl implements _ExerciseState {
   const _$ExerciseStateImpl({
     this.status = ExerciseStateStatus.initial,
     final List<Exercise> exercises = const [],
-    final List<Exercise> selectedExercises = const [],
+    final List<WorkingExercise> selectedExercises = const [],
     final List<String> bodyParts = const [],
     final List<String> equipments = const [],
     this.filter = const ExerciseFilter(),
@@ -302,10 +303,10 @@ class _$ExerciseStateImpl implements _ExerciseState {
     return EqualUnmodifiableListView(_exercises);
   }
 
-  final List<Exercise> _selectedExercises;
+  final List<WorkingExercise> _selectedExercises;
   @override
   @JsonKey()
-  List<Exercise> get selectedExercises {
+  List<WorkingExercise> get selectedExercises {
     if (_selectedExercises is EqualUnmodifiableListView)
       return _selectedExercises;
     // ignore: implicit_dynamic_type
@@ -413,7 +414,7 @@ abstract class _ExerciseState implements ExerciseState {
   const factory _ExerciseState({
     final ExerciseStateStatus status,
     final List<Exercise> exercises,
-    final List<Exercise> selectedExercises,
+    final List<WorkingExercise> selectedExercises,
     final List<String> bodyParts,
     final List<String> equipments,
     final ExerciseFilter filter,
@@ -429,7 +430,7 @@ abstract class _ExerciseState implements ExerciseState {
   @override
   List<Exercise> get exercises;
   @override
-  List<Exercise> get selectedExercises;
+  List<WorkingExercise> get selectedExercises;
   @override
   List<String> get bodyParts;
   @override

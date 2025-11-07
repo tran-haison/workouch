@@ -67,12 +67,12 @@ class _RestTimeSpinnerDialogState extends State<_RestTimeSpinnerDialog> {
               child: CommonSpinner(
                 height: 80.h,
                 initialItem: _restTime.inMinutes % 60,
-                items: AppConstants.time.mins
+                items: AppConstants.timeConst.mins
                     .map((item) => SpinnerItem(label: '$item', item: item))
                     .toList(),
                 onSelected: (i) {
                   _restTime = Duration(
-                    minutes: AppConstants.time.mins[i],
+                    minutes: AppConstants.timeConst.mins[i],
                     seconds: _restTime.inSeconds % 60,
                   );
                 },
@@ -89,13 +89,13 @@ class _RestTimeSpinnerDialogState extends State<_RestTimeSpinnerDialog> {
               child: CommonSpinner(
                 height: 80.h,
                 initialItem: _restTime.inSeconds % 60,
-                items: AppConstants.time.secs
+                items: AppConstants.timeConst.secs
                     .map((item) => SpinnerItem(label: '$item', item: item))
                     .toList(),
                 onSelected: (i) {
                   _restTime = Duration(
                     minutes: _restTime.inMinutes % 60,
-                    seconds: AppConstants.time.secs[i],
+                    seconds: AppConstants.timeConst.secs[i],
                   );
                 },
               ),

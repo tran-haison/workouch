@@ -16,10 +16,12 @@ import '../../../../core/widgets/common_text_field.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../domain/entities/exercise.dart';
 import '../../domain/entities/exercise_filter.dart';
+import '../../domain/entities/working_exercise.dart';
 import '../cubit/exercise_cubit.dart';
 import '../cubit/exercise_state.dart';
 import '../widgets/exercise_filter_dialog.dart';
 import '../widgets/exercise_card_item.dart';
+import '../widgets/exercise_selection_dialog.dart';
 
 class ExercisesPage extends StatelessWidget {
   const ExercisesPage({super.key});
@@ -63,36 +65,6 @@ class _ExercisesViewState extends State<_ExercisesView> {
     _scrollController.dispose();
     _searchDebounce?.cancel();
     super.dispose();
-  }
-
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      // Load more when near bottom
-      context.read<ExerciseCubit>().getExercises(loadMore: true);
-    }
-  }
-
-  void _clearAll() {
-    _searchController.clear();
-    context.read<ExerciseCubit>().clearAll();
-    context.read<ExerciseCubit>().getExercises();
-  }
-
-  void _toggleExercise(Exercise exercise) {
-    context.read<ExerciseCubit>().toggleExerciseSelection(exercise);
-  }
-
-  void _onSearchChanged(String value) {
-    _searchDebounce?.cancel();
-    _searchDebounce = Timer(
-      Duration(milliseconds: AppConstants.time.searchDebounce),
-      () {
-        // Update search and get exercises with the new search
-        context.read<ExerciseCubit>().updateSearch(value);
-        context.read<ExerciseCubit>().getExercises();
-      },
-    );
   }
 
   @override
@@ -298,7 +270,7 @@ class _ExercisesViewState extends State<_ExercisesView> {
         return ExerciseCardItem(
           exercise: exercise,
           isSelected: isSelected,
-          onTap: () => _toggleExercise(exercise),
+          onTap: () => _selectExercise(exercise),
         );
       },
       separatorBuilder: (context, index) => Gaps.vGap10,
@@ -320,5 +292,56 @@ class _ExercisesViewState extends State<_ExercisesView> {
       cubit.updateFilter(filter);
       cubit.getExercises();
     }
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      // Load more when near bottom
+      context.read<ExerciseCubit>().getExercises(loadMore: true);
+    }
+  }
+
+  void _clearAll() {
+    _searchController.clear();
+    context.read<ExerciseCubit>().clearAll();
+    context.read<ExerciseCubit>().getExercises();
+  }
+
+  Future<void> _selectExercise(Exercise exercise) async {
+    final cubit = context.read<ExerciseCubit>();
+    final selectedExercise = cubit.findSelectedExercise(exercise);
+
+    dynamic res;
+
+    // If the exercise is already selected, show the edit dialog
+    if (selectedExercise != null) {
+      res = await ExerciseSelectionDialog.showToEdit(
+        context,
+        workingExercise: selectedExercise,
+      );
+    } else {
+      // If the exercise is not selected, show the add dialog
+      res = await ExerciseSelectionDialog.showToAdd(
+        context,
+        workingExercise: WorkingExercise.fromExercise(exercise),
+      );
+    }
+
+    if (mounted && res is WorkingExercise) {
+      cubit.selectExercise(res);
+    }
+  }
+
+  void _onSearchChanged(String value) {
+    _searchDebounce?.cancel();
+    _searchDebounce = Timer(
+      Duration(milliseconds: AppConstants.timeConst.searchDebounce),
+      () {
+        // Update search and get exercises with the new search
+        context.read<ExerciseCubit>().updateSearch(value);
+        context.read<ExerciseCubit>().getExercises();
+      },
+    );
   }
 }

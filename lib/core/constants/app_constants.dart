@@ -2,7 +2,7 @@ class AppConstants {
   AppConstants._();
 
   // Class constants
-  static final time = _Time();
+  static final timeConst = _Time();
 
   // Exercise DB
   static const exerciseDb = 'exercise-db';
@@ -48,6 +48,22 @@ class AppConstants {
   static const anyEquipment = 'Any equipment';
   static const retry = 'Retry';
   static const noExercisesFound = 'No exercises found';
+  static const exerciseType = 'Exercise type';
+  static const distance = 'Distance';
+  static const time = 'Time';
+  static const repsOnly = 'Reps only';
+  static const reps = 'Reps';
+  static const sets = 'Sets';
+  static const mins = 'Mins';
+  static const secs = 'Secs';
+  static const kg = 'Kg';
+  static const km = 'Km';
+  static const meters = 'Meters';
+  static const newSet = 'New set';
+  static const restBetweenSets = 'Rest between sets';
+  static const timeToRest = 'Time to rest';
+  static const addExercise = 'Add exercise';
+  static const updateExercise = 'Update exercise';
 }
 
 class _Time {

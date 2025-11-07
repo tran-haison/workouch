@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:workouch/features/workout/domain/entities/working_exercise.dart';
 
 import '../../../../core/utils/error.dart';
 import '../../domain/entities/exercise.dart';
@@ -13,7 +14,7 @@ class ExerciseState with _$ExerciseState {
   const factory ExerciseState({
     @Default(ExerciseStateStatus.initial) ExerciseStateStatus status,
     @Default([]) List<Exercise> exercises,
-    @Default([]) List<Exercise> selectedExercises,
+    @Default([]) List<WorkingExercise> selectedExercises,
     @Default([]) List<String> bodyParts,
     @Default([]) List<String> equipments,
     @Default(ExerciseFilter()) ExerciseFilter filter,
