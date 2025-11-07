@@ -12,7 +12,7 @@ import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../core/widgets/common_text_field.dart';
 import '../../../../gen/assets.gen.dart';
-import '../widgets/rest_time_spinner_dialog.dart';
+import '../dialogs/rest_time_spinner_dialog.dart';
 import '../widgets/workout_exercise_card.dart';
 
 class WorkoutCreationPage extends StatefulWidget {

@@ -15,7 +15,7 @@ import '../../../../core/widgets/common_icons.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../domain/entities/working_set.dart';
 import 'rest_time_spinner_dialog.dart';
-import 'working_set_input.dart';
+import '../widgets/working_set_input.dart';
 
 enum _Action { add, edit }
 

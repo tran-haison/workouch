@@ -19,9 +19,9 @@ import '../../domain/entities/exercise_filter.dart';
 import '../../domain/entities/working_exercise.dart';
 import '../cubit/exercise_cubit.dart';
 import '../cubit/exercise_state.dart';
-import '../widgets/exercise_filter_dialog.dart';
+import '../dialogs/exercise_filter_dialog.dart';
 import '../widgets/exercise_card_item.dart';
-import '../widgets/exercise_selection_dialog.dart';
+import '../dialogs/exercise_selection_dialog.dart';
 
 class ExercisesPage extends StatelessWidget {
   const ExercisesPage({super.key});
