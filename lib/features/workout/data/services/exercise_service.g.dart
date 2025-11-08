@@ -55,31 +55,27 @@ class _ExerciseService implements ExerciseService {
   }
 
   @override
-  Future<HttpResponse<ApiResponseDto<Map<String, dynamic>>>>
-  getBodyParts() async {
+  Future<HttpResponse<ApiResponseDto<NameItemDto>>> getBodyParts() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options =
-        _setStreamType<HttpResponse<ApiResponseDto<Map<String, dynamic>>>>(
-          Options(method: 'GET', headers: _headers, extra: _extra)
-              .compose(
-                _dio.options,
-                '/bodyparts',
-                queryParameters: queryParameters,
-                data: _data,
-              )
-              .copyWith(
-                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
-              ),
-        );
+    final _options = _setStreamType<HttpResponse<ApiResponseDto<NameItemDto>>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/bodyparts',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResponseDto<Map<String, dynamic>> _value;
+    late ApiResponseDto<NameItemDto> _value;
     try {
-      _value = ApiResponseDto<Map<String, dynamic>>.fromJson(
+      _value = ApiResponseDto<NameItemDto>.fromJson(
         _result.data!,
-        (json) => json as Map<String, dynamic>,
+        (json) => NameItemDto.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
@@ -90,31 +86,27 @@ class _ExerciseService implements ExerciseService {
   }
 
   @override
-  Future<HttpResponse<ApiResponseDto<Map<String, dynamic>>>>
-  getEquipments() async {
+  Future<HttpResponse<ApiResponseDto<NameItemDto>>> getEquipments() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options =
-        _setStreamType<HttpResponse<ApiResponseDto<Map<String, dynamic>>>>(
-          Options(method: 'GET', headers: _headers, extra: _extra)
-              .compose(
-                _dio.options,
-                '/equipments',
-                queryParameters: queryParameters,
-                data: _data,
-              )
-              .copyWith(
-                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
-              ),
-        );
+    final _options = _setStreamType<HttpResponse<ApiResponseDto<NameItemDto>>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/equipments',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResponseDto<Map<String, dynamic>> _value;
+    late ApiResponseDto<NameItemDto> _value;
     try {
-      _value = ApiResponseDto<Map<String, dynamic>>.fromJson(
+      _value = ApiResponseDto<NameItemDto>.fromJson(
         _result.data!,
-        (json) => json as Map<String, dynamic>,
+        (json) => NameItemDto.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);

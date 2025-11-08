@@ -16,7 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../../features/workout/data/services/exercise_service.dart' as _i747;
 import '../../features/workout/domain/repositories/exercise_repo.dart' as _i275;
-import '../../features/workout/presentation/cubit/exercise_cubit.dart' as _i978;
+import '../../features/workout/presentation/cubit/workout_cubit.dart' as _i645;
 import 'injection.dart' as _i464;
 
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -41,8 +41,8 @@ Future<_i174.GetIt> $initGetIt(
   gh.lazySingleton<_i275.ExerciseRepo>(
     () => _i275.ExerciseRepoImpl(gh<_i747.ExerciseService>()),
   );
-  gh.factory<_i978.ExerciseCubit>(
-    () => _i978.ExerciseCubit(gh<_i275.ExerciseRepo>()),
+  gh.factory<_i645.WorkoutCubit>(
+    () => _i645.WorkoutCubit(gh<_i275.ExerciseRepo>()),
   );
   return getIt;
 }

@@ -13,8 +13,8 @@ import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../domain/entities/working_exercise.dart';
-import '../cubit/exercise_cubit.dart';
-import '../cubit/exercise_state.dart';
+import '../cubit/workout_cubit.dart';
+import '../cubit/workout_state.dart';
 import '../widgets/exercise_card_item.dart';
 import 'exercise_details_dialog.dart';
 
@@ -22,7 +22,7 @@ Future<void> showExerciseSelectedListDialog(BuildContext context) async {
   return await showCommonBottomDialog(
     context,
     child: BlocProvider.value(
-      value: context.read<ExerciseCubit>(),
+      value: context.read<WorkoutCubit>(),
       child: const _ExerciseSelectedListDialog(),
     ),
   );
@@ -33,7 +33,7 @@ class _ExerciseSelectedListDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ExerciseCubit, ExerciseState>(
+    return BlocBuilder<WorkoutCubit, WorkoutState>(
       builder: (context, state) {
         final exercises = state.selectedExercises;
 
@@ -99,7 +99,7 @@ class _ExerciseSelectedListDialog extends StatelessWidget {
     BuildContext context,
     WorkingExercise workingExercise,
   ) async {
-    final cubit = context.read<ExerciseCubit>();
+    final cubit = context.read<WorkoutCubit>();
     final res = await ExerciseDetailsDialog.showToEdit(
       context,
       workingExercise: workingExercise,
@@ -123,23 +123,17 @@ class _ExerciseSelectedListDialog extends StatelessWidget {
     BuildContext context,
     WorkingExercise workingExercise,
   ) {
-    context.read<ExerciseCubit>().removeExercise(workingExercise.exerciseId);
+    final cubit = context.read<WorkoutCubit>();
+    cubit.removeExercise(workingExercise.exerciseId);
 
     // Close dialog if no exercises left
     if (context.mounted) {
-      final remainingCount = context
-          .read<ExerciseCubit>()
-          .state
-          .selectedExercises
-          .length;
-      if (remainingCount == 0) {
-        context.pop();
-      }
+      if (cubit.state.selectedExercises.isEmpty) context.pop();
     }
   }
 
   void _onReorderExercises(BuildContext context, int oldIndex, int newIndex) {
-    context.read<ExerciseCubit>().reorderExercise(oldIndex, newIndex);
+    context.read<WorkoutCubit>().reorderExercise(oldIndex, newIndex);
   }
 }
 

@@ -62,7 +62,7 @@ class ExerciseRepoImpl implements ExerciseRepo {
 
       if (res.response.statusCode == HttpStatus.ok && res.data.success) {
         final bodyParts = res.data.data
-            .map((item) => (item['name'] as String).capitalized)
+            .map((item) => item.name.capitalized)
             .toList();
         return Right(bodyParts);
       }
@@ -86,7 +86,7 @@ class ExerciseRepoImpl implements ExerciseRepo {
 
       if (res.response.statusCode == HttpStatus.ok && res.data.success) {
         final equipments = res.data.data
-            .map((item) => (item['name'] as String).capitalized)
+            .map((item) => item.name.capitalized)
             .toList();
         return Right(equipments);
       }

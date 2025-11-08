@@ -5,14 +5,14 @@ import '../../../../core/utils/error.dart';
 import '../../domain/entities/exercise.dart';
 import '../../domain/entities/exercise_filter.dart';
 
-part 'exercise_state.freezed.dart';
+part 'workout_state.freezed.dart';
 
-enum ExerciseStateStatus { initial, loading, loadingMore, success, error }
+enum WorkoutStateStatus { initial, loading, loadingMore, success, error }
 
 @freezed
-class ExerciseState with _$ExerciseState {
-  const factory ExerciseState({
-    @Default(ExerciseStateStatus.initial) ExerciseStateStatus status,
+class WorkoutState with _$WorkoutState {
+  const factory WorkoutState({
+    @Default(WorkoutStateStatus.initial) WorkoutStateStatus status,
     @Default([]) List<Exercise> exercises,
     @Default([]) List<WorkingExercise> selectedExercises,
     @Default([]) List<String> bodyParts,
@@ -23,5 +23,5 @@ class ExerciseState with _$ExerciseState {
     @Default(20) int limit,
     @Default(true) bool hasMore,
     Error? error,
-  }) = _ExerciseState;
+  }) = _WorkoutState;
 }

@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/di/injection.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_button.dart';
@@ -17,33 +16,21 @@ import '../../../../gen/assets.gen.dart';
 import '../../domain/entities/exercise.dart';
 import '../../domain/entities/exercise_filter.dart';
 import '../../domain/entities/working_exercise.dart';
-import '../cubit/exercise_cubit.dart';
-import '../cubit/exercise_state.dart';
+import '../cubit/workout_cubit.dart';
+import '../cubit/workout_state.dart';
 import '../dialogs/exercise_filter_dialog.dart';
 import '../widgets/exercise_card_item.dart';
 import '../dialogs/exercise_details_dialog.dart';
 import '../dialogs/exercise_selected_list_dialog.dart';
 
-class ExercisesPage extends StatelessWidget {
+class ExercisesPage extends StatefulWidget {
   const ExercisesPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<ExerciseCubit>(),
-      child: const _ExercisesView(),
-    );
-  }
+  State<ExercisesPage> createState() => _ExercisesPageState();
 }
 
-class _ExercisesView extends StatefulWidget {
-  const _ExercisesView();
-
-  @override
-  State<_ExercisesView> createState() => _ExercisesViewState();
-}
-
-class _ExercisesViewState extends State<_ExercisesView> {
+class _ExercisesPageState extends State<ExercisesPage> {
   final _searchController = TextEditingController();
   final _scrollController = ScrollController();
   Timer? _searchDebounce;
@@ -55,9 +42,9 @@ class _ExercisesViewState extends State<_ExercisesView> {
     _scrollController.addListener(_onScroll);
 
     // Load initial data
-    context.read<ExerciseCubit>().getExercises();
-    context.read<ExerciseCubit>().getBodyParts();
-    context.read<ExerciseCubit>().getEquipments();
+    context.read<WorkoutCubit>().getExercises();
+    context.read<WorkoutCubit>().getBodyParts();
+    context.read<WorkoutCubit>().getEquipments();
   }
 
   @override
@@ -70,7 +57,7 @@ class _ExercisesViewState extends State<_ExercisesView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ExerciseCubit, ExerciseState>(
+    return BlocBuilder<WorkoutCubit, WorkoutState>(
       builder: (context, state) {
         return Scaffold(
           body: SafeArea(
@@ -203,15 +190,15 @@ class _ExercisesViewState extends State<_ExercisesView> {
     );
   }
 
-  Widget _buildExerciseList(ExerciseState state) {
-    if (state.status == ExerciseStateStatus.initial ||
-        state.status == ExerciseStateStatus.loading) {
+  Widget _buildExerciseList(WorkoutState state) {
+    if (state.status == WorkoutStateStatus.initial ||
+        state.status == WorkoutStateStatus.loading) {
       return const Center(
         child: CircularProgressIndicator(color: AppColors.black),
       );
     }
 
-    if (state.status == ExerciseStateStatus.error) {
+    if (state.status == WorkoutStateStatus.error) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -231,7 +218,7 @@ class _ExercisesViewState extends State<_ExercisesView> {
               ),
               isFullWidth: false,
               onPressed: () {
-                context.read<ExerciseCubit>().getExercises();
+                context.read<WorkoutCubit>().getExercises();
               },
             ),
           ],
@@ -254,7 +241,7 @@ class _ExercisesViewState extends State<_ExercisesView> {
       itemBuilder: (context, index) {
         if (index >= state.exercises.length) {
           // Loading more indicator
-          if (state.status == ExerciseStateStatus.loadingMore) {
+          if (state.status == WorkoutStateStatus.loadingMore) {
             return Center(
               child: Padding(
                 padding: EdgeInsets.all(16.r),
@@ -281,7 +268,7 @@ class _ExercisesViewState extends State<_ExercisesView> {
   }
 
   Future<void> _showExerciseFilterDialog() async {
-    final cubit = context.read<ExerciseCubit>();
+    final cubit = context.read<WorkoutCubit>();
     final state = cubit.state;
     final filter = await showExerciseFilterDialog(
       context,
@@ -300,18 +287,18 @@ class _ExercisesViewState extends State<_ExercisesView> {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 200) {
       // Load more when near bottom
-      context.read<ExerciseCubit>().getExercises(loadMore: true);
+      context.read<WorkoutCubit>().getExercises(loadMore: true);
     }
   }
 
   void _clearAll() {
     _searchController.clear();
-    context.read<ExerciseCubit>().clearAll();
-    context.read<ExerciseCubit>().getExercises();
+    context.read<WorkoutCubit>().clearAll();
+    context.read<WorkoutCubit>().getExercises();
   }
 
   Future<void> _selectExercise(Exercise exercise) async {
-    final cubit = context.read<ExerciseCubit>();
+    final cubit = context.read<WorkoutCubit>();
     final selectedExercise = cubit.findSelectedExercise(exercise);
 
     dynamic res;
@@ -350,8 +337,8 @@ class _ExercisesViewState extends State<_ExercisesView> {
       Duration(milliseconds: AppConstants.timeConst.searchDebounce),
       () {
         // Update search and get exercises with the new search
-        context.read<ExerciseCubit>().updateSearch(value);
-        context.read<ExerciseCubit>().getExercises();
+        context.read<WorkoutCubit>().updateSearch(value);
+        context.read<WorkoutCubit>().getExercises();
       },
     );
   }

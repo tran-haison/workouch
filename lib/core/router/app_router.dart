@@ -5,6 +5,7 @@ import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/workout/presentation/pages/workout_creation_page.dart';
 import '../../features/workout/presentation/pages/workout_pro_page.dart';
 import '../../features/workout/presentation/pages/exercises_page.dart';
+import '../../features/workout/presentation/widgets/workout_scope_provider.dart';
 
 enum AppRoute { home, workoutPro, workoutCreation, exercises }
 
@@ -40,35 +41,43 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: HomePage()),
     ),
-    GoRoute(
-      name: AppRoute.workoutPro.name,
-      path: '/workout-pro',
-      pageBuilder: (context, state) => _buildSlidePage(
-        const WorkoutProPage(),
-        key: state.pageKey,
-        name: state.name,
-        arguments: state.extra,
-      ),
-    ),
-    GoRoute(
-      name: AppRoute.workoutCreation.name,
-      path: '/workout-creation',
-      pageBuilder: (context, state) => _buildSlidePage(
-        const WorkoutCreationPage(),
-        key: state.pageKey,
-        name: state.name,
-        arguments: state.extra,
-      ),
-    ),
-    GoRoute(
-      name: AppRoute.exercises.name,
-      path: '/exercises',
-      pageBuilder: (context, state) => _buildSlidePage(
-        const ExercisesPage(),
-        key: state.pageKey,
-        name: state.name,
-        arguments: state.extra,
-      ),
+    // Parent route that provides WorkoutCubit to all child routes
+    ShellRoute(
+      builder: (context, state, child) {
+        return WorkoutScopeProvider(child: child);
+      },
+      routes: [
+        GoRoute(
+          name: AppRoute.workoutPro.name,
+          path: '/workout-pro',
+          pageBuilder: (context, state) => _buildSlidePage(
+            const WorkoutProPage(),
+            key: state.pageKey,
+            name: state.name,
+            arguments: state.extra,
+          ),
+        ),
+        GoRoute(
+          name: AppRoute.workoutCreation.name,
+          path: '/workout-creation',
+          pageBuilder: (context, state) => _buildSlidePage(
+            const WorkoutCreationPage(),
+            key: state.pageKey,
+            name: state.name,
+            arguments: state.extra,
+          ),
+        ),
+        GoRoute(
+          name: AppRoute.exercises.name,
+          path: '/exercises',
+          pageBuilder: (context, state) => _buildSlidePage(
+            const ExercisesPage(),
+            key: state.pageKey,
+            name: state.name,
+            arguments: state.extra,
+          ),
+        ),
+      ],
     ),
   ],
   errorBuilder: (context, state) =>

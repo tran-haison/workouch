@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'exercise_state.dart';
+part of 'workout_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -16,8 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 );
 
 /// @nodoc
-mixin _$ExerciseState {
-  ExerciseStateStatus get status => throw _privateConstructorUsedError;
+mixin _$WorkoutState {
+  WorkoutStateStatus get status => throw _privateConstructorUsedError;
   List<Exercise> get exercises => throw _privateConstructorUsedError;
   List<WorkingExercise> get selectedExercises =>
       throw _privateConstructorUsedError;
@@ -30,22 +30,22 @@ mixin _$ExerciseState {
   bool get hasMore => throw _privateConstructorUsedError;
   Error? get error => throw _privateConstructorUsedError;
 
-  /// Create a copy of ExerciseState
+  /// Create a copy of WorkoutState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ExerciseStateCopyWith<ExerciseState> get copyWith =>
+  $WorkoutStateCopyWith<WorkoutState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ExerciseStateCopyWith<$Res> {
-  factory $ExerciseStateCopyWith(
-    ExerciseState value,
-    $Res Function(ExerciseState) then,
-  ) = _$ExerciseStateCopyWithImpl<$Res, ExerciseState>;
+abstract class $WorkoutStateCopyWith<$Res> {
+  factory $WorkoutStateCopyWith(
+    WorkoutState value,
+    $Res Function(WorkoutState) then,
+  ) = _$WorkoutStateCopyWithImpl<$Res, WorkoutState>;
   @useResult
   $Res call({
-    ExerciseStateStatus status,
+    WorkoutStateStatus status,
     List<Exercise> exercises,
     List<WorkingExercise> selectedExercises,
     List<String> bodyParts,
@@ -63,16 +63,16 @@ abstract class $ExerciseStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ExerciseStateCopyWithImpl<$Res, $Val extends ExerciseState>
-    implements $ExerciseStateCopyWith<$Res> {
-  _$ExerciseStateCopyWithImpl(this._value, this._then);
+class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
+    implements $WorkoutStateCopyWith<$Res> {
+  _$WorkoutStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ExerciseState
+  /// Create a copy of WorkoutState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -94,7 +94,7 @@ class _$ExerciseStateCopyWithImpl<$Res, $Val extends ExerciseState>
             status: null == status
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
-                      as ExerciseStateStatus,
+                      as WorkoutStateStatus,
             exercises: null == exercises
                 ? _value.exercises
                 : exercises // ignore: cast_nullable_to_non_nullable
@@ -140,7 +140,7 @@ class _$ExerciseStateCopyWithImpl<$Res, $Val extends ExerciseState>
     );
   }
 
-  /// Create a copy of ExerciseState
+  /// Create a copy of WorkoutState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -150,7 +150,7 @@ class _$ExerciseStateCopyWithImpl<$Res, $Val extends ExerciseState>
     });
   }
 
-  /// Create a copy of ExerciseState
+  /// Create a copy of WorkoutState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -166,16 +166,16 @@ class _$ExerciseStateCopyWithImpl<$Res, $Val extends ExerciseState>
 }
 
 /// @nodoc
-abstract class _$$ExerciseStateImplCopyWith<$Res>
-    implements $ExerciseStateCopyWith<$Res> {
-  factory _$$ExerciseStateImplCopyWith(
-    _$ExerciseStateImpl value,
-    $Res Function(_$ExerciseStateImpl) then,
-  ) = __$$ExerciseStateImplCopyWithImpl<$Res>;
+abstract class _$$WorkoutStateImplCopyWith<$Res>
+    implements $WorkoutStateCopyWith<$Res> {
+  factory _$$WorkoutStateImplCopyWith(
+    _$WorkoutStateImpl value,
+    $Res Function(_$WorkoutStateImpl) then,
+  ) = __$$WorkoutStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({
-    ExerciseStateStatus status,
+    WorkoutStateStatus status,
     List<Exercise> exercises,
     List<WorkingExercise> selectedExercises,
     List<String> bodyParts,
@@ -195,15 +195,15 @@ abstract class _$$ExerciseStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$ExerciseStateImplCopyWithImpl<$Res>
-    extends _$ExerciseStateCopyWithImpl<$Res, _$ExerciseStateImpl>
-    implements _$$ExerciseStateImplCopyWith<$Res> {
-  __$$ExerciseStateImplCopyWithImpl(
-    _$ExerciseStateImpl _value,
-    $Res Function(_$ExerciseStateImpl) _then,
+class __$$WorkoutStateImplCopyWithImpl<$Res>
+    extends _$WorkoutStateCopyWithImpl<$Res, _$WorkoutStateImpl>
+    implements _$$WorkoutStateImplCopyWith<$Res> {
+  __$$WorkoutStateImplCopyWithImpl(
+    _$WorkoutStateImpl _value,
+    $Res Function(_$WorkoutStateImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of ExerciseState
+  /// Create a copy of WorkoutState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -221,11 +221,11 @@ class __$$ExerciseStateImplCopyWithImpl<$Res>
     Object? error = freezed,
   }) {
     return _then(
-      _$ExerciseStateImpl(
+      _$WorkoutStateImpl(
         status: null == status
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
-                  as ExerciseStateStatus,
+                  as WorkoutStateStatus,
         exercises: null == exercises
             ? _value._exercises
             : exercises // ignore: cast_nullable_to_non_nullable
@@ -273,9 +273,9 @@ class __$$ExerciseStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ExerciseStateImpl implements _ExerciseState {
-  const _$ExerciseStateImpl({
-    this.status = ExerciseStateStatus.initial,
+class _$WorkoutStateImpl implements _WorkoutState {
+  const _$WorkoutStateImpl({
+    this.status = WorkoutStateStatus.initial,
     final List<Exercise> exercises = const [],
     final List<WorkingExercise> selectedExercises = const [],
     final List<String> bodyParts = const [],
@@ -293,7 +293,7 @@ class _$ExerciseStateImpl implements _ExerciseState {
 
   @override
   @JsonKey()
-  final ExerciseStateStatus status;
+  final WorkoutStateStatus status;
   final List<Exercise> _exercises;
   @override
   @JsonKey()
@@ -351,14 +351,14 @@ class _$ExerciseStateImpl implements _ExerciseState {
 
   @override
   String toString() {
-    return 'ExerciseState(status: $status, exercises: $exercises, selectedExercises: $selectedExercises, bodyParts: $bodyParts, equipments: $equipments, filter: $filter, search: $search, currentOffset: $currentOffset, limit: $limit, hasMore: $hasMore, error: $error)';
+    return 'WorkoutState(status: $status, exercises: $exercises, selectedExercises: $selectedExercises, bodyParts: $bodyParts, equipments: $equipments, filter: $filter, search: $search, currentOffset: $currentOffset, limit: $limit, hasMore: $hasMore, error: $error)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ExerciseStateImpl &&
+            other is _$WorkoutStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             const DeepCollectionEquality().equals(
               other._exercises,
@@ -401,18 +401,18 @@ class _$ExerciseStateImpl implements _ExerciseState {
     error,
   );
 
-  /// Create a copy of ExerciseState
+  /// Create a copy of WorkoutState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ExerciseStateImplCopyWith<_$ExerciseStateImpl> get copyWith =>
-      __$$ExerciseStateImplCopyWithImpl<_$ExerciseStateImpl>(this, _$identity);
+  _$$WorkoutStateImplCopyWith<_$WorkoutStateImpl> get copyWith =>
+      __$$WorkoutStateImplCopyWithImpl<_$WorkoutStateImpl>(this, _$identity);
 }
 
-abstract class _ExerciseState implements ExerciseState {
-  const factory _ExerciseState({
-    final ExerciseStateStatus status,
+abstract class _WorkoutState implements WorkoutState {
+  const factory _WorkoutState({
+    final WorkoutStateStatus status,
     final List<Exercise> exercises,
     final List<WorkingExercise> selectedExercises,
     final List<String> bodyParts,
@@ -423,10 +423,10 @@ abstract class _ExerciseState implements ExerciseState {
     final int limit,
     final bool hasMore,
     final Error? error,
-  }) = _$ExerciseStateImpl;
+  }) = _$WorkoutStateImpl;
 
   @override
-  ExerciseStateStatus get status;
+  WorkoutStateStatus get status;
   @override
   List<Exercise> get exercises;
   @override
@@ -448,10 +448,10 @@ abstract class _ExerciseState implements ExerciseState {
   @override
   Error? get error;
 
-  /// Create a copy of ExerciseState
+  /// Create a copy of WorkoutState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ExerciseStateImplCopyWith<_$ExerciseStateImpl> get copyWith =>
+  _$$WorkoutStateImplCopyWith<_$WorkoutStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
