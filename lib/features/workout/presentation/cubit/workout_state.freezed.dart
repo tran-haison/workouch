@@ -19,10 +19,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$WorkoutState {
   WorkoutStateStatus get status => throw _privateConstructorUsedError;
   List<Exercise> get exercises => throw _privateConstructorUsedError;
-  List<WorkingExercise> get selectedExercises =>
-      throw _privateConstructorUsedError;
   List<String> get bodyParts => throw _privateConstructorUsedError;
   List<String> get equipments => throw _privateConstructorUsedError;
+  Workout get selectedWorkout => throw _privateConstructorUsedError;
   ExerciseFilter get filter => throw _privateConstructorUsedError;
   String get search => throw _privateConstructorUsedError;
   int get currentOffset => throw _privateConstructorUsedError;
@@ -47,9 +46,9 @@ abstract class $WorkoutStateCopyWith<$Res> {
   $Res call({
     WorkoutStateStatus status,
     List<Exercise> exercises,
-    List<WorkingExercise> selectedExercises,
     List<String> bodyParts,
     List<String> equipments,
+    Workout selectedWorkout,
     ExerciseFilter filter,
     String search,
     int currentOffset,
@@ -58,6 +57,7 @@ abstract class $WorkoutStateCopyWith<$Res> {
     Error? error,
   });
 
+  $WorkoutCopyWith<$Res> get selectedWorkout;
   $ExerciseFilterCopyWith<$Res> get filter;
   $ErrorCopyWith<$Res>? get error;
 }
@@ -79,9 +79,9 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
   $Res call({
     Object? status = null,
     Object? exercises = null,
-    Object? selectedExercises = null,
     Object? bodyParts = null,
     Object? equipments = null,
+    Object? selectedWorkout = null,
     Object? filter = null,
     Object? search = null,
     Object? currentOffset = null,
@@ -99,10 +99,6 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
                 ? _value.exercises
                 : exercises // ignore: cast_nullable_to_non_nullable
                       as List<Exercise>,
-            selectedExercises: null == selectedExercises
-                ? _value.selectedExercises
-                : selectedExercises // ignore: cast_nullable_to_non_nullable
-                      as List<WorkingExercise>,
             bodyParts: null == bodyParts
                 ? _value.bodyParts
                 : bodyParts // ignore: cast_nullable_to_non_nullable
@@ -111,6 +107,10 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
                 ? _value.equipments
                 : equipments // ignore: cast_nullable_to_non_nullable
                       as List<String>,
+            selectedWorkout: null == selectedWorkout
+                ? _value.selectedWorkout
+                : selectedWorkout // ignore: cast_nullable_to_non_nullable
+                      as Workout,
             filter: null == filter
                 ? _value.filter
                 : filter // ignore: cast_nullable_to_non_nullable
@@ -138,6 +138,16 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
           )
           as $Val,
     );
+  }
+
+  /// Create a copy of WorkoutState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $WorkoutCopyWith<$Res> get selectedWorkout {
+    return $WorkoutCopyWith<$Res>(_value.selectedWorkout, (value) {
+      return _then(_value.copyWith(selectedWorkout: value) as $Val);
+    });
   }
 
   /// Create a copy of WorkoutState
@@ -177,9 +187,9 @@ abstract class _$$WorkoutStateImplCopyWith<$Res>
   $Res call({
     WorkoutStateStatus status,
     List<Exercise> exercises,
-    List<WorkingExercise> selectedExercises,
     List<String> bodyParts,
     List<String> equipments,
+    Workout selectedWorkout,
     ExerciseFilter filter,
     String search,
     int currentOffset,
@@ -188,6 +198,8 @@ abstract class _$$WorkoutStateImplCopyWith<$Res>
     Error? error,
   });
 
+  @override
+  $WorkoutCopyWith<$Res> get selectedWorkout;
   @override
   $ExerciseFilterCopyWith<$Res> get filter;
   @override
@@ -210,9 +222,9 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? exercises = null,
-    Object? selectedExercises = null,
     Object? bodyParts = null,
     Object? equipments = null,
+    Object? selectedWorkout = null,
     Object? filter = null,
     Object? search = null,
     Object? currentOffset = null,
@@ -230,10 +242,6 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
             ? _value._exercises
             : exercises // ignore: cast_nullable_to_non_nullable
                   as List<Exercise>,
-        selectedExercises: null == selectedExercises
-            ? _value._selectedExercises
-            : selectedExercises // ignore: cast_nullable_to_non_nullable
-                  as List<WorkingExercise>,
         bodyParts: null == bodyParts
             ? _value._bodyParts
             : bodyParts // ignore: cast_nullable_to_non_nullable
@@ -242,6 +250,10 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
             ? _value._equipments
             : equipments // ignore: cast_nullable_to_non_nullable
                   as List<String>,
+        selectedWorkout: null == selectedWorkout
+            ? _value.selectedWorkout
+            : selectedWorkout // ignore: cast_nullable_to_non_nullable
+                  as Workout,
         filter: null == filter
             ? _value.filter
             : filter // ignore: cast_nullable_to_non_nullable
@@ -277,9 +289,9 @@ class _$WorkoutStateImpl implements _WorkoutState {
   const _$WorkoutStateImpl({
     this.status = WorkoutStateStatus.initial,
     final List<Exercise> exercises = const [],
-    final List<WorkingExercise> selectedExercises = const [],
     final List<String> bodyParts = const [],
     final List<String> equipments = const [],
+    this.selectedWorkout = const Workout(),
     this.filter = const ExerciseFilter(),
     this.search = '',
     this.currentOffset = 0,
@@ -287,7 +299,6 @@ class _$WorkoutStateImpl implements _WorkoutState {
     this.hasMore = true,
     this.error,
   }) : _exercises = exercises,
-       _selectedExercises = selectedExercises,
        _bodyParts = bodyParts,
        _equipments = equipments;
 
@@ -301,16 +312,6 @@ class _$WorkoutStateImpl implements _WorkoutState {
     if (_exercises is EqualUnmodifiableListView) return _exercises;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_exercises);
-  }
-
-  final List<WorkingExercise> _selectedExercises;
-  @override
-  @JsonKey()
-  List<WorkingExercise> get selectedExercises {
-    if (_selectedExercises is EqualUnmodifiableListView)
-      return _selectedExercises;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_selectedExercises);
   }
 
   final List<String> _bodyParts;
@@ -333,6 +334,9 @@ class _$WorkoutStateImpl implements _WorkoutState {
 
   @override
   @JsonKey()
+  final Workout selectedWorkout;
+  @override
+  @JsonKey()
   final ExerciseFilter filter;
   @override
   @JsonKey()
@@ -351,7 +355,7 @@ class _$WorkoutStateImpl implements _WorkoutState {
 
   @override
   String toString() {
-    return 'WorkoutState(status: $status, exercises: $exercises, selectedExercises: $selectedExercises, bodyParts: $bodyParts, equipments: $equipments, filter: $filter, search: $search, currentOffset: $currentOffset, limit: $limit, hasMore: $hasMore, error: $error)';
+    return 'WorkoutState(status: $status, exercises: $exercises, bodyParts: $bodyParts, equipments: $equipments, selectedWorkout: $selectedWorkout, filter: $filter, search: $search, currentOffset: $currentOffset, limit: $limit, hasMore: $hasMore, error: $error)';
   }
 
   @override
@@ -365,10 +369,6 @@ class _$WorkoutStateImpl implements _WorkoutState {
               _exercises,
             ) &&
             const DeepCollectionEquality().equals(
-              other._selectedExercises,
-              _selectedExercises,
-            ) &&
-            const DeepCollectionEquality().equals(
               other._bodyParts,
               _bodyParts,
             ) &&
@@ -376,6 +376,8 @@ class _$WorkoutStateImpl implements _WorkoutState {
               other._equipments,
               _equipments,
             ) &&
+            (identical(other.selectedWorkout, selectedWorkout) ||
+                other.selectedWorkout == selectedWorkout) &&
             (identical(other.filter, filter) || other.filter == filter) &&
             (identical(other.search, search) || other.search == search) &&
             (identical(other.currentOffset, currentOffset) ||
@@ -390,9 +392,9 @@ class _$WorkoutStateImpl implements _WorkoutState {
     runtimeType,
     status,
     const DeepCollectionEquality().hash(_exercises),
-    const DeepCollectionEquality().hash(_selectedExercises),
     const DeepCollectionEquality().hash(_bodyParts),
     const DeepCollectionEquality().hash(_equipments),
+    selectedWorkout,
     filter,
     search,
     currentOffset,
@@ -414,9 +416,9 @@ abstract class _WorkoutState implements WorkoutState {
   const factory _WorkoutState({
     final WorkoutStateStatus status,
     final List<Exercise> exercises,
-    final List<WorkingExercise> selectedExercises,
     final List<String> bodyParts,
     final List<String> equipments,
+    final Workout selectedWorkout,
     final ExerciseFilter filter,
     final String search,
     final int currentOffset,
@@ -430,11 +432,11 @@ abstract class _WorkoutState implements WorkoutState {
   @override
   List<Exercise> get exercises;
   @override
-  List<WorkingExercise> get selectedExercises;
-  @override
   List<String> get bodyParts;
   @override
   List<String> get equipments;
+  @override
+  Workout get selectedWorkout;
   @override
   ExerciseFilter get filter;
   @override

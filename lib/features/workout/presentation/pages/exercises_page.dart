@@ -146,7 +146,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                     Expanded(child: _buildExerciseList(state)),
                   ],
                 ),
-                if (state.selectedExercises.isNotEmpty)
+                if (state.hasSelectedExercises)
                   Positioned(
                     bottom: 10.h,
                     right: 0,
@@ -168,7 +168,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                           child: CommonButton(
                             isFullWidth: false,
                             text:
-                                '${state.selectedExercises.length} ${AppConstants.exercises.toLowerCase()}',
+                                '${state.selectedWorkout.exercises.length} ${AppConstants.exercises.toLowerCase()}',
                             backgroundColor: AppColors.primary,
                             padding: EdgeInsets.symmetric(
                               horizontal: 20.w,
@@ -253,7 +253,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
         }
 
         final exercise = state.exercises[index];
-        final isSelected = state.selectedExercises.any(
+        final isSelected = state.selectedWorkout.exercises.any(
           (e) => e.exerciseId == exercise.exerciseId,
         );
         return ExerciseCardItem(

@@ -35,7 +35,7 @@ class _ExerciseSelectedListDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WorkoutCubit, WorkoutState>(
       builder: (context, state) {
-        final exercises = state.selectedExercises;
+        final exercises = state.selectedWorkout.exercises;
 
         return Column(
           mainAxisSize: MainAxisSize.min,
@@ -128,7 +128,7 @@ class _ExerciseSelectedListDialog extends StatelessWidget {
 
     // Close dialog if no exercises left
     if (context.mounted) {
-      if (cubit.state.selectedExercises.isEmpty) context.pop();
+      if (!cubit.state.hasSelectedExercises) context.pop();
     }
   }
 

@@ -103,7 +103,9 @@ class WorkoutCubit extends Cubit<WorkoutState> {
 
   /// Select exercise
   void selectExercise(WorkingExercise workingExercise) {
-    final currentSelected = List<WorkingExercise>.from(state.selectedExercises);
+    final currentSelected = List<WorkingExercise>.from(
+      state.selectedWorkout.exercises,
+    );
 
     // Find the index of the exercise if it already exists
     final existingIndex = currentSelected.indexWhere(
@@ -118,14 +120,16 @@ class WorkoutCubit extends Cubit<WorkoutState> {
       currentSelected.add(workingExercise);
     }
 
-    emit(state.copyWith(selectedExercises: currentSelected));
+    updateSelectedWorkout(exercises: currentSelected);
   }
 
   /// Remove exercise from selection
   void removeExercise(String exerciseId) {
-    final currentSelected = List<WorkingExercise>.from(state.selectedExercises);
+    final currentSelected = List<WorkingExercise>.from(
+      state.selectedWorkout.exercises,
+    );
     currentSelected.removeWhere((e) => e.exerciseId == exerciseId);
-    emit(state.copyWith(selectedExercises: currentSelected));
+    updateSelectedWorkout(exercises: currentSelected);
   }
 
   /// Reorder exercise in selection
@@ -134,7 +138,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
       newIndex -= 1;
     }
 
-    final oldList = state.selectedExercises;
+    final oldList = state.selectedWorkout.exercises;
     final selectedItem = oldList[oldIndex];
     final newList = [
       ...oldList.sublist(0, oldIndex),
@@ -142,7 +146,26 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     ];
     newList.insert(newIndex, selectedItem);
 
-    emit(state.copyWith(selectedExercises: newList));
+    updateSelectedWorkout(exercises: newList);
+  }
+
+  void updateSelectedWorkout({
+    String? id,
+    String? name,
+    List<WorkingExercise>? exercises,
+    Duration? restTime,
+  }) {
+    emit(
+      state.copyWith(
+        selectedWorkout: state.selectedWorkout.copyWith(
+          id: id ?? state.selectedWorkout.id,
+          name: name ?? state.selectedWorkout.name,
+          exercises: exercises ?? state.selectedWorkout.exercises,
+          restTimeBetweenExercises:
+              restTime ?? state.selectedWorkout.restTimeBetweenExercises,
+        ),
+      ),
+    );
   }
 
   /// Update filter
@@ -160,7 +183,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     emit(
       state.copyWith(
         status: WorkoutStateStatus.initial,
-        selectedExercises: [],
+        selectedWorkout: state.selectedWorkout.copyWith(exercises: []),
         filter: const ExerciseFilter(),
         search: '',
         error: null,
@@ -169,7 +192,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
   }
 
   WorkingExercise? findSelectedExercise(Exercise exercise) {
-    final matches = state.selectedExercises.where(
+    final matches = state.selectedWorkout.exercises.where(
       (e) => e.exerciseId == exercise.exerciseId,
     );
     return matches.isEmpty ? null : matches.first;
