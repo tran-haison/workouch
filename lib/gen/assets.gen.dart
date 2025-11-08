@@ -68,6 +68,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/puregym.svg
   SvgGenImage get puregym => const SvgGenImage('assets/icons/puregym.svg');
 
+  /// File path: assets/icons/reorder.svg
+  SvgGenImage get reorder => const SvgGenImage('assets/icons/reorder.svg');
+
   /// File path: assets/icons/rest.svg
   SvgGenImage get rest => const SvgGenImage('assets/icons/rest.svg');
 
@@ -107,6 +110,7 @@ class $AssetsIconsGen {
     lineWeight,
     namespace,
     puregym,
+    reorder,
     rest,
     rocket,
     search,

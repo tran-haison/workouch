@@ -14,11 +14,13 @@ class ExerciseCardItem extends StatelessWidget {
     super.key,
     required this.exercise,
     this.isSelected = false,
+    this.noPadding = false,
     this.onTap,
   });
 
   final Exercise exercise;
   final bool isSelected;
+  final bool noPadding;
   final VoidCallback? onTap;
 
   @override
@@ -26,14 +28,16 @@ class ExerciseCardItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(20.r),
+        padding: EdgeInsets.all(noPadding ? 0 : 20.r),
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(
-            color: isSelected ? AppColors.black : AppColors.grayBlue,
-            width: 1.r,
-          ),
+          border: noPadding
+              ? null
+              : Border.all(
+                  color: isSelected ? AppColors.black : AppColors.grayBlue,
+                  width: 1.r,
+                ),
         ),
         child: Row(
           children: [

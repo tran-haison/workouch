@@ -29,6 +29,7 @@ class AppConstants {
   static const fullControl = 'Full control over your workouts';
   static const total = 'Total';
   static const mode = 'Mode';
+  static const exercise = 'Exercise';
   static const exercises = 'Exercises';
   static const newWorkout = 'New workout';
   static const name = 'Name';
@@ -64,6 +65,8 @@ class AppConstants {
   static const timeToRest = 'Time to rest';
   static const addExercise = 'Add exercise';
   static const updateExercise = 'Update exercise';
+  static const delete = 'Delete';
+  static const dragToReorder = 'Hold and drag to reorder, swipe to delete';
 }
 
 class _Time {

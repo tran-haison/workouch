@@ -80,8 +80,17 @@ class _ExerciseFilterDialogState extends State<_ExerciseFilterDialog> {
               height: 20.r,
             ),
             Gaps.hGap10,
-            Flexible(
+            Expanded(
               child: Text(AppConstants.exerciseFilter, style: AppTextStyles.h3),
+            ),
+            Gaps.hGap10,
+            CommonIconButton(
+              icon: Assets.icons.close,
+              iconSize: 20.r,
+              padding: EdgeInsets.all(8.r),
+              iconColor: AppColors.black,
+              backgroundColor: AppColors.grayBlue,
+              onTap: () => context.pop(),
             ),
           ],
         ),
@@ -228,7 +237,20 @@ class _OptionListDialog extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: AppTextStyles.h3),
+        Row(
+          children: [
+            Expanded(child: Text(title, style: AppTextStyles.h3)),
+            Gaps.hGap10,
+            CommonIconButton(
+              icon: Assets.icons.close,
+              iconSize: 20.r,
+              padding: EdgeInsets.all(8.r),
+              iconColor: AppColors.black,
+              backgroundColor: AppColors.grayBlue,
+              onTap: () => context.pop(),
+            ),
+          ],
+        ),
         Gaps.vGap16,
         Flexible(
           child: ListView.separated(

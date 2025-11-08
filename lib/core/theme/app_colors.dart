@@ -24,9 +24,9 @@ class AppColors {
   static const textDark = Color(0xFFB0B0B0);
 
   // Error Colors - Pastel red
-  static const error = Color(0xFFF8BBD9); // Pastel red
+  static const error = Color(0xFFFF5353); // Pastel red
   static const errorLight = Color(0xFFFCE4EC);
-  static const errorDark = Color(0xFFF48FB1);
+  static const errorDark = Color(0xFFCA3535);
 
   // Success Colors - Pastel green
   static const success = Color(0xFFC8E6C9); // Pastel green

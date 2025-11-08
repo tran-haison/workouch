@@ -21,7 +21,8 @@ import '../cubit/exercise_cubit.dart';
 import '../cubit/exercise_state.dart';
 import '../dialogs/exercise_filter_dialog.dart';
 import '../widgets/exercise_card_item.dart';
-import '../dialogs/exercise_selection_dialog.dart';
+import '../dialogs/exercise_details_dialog.dart';
+import '../dialogs/exercise_selected_list_dialog.dart';
 
 class ExercisesPage extends StatelessWidget {
   const ExercisesPage({super.key});
@@ -186,7 +187,8 @@ class _ExercisesViewState extends State<_ExercisesView> {
                               horizontal: 20.w,
                               vertical: 10.h,
                             ),
-                            onPressed: () {},
+                            onPressed: () =>
+                                showExerciseSelectedListDialog(context),
                             textStyle: AppTextStyles.h5,
                           ),
                         ),
@@ -316,20 +318,29 @@ class _ExercisesViewState extends State<_ExercisesView> {
 
     // If the exercise is already selected, show the edit dialog
     if (selectedExercise != null) {
-      res = await ExerciseSelectionDialog.showToEdit(
+      res = await ExerciseDetailsDialog.showToEdit(
         context,
         workingExercise: selectedExercise,
       );
     } else {
       // If the exercise is not selected, show the add dialog
-      res = await ExerciseSelectionDialog.showToAdd(
+      res = await ExerciseDetailsDialog.showToAdd(
         context,
         workingExercise: WorkingExercise.fromExercise(exercise),
       );
     }
 
-    if (mounted && res is WorkingExercise) {
+    if (!mounted) return;
+
+    if (res is WorkingExercise) {
+      // Add or update exercise
       cubit.selectExercise(res);
+      return;
+    }
+
+    if (res is String) {
+      // Delete exercise (res is the exerciseId)
+      cubit.removeExercise(res);
     }
   }
 

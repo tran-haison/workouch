@@ -14,13 +14,13 @@ import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../domain/entities/working_set.dart';
-import 'rest_time_spinner_dialog.dart';
+import 'rest_time_dialog.dart';
 import '../widgets/working_set_input.dart';
 
 enum _Action { add, edit }
 
-class ExerciseSelectionDialog {
-  const ExerciseSelectionDialog._();
+class ExerciseDetailsDialog {
+  const ExerciseDetailsDialog._();
 
   static Future<dynamic> showToAdd(
     BuildContext context, {
@@ -28,7 +28,7 @@ class ExerciseSelectionDialog {
   }) async {
     return await showCommonBottomDialog(
       context,
-      child: _ExerciseSelectionDialog(
+      child: _ExerciseDetailsDialog(
         action: _Action.add,
         workingExercise: workingExercise,
       ),
@@ -41,7 +41,7 @@ class ExerciseSelectionDialog {
   }) async {
     return await showCommonBottomDialog(
       context,
-      child: _ExerciseSelectionDialog(
+      child: _ExerciseDetailsDialog(
         action: _Action.edit,
         workingExercise: workingExercise,
       ),
@@ -49,8 +49,8 @@ class ExerciseSelectionDialog {
   }
 }
 
-class _ExerciseSelectionDialog extends StatefulWidget {
-  const _ExerciseSelectionDialog({
+class _ExerciseDetailsDialog extends StatefulWidget {
+  const _ExerciseDetailsDialog({
     required this.action,
     required this.workingExercise,
   });
@@ -59,11 +59,10 @@ class _ExerciseSelectionDialog extends StatefulWidget {
   final WorkingExercise workingExercise;
 
   @override
-  State<_ExerciseSelectionDialog> createState() =>
-      _ExerciseSelectionDialogState();
+  State<_ExerciseDetailsDialog> createState() => _ExerciseDetailsDialogState();
 }
 
-class _ExerciseSelectionDialogState extends State<_ExerciseSelectionDialog> {
+class _ExerciseDetailsDialogState extends State<_ExerciseDetailsDialog> {
   final List<GlobalKey> _setKeys = []; // To keep track of sets
   late WorkingExercise _exercise;
 
@@ -93,6 +92,27 @@ class _ExerciseSelectionDialogState extends State<_ExerciseSelectionDialog> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Text(
+                AppConstants.exercise,
+                style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w600),
+              ),
+            ),
+            Gaps.hGap10,
+            CommonIconButton(
+              icon: Assets.icons.close,
+              iconSize: 20.r,
+              padding: EdgeInsets.all(8.r),
+              iconColor: AppColors.black,
+              backgroundColor: AppColors.grayBlue,
+              onTap: () => context.pop(),
+            ),
+          ],
+        ),
+        Gaps.vGap16,
         Expanded(
           child: ListView(
             children: [
@@ -100,10 +120,7 @@ class _ExerciseSelectionDialogState extends State<_ExerciseSelectionDialog> {
               Gaps.vGap30,
               Text(
                 AppConstants.exerciseType,
-                style: AppTextStyles.h4.copyWith(
-                  color: AppColors.text,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w500),
               ),
               Gaps.vGap10,
               _ExerciseTypeSelector(
@@ -114,10 +131,7 @@ class _ExerciseSelectionDialogState extends State<_ExerciseSelectionDialog> {
               Gaps.vGap30,
               Text(
                 AppConstants.sets,
-                style: AppTextStyles.h4.copyWith(
-                  color: AppColors.text,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w500),
               ),
               Gaps.vGap10,
               ListView.separated(
@@ -168,7 +182,6 @@ class _ExerciseSelectionDialogState extends State<_ExerciseSelectionDialog> {
                     child: Text(
                       AppConstants.restBetweenSets,
                       style: AppTextStyles.h4.copyWith(
-                        color: AppColors.text,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -199,13 +212,24 @@ class _ExerciseSelectionDialogState extends State<_ExerciseSelectionDialog> {
             ],
           ),
         ),
-        Gaps.vGap20,
+        Gaps.vGap16,
         CommonButton(
           text: widget.action == _Action.add
               ? AppConstants.addExercise
               : AppConstants.updateExercise,
           onPressed: _confirm,
         ),
+        if (widget.action == _Action.edit) ...[
+          CommonButton(
+            text: AppConstants.delete,
+            backgroundColor: AppColors.transparent,
+            textStyle: AppTextStyles.h4.copyWith(
+              color: AppColors.errorDark,
+              fontWeight: FontWeight.w600,
+            ),
+            onPressed: _deleteExercise,
+          ),
+        ],
       ],
     );
   }
@@ -272,8 +296,13 @@ class _ExerciseSelectionDialogState extends State<_ExerciseSelectionDialog> {
     context.pop(_exercise);
   }
 
+  void _deleteExercise() {
+    // Return the exercise ID as String to indicate deletion
+    context.pop(_exercise.exerciseId);
+  }
+
   Future<void> _showRestTimeDialog() async {
-    final restTime = await showRestTimeSpinnerDialog(
+    final restTime = await showRestTimeDialog(
       context,
       title: AppConstants.restBetweenSets,
       initialValue: _exercise.restTimeBetweenSets,

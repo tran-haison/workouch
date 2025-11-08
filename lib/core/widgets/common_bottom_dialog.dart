@@ -32,12 +32,7 @@ class CommonBottomDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        padding: EdgeInsets.only(
-          top: 16.h,
-          bottom: 16.h,
-          left: 16.w,
-          right: 16.w,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30.r),

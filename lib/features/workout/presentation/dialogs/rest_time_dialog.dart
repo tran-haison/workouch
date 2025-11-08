@@ -12,28 +12,28 @@ import '../../../../core/widgets/common_icons.dart';
 import '../../../../core/widgets/common_spinner.dart';
 import '../../../../gen/assets.gen.dart';
 
-Future<dynamic> showRestTimeSpinnerDialog(
+Future<dynamic> showRestTimeDialog(
   BuildContext context, {
   required String title,
   Duration? initialValue,
 }) async {
   return await showCommonBottomDialog(
     context,
-    child: _RestTimeSpinnerDialog(title: title, initialValue: initialValue),
+    child: _RestTimeDialog(title: title, initialValue: initialValue),
   );
 }
 
-class _RestTimeSpinnerDialog extends StatefulWidget {
-  const _RestTimeSpinnerDialog({required this.title, this.initialValue});
+class _RestTimeDialog extends StatefulWidget {
+  const _RestTimeDialog({required this.title, this.initialValue});
 
   final String title;
   final Duration? initialValue;
 
   @override
-  State<_RestTimeSpinnerDialog> createState() => _RestTimeSpinnerDialogState();
+  State<_RestTimeDialog> createState() => _RestTimeDialogState();
 }
 
-class _RestTimeSpinnerDialogState extends State<_RestTimeSpinnerDialog> {
+class _RestTimeDialogState extends State<_RestTimeDialog> {
   late var _restTime = widget.initialValue ?? const Duration();
 
   @override
@@ -52,11 +52,20 @@ class _RestTimeSpinnerDialogState extends State<_RestTimeSpinnerDialog> {
               height: 20.r,
             ),
             Gaps.hGap10,
-            Flexible(
+            Expanded(
               child: DefaultTextStyle(
                 style: AppTextStyles.h3,
                 child: Text(widget.title),
               ),
+            ),
+            Gaps.hGap10,
+            CommonIconButton(
+              icon: Assets.icons.close,
+              iconSize: 20.r,
+              padding: EdgeInsets.all(8.r),
+              iconColor: AppColors.black,
+              backgroundColor: AppColors.grayBlue,
+              onTap: () => context.pop(),
             ),
           ],
         ),

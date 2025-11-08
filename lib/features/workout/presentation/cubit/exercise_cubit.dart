@@ -107,14 +107,44 @@ class ExerciseCubit extends Cubit<ExerciseState> {
   void selectExercise(WorkingExercise workingExercise) {
     final currentSelected = List<WorkingExercise>.from(state.selectedExercises);
 
-    // Remove the selected exercise if already selected
-    currentSelected.removeWhere(
+    // Find the index of the exercise if it already exists
+    final existingIndex = currentSelected.indexWhere(
       (e) => e.exerciseId == workingExercise.exerciseId,
     );
-    // Add the new selected exercise
-    currentSelected.add(workingExercise);
+
+    if (existingIndex != -1) {
+      // If exercise exists, replace it at the same position
+      currentSelected[existingIndex] = workingExercise;
+    } else {
+      // If exercise doesn't exist, add it to the list
+      currentSelected.add(workingExercise);
+    }
 
     emit(state.copyWith(selectedExercises: currentSelected));
+  }
+
+  /// Remove exercise from selection
+  void removeExercise(String exerciseId) {
+    final currentSelected = List<WorkingExercise>.from(state.selectedExercises);
+    currentSelected.removeWhere((e) => e.exerciseId == exerciseId);
+    emit(state.copyWith(selectedExercises: currentSelected));
+  }
+
+  /// Reorder exercise in selection
+  void reorderExercise(int oldIndex, int newIndex) {
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+
+    final oldList = state.selectedExercises;
+    final selectedItem = oldList[oldIndex];
+    final newList = [
+      ...oldList.sublist(0, oldIndex),
+      ...oldList.sublist(oldIndex + 1, oldList.length),
+    ];
+    newList.insert(newIndex, selectedItem);
+
+    emit(state.copyWith(selectedExercises: newList));
   }
 
   /// Update filter
