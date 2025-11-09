@@ -48,7 +48,7 @@ class AppConstants {
   static const equipment = 'Equipment';
   static const anyEquipment = 'Any equipment';
   static const retry = 'Retry';
-  static const noExercisesFound = 'No exercises found';
+  static const noExerciseFound = 'No exercise found';
   static const exerciseType = 'Exercise type';
   static const distance = 'Distance';
   static const time = 'Time';
@@ -67,6 +67,8 @@ class AppConstants {
   static const updateExercise = 'Update exercise';
   static const delete = 'Delete';
   static const dragToReorder = 'Hold and drag to reorder, swipe to delete';
+  static const noExerciseSelected = 'No exercise selected';
+  static const invalidSets = 'All sets must be valid';
 }
 
 class _Time {

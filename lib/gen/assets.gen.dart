@@ -49,6 +49,12 @@ class $AssetsIconsGen {
   /// File path: assets/icons/delete.svg
   SvgGenImage get delete => const SvgGenImage('assets/icons/delete.svg');
 
+  /// File path: assets/icons/distance.svg
+  SvgGenImage get distance => const SvgGenImage('assets/icons/distance.svg');
+
+  /// File path: assets/icons/dumbbell.svg
+  SvgGenImage get dumbbell => const SvgGenImage('assets/icons/dumbbell.svg');
+
   /// File path: assets/icons/error.svg
   SvgGenImage get error => const SvgGenImage('assets/icons/error.svg');
 
@@ -104,6 +110,8 @@ class $AssetsIconsGen {
     clock,
     close,
     delete,
+    distance,
+    dumbbell,
     error,
     filter,
     fire,

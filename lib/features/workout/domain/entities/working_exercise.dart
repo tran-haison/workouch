@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:workouch/core/extension/duration_extension.dart';
+import '../../../../core/constants/app_constants.dart';
 import 'exercise.dart';
 import 'working_set.dart';
 
@@ -39,7 +41,74 @@ class WorkingExercise with _$WorkingExercise {
 }
 
 extension WorkingExerciseX on WorkingExercise {
-  bool get missingSets => sets.isEmpty;
+  bool get hasValidSets {
+    if (sets.isEmpty) {
+      return false;
+    }
+
+    return sets.every((set) {
+      return set.when(
+        weightBased: (sets, reps, weight) {
+          return sets > 0 && reps > 0 && weight > 0;
+        },
+        repsOnly: (sets, reps) {
+          return sets > 0 && reps > 0;
+        },
+        timeBased: (duration) {
+          return duration.inSeconds > 0;
+        },
+        distanceBased: (distance) {
+          return distance > 0;
+        },
+      );
+    });
+  }
+
+  String get formatMainInfo => '${bodyParts[0]} > ${equipments[0]}';
+
+  List<String> get formatSetsInfo {
+    if (sets.isEmpty) {
+      return [];
+    }
+
+    // Format all sets
+    final formattedSets = sets
+        .map((set) {
+          return set.when(
+            weightBased: (sets, reps, weight) {
+              if (sets == 0 || reps == 0 || weight == 0) return null;
+              return '$sets ${AppConstants.sets} • $reps ${AppConstants.reps} • $weight ${AppConstants.kg}'
+                  .toLowerCase();
+            },
+            repsOnly: (sets, reps) {
+              if (sets == 0 || reps == 0) return null;
+              return '$sets ${AppConstants.sets} • $reps ${AppConstants.reps}'
+                  .toLowerCase();
+            },
+            timeBased: (duration) {
+              if (duration.inSeconds == 0) return null;
+              return duration.mmss.toLowerCase();
+            },
+            distanceBased: (distance) {
+              if (distance == 0) return null;
+              if (distance >= 1000) {
+                final km = distance / 1000;
+                final kmString = km
+                    .toStringAsFixed(3)
+                    .replaceAll(RegExp(r'0+$'), '')
+                    .replaceAll(RegExp(r'\.$'), '');
+                return '$kmString ${AppConstants.km}'.toLowerCase();
+              }
+              return '${distance.toInt()} ${AppConstants.meters}'.toLowerCase();
+            },
+          );
+        })
+        .where((formatted) => formatted != null)
+        .cast<String>()
+        .toList();
+
+    return formattedSets;
+  }
 
   /// Get the set type from the first set if not explicitly set
   WorkingSetType? get effectiveSetType {

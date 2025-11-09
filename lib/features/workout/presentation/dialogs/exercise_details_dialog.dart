@@ -12,6 +12,7 @@ import '../../../../core/widgets/common_bottom_dialog.dart';
 import '../../../../core/widgets/common_button.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
+import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../domain/entities/working_set.dart';
 import 'rest_time_dialog.dart';
@@ -288,8 +289,9 @@ class _ExerciseDetailsDialogState extends State<_ExerciseDetailsDialog> {
   }
 
   void _confirm() {
-    // If there is no set, not allow submission
-    if (_exercise.missingSets) {
+    // If all sets are not valid, not allow submission
+    if (!_exercise.hasValidSets) {
+      showCommonToast(AppConstants.invalidSets, isError: true);
       return;
     }
 

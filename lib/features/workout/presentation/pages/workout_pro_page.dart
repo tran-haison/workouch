@@ -129,7 +129,7 @@ class WorkoutProPage extends StatelessWidget {
                             _RoutineIndicator(
                               title: AppConstants.total,
                               value: '2',
-                              icon: Assets.icons.weight,
+                              icon: Assets.icons.dumbbell,
                             ),
                           ],
                         ),

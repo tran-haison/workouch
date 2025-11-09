@@ -229,7 +229,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
     if (state.exercises.isEmpty) {
       return Center(
         child: Text(
-          AppConstants.noExercisesFound,
+          AppConstants.noExerciseFound,
           style: AppTextStyles.h4.copyWith(color: AppColors.mediumGray),
         ),
       );

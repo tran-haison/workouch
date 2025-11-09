@@ -3,23 +3,25 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/extension/duration_extension.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_button.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
+import '../../../../core/widgets/common_images.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../domain/entities/working_exercise.dart';
+import '../../domain/entities/working_set.dart';
 
 class WorkoutExerciseCard extends StatefulWidget {
   const WorkoutExerciseCard({
     super.key,
-    required this.title,
-    required this.subtitle,
+    required this.workingExercise,
     this.onSelected,
   });
 
-  final String title;
-  final String subtitle;
+  final WorkingExercise workingExercise;
   final VoidCallback? onSelected;
 
   @override
@@ -80,6 +82,8 @@ class _WorkoutExerciseCardState extends State<WorkoutExerciseCard>
 
   @override
   Widget build(BuildContext context) {
+    final exercise = widget.workingExercise;
+
     return GestureDetector(
       onTapDown: (_) => _pressController.forward(),
       onTapUp: (_) {
@@ -101,16 +105,16 @@ class _WorkoutExerciseCardState extends State<WorkoutExerciseCard>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.all(12.r),
+                    padding: EdgeInsets.all(4.r),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(color: AppColors.grayBlue, width: 1.r),
                     ),
-                    child: CommonAssetIcon(
-                      Assets.icons.weight,
-                      width: 36.r,
-                      height: 36.r,
-                      useDefaultColor: true,
+                    child: CommonNetworkImage(
+                      url: exercise.gifUrl,
+                      width: 60.r,
+                      height: 60.r,
+                      backgroundColor: AppColors.transparent,
                     ),
                   ),
                   Gaps.hGap12,
@@ -119,14 +123,14 @@ class _WorkoutExerciseCardState extends State<WorkoutExerciseCard>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.title,
+                          exercise.name,
                           style: AppTextStyles.h4.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                         Gaps.vGap4,
                         Text(
-                          widget.subtitle,
+                          exercise.formatMainInfo,
                           style: AppTextStyles.h5.copyWith(
                             color: AppColors.mediumGray,
                           ),
@@ -144,33 +148,45 @@ class _WorkoutExerciseCardState extends State<WorkoutExerciseCard>
                     opacity: _heightAnimation,
                     child: Column(
                       children: [
-                        Gaps.vGap16,
+                        if (exercise.formatSetsInfo.isNotEmpty) ...[
+                          Gaps.vGap8,
+                          ...exercise.formatSetsInfo.map((setInfo) {
+                            return Padding(
+                              padding: EdgeInsets.only(top: 8.h),
+                              child: Row(
+                                children: [
+                                  CommonAssetIcon(
+                                    _getSetIcon(exercise.effectiveSetType),
+                                    width: 16.r,
+                                    height: 16.r,
+                                    color: AppColors.black,
+                                  ),
+                                  Gaps.hGap10,
+                                  Expanded(
+                                    child: Text(
+                                      setInfo,
+                                      style: AppTextStyles.h5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                        ],
+                        Gaps.vGap8,
                         Row(
                           children: [
                             CommonAssetIcon(
-                              Assets.icons.work,
+                              Assets.icons.rest,
                               width: 16.r,
                               height: 16.r,
                               color: AppColors.black,
                             ),
                             Gaps.hGap10,
                             Text(
-                              '3 sets x 10 reps x 80 kg',
+                              exercise.restTimeBetweenSets.mmss,
                               style: AppTextStyles.h5,
                             ),
-                          ],
-                        ),
-                        Gaps.vGap8,
-                        Row(
-                          children: [
-                            CommonAssetIcon(
-                              Assets.icons.clock,
-                              width: 16.r,
-                              height: 16.r,
-                              color: AppColors.black,
-                            ),
-                            Gaps.hGap10,
-                            Text('1m30s', style: AppTextStyles.h5),
                           ],
                         ),
                       ],
@@ -199,5 +215,13 @@ class _WorkoutExerciseCardState extends State<WorkoutExerciseCard>
         ),
       ),
     );
+  }
+
+  SvgGenImage _getSetIcon(WorkingSetType? setType) {
+    return setType == WorkingSetType.distanceBased
+        ? Assets.icons.distance
+        : setType == WorkingSetType.timeBased
+        ? Assets.icons.clock
+        : Assets.icons.weight;
   }
 }
