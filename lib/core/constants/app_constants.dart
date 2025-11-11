@@ -1,8 +1,11 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class AppConstants {
   AppConstants._();
 
   // Class constants
   static final timeConst = _Time();
+  static final supabase = _Supabase();
 
   // Exercise DB
   static const exerciseDb = 'exercise-db';
@@ -69,6 +72,26 @@ class AppConstants {
   static const dragToReorder = 'Hold and drag to reorder, swipe to delete';
   static const noExerciseSelected = 'No exercise selected';
   static const invalidSets = 'All sets must be valid';
+  static const noWorkoutFound = 'No workout found';
+  static const workoutSavedSuccessfully = 'Workout saved successfully';
+  static const workoutSavedError = 'Failed to save workout';
+  static const workoutNotFound = 'Workout not found';
+  static const pleaseEnterAWorkoutName = 'Please enter a workout name';
+  static const pleaseAddAtLeastOneExercise = 'Please add at least one exercise';
+}
+
+class _Supabase {
+  String get url => dotenv.env['SUPABASE_URL'] ?? '';
+
+  String get anonKey => dotenv.env['SUPABASE_ANON_KEY'] ?? '';
+
+  String get iosClientId => dotenv.env['GOOGLE_IOS_CLIENT_ID'] ?? '';
+
+  String get webClientId => dotenv.env['GOOGLE_WEB_CLIENT_ID'] ?? '';
+
+  String get tableWorkouts => 'workouts';
+
+  String get tableWorkoutExercises => 'workout_exercises';
 }
 
 class _Time {

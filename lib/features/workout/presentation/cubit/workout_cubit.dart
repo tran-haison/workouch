@@ -7,35 +7,93 @@ import '../../data/models/requests/exercise_filter_request.dart';
 import '../../data/models/requests/paging_request.dart';
 import '../../domain/entities/exercise.dart';
 import '../../domain/entities/exercise_filter.dart';
+import '../../domain/entities/workout.dart';
 import '../../domain/repositories/exercise_repo.dart';
+import '../../domain/repositories/workout_repo.dart';
 
 @injectable
 class WorkoutCubit extends Cubit<WorkoutState> {
   final ExerciseRepo _exerciseRepo;
+  final WorkoutRepo _workoutRepo;
 
-  WorkoutCubit(this._exerciseRepo) : super(const WorkoutState());
+  WorkoutCubit(this._exerciseRepo, this._workoutRepo)
+    : super(const WorkoutState());
+
+  Future<void> saveWorkout(Workout workout) async {
+    emit(
+      state.copyWith(
+        saveWorkoutStatus: WorkoutStateStatus.loading,
+        saveWorkoutError: null,
+      ),
+    );
+    final res = await _workoutRepo.saveWorkout(workout);
+    res.fold(
+      (error) => emit(
+        state.copyWith(
+          saveWorkoutStatus: WorkoutStateStatus.error,
+          saveWorkoutError: error,
+        ),
+      ),
+      (success) => emit(
+        state.copyWith(
+          saveWorkoutStatus: WorkoutStateStatus.success,
+          saveWorkoutError: null,
+        ),
+      ),
+    );
+  }
+
+  Future<void> getAllWorkouts() async {
+    emit(
+      state.copyWith(
+        getWorkoutsStatus: WorkoutStateStatus.loading,
+        getWorkoutsError: null,
+      ),
+    );
+    final res = await _workoutRepo.getAllWorkouts();
+    res.fold(
+      (error) => emit(
+        state.copyWith(
+          getWorkoutsStatus: WorkoutStateStatus.error,
+          getWorkoutsError: error,
+        ),
+      ),
+      (workouts) => emit(
+        state.copyWith(
+          getWorkoutsStatus: WorkoutStateStatus.success,
+          workouts: workouts,
+          getWorkoutsError: null,
+        ),
+      ),
+    );
+  }
 
   /// Load exercises with pagination support
   /// [loadMore] - true to load next page, false to load from beginning
   Future<void> getExercises({bool loadMore = false}) async {
     if (loadMore) {
       if (!state.hasMore ||
-          state.status == WorkoutStateStatus.loadingMore ||
-          state.status == WorkoutStateStatus.loading) {
+          state.getExercisesStatus == WorkoutStateStatus.loadingMore ||
+          state.getExercisesStatus == WorkoutStateStatus.loading) {
         return;
       }
     }
 
     // Set loading status
     if (loadMore) {
-      emit(state.copyWith(status: WorkoutStateStatus.loadingMore, error: null));
+      emit(
+        state.copyWith(
+          getExercisesStatus: WorkoutStateStatus.loadingMore,
+          getExercisesError: null,
+        ),
+      );
     } else {
       emit(
         state.copyWith(
-          status: WorkoutStateStatus.loading,
+          getExercisesStatus: WorkoutStateStatus.loading,
           currentOffset: 0,
           exercises: [],
-          error: null,
+          getExercisesError: null,
         ),
       );
     }
@@ -52,30 +110,34 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     );
 
     res.fold(
-      (error) =>
-          emit(state.copyWith(status: WorkoutStateStatus.error, error: error)),
+      (error) => emit(
+        state.copyWith(
+          getExercisesStatus: WorkoutStateStatus.error,
+          getExercisesError: error,
+        ),
+      ),
       (exercises) {
         if (loadMore) {
           // Load more exercises
           final updatedExercises = [...state.exercises, ...exercises];
           emit(
             state.copyWith(
-              status: WorkoutStateStatus.success,
+              getExercisesStatus: WorkoutStateStatus.success,
+              getExercisesError: null,
               exercises: updatedExercises,
               currentOffset: updatedExercises.length,
               hasMore: exercises.length >= state.limit,
-              error: null,
             ),
           );
         } else {
           // Refresh exercises
           emit(
             state.copyWith(
-              status: WorkoutStateStatus.success,
+              getExercisesStatus: WorkoutStateStatus.success,
+              getExercisesError: null,
               exercises: exercises,
               currentOffset: exercises.length,
               hasMore: exercises.length >= state.limit,
-              error: null,
             ),
           );
         }
@@ -87,8 +149,8 @@ class WorkoutCubit extends Cubit<WorkoutState> {
   Future<void> getBodyParts() async {
     final res = await _exerciseRepo.getBodyParts();
     res.fold(
-      (error) => emit(state.copyWith(error: error)),
-      (bodyParts) => emit(state.copyWith(bodyParts: bodyParts, error: null)),
+      (error) => emit(state.copyWith(bodyParts: [])),
+      (bodyParts) => emit(state.copyWith(bodyParts: bodyParts)),
     );
   }
 
@@ -96,8 +158,8 @@ class WorkoutCubit extends Cubit<WorkoutState> {
   Future<void> getEquipments() async {
     final res = await _exerciseRepo.getEquipments();
     res.fold(
-      (error) => emit(state.copyWith(error: error)),
-      (equipments) => emit(state.copyWith(equipments: equipments, error: null)),
+      (error) => emit(state.copyWith(equipments: [])),
+      (equipments) => emit(state.copyWith(equipments: equipments)),
     );
   }
 
@@ -182,11 +244,11 @@ class WorkoutCubit extends Cubit<WorkoutState> {
   void clearAll() {
     emit(
       state.copyWith(
-        status: WorkoutStateStatus.initial,
+        getExercisesStatus: WorkoutStateStatus.initial,
+        getExercisesError: null,
         selectedWorkout: state.selectedWorkout.copyWith(exercises: []),
         filter: const ExerciseFilter(),
         search: '',
-        error: null,
       ),
     );
   }

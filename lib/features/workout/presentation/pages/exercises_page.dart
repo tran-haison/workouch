@@ -191,20 +191,20 @@ class _ExercisesPageState extends State<ExercisesPage> {
   }
 
   Widget _buildExerciseList(WorkoutState state) {
-    if (state.status == WorkoutStateStatus.initial ||
-        state.status == WorkoutStateStatus.loading) {
+    if (state.getExercisesStatus == WorkoutStateStatus.initial ||
+        state.getExercisesStatus == WorkoutStateStatus.loading) {
       return const Center(
         child: CircularProgressIndicator(color: AppColors.black),
       );
     }
 
-    if (state.status == WorkoutStateStatus.error) {
+    if (state.getExercisesStatus == WorkoutStateStatus.error) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              state.error?.message ?? AppConstants.commonError,
+              state.getExercisesError?.message ?? AppConstants.commonError,
               style: AppTextStyles.h4,
               textAlign: TextAlign.center,
             ),
@@ -241,7 +241,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
       itemBuilder: (context, index) {
         if (index >= state.exercises.length) {
           // Loading more indicator
-          if (state.status == WorkoutStateStatus.loadingMore) {
+          if (state.getExercisesStatus == WorkoutStateStatus.loadingMore) {
             return Center(
               child: Padding(
                 padding: EdgeInsets.all(16.r),

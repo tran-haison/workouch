@@ -12,17 +12,22 @@ enum WorkoutStateStatus { initial, loading, loadingMore, success, error }
 @freezed
 class WorkoutState with _$WorkoutState {
   const factory WorkoutState({
-    @Default(WorkoutStateStatus.initial) WorkoutStateStatus status,
+    @Default(WorkoutStateStatus.initial) WorkoutStateStatus getExercisesStatus,
+    @Default(WorkoutStateStatus.initial) WorkoutStateStatus saveWorkoutStatus,
+    @Default(WorkoutStateStatus.initial) WorkoutStateStatus getWorkoutsStatus,
     @Default([]) List<Exercise> exercises,
     @Default([]) List<String> bodyParts,
     @Default([]) List<String> equipments,
+    @Default([]) List<Workout> workouts,
     @Default(Workout()) Workout selectedWorkout,
     @Default(ExerciseFilter()) ExerciseFilter filter,
     @Default('') String search,
     @Default(0) int currentOffset,
     @Default(20) int limit,
     @Default(true) bool hasMore,
-    Error? error,
+    Error? getExercisesError,
+    Error? saveWorkoutError,
+    Error? getWorkoutsError,
   }) = _WorkoutState;
 }
 

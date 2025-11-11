@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workouch/core/widgets/common_button.dart';
@@ -9,10 +10,24 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../domain/entities/workout.dart';
+import '../cubit/workout_cubit.dart';
+import '../cubit/workout_state.dart';
 import '../widgets/workout_card_item.dart';
 
-class WorkoutProPage extends StatelessWidget {
+class WorkoutProPage extends StatefulWidget {
   const WorkoutProPage({super.key});
+
+  @override
+  State<WorkoutProPage> createState() => _WorkoutProPageState();
+}
+
+class _WorkoutProPageState extends State<WorkoutProPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<WorkoutCubit>().getAllWorkouts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +73,7 @@ class WorkoutProPage extends StatelessWidget {
                     icon: Assets.icons.add,
                     iconColor: AppColors.black,
                     radius: 30.r,
-                    onTap: () {
-                      context.pushNamed(AppRoute.workoutCreation.name);
-                    },
+                    onTap: _addWorkout,
                   ),
                 ],
               ),
@@ -77,64 +90,85 @@ class WorkoutProPage extends StatelessWidget {
                 ),
                 child: SafeArea(
                   top: false,
-                  child: Stack(
-                    children: [
-                      Column(
-                        children: [
-                          Gaps.vGap16,
-                          Container(
-                            width: 100.w,
-                            height: 3.h,
-                            decoration: BoxDecoration(
-                              color: AppColors.black,
-                              borderRadius: BorderRadius.circular(2.r),
+                  child: BlocBuilder<WorkoutCubit, WorkoutState>(
+                    builder: (context, state) {
+                      final workouts = state.workouts;
+
+                      if (state.getWorkoutsStatus ==
+                          WorkoutStateStatus.loading) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.black,
+                          ),
+                        );
+                      }
+
+                      if (workouts.isEmpty) {
+                        return Center(
+                          child: Text(
+                            AppConstants.noWorkoutFound,
+                            style: AppTextStyles.h4.copyWith(
+                              color: AppColors.mediumGray,
                             ),
                           ),
-                          Gaps.vGap16,
-                          Expanded(
-                            child: ListView.separated(
-                              padding: EdgeInsets.only(
-                                left: 12.w,
-                                right: 12.w,
-                                top: 0,
-                                bottom: 80.h,
+                        );
+                      }
+
+                      return Stack(
+                        children: [
+                          Column(
+                            children: [
+                              Gaps.vGap16,
+                              Container(
+                                width: 100.w,
+                                height: 3.h,
+                                decoration: BoxDecoration(
+                                  color: AppColors.black,
+                                  borderRadius: BorderRadius.circular(2.r),
+                                ),
                               ),
-                              itemCount: 5,
-                              separatorBuilder: (context, index) => Gaps.vGap12,
-                              itemBuilder: (context, index) {
-                                return WorkoutCardItem(
-                                  title: 'Chest Workout',
-                                  exercises: 8,
-                                  onTap: () {},
-                                );
-                              },
+                              Gaps.vGap16,
+                              Expanded(
+                                child: ListView.separated(
+                                  padding: EdgeInsets.only(
+                                    left: 12.w,
+                                    right: 12.w,
+                                    top: 0,
+                                    bottom: 80.h,
+                                  ),
+                                  itemCount: workouts.length,
+                                  separatorBuilder: (context, index) =>
+                                      Gaps.vGap12,
+                                  itemBuilder: (context, index) {
+                                    final workout = workouts[index];
+                                    return WorkoutCardItem(
+                                      workout: workout,
+                                      onTap: () => _editWorkout(workout),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          Positioned(
+                            bottom: 10.h,
+                            left: 0,
+                            right: 0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                _RoutineIndicator(
+                                  title: AppConstants.total,
+                                  value: '${workouts.length}',
+                                  icon: Assets.icons.rocket,
+                                ),
+                              ],
                             ),
                           ),
                         ],
-                      ),
-                      Positioned(
-                        bottom: 10.h,
-                        left: 0,
-                        right: 0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            _RoutineIndicator(
-                              title: AppConstants.mode,
-                              value: AppConstants.pro,
-                              icon: Assets.icons.rocket,
-                            ),
-                            Gaps.hGap10,
-                            _RoutineIndicator(
-                              title: AppConstants.total,
-                              value: '2',
-                              icon: Assets.icons.dumbbell,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
               ),
@@ -143,6 +177,34 @@ class WorkoutProPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _addWorkout() async {
+    context.read<WorkoutCubit>().updateSelectedWorkout(
+      id: '',
+      name: '',
+      exercises: [],
+      restTime: Duration.zero,
+    );
+
+    final res = await context.pushNamed(AppRoute.workoutCreation.name);
+    if (mounted && res == true) {
+      context.read<WorkoutCubit>().getAllWorkouts();
+    }
+  }
+
+  Future<void> _editWorkout(Workout workout) async {
+    context.read<WorkoutCubit>().updateSelectedWorkout(
+      id: workout.id,
+      name: workout.name,
+      exercises: workout.exercises,
+      restTime: workout.restTimeBetweenExercises,
+    );
+
+    final res = await context.pushNamed(AppRoute.workoutCreation.name);
+    if (mounted && res == true) {
+      context.read<WorkoutCubit>().getAllWorkouts();
+    }
   }
 }
 

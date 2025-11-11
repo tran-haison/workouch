@@ -17,17 +17,25 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$WorkoutState {
-  WorkoutStateStatus get status => throw _privateConstructorUsedError;
+  WorkoutStateStatus get getExercisesStatus =>
+      throw _privateConstructorUsedError;
+  WorkoutStateStatus get saveWorkoutStatus =>
+      throw _privateConstructorUsedError;
+  WorkoutStateStatus get getWorkoutsStatus =>
+      throw _privateConstructorUsedError;
   List<Exercise> get exercises => throw _privateConstructorUsedError;
   List<String> get bodyParts => throw _privateConstructorUsedError;
   List<String> get equipments => throw _privateConstructorUsedError;
+  List<Workout> get workouts => throw _privateConstructorUsedError;
   Workout get selectedWorkout => throw _privateConstructorUsedError;
   ExerciseFilter get filter => throw _privateConstructorUsedError;
   String get search => throw _privateConstructorUsedError;
   int get currentOffset => throw _privateConstructorUsedError;
   int get limit => throw _privateConstructorUsedError;
   bool get hasMore => throw _privateConstructorUsedError;
-  Error? get error => throw _privateConstructorUsedError;
+  Error? get getExercisesError => throw _privateConstructorUsedError;
+  Error? get saveWorkoutError => throw _privateConstructorUsedError;
+  Error? get getWorkoutsError => throw _privateConstructorUsedError;
 
   /// Create a copy of WorkoutState
   /// with the given fields replaced by the non-null parameter values.
@@ -44,22 +52,29 @@ abstract class $WorkoutStateCopyWith<$Res> {
   ) = _$WorkoutStateCopyWithImpl<$Res, WorkoutState>;
   @useResult
   $Res call({
-    WorkoutStateStatus status,
+    WorkoutStateStatus getExercisesStatus,
+    WorkoutStateStatus saveWorkoutStatus,
+    WorkoutStateStatus getWorkoutsStatus,
     List<Exercise> exercises,
     List<String> bodyParts,
     List<String> equipments,
+    List<Workout> workouts,
     Workout selectedWorkout,
     ExerciseFilter filter,
     String search,
     int currentOffset,
     int limit,
     bool hasMore,
-    Error? error,
+    Error? getExercisesError,
+    Error? saveWorkoutError,
+    Error? getWorkoutsError,
   });
 
   $WorkoutCopyWith<$Res> get selectedWorkout;
   $ExerciseFilterCopyWith<$Res> get filter;
-  $ErrorCopyWith<$Res>? get error;
+  $ErrorCopyWith<$Res>? get getExercisesError;
+  $ErrorCopyWith<$Res>? get saveWorkoutError;
+  $ErrorCopyWith<$Res>? get getWorkoutsError;
 }
 
 /// @nodoc
@@ -77,23 +92,36 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = null,
+    Object? getExercisesStatus = null,
+    Object? saveWorkoutStatus = null,
+    Object? getWorkoutsStatus = null,
     Object? exercises = null,
     Object? bodyParts = null,
     Object? equipments = null,
+    Object? workouts = null,
     Object? selectedWorkout = null,
     Object? filter = null,
     Object? search = null,
     Object? currentOffset = null,
     Object? limit = null,
     Object? hasMore = null,
-    Object? error = freezed,
+    Object? getExercisesError = freezed,
+    Object? saveWorkoutError = freezed,
+    Object? getWorkoutsError = freezed,
   }) {
     return _then(
       _value.copyWith(
-            status: null == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
+            getExercisesStatus: null == getExercisesStatus
+                ? _value.getExercisesStatus
+                : getExercisesStatus // ignore: cast_nullable_to_non_nullable
+                      as WorkoutStateStatus,
+            saveWorkoutStatus: null == saveWorkoutStatus
+                ? _value.saveWorkoutStatus
+                : saveWorkoutStatus // ignore: cast_nullable_to_non_nullable
+                      as WorkoutStateStatus,
+            getWorkoutsStatus: null == getWorkoutsStatus
+                ? _value.getWorkoutsStatus
+                : getWorkoutsStatus // ignore: cast_nullable_to_non_nullable
                       as WorkoutStateStatus,
             exercises: null == exercises
                 ? _value.exercises
@@ -107,6 +135,10 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
                 ? _value.equipments
                 : equipments // ignore: cast_nullable_to_non_nullable
                       as List<String>,
+            workouts: null == workouts
+                ? _value.workouts
+                : workouts // ignore: cast_nullable_to_non_nullable
+                      as List<Workout>,
             selectedWorkout: null == selectedWorkout
                 ? _value.selectedWorkout
                 : selectedWorkout // ignore: cast_nullable_to_non_nullable
@@ -131,9 +163,17 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
                 ? _value.hasMore
                 : hasMore // ignore: cast_nullable_to_non_nullable
                       as bool,
-            error: freezed == error
-                ? _value.error
-                : error // ignore: cast_nullable_to_non_nullable
+            getExercisesError: freezed == getExercisesError
+                ? _value.getExercisesError
+                : getExercisesError // ignore: cast_nullable_to_non_nullable
+                      as Error?,
+            saveWorkoutError: freezed == saveWorkoutError
+                ? _value.saveWorkoutError
+                : saveWorkoutError // ignore: cast_nullable_to_non_nullable
+                      as Error?,
+            getWorkoutsError: freezed == getWorkoutsError
+                ? _value.getWorkoutsError
+                : getWorkoutsError // ignore: cast_nullable_to_non_nullable
                       as Error?,
           )
           as $Val,
@@ -164,13 +204,41 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $ErrorCopyWith<$Res>? get error {
-    if (_value.error == null) {
+  $ErrorCopyWith<$Res>? get getExercisesError {
+    if (_value.getExercisesError == null) {
       return null;
     }
 
-    return $ErrorCopyWith<$Res>(_value.error!, (value) {
-      return _then(_value.copyWith(error: value) as $Val);
+    return $ErrorCopyWith<$Res>(_value.getExercisesError!, (value) {
+      return _then(_value.copyWith(getExercisesError: value) as $Val);
+    });
+  }
+
+  /// Create a copy of WorkoutState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ErrorCopyWith<$Res>? get saveWorkoutError {
+    if (_value.saveWorkoutError == null) {
+      return null;
+    }
+
+    return $ErrorCopyWith<$Res>(_value.saveWorkoutError!, (value) {
+      return _then(_value.copyWith(saveWorkoutError: value) as $Val);
+    });
+  }
+
+  /// Create a copy of WorkoutState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ErrorCopyWith<$Res>? get getWorkoutsError {
+    if (_value.getWorkoutsError == null) {
+      return null;
+    }
+
+    return $ErrorCopyWith<$Res>(_value.getWorkoutsError!, (value) {
+      return _then(_value.copyWith(getWorkoutsError: value) as $Val);
     });
   }
 }
@@ -185,17 +253,22 @@ abstract class _$$WorkoutStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    WorkoutStateStatus status,
+    WorkoutStateStatus getExercisesStatus,
+    WorkoutStateStatus saveWorkoutStatus,
+    WorkoutStateStatus getWorkoutsStatus,
     List<Exercise> exercises,
     List<String> bodyParts,
     List<String> equipments,
+    List<Workout> workouts,
     Workout selectedWorkout,
     ExerciseFilter filter,
     String search,
     int currentOffset,
     int limit,
     bool hasMore,
-    Error? error,
+    Error? getExercisesError,
+    Error? saveWorkoutError,
+    Error? getWorkoutsError,
   });
 
   @override
@@ -203,7 +276,11 @@ abstract class _$$WorkoutStateImplCopyWith<$Res>
   @override
   $ExerciseFilterCopyWith<$Res> get filter;
   @override
-  $ErrorCopyWith<$Res>? get error;
+  $ErrorCopyWith<$Res>? get getExercisesError;
+  @override
+  $ErrorCopyWith<$Res>? get saveWorkoutError;
+  @override
+  $ErrorCopyWith<$Res>? get getWorkoutsError;
 }
 
 /// @nodoc
@@ -220,23 +297,36 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = null,
+    Object? getExercisesStatus = null,
+    Object? saveWorkoutStatus = null,
+    Object? getWorkoutsStatus = null,
     Object? exercises = null,
     Object? bodyParts = null,
     Object? equipments = null,
+    Object? workouts = null,
     Object? selectedWorkout = null,
     Object? filter = null,
     Object? search = null,
     Object? currentOffset = null,
     Object? limit = null,
     Object? hasMore = null,
-    Object? error = freezed,
+    Object? getExercisesError = freezed,
+    Object? saveWorkoutError = freezed,
+    Object? getWorkoutsError = freezed,
   }) {
     return _then(
       _$WorkoutStateImpl(
-        status: null == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
+        getExercisesStatus: null == getExercisesStatus
+            ? _value.getExercisesStatus
+            : getExercisesStatus // ignore: cast_nullable_to_non_nullable
+                  as WorkoutStateStatus,
+        saveWorkoutStatus: null == saveWorkoutStatus
+            ? _value.saveWorkoutStatus
+            : saveWorkoutStatus // ignore: cast_nullable_to_non_nullable
+                  as WorkoutStateStatus,
+        getWorkoutsStatus: null == getWorkoutsStatus
+            ? _value.getWorkoutsStatus
+            : getWorkoutsStatus // ignore: cast_nullable_to_non_nullable
                   as WorkoutStateStatus,
         exercises: null == exercises
             ? _value._exercises
@@ -250,6 +340,10 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
             ? _value._equipments
             : equipments // ignore: cast_nullable_to_non_nullable
                   as List<String>,
+        workouts: null == workouts
+            ? _value._workouts
+            : workouts // ignore: cast_nullable_to_non_nullable
+                  as List<Workout>,
         selectedWorkout: null == selectedWorkout
             ? _value.selectedWorkout
             : selectedWorkout // ignore: cast_nullable_to_non_nullable
@@ -274,9 +368,17 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
             ? _value.hasMore
             : hasMore // ignore: cast_nullable_to_non_nullable
                   as bool,
-        error: freezed == error
-            ? _value.error
-            : error // ignore: cast_nullable_to_non_nullable
+        getExercisesError: freezed == getExercisesError
+            ? _value.getExercisesError
+            : getExercisesError // ignore: cast_nullable_to_non_nullable
+                  as Error?,
+        saveWorkoutError: freezed == saveWorkoutError
+            ? _value.saveWorkoutError
+            : saveWorkoutError // ignore: cast_nullable_to_non_nullable
+                  as Error?,
+        getWorkoutsError: freezed == getWorkoutsError
+            ? _value.getWorkoutsError
+            : getWorkoutsError // ignore: cast_nullable_to_non_nullable
                   as Error?,
       ),
     );
@@ -287,24 +389,36 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
 
 class _$WorkoutStateImpl implements _WorkoutState {
   const _$WorkoutStateImpl({
-    this.status = WorkoutStateStatus.initial,
+    this.getExercisesStatus = WorkoutStateStatus.initial,
+    this.saveWorkoutStatus = WorkoutStateStatus.initial,
+    this.getWorkoutsStatus = WorkoutStateStatus.initial,
     final List<Exercise> exercises = const [],
     final List<String> bodyParts = const [],
     final List<String> equipments = const [],
+    final List<Workout> workouts = const [],
     this.selectedWorkout = const Workout(),
     this.filter = const ExerciseFilter(),
     this.search = '',
     this.currentOffset = 0,
     this.limit = 20,
     this.hasMore = true,
-    this.error,
+    this.getExercisesError,
+    this.saveWorkoutError,
+    this.getWorkoutsError,
   }) : _exercises = exercises,
        _bodyParts = bodyParts,
-       _equipments = equipments;
+       _equipments = equipments,
+       _workouts = workouts;
 
   @override
   @JsonKey()
-  final WorkoutStateStatus status;
+  final WorkoutStateStatus getExercisesStatus;
+  @override
+  @JsonKey()
+  final WorkoutStateStatus saveWorkoutStatus;
+  @override
+  @JsonKey()
+  final WorkoutStateStatus getWorkoutsStatus;
   final List<Exercise> _exercises;
   @override
   @JsonKey()
@@ -332,6 +446,15 @@ class _$WorkoutStateImpl implements _WorkoutState {
     return EqualUnmodifiableListView(_equipments);
   }
 
+  final List<Workout> _workouts;
+  @override
+  @JsonKey()
+  List<Workout> get workouts {
+    if (_workouts is EqualUnmodifiableListView) return _workouts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_workouts);
+  }
+
   @override
   @JsonKey()
   final Workout selectedWorkout;
@@ -351,11 +474,15 @@ class _$WorkoutStateImpl implements _WorkoutState {
   @JsonKey()
   final bool hasMore;
   @override
-  final Error? error;
+  final Error? getExercisesError;
+  @override
+  final Error? saveWorkoutError;
+  @override
+  final Error? getWorkoutsError;
 
   @override
   String toString() {
-    return 'WorkoutState(status: $status, exercises: $exercises, bodyParts: $bodyParts, equipments: $equipments, selectedWorkout: $selectedWorkout, filter: $filter, search: $search, currentOffset: $currentOffset, limit: $limit, hasMore: $hasMore, error: $error)';
+    return 'WorkoutState(getExercisesStatus: $getExercisesStatus, saveWorkoutStatus: $saveWorkoutStatus, getWorkoutsStatus: $getWorkoutsStatus, exercises: $exercises, bodyParts: $bodyParts, equipments: $equipments, workouts: $workouts, selectedWorkout: $selectedWorkout, filter: $filter, search: $search, currentOffset: $currentOffset, limit: $limit, hasMore: $hasMore, getExercisesError: $getExercisesError, saveWorkoutError: $saveWorkoutError, getWorkoutsError: $getWorkoutsError)';
   }
 
   @override
@@ -363,7 +490,12 @@ class _$WorkoutStateImpl implements _WorkoutState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WorkoutStateImpl &&
-            (identical(other.status, status) || other.status == status) &&
+            (identical(other.getExercisesStatus, getExercisesStatus) ||
+                other.getExercisesStatus == getExercisesStatus) &&
+            (identical(other.saveWorkoutStatus, saveWorkoutStatus) ||
+                other.saveWorkoutStatus == saveWorkoutStatus) &&
+            (identical(other.getWorkoutsStatus, getWorkoutsStatus) ||
+                other.getWorkoutsStatus == getWorkoutsStatus) &&
             const DeepCollectionEquality().equals(
               other._exercises,
               _exercises,
@@ -376,6 +508,7 @@ class _$WorkoutStateImpl implements _WorkoutState {
               other._equipments,
               _equipments,
             ) &&
+            const DeepCollectionEquality().equals(other._workouts, _workouts) &&
             (identical(other.selectedWorkout, selectedWorkout) ||
                 other.selectedWorkout == selectedWorkout) &&
             (identical(other.filter, filter) || other.filter == filter) &&
@@ -384,23 +517,33 @@ class _$WorkoutStateImpl implements _WorkoutState {
                 other.currentOffset == currentOffset) &&
             (identical(other.limit, limit) || other.limit == limit) &&
             (identical(other.hasMore, hasMore) || other.hasMore == hasMore) &&
-            (identical(other.error, error) || other.error == error));
+            (identical(other.getExercisesError, getExercisesError) ||
+                other.getExercisesError == getExercisesError) &&
+            (identical(other.saveWorkoutError, saveWorkoutError) ||
+                other.saveWorkoutError == saveWorkoutError) &&
+            (identical(other.getWorkoutsError, getWorkoutsError) ||
+                other.getWorkoutsError == getWorkoutsError));
   }
 
   @override
   int get hashCode => Object.hash(
     runtimeType,
-    status,
+    getExercisesStatus,
+    saveWorkoutStatus,
+    getWorkoutsStatus,
     const DeepCollectionEquality().hash(_exercises),
     const DeepCollectionEquality().hash(_bodyParts),
     const DeepCollectionEquality().hash(_equipments),
+    const DeepCollectionEquality().hash(_workouts),
     selectedWorkout,
     filter,
     search,
     currentOffset,
     limit,
     hasMore,
-    error,
+    getExercisesError,
+    saveWorkoutError,
+    getWorkoutsError,
   );
 
   /// Create a copy of WorkoutState
@@ -414,27 +557,38 @@ class _$WorkoutStateImpl implements _WorkoutState {
 
 abstract class _WorkoutState implements WorkoutState {
   const factory _WorkoutState({
-    final WorkoutStateStatus status,
+    final WorkoutStateStatus getExercisesStatus,
+    final WorkoutStateStatus saveWorkoutStatus,
+    final WorkoutStateStatus getWorkoutsStatus,
     final List<Exercise> exercises,
     final List<String> bodyParts,
     final List<String> equipments,
+    final List<Workout> workouts,
     final Workout selectedWorkout,
     final ExerciseFilter filter,
     final String search,
     final int currentOffset,
     final int limit,
     final bool hasMore,
-    final Error? error,
+    final Error? getExercisesError,
+    final Error? saveWorkoutError,
+    final Error? getWorkoutsError,
   }) = _$WorkoutStateImpl;
 
   @override
-  WorkoutStateStatus get status;
+  WorkoutStateStatus get getExercisesStatus;
+  @override
+  WorkoutStateStatus get saveWorkoutStatus;
+  @override
+  WorkoutStateStatus get getWorkoutsStatus;
   @override
   List<Exercise> get exercises;
   @override
   List<String> get bodyParts;
   @override
   List<String> get equipments;
+  @override
+  List<Workout> get workouts;
   @override
   Workout get selectedWorkout;
   @override
@@ -448,7 +602,11 @@ abstract class _WorkoutState implements WorkoutState {
   @override
   bool get hasMore;
   @override
-  Error? get error;
+  Error? get getExercisesError;
+  @override
+  Error? get saveWorkoutError;
+  @override
+  Error? get getWorkoutsError;
 
   /// Create a copy of WorkoutState
   /// with the given fields replaced by the non-null parameter values.
