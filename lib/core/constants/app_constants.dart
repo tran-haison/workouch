@@ -78,6 +78,14 @@ class AppConstants {
   static const workoutNotFound = 'Workout not found';
   static const pleaseEnterAWorkoutName = 'Please enter a workout name';
   static const pleaseAddAtLeastOneExercise = 'Please add at least one exercise';
+  static const startWorkout = 'Start workout';
+  static const update = 'Update';
+  static const updateWorkout = 'Update workout';
+  static const deleteWorkout = 'Delete workout';
+  static const deleteWorkoutConfirmation =
+      'Are you sure you want to delete this workout? This action cannot be undone.';
+  static const workoutDeletedSuccessfully = 'Workout deleted successfully';
+  static const workoutDeletedError = 'Failed to delete workout';
 }
 
 class _Supabase {

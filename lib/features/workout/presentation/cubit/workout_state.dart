@@ -15,11 +15,13 @@ class WorkoutState with _$WorkoutState {
     @Default(WorkoutStateStatus.initial) WorkoutStateStatus getExercisesStatus,
     @Default(WorkoutStateStatus.initial) WorkoutStateStatus saveWorkoutStatus,
     @Default(WorkoutStateStatus.initial) WorkoutStateStatus getWorkoutsStatus,
+    @Default(WorkoutStateStatus.initial) WorkoutStateStatus deleteWorkoutStatus,
     @Default([]) List<Exercise> exercises,
     @Default([]) List<String> bodyParts,
     @Default([]) List<String> equipments,
     @Default([]) List<Workout> workouts,
     @Default(Workout()) Workout selectedWorkout,
+    @Default(Workout()) Workout displayedWorkout,
     @Default(ExerciseFilter()) ExerciseFilter filter,
     @Default('') String search,
     @Default(0) int currentOffset,
@@ -28,6 +30,7 @@ class WorkoutState with _$WorkoutState {
     Error? getExercisesError,
     Error? saveWorkoutError,
     Error? getWorkoutsError,
+    Error? deleteWorkoutError,
   }) = _WorkoutState;
 }
 

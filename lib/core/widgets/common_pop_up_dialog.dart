@@ -12,14 +12,14 @@ import 'common_gaps.dart';
 Future<void> showCommonPopUpDialog(
   BuildContext context, {
   required String title,
-  required VoidCallback onConfirmed,
   String? message,
   Widget? body,
   bool barrierDismissible = true,
   bool showSecondButton = true,
   String? firstButtonText,
   String? secondButtonText,
-  Function()? secondButtonCallback,
+  VoidCallback? onFirstButtonPressed,
+  VoidCallback? onSecondButtonPressed,
 }) async {
   return await showDialog(
     context: context,
@@ -29,10 +29,11 @@ Future<void> showCommonPopUpDialog(
         title: title,
         message: message,
         body: body,
-        onConfirmed: onConfirmed,
         showSecondButton: showSecondButton,
         firstButtonText: firstButtonText,
         secondButtonText: secondButtonText,
+        onFirstButtonPressed: onFirstButtonPressed,
+        onSecondButtonPressed: onSecondButtonPressed,
       );
     },
   );
@@ -47,7 +48,6 @@ Future<void> showCommonErrorDialog(
     context,
     title: title ?? AppConstants.error,
     message: message,
-    onConfirmed: () {},
     showSecondButton: false,
     firstButtonText: AppConstants.close,
   );
@@ -56,22 +56,24 @@ Future<void> showCommonErrorDialog(
 class CommonPopUpDialog extends StatelessWidget {
   const CommonPopUpDialog({
     required this.title,
-    required this.onConfirmed,
     this.message,
     this.body,
     this.showSecondButton = true,
     this.firstButtonText,
     this.secondButtonText,
+    this.onFirstButtonPressed,
+    this.onSecondButtonPressed,
     super.key,
   });
 
   final String title;
   final String? message;
   final Widget? body;
-  final VoidCallback onConfirmed;
   final bool showSecondButton;
   final String? firstButtonText;
   final String? secondButtonText;
+  final VoidCallback? onFirstButtonPressed;
+  final VoidCallback? onSecondButtonPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -96,10 +98,7 @@ class CommonPopUpDialog extends StatelessWidget {
               Text(
                 title,
                 textAlign: TextAlign.center,
-                style: AppTextStyles.h3.copyWith(
-                  color: AppColors.text,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w600),
               ),
               Gaps.vGap20,
               Container(
@@ -115,7 +114,7 @@ class CommonPopUpDialog extends StatelessWidget {
                 Text(
                   message!,
                   textAlign: TextAlign.center,
-                  style: AppTextStyles.h4.copyWith(color: AppColors.text),
+                  style: AppTextStyles.h4,
                 ),
                 Gaps.vGap20,
               ],
@@ -126,19 +125,15 @@ class CommonPopUpDialog extends StatelessWidget {
                     Expanded(
                       child: CommonButton(
                         text: secondButtonText ?? AppConstants.cancel,
-                        backgroundColor: AppColors.grayBlue.withValues(
-                          alpha: 0.25,
-                        ),
+                        backgroundColor: AppColors.grayBlue,
                         padding: EdgeInsets.symmetric(
                           vertical: 10.h,
                           horizontal: 20.w,
                         ),
-                        textStyle: AppTextStyles.h4.copyWith(
-                          color: AppColors.text,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        textStyle: AppTextStyles.h4,
                         onPressed: () {
                           context.pop();
+                          onSecondButtonPressed?.call();
                         },
                       ),
                     ),
@@ -152,12 +147,11 @@ class CommonPopUpDialog extends StatelessWidget {
                         horizontal: 20.w,
                       ),
                       textStyle: AppTextStyles.h4.copyWith(
-                        color: AppColors.text,
-                        fontWeight: FontWeight.w500,
+                        color: AppColors.white,
                       ),
                       onPressed: () {
                         context.pop();
-                        onConfirmed();
+                        onFirstButtonPressed?.call();
                       },
                     ),
                   ),

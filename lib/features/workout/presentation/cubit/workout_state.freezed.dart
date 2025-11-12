@@ -23,11 +23,14 @@ mixin _$WorkoutState {
       throw _privateConstructorUsedError;
   WorkoutStateStatus get getWorkoutsStatus =>
       throw _privateConstructorUsedError;
+  WorkoutStateStatus get deleteWorkoutStatus =>
+      throw _privateConstructorUsedError;
   List<Exercise> get exercises => throw _privateConstructorUsedError;
   List<String> get bodyParts => throw _privateConstructorUsedError;
   List<String> get equipments => throw _privateConstructorUsedError;
   List<Workout> get workouts => throw _privateConstructorUsedError;
   Workout get selectedWorkout => throw _privateConstructorUsedError;
+  Workout get displayedWorkout => throw _privateConstructorUsedError;
   ExerciseFilter get filter => throw _privateConstructorUsedError;
   String get search => throw _privateConstructorUsedError;
   int get currentOffset => throw _privateConstructorUsedError;
@@ -36,6 +39,7 @@ mixin _$WorkoutState {
   Error? get getExercisesError => throw _privateConstructorUsedError;
   Error? get saveWorkoutError => throw _privateConstructorUsedError;
   Error? get getWorkoutsError => throw _privateConstructorUsedError;
+  Error? get deleteWorkoutError => throw _privateConstructorUsedError;
 
   /// Create a copy of WorkoutState
   /// with the given fields replaced by the non-null parameter values.
@@ -55,11 +59,13 @@ abstract class $WorkoutStateCopyWith<$Res> {
     WorkoutStateStatus getExercisesStatus,
     WorkoutStateStatus saveWorkoutStatus,
     WorkoutStateStatus getWorkoutsStatus,
+    WorkoutStateStatus deleteWorkoutStatus,
     List<Exercise> exercises,
     List<String> bodyParts,
     List<String> equipments,
     List<Workout> workouts,
     Workout selectedWorkout,
+    Workout displayedWorkout,
     ExerciseFilter filter,
     String search,
     int currentOffset,
@@ -68,13 +74,16 @@ abstract class $WorkoutStateCopyWith<$Res> {
     Error? getExercisesError,
     Error? saveWorkoutError,
     Error? getWorkoutsError,
+    Error? deleteWorkoutError,
   });
 
   $WorkoutCopyWith<$Res> get selectedWorkout;
+  $WorkoutCopyWith<$Res> get displayedWorkout;
   $ExerciseFilterCopyWith<$Res> get filter;
   $ErrorCopyWith<$Res>? get getExercisesError;
   $ErrorCopyWith<$Res>? get saveWorkoutError;
   $ErrorCopyWith<$Res>? get getWorkoutsError;
+  $ErrorCopyWith<$Res>? get deleteWorkoutError;
 }
 
 /// @nodoc
@@ -95,11 +104,13 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
     Object? getExercisesStatus = null,
     Object? saveWorkoutStatus = null,
     Object? getWorkoutsStatus = null,
+    Object? deleteWorkoutStatus = null,
     Object? exercises = null,
     Object? bodyParts = null,
     Object? equipments = null,
     Object? workouts = null,
     Object? selectedWorkout = null,
+    Object? displayedWorkout = null,
     Object? filter = null,
     Object? search = null,
     Object? currentOffset = null,
@@ -108,6 +119,7 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
     Object? getExercisesError = freezed,
     Object? saveWorkoutError = freezed,
     Object? getWorkoutsError = freezed,
+    Object? deleteWorkoutError = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -122,6 +134,10 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
             getWorkoutsStatus: null == getWorkoutsStatus
                 ? _value.getWorkoutsStatus
                 : getWorkoutsStatus // ignore: cast_nullable_to_non_nullable
+                      as WorkoutStateStatus,
+            deleteWorkoutStatus: null == deleteWorkoutStatus
+                ? _value.deleteWorkoutStatus
+                : deleteWorkoutStatus // ignore: cast_nullable_to_non_nullable
                       as WorkoutStateStatus,
             exercises: null == exercises
                 ? _value.exercises
@@ -142,6 +158,10 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
             selectedWorkout: null == selectedWorkout
                 ? _value.selectedWorkout
                 : selectedWorkout // ignore: cast_nullable_to_non_nullable
+                      as Workout,
+            displayedWorkout: null == displayedWorkout
+                ? _value.displayedWorkout
+                : displayedWorkout // ignore: cast_nullable_to_non_nullable
                       as Workout,
             filter: null == filter
                 ? _value.filter
@@ -175,6 +195,10 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
                 ? _value.getWorkoutsError
                 : getWorkoutsError // ignore: cast_nullable_to_non_nullable
                       as Error?,
+            deleteWorkoutError: freezed == deleteWorkoutError
+                ? _value.deleteWorkoutError
+                : deleteWorkoutError // ignore: cast_nullable_to_non_nullable
+                      as Error?,
           )
           as $Val,
     );
@@ -187,6 +211,16 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
   $WorkoutCopyWith<$Res> get selectedWorkout {
     return $WorkoutCopyWith<$Res>(_value.selectedWorkout, (value) {
       return _then(_value.copyWith(selectedWorkout: value) as $Val);
+    });
+  }
+
+  /// Create a copy of WorkoutState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $WorkoutCopyWith<$Res> get displayedWorkout {
+    return $WorkoutCopyWith<$Res>(_value.displayedWorkout, (value) {
+      return _then(_value.copyWith(displayedWorkout: value) as $Val);
     });
   }
 
@@ -241,6 +275,20 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
       return _then(_value.copyWith(getWorkoutsError: value) as $Val);
     });
   }
+
+  /// Create a copy of WorkoutState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ErrorCopyWith<$Res>? get deleteWorkoutError {
+    if (_value.deleteWorkoutError == null) {
+      return null;
+    }
+
+    return $ErrorCopyWith<$Res>(_value.deleteWorkoutError!, (value) {
+      return _then(_value.copyWith(deleteWorkoutError: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -256,11 +304,13 @@ abstract class _$$WorkoutStateImplCopyWith<$Res>
     WorkoutStateStatus getExercisesStatus,
     WorkoutStateStatus saveWorkoutStatus,
     WorkoutStateStatus getWorkoutsStatus,
+    WorkoutStateStatus deleteWorkoutStatus,
     List<Exercise> exercises,
     List<String> bodyParts,
     List<String> equipments,
     List<Workout> workouts,
     Workout selectedWorkout,
+    Workout displayedWorkout,
     ExerciseFilter filter,
     String search,
     int currentOffset,
@@ -269,10 +319,13 @@ abstract class _$$WorkoutStateImplCopyWith<$Res>
     Error? getExercisesError,
     Error? saveWorkoutError,
     Error? getWorkoutsError,
+    Error? deleteWorkoutError,
   });
 
   @override
   $WorkoutCopyWith<$Res> get selectedWorkout;
+  @override
+  $WorkoutCopyWith<$Res> get displayedWorkout;
   @override
   $ExerciseFilterCopyWith<$Res> get filter;
   @override
@@ -281,6 +334,8 @@ abstract class _$$WorkoutStateImplCopyWith<$Res>
   $ErrorCopyWith<$Res>? get saveWorkoutError;
   @override
   $ErrorCopyWith<$Res>? get getWorkoutsError;
+  @override
+  $ErrorCopyWith<$Res>? get deleteWorkoutError;
 }
 
 /// @nodoc
@@ -300,11 +355,13 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
     Object? getExercisesStatus = null,
     Object? saveWorkoutStatus = null,
     Object? getWorkoutsStatus = null,
+    Object? deleteWorkoutStatus = null,
     Object? exercises = null,
     Object? bodyParts = null,
     Object? equipments = null,
     Object? workouts = null,
     Object? selectedWorkout = null,
+    Object? displayedWorkout = null,
     Object? filter = null,
     Object? search = null,
     Object? currentOffset = null,
@@ -313,6 +370,7 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
     Object? getExercisesError = freezed,
     Object? saveWorkoutError = freezed,
     Object? getWorkoutsError = freezed,
+    Object? deleteWorkoutError = freezed,
   }) {
     return _then(
       _$WorkoutStateImpl(
@@ -327,6 +385,10 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
         getWorkoutsStatus: null == getWorkoutsStatus
             ? _value.getWorkoutsStatus
             : getWorkoutsStatus // ignore: cast_nullable_to_non_nullable
+                  as WorkoutStateStatus,
+        deleteWorkoutStatus: null == deleteWorkoutStatus
+            ? _value.deleteWorkoutStatus
+            : deleteWorkoutStatus // ignore: cast_nullable_to_non_nullable
                   as WorkoutStateStatus,
         exercises: null == exercises
             ? _value._exercises
@@ -347,6 +409,10 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
         selectedWorkout: null == selectedWorkout
             ? _value.selectedWorkout
             : selectedWorkout // ignore: cast_nullable_to_non_nullable
+                  as Workout,
+        displayedWorkout: null == displayedWorkout
+            ? _value.displayedWorkout
+            : displayedWorkout // ignore: cast_nullable_to_non_nullable
                   as Workout,
         filter: null == filter
             ? _value.filter
@@ -380,6 +446,10 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
             ? _value.getWorkoutsError
             : getWorkoutsError // ignore: cast_nullable_to_non_nullable
                   as Error?,
+        deleteWorkoutError: freezed == deleteWorkoutError
+            ? _value.deleteWorkoutError
+            : deleteWorkoutError // ignore: cast_nullable_to_non_nullable
+                  as Error?,
       ),
     );
   }
@@ -392,11 +462,13 @@ class _$WorkoutStateImpl implements _WorkoutState {
     this.getExercisesStatus = WorkoutStateStatus.initial,
     this.saveWorkoutStatus = WorkoutStateStatus.initial,
     this.getWorkoutsStatus = WorkoutStateStatus.initial,
+    this.deleteWorkoutStatus = WorkoutStateStatus.initial,
     final List<Exercise> exercises = const [],
     final List<String> bodyParts = const [],
     final List<String> equipments = const [],
     final List<Workout> workouts = const [],
     this.selectedWorkout = const Workout(),
+    this.displayedWorkout = const Workout(),
     this.filter = const ExerciseFilter(),
     this.search = '',
     this.currentOffset = 0,
@@ -405,6 +477,7 @@ class _$WorkoutStateImpl implements _WorkoutState {
     this.getExercisesError,
     this.saveWorkoutError,
     this.getWorkoutsError,
+    this.deleteWorkoutError,
   }) : _exercises = exercises,
        _bodyParts = bodyParts,
        _equipments = equipments,
@@ -419,6 +492,9 @@ class _$WorkoutStateImpl implements _WorkoutState {
   @override
   @JsonKey()
   final WorkoutStateStatus getWorkoutsStatus;
+  @override
+  @JsonKey()
+  final WorkoutStateStatus deleteWorkoutStatus;
   final List<Exercise> _exercises;
   @override
   @JsonKey()
@@ -460,6 +536,9 @@ class _$WorkoutStateImpl implements _WorkoutState {
   final Workout selectedWorkout;
   @override
   @JsonKey()
+  final Workout displayedWorkout;
+  @override
+  @JsonKey()
   final ExerciseFilter filter;
   @override
   @JsonKey()
@@ -479,10 +558,12 @@ class _$WorkoutStateImpl implements _WorkoutState {
   final Error? saveWorkoutError;
   @override
   final Error? getWorkoutsError;
+  @override
+  final Error? deleteWorkoutError;
 
   @override
   String toString() {
-    return 'WorkoutState(getExercisesStatus: $getExercisesStatus, saveWorkoutStatus: $saveWorkoutStatus, getWorkoutsStatus: $getWorkoutsStatus, exercises: $exercises, bodyParts: $bodyParts, equipments: $equipments, workouts: $workouts, selectedWorkout: $selectedWorkout, filter: $filter, search: $search, currentOffset: $currentOffset, limit: $limit, hasMore: $hasMore, getExercisesError: $getExercisesError, saveWorkoutError: $saveWorkoutError, getWorkoutsError: $getWorkoutsError)';
+    return 'WorkoutState(getExercisesStatus: $getExercisesStatus, saveWorkoutStatus: $saveWorkoutStatus, getWorkoutsStatus: $getWorkoutsStatus, deleteWorkoutStatus: $deleteWorkoutStatus, exercises: $exercises, bodyParts: $bodyParts, equipments: $equipments, workouts: $workouts, selectedWorkout: $selectedWorkout, displayedWorkout: $displayedWorkout, filter: $filter, search: $search, currentOffset: $currentOffset, limit: $limit, hasMore: $hasMore, getExercisesError: $getExercisesError, saveWorkoutError: $saveWorkoutError, getWorkoutsError: $getWorkoutsError, deleteWorkoutError: $deleteWorkoutError)';
   }
 
   @override
@@ -496,6 +577,8 @@ class _$WorkoutStateImpl implements _WorkoutState {
                 other.saveWorkoutStatus == saveWorkoutStatus) &&
             (identical(other.getWorkoutsStatus, getWorkoutsStatus) ||
                 other.getWorkoutsStatus == getWorkoutsStatus) &&
+            (identical(other.deleteWorkoutStatus, deleteWorkoutStatus) ||
+                other.deleteWorkoutStatus == deleteWorkoutStatus) &&
             const DeepCollectionEquality().equals(
               other._exercises,
               _exercises,
@@ -511,6 +594,8 @@ class _$WorkoutStateImpl implements _WorkoutState {
             const DeepCollectionEquality().equals(other._workouts, _workouts) &&
             (identical(other.selectedWorkout, selectedWorkout) ||
                 other.selectedWorkout == selectedWorkout) &&
+            (identical(other.displayedWorkout, displayedWorkout) ||
+                other.displayedWorkout == displayedWorkout) &&
             (identical(other.filter, filter) || other.filter == filter) &&
             (identical(other.search, search) || other.search == search) &&
             (identical(other.currentOffset, currentOffset) ||
@@ -522,20 +607,24 @@ class _$WorkoutStateImpl implements _WorkoutState {
             (identical(other.saveWorkoutError, saveWorkoutError) ||
                 other.saveWorkoutError == saveWorkoutError) &&
             (identical(other.getWorkoutsError, getWorkoutsError) ||
-                other.getWorkoutsError == getWorkoutsError));
+                other.getWorkoutsError == getWorkoutsError) &&
+            (identical(other.deleteWorkoutError, deleteWorkoutError) ||
+                other.deleteWorkoutError == deleteWorkoutError));
   }
 
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     runtimeType,
     getExercisesStatus,
     saveWorkoutStatus,
     getWorkoutsStatus,
+    deleteWorkoutStatus,
     const DeepCollectionEquality().hash(_exercises),
     const DeepCollectionEquality().hash(_bodyParts),
     const DeepCollectionEquality().hash(_equipments),
     const DeepCollectionEquality().hash(_workouts),
     selectedWorkout,
+    displayedWorkout,
     filter,
     search,
     currentOffset,
@@ -544,7 +633,8 @@ class _$WorkoutStateImpl implements _WorkoutState {
     getExercisesError,
     saveWorkoutError,
     getWorkoutsError,
-  );
+    deleteWorkoutError,
+  ]);
 
   /// Create a copy of WorkoutState
   /// with the given fields replaced by the non-null parameter values.
@@ -560,11 +650,13 @@ abstract class _WorkoutState implements WorkoutState {
     final WorkoutStateStatus getExercisesStatus,
     final WorkoutStateStatus saveWorkoutStatus,
     final WorkoutStateStatus getWorkoutsStatus,
+    final WorkoutStateStatus deleteWorkoutStatus,
     final List<Exercise> exercises,
     final List<String> bodyParts,
     final List<String> equipments,
     final List<Workout> workouts,
     final Workout selectedWorkout,
+    final Workout displayedWorkout,
     final ExerciseFilter filter,
     final String search,
     final int currentOffset,
@@ -573,6 +665,7 @@ abstract class _WorkoutState implements WorkoutState {
     final Error? getExercisesError,
     final Error? saveWorkoutError,
     final Error? getWorkoutsError,
+    final Error? deleteWorkoutError,
   }) = _$WorkoutStateImpl;
 
   @override
@@ -581,6 +674,8 @@ abstract class _WorkoutState implements WorkoutState {
   WorkoutStateStatus get saveWorkoutStatus;
   @override
   WorkoutStateStatus get getWorkoutsStatus;
+  @override
+  WorkoutStateStatus get deleteWorkoutStatus;
   @override
   List<Exercise> get exercises;
   @override
@@ -591,6 +686,8 @@ abstract class _WorkoutState implements WorkoutState {
   List<Workout> get workouts;
   @override
   Workout get selectedWorkout;
+  @override
+  Workout get displayedWorkout;
   @override
   ExerciseFilter get filter;
   @override
@@ -607,6 +704,8 @@ abstract class _WorkoutState implements WorkoutState {
   Error? get saveWorkoutError;
   @override
   Error? get getWorkoutsError;
+  @override
+  Error? get deleteWorkoutError;
 
   /// Create a copy of WorkoutState
   /// with the given fields replaced by the non-null parameter values.

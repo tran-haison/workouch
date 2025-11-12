@@ -40,7 +40,11 @@ class _WorkoutCreationPageState extends State<WorkoutCreationPage> {
       listener: (context, state) {
         if (state.saveWorkoutStatus == WorkoutStateStatus.success) {
           showCommonToast(AppConstants.workoutSavedSuccessfully);
-          context.pop(true); // Return true to indicate successful save
+          context.read<WorkoutCubit>().updateDisplayedWorkout(
+            state.selectedWorkout,
+          ); // update the displayed workout to the new one
+          context.read<WorkoutCubit>().getAllWorkouts();
+          context.pop();
           return;
         }
 
@@ -69,9 +73,7 @@ class _WorkoutCreationPageState extends State<WorkoutCreationPage> {
                           backgroundColor: AppColors.grayBlue,
                           icon: Assets.icons.arrowBack,
                           iconColor: AppColors.black,
-                          onTap: () {
-                            context.pop(false);
-                          },
+                          onTap: () => context.pop(),
                         ),
                         const Spacer(),
                         CommonIconButton(
@@ -94,7 +96,9 @@ class _WorkoutCreationPageState extends State<WorkoutCreationPage> {
                             child: Row(
                               children: [
                                 Text(
-                                  AppConstants.newWorkout,
+                                  state.selectedWorkout.id.isEmpty
+                                      ? AppConstants.newWorkout
+                                      : AppConstants.updateWorkout,
                                   style: AppTextStyles.h0,
                                 ),
                               ],

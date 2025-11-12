@@ -5,9 +5,10 @@ import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/workout/presentation/pages/workout_creation_page.dart';
 import '../../features/workout/presentation/pages/workout_pro_page.dart';
 import '../../features/workout/presentation/pages/exercises_page.dart';
+import '../../features/workout/presentation/pages/workout_details_page.dart';
 import '../../features/workout/presentation/widgets/workout_scope_provider.dart';
 
-enum AppRoute { home, workoutPro, workoutCreation, exercises }
+enum AppRoute { home, workoutPro, workoutCreation, workoutDetails, exercises }
 
 Page<T> _buildSlidePage<T extends Object>(
   Widget child, {
@@ -62,6 +63,16 @@ final appRouter = GoRouter(
           path: '/workout-creation',
           pageBuilder: (context, state) => _buildSlidePage(
             const WorkoutCreationPage(),
+            key: state.pageKey,
+            name: state.name,
+            arguments: state.extra,
+          ),
+        ),
+        GoRoute(
+          name: AppRoute.workoutDetails.name,
+          path: '/workout-details',
+          pageBuilder: (context, state) => _buildSlidePage(
+            const WorkoutDetailsPage(),
             key: state.pageKey,
             name: state.name,
             arguments: state.extra,

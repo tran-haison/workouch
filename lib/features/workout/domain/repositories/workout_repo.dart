@@ -10,6 +10,7 @@ abstract class WorkoutRepo {
   Future<Either<Error, bool>> saveWorkout(Workout workout);
   Future<Either<Error, Workout>> getWorkout(String workoutId);
   Future<Either<Error, List<Workout>>> getAllWorkouts();
+  Future<Either<Error, bool>> deleteWorkout(String workoutId);
 }
 
 @LazySingleton(as: WorkoutRepo)
@@ -59,6 +60,24 @@ class WorkoutRepoImpl implements WorkoutRepo {
     try {
       final workouts = await _workoutService.getAllWorkouts();
       return Right(workouts);
+    } catch (e) {
+      return Left(handleException(e));
+    }
+  }
+
+  @override
+  Future<Either<Error, bool>> deleteWorkout(String workoutId) async {
+    try {
+      final success = await _workoutService.deleteWorkout(workoutId);
+      if (success) {
+        return const Right(true);
+      }
+      return Left(
+        Error(
+          message: AppConstants.workoutDeletedError,
+          errorType: ErrorType.other,
+        ),
+      );
     } catch (e) {
       return Left(handleException(e));
     }

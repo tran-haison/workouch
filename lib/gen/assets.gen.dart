@@ -55,6 +55,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/dumbbell.svg
   SvgGenImage get dumbbell => const SvgGenImage('assets/icons/dumbbell.svg');
 
+  /// File path: assets/icons/edit.svg
+  SvgGenImage get edit => const SvgGenImage('assets/icons/edit.svg');
+
   /// File path: assets/icons/error.svg
   SvgGenImage get error => const SvgGenImage('assets/icons/error.svg');
 
@@ -112,6 +115,7 @@ class $AssetsIconsGen {
     delete,
     distance,
     dumbbell,
+    edit,
     error,
     filter,
     fire,

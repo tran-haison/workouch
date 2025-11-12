@@ -68,6 +68,32 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     );
   }
 
+  Future<void> deleteWorkout(String workoutId) async {
+    emit(
+      state.copyWith(
+        deleteWorkoutStatus: WorkoutStateStatus.loading,
+        deleteWorkoutError: null,
+      ),
+    );
+    final res = await _workoutRepo.deleteWorkout(workoutId);
+    res.fold(
+      (error) => emit(
+        state.copyWith(
+          deleteWorkoutStatus: WorkoutStateStatus.error,
+          deleteWorkoutError: error,
+        ),
+      ),
+      (success) {
+        emit(
+          state.copyWith(
+            deleteWorkoutStatus: WorkoutStateStatus.success,
+            deleteWorkoutError: null,
+          ),
+        );
+      },
+    );
+  }
+
   /// Load exercises with pagination support
   /// [loadMore] - true to load next page, false to load from beginning
   Future<void> getExercises({bool loadMore = false}) async {
@@ -228,6 +254,10 @@ class WorkoutCubit extends Cubit<WorkoutState> {
         ),
       ),
     );
+  }
+
+  void updateDisplayedWorkout(Workout workout) {
+    emit(state.copyWith(displayedWorkout: workout));
   }
 
   /// Update filter

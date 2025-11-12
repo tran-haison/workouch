@@ -304,4 +304,28 @@ class SupabaseWorkoutService {
       return [];
     }
   }
+
+  /// Delete a workout by ID
+  /// Returns true if successful, false if an error occurred
+  Future<bool> deleteWorkout(String workoutId) async {
+    try {
+      final userId = _currentUserId;
+      if (userId == null) {
+        Log.e('No authenticated user found');
+        return false;
+      }
+
+      // Delete workout (exercises will be deleted automatically via CASCADE)
+      await _supabase
+          .from(AppConstants.supabase.tableWorkouts)
+          .delete()
+          .eq('id', workoutId)
+          .eq('user_id', userId);
+
+      return true;
+    } catch (e) {
+      Log.e('Error deleting workout: $e');
+      return false;
+    }
+  }
 }

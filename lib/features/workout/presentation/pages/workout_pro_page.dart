@@ -143,7 +143,7 @@ class _WorkoutProPageState extends State<WorkoutProPage> {
                                     final workout = workouts[index];
                                     return WorkoutCardItem(
                                       workout: workout,
-                                      onTap: () => _editWorkout(workout),
+                                      onTap: () => _viewWorkout(workout),
                                     );
                                   },
                                 ),
@@ -161,7 +161,7 @@ class _WorkoutProPageState extends State<WorkoutProPage> {
                                 _RoutineIndicator(
                                   title: AppConstants.total,
                                   value: '${workouts.length}',
-                                  icon: Assets.icons.rocket,
+                                  icon: Assets.icons.dumbbell,
                                 ),
                               ],
                             ),
@@ -187,24 +187,12 @@ class _WorkoutProPageState extends State<WorkoutProPage> {
       restTime: Duration.zero,
     );
 
-    final res = await context.pushNamed(AppRoute.workoutCreation.name);
-    if (mounted && res == true) {
-      context.read<WorkoutCubit>().getAllWorkouts();
-    }
+    await context.pushNamed(AppRoute.workoutCreation.name);
   }
 
-  Future<void> _editWorkout(Workout workout) async {
-    context.read<WorkoutCubit>().updateSelectedWorkout(
-      id: workout.id,
-      name: workout.name,
-      exercises: workout.exercises,
-      restTime: workout.restTimeBetweenExercises,
-    );
-
-    final res = await context.pushNamed(AppRoute.workoutCreation.name);
-    if (mounted && res == true) {
-      context.read<WorkoutCubit>().getAllWorkouts();
-    }
+  Future<void> _viewWorkout(Workout workout) async {
+    context.read<WorkoutCubit>().updateDisplayedWorkout(workout);
+    await context.pushNamed(AppRoute.workoutDetails.name);
   }
 }
 
