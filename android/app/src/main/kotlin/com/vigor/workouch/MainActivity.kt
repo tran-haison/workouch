@@ -1,4 +1,4 @@
-package com.example.workouch
+package com.vigor.workouch
 
 import io.flutter.embedding.android.FlutterActivity
 
