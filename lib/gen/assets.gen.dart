@@ -20,6 +20,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/add.svg
   SvgGenImage get add => const SvgGenImage('assets/icons/add.svg');
 
+  /// File path: assets/icons/apple.svg
+  SvgGenImage get apple => const SvgGenImage('assets/icons/apple.svg');
+
   /// File path: assets/icons/arrow_back.svg
   SvgGenImage get arrowBack => const SvgGenImage('assets/icons/arrow_back.svg');
 
@@ -67,9 +70,15 @@ class $AssetsIconsGen {
   /// File path: assets/icons/fire.svg
   SvgGenImage get fire => const SvgGenImage('assets/icons/fire.svg');
 
+  /// File path: assets/icons/google.svg
+  SvgGenImage get google => const SvgGenImage('assets/icons/google.svg');
+
   /// File path: assets/icons/line_weight.svg
   SvgGenImage get lineWeight =>
       const SvgGenImage('assets/icons/line_weight.svg');
+
+  /// File path: assets/icons/loading.svg
+  SvgGenImage get loading => const SvgGenImage('assets/icons/loading.svg');
 
   /// File path: assets/icons/namespace.svg
   SvgGenImage get namespace => const SvgGenImage('assets/icons/namespace.svg');
@@ -104,6 +113,7 @@ class $AssetsIconsGen {
   /// List of all assets
   List<SvgGenImage> get values => [
     add,
+    apple,
     arrowBack,
     arrowDown,
     arrowRightWide,
@@ -119,7 +129,9 @@ class $AssetsIconsGen {
     error,
     filter,
     fire,
+    google,
     lineWeight,
+    loading,
     namespace,
     puregym,
     reorder,

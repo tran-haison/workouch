@@ -8,7 +8,6 @@ import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_gaps.dart';
-import '../../../../core/widgets/common_icons.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../domain/entities/workout.dart';
 import '../cubit/workout_cubit.dart';
@@ -106,7 +105,7 @@ class _WorkoutProPageState extends State<WorkoutProPage> {
                       if (workouts.isEmpty) {
                         return Center(
                           child: Text(
-                            AppConstants.noWorkoutFound,
+                            AppConstants.addFirstWorkout,
                             style: AppTextStyles.h4.copyWith(
                               color: AppColors.mediumGray,
                             ),
@@ -210,23 +209,19 @@ class _RoutineIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: AppColors.black),
-      ),
-      child: Row(
-        children: [
-          CommonAssetIcon(
-            icon,
-            width: 16.r,
-            height: 16.r,
-            useDefaultColor: true,
+        color: AppColors.primary.withValues(alpha: 0.1),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary,
+            blurRadius: 10.r,
+            offset: const Offset(0, 1),
           ),
-          Gaps.hGap4,
-          Text('$title: $value', style: AppTextStyles.h5),
         ],
       ),
+      child: Row(children: [Text('$title: $value', style: AppTextStyles.h5)]),
     );
   }
 }

@@ -72,7 +72,7 @@ class AppConstants {
   static const dragToReorder = 'Hold and drag to reorder, swipe to delete';
   static const noExerciseSelected = 'No exercise selected';
   static const invalidSets = 'All sets must be valid';
-  static const noWorkoutFound = 'No workout found';
+  static const addFirstWorkout = 'Add your first workout';
   static const workoutSavedSuccessfully = 'Workout saved successfully';
   static const workoutSavedError = 'Failed to save workout';
   static const workoutNotFound = 'Workout not found';
@@ -86,6 +86,13 @@ class AppConstants {
       'Are you sure you want to delete this workout? This action cannot be undone.';
   static const workoutDeletedSuccessfully = 'Workout deleted successfully';
   static const workoutDeletedError = 'Failed to delete workout';
+  static const signInSubtitle = 'Sign in to continue';
+  static const loading = 'Loading...';
+  static const continueWithGoogle = 'Continue with Google';
+  static const continueWithApple = 'Continue with Apple';
+  static const signInSuccess = 'Signed in successfully';
+  static const signInError = 'Failed to sign in. Please try again.';
+  static const userNotFound = 'User not found';
 }
 
 class _Supabase {
@@ -100,6 +107,8 @@ class _Supabase {
   String get tableWorkouts => 'workouts';
 
   String get tableWorkoutExercises => 'workout_exercises';
+
+  String get tableUsers => 'users';
 }
 
 class _Time {

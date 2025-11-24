@@ -7,8 +7,16 @@ import '../../features/workout/presentation/pages/workout_pro_page.dart';
 import '../../features/workout/presentation/pages/exercises_page.dart';
 import '../../features/workout/presentation/pages/workout_details_page.dart';
 import '../../features/workout/presentation/widgets/workout_scope_provider.dart';
+import '../../features/auth/presentation/pages/signin_page.dart';
 
-enum AppRoute { home, workoutPro, workoutCreation, workoutDetails, exercises }
+enum AppRoute {
+  signIn,
+  home,
+  workoutPro,
+  workoutCreation,
+  workoutDetails,
+  exercises,
+}
 
 Page<T> _buildSlidePage<T extends Object>(
   Widget child, {
@@ -34,8 +42,14 @@ Page<T> _buildSlidePage<T extends Object>(
 }
 
 final appRouter = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/signin',
   routes: <RouteBase>[
+    GoRoute(
+      name: AppRoute.signIn.name,
+      path: '/signin',
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: SignInPage()),
+    ),
     GoRoute(
       name: AppRoute.home.name,
       path: '/',

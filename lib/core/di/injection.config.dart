@@ -14,9 +14,10 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
+import '../../features/auth/data/services/supabase_auth_service.dart' as _i738;
+import '../../features/auth/domain/repositories/auth_repo.dart' as _i723;
+import '../../features/auth/presentation/cubit/auth_cubit.dart' as _i117;
 import '../../features/workout/data/services/exercise_service.dart' as _i747;
-import '../../features/workout/data/services/supabase_auth_service.dart'
-    as _i561;
 import '../../features/workout/data/services/supabase_workout_service.dart'
     as _i275;
 import '../../features/workout/domain/repositories/exercise_repo.dart' as _i275;
@@ -36,15 +37,18 @@ Future<_i174.GetIt> $initGetIt(
     () => injectionModule.sharedPreferences,
     preResolve: true,
   );
+  gh.lazySingleton<_i738.SupabaseAuthService>(
+    () => _i738.SupabaseAuthService(),
+  );
   gh.lazySingleton<_i275.SupabaseWorkoutService>(
     () => _i275.SupabaseWorkoutService(),
-  );
-  gh.lazySingleton<_i561.SupabaseAuthService>(
-    () => _i561.SupabaseAuthService(),
   );
   gh.lazySingleton<_i361.Dio>(
     () => injectionModule.dioExerciseDb,
     instanceName: 'exercise-db',
+  );
+  gh.lazySingleton<_i723.AuthRepo>(
+    () => _i723.AuthRepoImpl(gh<_i738.SupabaseAuthService>()),
   );
   gh.lazySingleton<_i597.WorkoutRepo>(
     () => _i597.WorkoutRepoImpl(gh<_i275.SupabaseWorkoutService>()),
@@ -52,6 +56,7 @@ Future<_i174.GetIt> $initGetIt(
   gh.lazySingleton<_i747.ExerciseService>(
     () => _i747.ExerciseService(gh<_i361.Dio>(instanceName: 'exercise-db')),
   );
+  gh.factory<_i117.AuthCubit>(() => _i117.AuthCubit(gh<_i723.AuthRepo>()));
   gh.lazySingleton<_i275.ExerciseRepo>(
     () => _i275.ExerciseRepoImpl(gh<_i747.ExerciseService>()),
   );
