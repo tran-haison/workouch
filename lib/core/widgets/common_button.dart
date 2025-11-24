@@ -57,7 +57,7 @@ class _CommonButtonState extends State<CommonButton>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 150),
+      duration: const Duration(milliseconds: 30),
     );
     _scaleAnimation = Tween<double>(
       begin: 1.0,
@@ -216,7 +216,7 @@ class _CommonIconButtonState extends State<CommonIconButton>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 150),
+      duration: const Duration(milliseconds: 30),
     );
     _scaleAnimation = Tween<double>(
       begin: 1.0,

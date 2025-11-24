@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workouch/core/extension/duration_extension.dart';
+import 'package:workouch/core/widgets/common_loading_dialog.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/router/app_router.dart';
@@ -38,6 +39,12 @@ class _WorkoutCreationPageState extends State<WorkoutCreationPage> {
       listenWhen: (prev, curr) =>
           prev.saveWorkoutStatus != curr.saveWorkoutStatus,
       listener: (context, state) {
+        if (state.saveWorkoutStatus == WorkoutStateStatus.loading) {
+          context.showLoadingDialog();
+        } else {
+          context.hideLoadingDialog();
+        }
+
         if (state.saveWorkoutStatus == WorkoutStateStatus.success) {
           showCommonToast(AppConstants.workoutSavedSuccessfully);
           context.read<WorkoutCubit>().updateDisplayedWorkout(

@@ -42,7 +42,7 @@ class _WorkoutExerciseCardState extends State<WorkoutExerciseCard>
     super.initState();
     _pressController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 150),
+      duration: const Duration(milliseconds: 30),
     );
     _expandController = AnimationController(
       vsync: this,

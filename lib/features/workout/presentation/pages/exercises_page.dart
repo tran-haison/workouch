@@ -124,6 +124,18 @@ class _ExercisesPageState extends State<ExercisesPage> {
                                     height: 20.r,
                                     color: AppColors.black,
                                   ),
+                                  suffix: _searchController.text.isNotEmpty
+                                      ? CommonIconButton(
+                                          icon: Assets.icons.close,
+                                          iconSize: 20.r,
+                                          iconColor: AppColors.black,
+                                          padding: EdgeInsets.zero,
+                                          onTap: () {
+                                            _searchController.clear();
+                                            _onSearchChanged('');
+                                          },
+                                        )
+                                      : null,
                                   onChanged: _onSearchChanged,
                                 ),
                               ),

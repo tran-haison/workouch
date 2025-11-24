@@ -33,7 +33,7 @@ class _WorkoutCardItemState extends State<WorkoutCardItem>
     super.initState();
     _pressController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 150),
+      duration: const Duration(milliseconds: 30),
     );
 
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.98).animate(
