@@ -227,8 +227,8 @@ class WorkoutDetailsPage extends StatelessWidget {
   }
 
   void _startWorkout(BuildContext context) {
-    // TODO: Implement start workout functionality
-    showCommonToast('Coming soon...');
+    final workout = context.read<WorkoutCubit>().state.displayedWorkout;
+    context.pushNamed(AppRoute.workoutReady.name, extra: workout);
   }
 
   Future<void> _updateWorkout(BuildContext context) async {

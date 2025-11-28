@@ -7,7 +7,10 @@ import '../../features/workout/presentation/pages/workout_pro_page.dart';
 import '../../features/workout/presentation/pages/exercises_page.dart';
 import '../../features/workout/presentation/pages/workout_details_page.dart';
 import '../../features/workout/presentation/widgets/workout_scope_provider.dart';
+import '../../features/workout_session/presentation/pages/workout_ready_page.dart';
 import '../../features/auth/presentation/pages/signin_page.dart';
+import '../../features/workout/domain/entities/workout.dart';
+import '../../features/workout_session/presentation/widgets/workout_session_scope_provider.dart';
 
 enum AppRoute {
   signIn,
@@ -15,6 +18,7 @@ enum AppRoute {
   workoutPro,
   workoutCreation,
   workoutDetails,
+  workoutReady,
   exercises,
 }
 
@@ -101,6 +105,26 @@ final appRouter = GoRouter(
             name: state.name,
             arguments: state.extra,
           ),
+        ),
+      ],
+    ),
+    ShellRoute(
+      builder: (context, state, child) {
+        final workout = state.extra as Workout;
+        return WorkoutSessionScopeProvider(workout: workout, child: child);
+      },
+      routes: [
+        GoRoute(
+          name: AppRoute.workoutReady.name,
+          path: '/workout-ready',
+          pageBuilder: (context, state) {
+            return _buildSlidePage(
+              const WorkoutReadyPage(),
+              key: state.pageKey,
+              name: state.name,
+              arguments: state.extra,
+            );
+          },
         ),
       ],
     ),

@@ -23,6 +23,8 @@ import '../../features/workout/data/services/supabase_workout_service.dart'
 import '../../features/workout/domain/repositories/exercise_repo.dart' as _i275;
 import '../../features/workout/domain/repositories/workout_repo.dart' as _i597;
 import '../../features/workout/presentation/cubit/workout_cubit.dart' as _i645;
+import '../../features/workout_session/presentation/cubit/workout_session_cubit.dart'
+    as _i613;
 import 'injection.dart' as _i464;
 
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -33,6 +35,7 @@ Future<_i174.GetIt> $initGetIt(
 }) async {
   final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
   final injectionModule = _$InjectionModule();
+  gh.factory<_i613.WorkoutSessionCubit>(() => _i613.WorkoutSessionCubit());
   await gh.lazySingletonAsync<_i460.SharedPreferences>(
     () => injectionModule.sharedPreferences,
     preResolve: true,

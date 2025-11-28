@@ -93,6 +93,10 @@ class AppConstants {
   static const signInSuccess = 'Signed in successfully';
   static const signInError = 'Failed to sign in. Please try again.';
   static const userNotFound = 'User not found';
+  static const readyToStart = 'Ready to start?';
+  static const readyToStartDescription =
+      'Make sure you\'re prepared and have everything you need';
+  static const letsGo = 'Let\'s go!';
 }
 
 class _Supabase {
