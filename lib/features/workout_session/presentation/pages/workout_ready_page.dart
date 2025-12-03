@@ -5,12 +5,12 @@ import 'package:go_router/go_router.dart';
 import 'package:workouch/core/extension/duration_extension.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_button.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
-import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
 import '../cubit/workout_session_cubit.dart';
 import '../cubit/workout_session_state.dart';
@@ -169,7 +169,7 @@ class WorkoutReadyPage extends StatelessWidget {
   }
 
   void _startWorkout(BuildContext context) {
-    // TODO: Navigate to actual workout page
-    showCommonToast('Workout starting soon...');
+    context.read<WorkoutSessionCubit>().startTotalTimer();
+    context.pushNamed(AppRoute.workoutExecution.name);
   }
 }

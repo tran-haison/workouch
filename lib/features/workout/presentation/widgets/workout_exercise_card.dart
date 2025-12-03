@@ -130,7 +130,7 @@ class _WorkoutExerciseCardState extends State<WorkoutExerciseCard>
                         ),
                         Gaps.vGap4,
                         Text(
-                          exercise.formatMainInfo,
+                          exercise.displayMainInfo,
                           style: AppTextStyles.h5.copyWith(
                             color: AppColors.mediumGray,
                           ),
@@ -148,9 +148,9 @@ class _WorkoutExerciseCardState extends State<WorkoutExerciseCard>
                     opacity: _heightAnimation,
                     child: Column(
                       children: [
-                        if (exercise.formatSetsInfo.isNotEmpty) ...[
+                        if (exercise.displaySetsInfo.isNotEmpty) ...[
                           Gaps.vGap8,
-                          ...exercise.formatSetsInfo.map((setInfo) {
+                          ...exercise.displaySetsInfo.map((setInfo) {
                             return Padding(
                               padding: EdgeInsets.only(top: 8.h),
                               child: Row(

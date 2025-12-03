@@ -190,6 +190,7 @@ class CommonIconButton extends StatefulWidget {
     this.padding,
     this.radius,
     this.borderColor,
+    this.borderWidth,
     super.key,
   });
 
@@ -201,6 +202,7 @@ class CommonIconButton extends StatefulWidget {
   final EdgeInsets? padding;
   final double? radius;
   final Color? borderColor;
+  final double? borderWidth;
 
   @override
   State<CommonIconButton> createState() => _CommonIconButtonState();
@@ -248,7 +250,10 @@ class _CommonIconButtonState extends State<CommonIconButton>
             color: widget.backgroundColor,
             borderRadius: BorderRadius.circular(borderRadius),
             border: widget.borderColor != null
-                ? Border.all(color: widget.borderColor!)
+                ? Border.all(
+                    color: widget.borderColor!,
+                    width: widget.borderWidth ?? 1.r,
+                  )
                 : null,
           ),
           child: Padding(

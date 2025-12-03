@@ -11,10 +11,10 @@ class WorkoutSessionScopeProvider extends StatefulWidget {
   const WorkoutSessionScopeProvider({
     super.key,
     required this.child,
-    required this.workout,
+    this.workout,
   });
 
-  final Workout workout;
+  final Workout? workout;
   final Widget child;
 
   @override
@@ -30,7 +30,9 @@ class _WorkoutSessionScopeProviderState
   void initState() {
     super.initState();
     _workoutSessionCubit = getIt<WorkoutSessionCubit>();
-    _workoutSessionCubit.setWorkout(widget.workout);
+    if (widget.workout != null) {
+      _workoutSessionCubit.initWorkout(widget.workout!);
+    }
   }
 
   @override

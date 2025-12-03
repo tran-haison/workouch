@@ -1,6 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:workouch/core/extension/duration_extension.dart';
-import '../../../../core/constants/app_constants.dart';
 import 'exercise.dart';
 import 'working_set.dart';
 
@@ -64,50 +62,57 @@ extension WorkingExerciseX on WorkingExercise {
     });
   }
 
-  String get formatMainInfo => '${bodyParts[0]} > ${equipments[0]}';
+  String get displayMainInfo => '${bodyParts[0]} > ${equipments[0]}';
 
-  List<String> get formatSetsInfo {
+  List<String> get displaySetsInfo {
     if (sets.isEmpty) {
       return [];
     }
 
     // Format all sets
     final formattedSets = sets
-        .map((set) {
-          return set.when(
-            weightBased: (sets, reps, weight) {
-              if (sets == 0 || reps == 0 || weight == 0) return null;
-              return '$sets ${AppConstants.sets} • $reps ${AppConstants.reps} • $weight ${AppConstants.kg}'
-                  .toLowerCase();
-            },
-            repsOnly: (sets, reps) {
-              if (sets == 0 || reps == 0) return null;
-              return '$sets ${AppConstants.sets} • $reps ${AppConstants.reps}'
-                  .toLowerCase();
-            },
-            timeBased: (duration) {
-              if (duration.inSeconds == 0) return null;
-              return duration.mmss.toLowerCase();
-            },
-            distanceBased: (distance) {
-              if (distance == 0) return null;
-              if (distance >= 1000) {
-                final km = distance / 1000;
-                final kmString = km
-                    .toStringAsFixed(3)
-                    .replaceAll(RegExp(r'0+$'), '')
-                    .replaceAll(RegExp(r'\.$'), '');
-                return '$kmString ${AppConstants.km}'.toLowerCase();
-              }
-              return '${distance.toInt()} ${AppConstants.meters}'.toLowerCase();
-            },
-          );
-        })
-        .where((formatted) => formatted != null)
+        .map((set) => set.displayInfo)
+        .where((info) => info != null)
         .cast<String>()
         .toList();
 
     return formattedSets;
+  }
+
+  // Convert working sets to separated sets
+  // E.g: if a set has value of "3 sets, 5 reps, 5 kg"
+  // then separated sets is a list of 3 items, each item has value of "1 set, 5 reps, 5 kg"
+  List<WorkingSet> get separatedSets {
+    final newSets = <WorkingSet>[];
+
+    for (final workingSet in sets) {
+      workingSet.when(
+        weightBased: (sets, reps, weight) {
+          // Create 'sets' number of individual sets, each with sets=1
+          for (int i = 0; i < sets; i++) {
+            newSets.add(
+              WorkingSet.weightBased(sets: 1, reps: reps, weight: weight),
+            );
+          }
+        },
+        repsOnly: (sets, reps) {
+          // Create 'sets' number of individual sets, each with sets=1
+          for (int i = 0; i < sets; i++) {
+            newSets.add(WorkingSet.repsOnly(sets: 1, reps: reps));
+          }
+        },
+        timeBased: (duration) {
+          // Time-based sets are single sets, just add one
+          newSets.add(WorkingSet.timeBased(duration: duration));
+        },
+        distanceBased: (distance) {
+          // Distance-based sets are single sets, just add one
+          newSets.add(WorkingSet.distanceBased(distance: distance));
+        },
+      );
+    }
+
+    return newSets;
   }
 
   /// Get the set type from the first set if not explicitly set

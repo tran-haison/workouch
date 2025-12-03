@@ -18,6 +18,11 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$WorkoutSessionState {
   Workout get workout => throw _privateConstructorUsedError;
+  int get currentExerciseIndex => throw _privateConstructorUsedError;
+  Map<String, int> get setIndexTracker =>
+      throw _privateConstructorUsedError; // {exerciseId: currSetIdx}
+  Duration get totalTime => throw _privateConstructorUsedError;
+  Duration get restSetsRemain => throw _privateConstructorUsedError;
 
   /// Create a copy of WorkoutSessionState
   /// with the given fields replaced by the non-null parameter values.
@@ -33,7 +38,13 @@ abstract class $WorkoutSessionStateCopyWith<$Res> {
     $Res Function(WorkoutSessionState) then,
   ) = _$WorkoutSessionStateCopyWithImpl<$Res, WorkoutSessionState>;
   @useResult
-  $Res call({Workout workout});
+  $Res call({
+    Workout workout,
+    int currentExerciseIndex,
+    Map<String, int> setIndexTracker,
+    Duration totalTime,
+    Duration restSetsRemain,
+  });
 
   $WorkoutCopyWith<$Res> get workout;
 }
@@ -52,13 +63,35 @@ class _$WorkoutSessionStateCopyWithImpl<$Res, $Val extends WorkoutSessionState>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? workout = null}) {
+  $Res call({
+    Object? workout = null,
+    Object? currentExerciseIndex = null,
+    Object? setIndexTracker = null,
+    Object? totalTime = null,
+    Object? restSetsRemain = null,
+  }) {
     return _then(
       _value.copyWith(
             workout: null == workout
                 ? _value.workout
                 : workout // ignore: cast_nullable_to_non_nullable
                       as Workout,
+            currentExerciseIndex: null == currentExerciseIndex
+                ? _value.currentExerciseIndex
+                : currentExerciseIndex // ignore: cast_nullable_to_non_nullable
+                      as int,
+            setIndexTracker: null == setIndexTracker
+                ? _value.setIndexTracker
+                : setIndexTracker // ignore: cast_nullable_to_non_nullable
+                      as Map<String, int>,
+            totalTime: null == totalTime
+                ? _value.totalTime
+                : totalTime // ignore: cast_nullable_to_non_nullable
+                      as Duration,
+            restSetsRemain: null == restSetsRemain
+                ? _value.restSetsRemain
+                : restSetsRemain // ignore: cast_nullable_to_non_nullable
+                      as Duration,
           )
           as $Val,
     );
@@ -84,7 +117,13 @@ abstract class _$$WorkoutSessionStateImplCopyWith<$Res>
   ) = __$$WorkoutSessionStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Workout workout});
+  $Res call({
+    Workout workout,
+    int currentExerciseIndex,
+    Map<String, int> setIndexTracker,
+    Duration totalTime,
+    Duration restSetsRemain,
+  });
 
   @override
   $WorkoutCopyWith<$Res> get workout;
@@ -103,13 +142,35 @@ class __$$WorkoutSessionStateImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? workout = null}) {
+  $Res call({
+    Object? workout = null,
+    Object? currentExerciseIndex = null,
+    Object? setIndexTracker = null,
+    Object? totalTime = null,
+    Object? restSetsRemain = null,
+  }) {
     return _then(
       _$WorkoutSessionStateImpl(
         workout: null == workout
             ? _value.workout
             : workout // ignore: cast_nullable_to_non_nullable
                   as Workout,
+        currentExerciseIndex: null == currentExerciseIndex
+            ? _value.currentExerciseIndex
+            : currentExerciseIndex // ignore: cast_nullable_to_non_nullable
+                  as int,
+        setIndexTracker: null == setIndexTracker
+            ? _value._setIndexTracker
+            : setIndexTracker // ignore: cast_nullable_to_non_nullable
+                  as Map<String, int>,
+        totalTime: null == totalTime
+            ? _value.totalTime
+            : totalTime // ignore: cast_nullable_to_non_nullable
+                  as Duration,
+        restSetsRemain: null == restSetsRemain
+            ? _value.restSetsRemain
+            : restSetsRemain // ignore: cast_nullable_to_non_nullable
+                  as Duration,
       ),
     );
   }
@@ -118,15 +179,40 @@ class __$$WorkoutSessionStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$WorkoutSessionStateImpl implements _WorkoutSessionState {
-  const _$WorkoutSessionStateImpl({this.workout = const Workout()});
+  const _$WorkoutSessionStateImpl({
+    this.workout = const Workout(),
+    this.currentExerciseIndex = 0,
+    final Map<String, int> setIndexTracker = const {},
+    this.totalTime = Duration.zero,
+    this.restSetsRemain = Duration.zero,
+  }) : _setIndexTracker = setIndexTracker;
 
   @override
   @JsonKey()
   final Workout workout;
+  @override
+  @JsonKey()
+  final int currentExerciseIndex;
+  final Map<String, int> _setIndexTracker;
+  @override
+  @JsonKey()
+  Map<String, int> get setIndexTracker {
+    if (_setIndexTracker is EqualUnmodifiableMapView) return _setIndexTracker;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_setIndexTracker);
+  }
+
+  // {exerciseId: currSetIdx}
+  @override
+  @JsonKey()
+  final Duration totalTime;
+  @override
+  @JsonKey()
+  final Duration restSetsRemain;
 
   @override
   String toString() {
-    return 'WorkoutSessionState(workout: $workout)';
+    return 'WorkoutSessionState(workout: $workout, currentExerciseIndex: $currentExerciseIndex, setIndexTracker: $setIndexTracker, totalTime: $totalTime, restSetsRemain: $restSetsRemain)';
   }
 
   @override
@@ -134,11 +220,28 @@ class _$WorkoutSessionStateImpl implements _WorkoutSessionState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WorkoutSessionStateImpl &&
-            (identical(other.workout, workout) || other.workout == workout));
+            (identical(other.workout, workout) || other.workout == workout) &&
+            (identical(other.currentExerciseIndex, currentExerciseIndex) ||
+                other.currentExerciseIndex == currentExerciseIndex) &&
+            const DeepCollectionEquality().equals(
+              other._setIndexTracker,
+              _setIndexTracker,
+            ) &&
+            (identical(other.totalTime, totalTime) ||
+                other.totalTime == totalTime) &&
+            (identical(other.restSetsRemain, restSetsRemain) ||
+                other.restSetsRemain == restSetsRemain));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, workout);
+  int get hashCode => Object.hash(
+    runtimeType,
+    workout,
+    currentExerciseIndex,
+    const DeepCollectionEquality().hash(_setIndexTracker),
+    totalTime,
+    restSetsRemain,
+  );
 
   /// Create a copy of WorkoutSessionState
   /// with the given fields replaced by the non-null parameter values.
@@ -153,11 +256,24 @@ class _$WorkoutSessionStateImpl implements _WorkoutSessionState {
 }
 
 abstract class _WorkoutSessionState implements WorkoutSessionState {
-  const factory _WorkoutSessionState({final Workout workout}) =
-      _$WorkoutSessionStateImpl;
+  const factory _WorkoutSessionState({
+    final Workout workout,
+    final int currentExerciseIndex,
+    final Map<String, int> setIndexTracker,
+    final Duration totalTime,
+    final Duration restSetsRemain,
+  }) = _$WorkoutSessionStateImpl;
 
   @override
   Workout get workout;
+  @override
+  int get currentExerciseIndex;
+  @override
+  Map<String, int> get setIndexTracker; // {exerciseId: currSetIdx}
+  @override
+  Duration get totalTime;
+  @override
+  Duration get restSetsRemain;
 
   /// Create a copy of WorkoutSessionState
   /// with the given fields replaced by the non-null parameter values.

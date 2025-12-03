@@ -8,6 +8,7 @@ import '../../features/workout/presentation/pages/exercises_page.dart';
 import '../../features/workout/presentation/pages/workout_details_page.dart';
 import '../../features/workout/presentation/widgets/workout_scope_provider.dart';
 import '../../features/workout_session/presentation/pages/workout_ready_page.dart';
+import '../../features/workout_session/presentation/pages/workout_execution_page.dart';
 import '../../features/auth/presentation/pages/signin_page.dart';
 import '../../features/workout/domain/entities/workout.dart';
 import '../../features/workout_session/presentation/widgets/workout_session_scope_provider.dart';
@@ -19,6 +20,7 @@ enum AppRoute {
   workoutCreation,
   workoutDetails,
   workoutReady,
+  workoutExecution,
   exercises,
 }
 
@@ -110,21 +112,29 @@ final appRouter = GoRouter(
     ),
     ShellRoute(
       builder: (context, state, child) {
-        final workout = state.extra as Workout;
+        final workout = state.extra as Workout?;
         return WorkoutSessionScopeProvider(workout: workout, child: child);
       },
       routes: [
         GoRoute(
           name: AppRoute.workoutReady.name,
           path: '/workout-ready',
-          pageBuilder: (context, state) {
-            return _buildSlidePage(
-              const WorkoutReadyPage(),
-              key: state.pageKey,
-              name: state.name,
-              arguments: state.extra,
-            );
-          },
+          pageBuilder: (context, state) => _buildSlidePage(
+            const WorkoutReadyPage(),
+            key: state.pageKey,
+            name: state.name,
+            arguments: state.extra,
+          ),
+        ),
+        GoRoute(
+          name: AppRoute.workoutExecution.name,
+          path: '/workout-execution',
+          pageBuilder: (context, state) => _buildSlidePage(
+            const WorkoutExecutionPage(),
+            key: state.pageKey,
+            name: state.name,
+            arguments: state.extra,
+          ),
         ),
       ],
     ),

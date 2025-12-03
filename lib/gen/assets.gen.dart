@@ -29,6 +29,13 @@ class $AssetsIconsGen {
   /// File path: assets/icons/arrow_down.svg
   SvgGenImage get arrowDown => const SvgGenImage('assets/icons/arrow_down.svg');
 
+  /// File path: assets/icons/arrow_left.svg
+  SvgGenImage get arrowLeft => const SvgGenImage('assets/icons/arrow_left.svg');
+
+  /// File path: assets/icons/arrow_right.svg
+  SvgGenImage get arrowRight =>
+      const SvgGenImage('assets/icons/arrow_right.svg');
+
   /// File path: assets/icons/arrow_right_wide.svg
   SvgGenImage get arrowRightWide =>
       const SvgGenImage('assets/icons/arrow_right_wide.svg');
@@ -116,6 +123,8 @@ class $AssetsIconsGen {
     apple,
     arrowBack,
     arrowDown,
+    arrowLeft,
+    arrowRight,
     arrowRightWide,
     arrowTopRight,
     arrowUp,

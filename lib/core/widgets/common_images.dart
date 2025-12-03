@@ -99,6 +99,7 @@ class CommonNetworkImage extends StatelessWidget {
           height: height,
           width: width,
           fit: fit ?? BoxFit.cover,
+          filterQuality: FilterQuality.high,
           placeholder: placeholderWidget != null
               ? (context, url) => placeholderWidget!
               : null,

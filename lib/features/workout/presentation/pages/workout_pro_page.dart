@@ -58,12 +58,6 @@ class _WorkoutProPageState extends State<WorkoutProPage> {
                             color: AppColors.white,
                           ),
                         ),
-                        Text(
-                          AppConstants.fullControl,
-                          style: AppTextStyles.h5.copyWith(
-                            color: AppColors.white,
-                          ),
-                        ),
                       ],
                     ),
                   ),

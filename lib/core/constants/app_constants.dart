@@ -58,6 +58,7 @@ class AppConstants {
   static const repsOnly = 'Reps only';
   static const reps = 'Reps';
   static const sets = 'Sets';
+  static const set = 'Set';
   static const mins = 'Mins';
   static const secs = 'Secs';
   static const kg = 'Kg';
@@ -97,6 +98,16 @@ class AppConstants {
   static const readyToStartDescription =
       'Make sure you\'re prepared and have everything you need';
   static const letsGo = 'Let\'s go!';
+  static const next = 'Next';
+  static const previous = 'Previous';
+  static const finishWorkout = 'Finish workout';
+  static const finishWorkoutMessage =
+      'Finish your workout? Your progress will be saved.';
+  static const exitWorkout = 'Exit workout';
+  static const exitWorkoutMessage =
+      'Are you sure you want to exit this workout? Your progress will not be saved.';
+  static const restTime = 'Rest time';
+  static const skipRest = 'Skip rest';
 }
 
 class _Supabase {
