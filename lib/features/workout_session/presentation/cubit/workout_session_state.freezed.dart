@@ -23,6 +23,7 @@ mixin _$WorkoutSessionState {
       throw _privateConstructorUsedError; // {exerciseId: currSetIdx}
   Duration get totalTime => throw _privateConstructorUsedError;
   Duration get restSetsRemain => throw _privateConstructorUsedError;
+  Duration get restExercisesRemain => throw _privateConstructorUsedError;
 
   /// Create a copy of WorkoutSessionState
   /// with the given fields replaced by the non-null parameter values.
@@ -44,6 +45,7 @@ abstract class $WorkoutSessionStateCopyWith<$Res> {
     Map<String, int> setIndexTracker,
     Duration totalTime,
     Duration restSetsRemain,
+    Duration restExercisesRemain,
   });
 
   $WorkoutCopyWith<$Res> get workout;
@@ -69,6 +71,7 @@ class _$WorkoutSessionStateCopyWithImpl<$Res, $Val extends WorkoutSessionState>
     Object? setIndexTracker = null,
     Object? totalTime = null,
     Object? restSetsRemain = null,
+    Object? restExercisesRemain = null,
   }) {
     return _then(
       _value.copyWith(
@@ -91,6 +94,10 @@ class _$WorkoutSessionStateCopyWithImpl<$Res, $Val extends WorkoutSessionState>
             restSetsRemain: null == restSetsRemain
                 ? _value.restSetsRemain
                 : restSetsRemain // ignore: cast_nullable_to_non_nullable
+                      as Duration,
+            restExercisesRemain: null == restExercisesRemain
+                ? _value.restExercisesRemain
+                : restExercisesRemain // ignore: cast_nullable_to_non_nullable
                       as Duration,
           )
           as $Val,
@@ -123,6 +130,7 @@ abstract class _$$WorkoutSessionStateImplCopyWith<$Res>
     Map<String, int> setIndexTracker,
     Duration totalTime,
     Duration restSetsRemain,
+    Duration restExercisesRemain,
   });
 
   @override
@@ -148,6 +156,7 @@ class __$$WorkoutSessionStateImplCopyWithImpl<$Res>
     Object? setIndexTracker = null,
     Object? totalTime = null,
     Object? restSetsRemain = null,
+    Object? restExercisesRemain = null,
   }) {
     return _then(
       _$WorkoutSessionStateImpl(
@@ -171,6 +180,10 @@ class __$$WorkoutSessionStateImplCopyWithImpl<$Res>
             ? _value.restSetsRemain
             : restSetsRemain // ignore: cast_nullable_to_non_nullable
                   as Duration,
+        restExercisesRemain: null == restExercisesRemain
+            ? _value.restExercisesRemain
+            : restExercisesRemain // ignore: cast_nullable_to_non_nullable
+                  as Duration,
       ),
     );
   }
@@ -185,6 +198,7 @@ class _$WorkoutSessionStateImpl implements _WorkoutSessionState {
     final Map<String, int> setIndexTracker = const {},
     this.totalTime = Duration.zero,
     this.restSetsRemain = Duration.zero,
+    this.restExercisesRemain = Duration.zero,
   }) : _setIndexTracker = setIndexTracker;
 
   @override
@@ -209,10 +223,13 @@ class _$WorkoutSessionStateImpl implements _WorkoutSessionState {
   @override
   @JsonKey()
   final Duration restSetsRemain;
+  @override
+  @JsonKey()
+  final Duration restExercisesRemain;
 
   @override
   String toString() {
-    return 'WorkoutSessionState(workout: $workout, currentExerciseIndex: $currentExerciseIndex, setIndexTracker: $setIndexTracker, totalTime: $totalTime, restSetsRemain: $restSetsRemain)';
+    return 'WorkoutSessionState(workout: $workout, currentExerciseIndex: $currentExerciseIndex, setIndexTracker: $setIndexTracker, totalTime: $totalTime, restSetsRemain: $restSetsRemain, restExercisesRemain: $restExercisesRemain)';
   }
 
   @override
@@ -230,7 +247,9 @@ class _$WorkoutSessionStateImpl implements _WorkoutSessionState {
             (identical(other.totalTime, totalTime) ||
                 other.totalTime == totalTime) &&
             (identical(other.restSetsRemain, restSetsRemain) ||
-                other.restSetsRemain == restSetsRemain));
+                other.restSetsRemain == restSetsRemain) &&
+            (identical(other.restExercisesRemain, restExercisesRemain) ||
+                other.restExercisesRemain == restExercisesRemain));
   }
 
   @override
@@ -241,6 +260,7 @@ class _$WorkoutSessionStateImpl implements _WorkoutSessionState {
     const DeepCollectionEquality().hash(_setIndexTracker),
     totalTime,
     restSetsRemain,
+    restExercisesRemain,
   );
 
   /// Create a copy of WorkoutSessionState
@@ -262,6 +282,7 @@ abstract class _WorkoutSessionState implements WorkoutSessionState {
     final Map<String, int> setIndexTracker,
     final Duration totalTime,
     final Duration restSetsRemain,
+    final Duration restExercisesRemain,
   }) = _$WorkoutSessionStateImpl;
 
   @override
@@ -274,6 +295,8 @@ abstract class _WorkoutSessionState implements WorkoutSessionState {
   Duration get totalTime;
   @override
   Duration get restSetsRemain;
+  @override
+  Duration get restExercisesRemain;
 
   /// Create a copy of WorkoutSessionState
   /// with the given fields replaced by the non-null parameter values.

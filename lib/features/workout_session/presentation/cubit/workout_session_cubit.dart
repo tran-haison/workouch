@@ -11,6 +11,7 @@ class WorkoutSessionCubit extends Cubit<WorkoutSessionState> {
 
   Timer? totalTimer;
   Timer? restSetsTimer;
+  Timer? restExercisesTimer;
 
   void initWorkout(Workout workout) {
     // Initialize setIndexTracker for all exercises
@@ -102,10 +103,46 @@ class WorkoutSessionCubit extends Cubit<WorkoutSessionState> {
     }
   }
 
+  void startRestExercisesTimer(Duration restTime) {
+    stopRestExercisesTimer(); // Stop any existing rest timer
+    emit(state.copyWith(restExercisesRemain: restTime));
+
+    const oneSec = Duration(seconds: 1);
+    restExercisesTimer = Timer.periodic(oneSec, (_) {
+      final remaining = state.restExercisesRemain - oneSec;
+      if (remaining <= Duration.zero) {
+        stopRestExercisesTimer();
+      } else {
+        emit(state.copyWith(restExercisesRemain: remaining));
+      }
+    });
+  }
+
+  void stopRestExercisesTimer() {
+    restExercisesTimer?.cancel();
+    restExercisesTimer = null;
+    emit(state.copyWith(restExercisesRemain: Duration.zero));
+  }
+
+  void increaseRestExercises(int seconds) {
+    final newRestTime = state.restExercisesRemain + Duration(seconds: seconds);
+    emit(state.copyWith(restExercisesRemain: newRestTime));
+  }
+
+  void decreaseRestExercises(int seconds) {
+    final newRestTime = state.restExercisesRemain - Duration(seconds: seconds);
+    if (newRestTime > Duration.zero) {
+      emit(state.copyWith(restExercisesRemain: newRestTime));
+    } else {
+      emit(state.copyWith(restExercisesRemain: Duration.zero));
+    }
+  }
+
   @override
   Future<void> close() {
     stopTotalTimer();
     stopRestSetsTimer();
+    stopRestExercisesTimer();
     return super.close();
   }
 }

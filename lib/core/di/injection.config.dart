@@ -40,11 +40,11 @@ Future<_i174.GetIt> $initGetIt(
     () => injectionModule.sharedPreferences,
     preResolve: true,
   );
-  gh.lazySingleton<_i738.SupabaseAuthService>(
-    () => _i738.SupabaseAuthService(),
-  );
   gh.lazySingleton<_i275.SupabaseWorkoutService>(
     () => _i275.SupabaseWorkoutService(),
+  );
+  gh.lazySingleton<_i738.SupabaseAuthService>(
+    () => _i738.SupabaseAuthService(),
   );
   gh.lazySingleton<_i361.Dio>(
     () => injectionModule.dioExerciseDb,

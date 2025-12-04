@@ -12,6 +12,7 @@ class WorkoutSessionState with _$WorkoutSessionState {
     @Default({}) Map<String, int> setIndexTracker, // {exerciseId: currSetIdx}
     @Default(Duration.zero) Duration totalTime,
     @Default(Duration.zero) Duration restSetsRemain,
+    @Default(Duration.zero) Duration restExercisesRemain,
   }) = _WorkoutSessionState;
 }
 
@@ -40,4 +41,6 @@ extension WorkoutSessionStateExt on WorkoutSessionState {
   bool get hasRestSets => currentExercise.restTimeBetweenSets > Duration.zero;
 
   bool get isRestSetsActive => restSetsRemain > Duration.zero;
+
+  bool get isRestExercisesActive => restExercisesRemain > Duration.zero;
 }

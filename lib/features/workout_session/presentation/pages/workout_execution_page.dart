@@ -6,6 +6,7 @@ import 'package:workouch/core/widgets/common_pop_up_dialog.dart';
 import 'package:workouch/features/workout_session/presentation/widgets/workout_total_timer.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_button.dart';
@@ -162,7 +163,17 @@ class WorkoutExecutionPage extends StatelessWidget {
   }
 
   void _nextExercise(BuildContext context) {
-    context.read<WorkoutSessionCubit>().goNextExercise();
+    final cubit = context.read<WorkoutSessionCubit>();
+    final state = cubit.state;
+
+    // Check if there's a next exercise and rest is configured
+    if (state.hasNextExercise && state.hasRestBetweenExercises) {
+      // Navigate to rest page before advancing to next exercise
+      context.pushNamed(AppRoute.workoutRest.name);
+    } else {
+      // No rest needed, advance directly
+      cubit.goNextExercise();
+    }
   }
 
   Future<void> _exitWorkout(BuildContext context) async {
