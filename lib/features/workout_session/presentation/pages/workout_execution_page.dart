@@ -118,32 +118,37 @@ class WorkoutExecutionPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                Padding(
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.grayBlue,
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
                   padding: EdgeInsets.symmetric(
-                    horizontal: 20.w,
+                    horizontal: 16.w,
                     vertical: 10.h,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       CommonIconButton(
                         icon: Assets.icons.arrowLeft,
                         iconColor: AppColors.white,
                         backgroundColor: state.isFirstExercise
                             ? AppColors.mediumGray
-                            : AppColors.darkBlack,
+                            : AppColors.black,
                         radius: 16.r,
                         onTap: () => _prevExercise(context),
                       ),
-                      Gaps.hGap4,
+                      Gaps.hGap12,
                       Flexible(child: WorkoutTotalTimer()),
-                      Gaps.hGap4,
+                      Gaps.hGap12,
                       CommonIconButton(
                         icon: Assets.icons.arrowRight,
                         iconColor: AppColors.white,
                         backgroundColor: state.isLastExercise
                             ? AppColors.mediumGray
-                            : AppColors.darkBlack,
+                            : AppColors.black,
                         radius: 16.r,
                         onTap: () => _nextExercise(context),
                       ),
@@ -167,12 +172,14 @@ class WorkoutExecutionPage extends StatelessWidget {
     final state = cubit.state;
 
     // Check if there's a next exercise and rest is configured
-    if (state.hasNextExercise && state.hasRestBetweenExercises) {
-      // Navigate to rest page before advancing to next exercise
-      context.pushNamed(AppRoute.workoutRest.name);
-    } else {
-      // No rest needed, advance directly
-      cubit.goNextExercise();
+    if (state.hasNextExercise) {
+      if (state.hasRestBetweenExercises) {
+        // Navigate to rest page before advancing to next exercise
+        context.pushNamed(AppRoute.workoutRest.name);
+      } else {
+        // No rest needed, advance directly
+        cubit.goNextExercise();
+      }
     }
   }
 

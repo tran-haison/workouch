@@ -57,6 +57,7 @@ class WorkoutSessionCubit extends Cubit<WorkoutSessionState> {
   }
 
   void startTotalTimer() {
+    stopTotalTimer();
     const oneSec = Duration(seconds: 1);
     totalTimer = Timer.periodic(oneSec, (_) {
       emit(state.copyWith(totalTime: state.totalTime + oneSec));

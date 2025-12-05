@@ -16,21 +16,29 @@ class WorkoutTotalTimer extends StatelessWidget {
     // Calculate largest possible text size
     const largestText = '88:88:88';
     final trueTextStyle = AppTextStyles.h4.copyWith(color: AppColors.white);
-    final truePadding = EdgeInsets.symmetric(vertical: 16.h, horizontal: 20.w);
+    final truePadding = EdgeInsets.symmetric(vertical: 14.h, horizontal: 20.w);
     final textSize = calculateTextSize(text: largestText, style: trueTextStyle);
 
     return BlocBuilder<WorkoutSessionCubit, WorkoutSessionState>(
       buildWhen: (prev, curr) => prev.totalTime != curr.totalTime,
       builder: (context, state) {
         return Container(
-          width: textSize.width + truePadding.horizontal,
-          padding: EdgeInsets.symmetric(vertical: truePadding.vertical / 2),
+          padding: EdgeInsets.all(1.r),
           decoration: BoxDecoration(
-            color: AppColors.primaryDark,
+            color: AppColors.primary.withValues(alpha: 0.6),
             borderRadius: BorderRadius.circular(16.r),
+            border: Border.all(color: AppColors.primary, width: 2.r),
           ),
-          child: Center(
-            child: Text(state.totalTime.hhmmss, style: trueTextStyle),
+          child: Container(
+            width: textSize.width + truePadding.horizontal,
+            padding: EdgeInsets.symmetric(vertical: truePadding.vertical / 2),
+            decoration: BoxDecoration(
+              color: AppColors.primaryDark,
+              borderRadius: BorderRadius.circular(14.r),
+            ),
+            child: Center(
+              child: Text(state.totalTime.hhmmss, style: trueTextStyle),
+            ),
           ),
         );
       },
