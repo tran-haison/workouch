@@ -40,11 +40,9 @@ class _WorkoutRestPageState extends State<WorkoutRestPage> {
       listener: (context, state) {
         // Navigate back to execution page when rest timer completes automatically
         if (!state.isRestExercisesActive) {
-          // Only navigate if we're still on this page
           if (mounted && context.canPop()) {
-            // Advance to next exercise if available
-            final cubit = context.read<WorkoutSessionCubit>();
-            cubit.goNextExercise();
+            // Update the state to the next exercise first
+            context.read<WorkoutSessionCubit>().goNextExercise();
 
             // Small delay to ensure state update is processed
             Future.delayed(const Duration(milliseconds: 100), () {
@@ -229,11 +227,9 @@ class _WorkoutRestPageState extends State<WorkoutRestPage> {
   }
 
   void _skipToNextExercise(BuildContext context) {
-    final cubit = context.read<WorkoutSessionCubit>();
-    final state = cubit.state;
-    if (state.hasNextExercise) {
-      cubit.stopRestExercisesTimer();
-    }
+    // Stop the timer
+    // Bloc listener will handle the navigation to the next exercise and then exit the page
+    context.read<WorkoutSessionCubit>().stopRestExercisesTimer();
   }
 
   Future<void> _exitWorkout(BuildContext context) async {

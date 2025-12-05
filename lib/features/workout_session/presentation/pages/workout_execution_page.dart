@@ -23,7 +23,23 @@ class WorkoutExecutionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WorkoutSessionCubit, WorkoutSessionState>(
+    return BlocConsumer<WorkoutSessionCubit, WorkoutSessionState>(
+      listenWhen: (prev, current) =>
+          prev.currentSetIndex != current.currentSetIndex,
+      listener: (context, state) {
+        // Handle next set of current exercise
+        if (!state.allSetsCompleted) {
+          // Start rest timer if rest time is configured
+          if (state.hasRestSets) {
+            context.read<WorkoutSessionCubit>().startRestSetsTimer(
+              state.currentExercise.restTimeBetweenSets,
+            );
+          }
+          return;
+        }
+
+        _nextExercise(context, state);
+      },
       builder: (context, state) {
         final currentExercise = state.currentExercise;
 
@@ -150,7 +166,7 @@ class WorkoutExecutionPage extends StatelessWidget {
                             ? AppColors.mediumGray
                             : AppColors.black,
                         radius: 16.r,
-                        onTap: () => _nextExercise(context),
+                        onTap: () => _nextExercise(context, state),
                       ),
                     ],
                   ),
@@ -167,18 +183,14 @@ class WorkoutExecutionPage extends StatelessWidget {
     context.read<WorkoutSessionCubit>().goPrevExercise();
   }
 
-  void _nextExercise(BuildContext context) {
-    final cubit = context.read<WorkoutSessionCubit>();
-    final state = cubit.state;
-
-    // Check if there's a next exercise and rest is configured
+  void _nextExercise(BuildContext context, WorkoutSessionState state) {
     if (state.hasNextExercise) {
-      if (state.hasRestBetweenExercises) {
+      if (state.hasRestExercises) {
         // Navigate to rest page before advancing to next exercise
         context.pushNamed(AppRoute.workoutRest.name);
       } else {
         // No rest needed, advance directly
-        cubit.goNextExercise();
+        context.read<WorkoutSessionCubit>().goNextExercise();
       }
     }
   }

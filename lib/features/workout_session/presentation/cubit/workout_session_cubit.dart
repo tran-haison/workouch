@@ -43,21 +43,12 @@ class WorkoutSessionCubit extends Cubit<WorkoutSessionState> {
     final newTracker = Map<String, int>.from(state.setIndexTracker);
     newTracker[state.currentExercise.exerciseId] = state.currentSetIndex + 1;
     emit(state.copyWith(setIndexTracker: newTracker));
-
-    // Check if there are more sets in the current exercise
-    if (!state.allSetsCompleted) {
-      // Start rest timer if rest time is configured
-      if (state.hasRestSets) {
-        startRestSetsTimer(state.currentExercise.restTimeBetweenSets);
-      }
-    } else {
-      // All sets completed, move to next exercise
-      goNextExercise();
-    }
   }
 
   void startTotalTimer() {
     stopTotalTimer();
+    emit(state.copyWith(totalTime: Duration.zero));
+
     const oneSec = Duration(seconds: 1);
     totalTimer = Timer.periodic(oneSec, (_) {
       emit(state.copyWith(totalTime: state.totalTime + oneSec));
@@ -67,6 +58,7 @@ class WorkoutSessionCubit extends Cubit<WorkoutSessionState> {
   void stopTotalTimer() {
     totalTimer?.cancel();
     totalTimer = null;
+    emit(state.copyWith(totalTime: Duration.zero));
   }
 
   void startRestSetsTimer(Duration restTime) {

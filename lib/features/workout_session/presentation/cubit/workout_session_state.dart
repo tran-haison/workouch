@@ -35,8 +35,7 @@ extension WorkoutSessionStateExt on WorkoutSessionState {
 
   bool get hasPrevExercise => currentExerciseIndex > 0;
 
-  bool get hasRestBetweenExercises =>
-      workout.restTimeBetweenExercises > Duration.zero;
+  bool get hasRestExercises => workout.restTimeBetweenExercises > Duration.zero;
 
   bool get hasRestSets => currentExercise.restTimeBetweenSets > Duration.zero;
 
