@@ -200,6 +200,7 @@ class _SummaryCard extends StatelessWidget {
                     fontSize: 24.sp,
                     color: textColor,
                   ),
+                  textAlign: TextAlign.end,
                 ),
               ),
             ],

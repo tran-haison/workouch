@@ -63,6 +63,7 @@ class _WorkoutCardItemState extends State<WorkoutCardItem>
           decoration: BoxDecoration(
             color: AppColors.white,
             borderRadius: BorderRadius.circular(20.r),
+            border: Border.all(color: AppColors.grayBlue),
             boxShadow: [
               BoxShadow(
                 color: AppColors.grayBlue,
