@@ -26,8 +26,16 @@ class NextExerciseCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
-        color: AppColors.darkBlack,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(20.r),
+        border: Border.all(color: AppColors.grayBlue),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.grayBlue,
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         children: [
@@ -37,6 +45,7 @@ class NextExerciseCard extends StatelessWidget {
             height: 60.r,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12.r),
+              border: Border.all(color: AppColors.grayBlue),
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12.r),
@@ -59,17 +68,14 @@ class NextExerciseCard extends StatelessWidget {
                 ),
                 Text(
                   exercise.name,
-                  style: AppTextStyles.h4.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.white,
-                  ),
+                  style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
                 ),
               ],
             ),
           ),
           Gaps.hGap12,
           CommonIconButton(
-            backgroundColor: AppColors.secondary,
+            backgroundColor: AppColors.grayBlue,
             icon: Assets.icons.arrowRightWide,
             iconColor: AppColors.black,
             onTap: onSkip,

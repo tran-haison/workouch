@@ -121,7 +121,9 @@ class WorkoutDetailsPage extends StatelessWidget {
                                 Gaps.hGap10,
                                 Text(
                                   workout.restTimeBetweenExercises.mmss,
-                                  style: AppTextStyles.h5,
+                                  style: AppTextStyles.h4.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ],
                             ),

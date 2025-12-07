@@ -58,7 +58,6 @@ class WorkoutSessionCubit extends Cubit<WorkoutSessionState> {
   void stopTotalTimer() {
     totalTimer?.cancel();
     totalTimer = null;
-    emit(state.copyWith(totalTime: Duration.zero));
   }
 
   void startRestSetsTimer(Duration restTime) {
@@ -105,6 +104,7 @@ class WorkoutSessionCubit extends Cubit<WorkoutSessionState> {
       final remaining = state.restExercisesRemain - oneSec;
       if (remaining <= Duration.zero) {
         stopRestExercisesTimer();
+        emit(state.copyWith(restExercisesRemain: Duration.zero));
       } else {
         emit(state.copyWith(restExercisesRemain: remaining));
       }
@@ -114,7 +114,6 @@ class WorkoutSessionCubit extends Cubit<WorkoutSessionState> {
   void stopRestExercisesTimer() {
     restExercisesTimer?.cancel();
     restExercisesTimer = null;
-    emit(state.copyWith(restExercisesRemain: Duration.zero));
   }
 
   void increaseRestExercises(int seconds) {
@@ -131,11 +130,15 @@ class WorkoutSessionCubit extends Cubit<WorkoutSessionState> {
     }
   }
 
-  @override
-  Future<void> close() {
+  void stopAllTimers() {
     stopTotalTimer();
     stopRestSetsTimer();
     stopRestExercisesTimer();
+  }
+
+  @override
+  Future<void> close() {
+    stopAllTimers();
     return super.close();
   }
 }

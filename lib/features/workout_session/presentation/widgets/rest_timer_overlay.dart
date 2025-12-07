@@ -152,7 +152,7 @@ class _RestTimerOverlayState extends State<RestTimerOverlay>
             Container(
               decoration: BoxDecoration(
                 color: AppColors.black.withValues(alpha: 0.5),
-                borderRadius: BorderRadius.circular(30.r),
+                borderRadius: BorderRadius.circular(20.r),
               ),
               child: Center(
                 child: Container(

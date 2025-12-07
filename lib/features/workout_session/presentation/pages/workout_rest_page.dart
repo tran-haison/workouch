@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workouch/core/extension/duration_extension.dart';
-import 'package:workouch/core/widgets/common_pop_up_dialog.dart';
-import 'package:workouch/features/workout_session/presentation/widgets/workout_total_timer.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -15,6 +13,7 @@ import '../../../../gen/assets.gen.dart';
 import '../cubit/workout_session_cubit.dart';
 import '../cubit/workout_session_state.dart';
 import '../widgets/next_exercise_card.dart';
+import '../dialogs/workout_finish_dialogs.dart';
 
 class WorkoutRestPage extends StatefulWidget {
   const WorkoutRestPage({super.key});
@@ -41,13 +40,7 @@ class _WorkoutRestPageState extends State<WorkoutRestPage> {
         // Navigate back to execution page when rest timer completes automatically
         if (!state.isRestExercisesActive) {
           if (mounted && context.canPop()) {
-            // Update the state to the next exercise first
-            context.read<WorkoutSessionCubit>().goNextExercise();
-
-            // Small delay to ensure state update is processed
-            Future.delayed(const Duration(milliseconds: 100), () {
-              context.pop();
-            });
+            _nextExercise(context);
           }
         }
       },
@@ -78,7 +71,14 @@ class _WorkoutRestPageState extends State<WorkoutRestPage> {
                         Expanded(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [WorkoutTotalTimer()],
+                            children: [
+                              Text(
+                                state.totalTime.hhmmss,
+                                style: AppTextStyles.h4.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         Gaps.hGap12,
@@ -120,7 +120,7 @@ class _WorkoutRestPageState extends State<WorkoutRestPage> {
                                       child: Container(
                                         width: 250.r,
                                         height: 250.r,
-                                        padding: EdgeInsets.all(4.r),
+                                        padding: EdgeInsets.all(3.r),
                                         decoration: BoxDecoration(
                                           color: AppColors.white,
                                           shape: BoxShape.circle,
@@ -143,11 +143,10 @@ class _WorkoutRestPageState extends State<WorkoutRestPage> {
                                           ),
                                           builder: (context, value, _) {
                                             return CircularProgressIndicator(
-                                              strokeWidth: 8.r,
-                                              backgroundColor: AppColors
-                                                  .secondary
-                                                  .withValues(alpha: 0.3),
-                                              color: AppColors.black,
+                                              strokeWidth: 6.r,
+                                              backgroundColor: AppColors.primary
+                                                  .withValues(alpha: 0.2),
+                                              color: AppColors.darkBlack,
                                               value: value,
                                             );
                                           },
@@ -164,7 +163,7 @@ class _WorkoutRestPageState extends State<WorkoutRestPage> {
                                   state.restExercisesRemain.mmss,
                                   style: AppTextStyles.orbitron.copyWith(
                                     fontSize: 40.sp,
-                                    color: AppColors.text,
+                                    color: AppColors.darkBlack,
                                   ),
                                   textAlign: TextAlign.center,
                                   maxLines: 1,
@@ -178,11 +177,10 @@ class _WorkoutRestPageState extends State<WorkoutRestPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CommonButton(
-                                text: '- 10s',
+                                text: AppConstants.minusTenSecs,
                                 backgroundColor: AppColors.grayBlue,
                                 textStyle: AppTextStyles.h4.copyWith(
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.text,
                                 ),
                                 isFullWidth: false,
                                 onPressed: () {
@@ -193,11 +191,10 @@ class _WorkoutRestPageState extends State<WorkoutRestPage> {
                               ),
                               Gaps.hGap16,
                               CommonButton(
-                                text: '+ 10s',
+                                text: AppConstants.plusTenSecs,
                                 backgroundColor: AppColors.grayBlue,
                                 textStyle: AppTextStyles.h4.copyWith(
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.text,
                                 ),
                                 isFullWidth: false,
                                 onPressed: () {
@@ -215,7 +212,7 @@ class _WorkoutRestPageState extends State<WorkoutRestPage> {
                   if (nextExercise != null)
                     NextExerciseCard(
                       exercise: nextExercise,
-                      onSkip: () => _skipToNextExercise(context),
+                      onSkip: () => _nextExercise(context),
                     ),
                 ],
               ),
@@ -226,31 +223,17 @@ class _WorkoutRestPageState extends State<WorkoutRestPage> {
     );
   }
 
-  void _skipToNextExercise(BuildContext context) {
-    // Stop the timer
-    // Bloc listener will handle the navigation to the next exercise and then exit the page
+  void _nextExercise(BuildContext context) {
     context.read<WorkoutSessionCubit>().stopRestExercisesTimer();
+    context.read<WorkoutSessionCubit>().goNextExercise();
+    context.pop();
   }
 
   Future<void> _exitWorkout(BuildContext context) async {
-    await showCommonPopUpDialog(
-      context,
-      title: AppConstants.exitWorkout,
-      message: AppConstants.exitWorkoutMessage,
-      onFirstButtonPressed: () {
-        context.pop();
-      },
-    );
+    await showWorkoutExitDialog(context);
   }
 
   Future<void> _finishWorkout(BuildContext context) async {
-    await showCommonPopUpDialog(
-      context,
-      title: AppConstants.finishWorkout,
-      message: AppConstants.finishWorkoutMessage,
-      onFirstButtonPressed: () {
-        // TODO: Implement finish workout logic
-      },
-    );
+    await showWorkoutFinishDialog(context);
   }
 }

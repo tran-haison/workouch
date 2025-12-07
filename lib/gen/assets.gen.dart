@@ -80,6 +80,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/google.svg
   SvgGenImage get google => const SvgGenImage('assets/icons/google.svg');
 
+  /// File path: assets/icons/info.svg
+  SvgGenImage get info => const SvgGenImage('assets/icons/info.svg');
+
   /// File path: assets/icons/line_weight.svg
   SvgGenImage get lineWeight =>
       const SvgGenImage('assets/icons/line_weight.svg');
@@ -139,6 +142,7 @@ class $AssetsIconsGen {
     filter,
     fire,
     google,
+    info,
     lineWeight,
     loading,
     namespace,

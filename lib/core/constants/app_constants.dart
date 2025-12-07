@@ -108,6 +108,16 @@ class AppConstants {
       'Are you sure you want to exit this workout? Your progress will not be saved.';
   static const restTime = 'Rest time';
   static const skipRest = 'Skip rest';
+  static const youHaveCompleted = 'You have completed';
+  static const backToHome = 'Back to Home';
+  static const duration = 'Duration';
+  static const plusTenSecs = '+ 10s';
+  static const minusTenSecs = '- 10s';
+  static const description = 'Description';
+  static const targetMuscles = 'Target Muscles';
+  static const secondaryMuscles = 'Secondary Muscles';
+  static const bodyParts = 'Body Parts';
+  static const instructions = 'Instructions';
 }
 
 class _Supabase {

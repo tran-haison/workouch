@@ -42,4 +42,16 @@ extension WorkoutSessionStateExt on WorkoutSessionState {
   bool get isRestSetsActive => restSetsRemain > Duration.zero;
 
   bool get isRestExercisesActive => restExercisesRemain > Duration.zero;
+
+  int get totalExercisesCompleted => workout.exercises
+      .where((exercise) => (setIndexTracker[exercise.exerciseId] ?? 0) > 0)
+      .length;
+
+  int get totalSetsCompleted {
+    int sets = 0;
+    setIndexTracker.forEach((_, count) {
+      sets += count;
+    });
+    return sets;
+  }
 }
