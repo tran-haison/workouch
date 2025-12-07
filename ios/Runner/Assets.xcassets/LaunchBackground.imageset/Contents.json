@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "LaunchImage1x.png",
+      "filename" : "LaunchBackground-1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "LaunchImage2x.png",
+      "filename" : "LaunchBackground-2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "LaunchImage3x.png",
+      "filename" : "LaunchBackground-2x 1.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
