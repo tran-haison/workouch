@@ -35,11 +35,16 @@ class HomePage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
                     child: Column(
                       children: [
-                        CommonNetworkImage(
-                          url: state.currentUser?.avatarUrl ?? '',
-                          width: 60.r,
-                          height: 60.r,
-                          radius: 30.r,
+                        GestureDetector(
+                          onTap: () {
+                            context.pushNamed(AppRoute.profile.name);
+                          },
+                          child: CommonNetworkImage(
+                            url: state.currentUser?.avatarUrl ?? '',
+                            width: 60.r,
+                            height: 60.r,
+                            radius: 30.r,
+                          ),
                         ),
                         Gaps.vGap16,
                         Text(

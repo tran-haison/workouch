@@ -118,6 +118,14 @@ class AppConstants {
   static const secondaryMuscles = 'Secondary Muscles';
   static const bodyParts = 'Body Parts';
   static const instructions = 'Instructions';
+  static const profile = 'Profile';
+  static const personalInformation = 'Personal Information';
+  static const healthMetrics = 'Health Metrics';
+  static const age = 'Age';
+  static const years = 'years';
+  static const gender = 'Gender';
+  static const height = 'Height';
+  static const signOut = 'Sign Out';
 }
 
 class _Supabase {

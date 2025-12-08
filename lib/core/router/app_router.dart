@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/home/presentation/pages/home_page.dart';
+import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/workout/presentation/pages/workout_creation_page.dart';
 import '../../features/workout/presentation/pages/workout_pro_page.dart';
 import '../../features/workout/presentation/pages/exercises_page.dart';
@@ -18,6 +19,7 @@ import '../../features/workout_session/presentation/widgets/workout_session_scop
 enum AppRoute {
   signIn,
   home,
+  profile,
   workoutPro,
   workoutCreation,
   workoutDetails,
@@ -65,6 +67,16 @@ final appRouter = GoRouter(
       path: '/',
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: HomePage()),
+    ),
+    GoRoute(
+      name: AppRoute.profile.name,
+      path: '/profile',
+      pageBuilder: (context, state) => _buildSlidePage(
+        const ProfilePage(),
+        key: state.pageKey,
+        name: state.name,
+        arguments: state.extra,
+      ),
     ),
     // Parent route that provides WorkoutCubit to all child routes
     ShellRoute(
