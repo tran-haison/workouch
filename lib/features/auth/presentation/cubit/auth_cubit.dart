@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repo.dart';
 import 'auth_state.dart';
 
@@ -84,6 +85,39 @@ class AuthCubit extends Cubit<AuthState> {
       (success) async {
         if (success) {
           // Get current user after successful sign in
+          await _getCurrentUser();
+        } else {
+          emit(state.copyWith(status: AuthStateStatus.error));
+        }
+      },
+    );
+  }
+
+  /// Update user profile
+  Future<void> updateUserProfile({
+    int? age,
+    Gender? gender,
+    double? height,
+    double? weight,
+  }) async {
+    if (state.currentUser == null) return;
+
+    emit(state.copyWith(status: AuthStateStatus.loading, error: null));
+
+    final user = state.currentUser!.copyWith(
+      age: age ?? state.currentUser!.age,
+      gender: gender ?? state.currentUser!.gender,
+      height: height ?? state.currentUser!.height,
+      weight: weight ?? state.currentUser!.weight,
+    );
+    final res = await _authRepo.updateUserProfile(user);
+
+    res.fold(
+      (error) =>
+          emit(state.copyWith(status: AuthStateStatus.error, error: error)),
+      (success) async {
+        if (success) {
+          // Refresh user data after successful update
           await _getCurrentUser();
         } else {
           emit(state.copyWith(status: AuthStateStatus.error));

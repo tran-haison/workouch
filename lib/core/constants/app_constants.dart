@@ -62,6 +62,7 @@ class AppConstants {
   static const mins = 'Mins';
   static const secs = 'Secs';
   static const kg = 'Kg';
+  static const cm = 'Cm';
   static const km = 'Km';
   static const meters = 'Meters';
   static const newSet = 'New set';
@@ -126,6 +127,20 @@ class AppConstants {
   static const gender = 'Gender';
   static const height = 'Height';
   static const signOut = 'Sign Out';
+  static const updateProfileSuccess = 'Profile updated successfully';
+  static const updateProfileError = 'Failed to update profile';
+  static const pleaseEnterYourAge = 'Please enter your age';
+  static const pleaseEnterAValidAge = 'Please enter a valid age';
+  static const pleaseEnterYourHeight = 'Please enter your height';
+  static const pleaseEnterAValidHeight = 'Please enter a valid height';
+  static const pleaseEnterYourWeight = 'Please enter your weight';
+  static const pleaseEnterAValidWeight = 'Please enter a valid weight';
+  static const enterYourAge = 'Enter your age';
+  static const enterYourHeight = 'Enter your height';
+  static const enterYourWeight = 'Enter your weight';
+  static const male = 'Male';
+  static const female = 'Female';
+  static const updateProfile = 'Update profile';
 }
 
 class _Supabase {

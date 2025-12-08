@@ -167,6 +167,29 @@ class SupabaseAuthService {
     }
   }
 
+  /// Update user profile
+  Future<bool> updateUserProfile(app_user.User user) async {
+    final dto = UserDto.fromEntity(user);
+    final data = {
+      'age': dto.age,
+      'gender': dto.gender,
+      'height': dto.height,
+      'weight': dto.weight,
+    };
+
+    try {
+      await _supabase
+          .from(AppConstants.supabase.tableUsers)
+          .update(data)
+          .eq('id', user.id);
+
+      return true;
+    } catch (e) {
+      Log.e('Error updating user profile: $e');
+      return false;
+    }
+  }
+
   // Sign out
   Future<void> signOut() async {
     try {

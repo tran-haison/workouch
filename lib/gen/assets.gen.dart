@@ -71,14 +71,26 @@ class $AssetsIconsGen {
   /// File path: assets/icons/error.svg
   SvgGenImage get error => const SvgGenImage('assets/icons/error.svg');
 
+  /// File path: assets/icons/female.svg
+  SvgGenImage get female => const SvgGenImage('assets/icons/female.svg');
+
   /// File path: assets/icons/filter.svg
   SvgGenImage get filter => const SvgGenImage('assets/icons/filter.svg');
 
   /// File path: assets/icons/fire.svg
   SvgGenImage get fire => const SvgGenImage('assets/icons/fire.svg');
 
+  /// File path: assets/icons/gender.svg
+  SvgGenImage get gender => const SvgGenImage('assets/icons/gender.svg');
+
   /// File path: assets/icons/google.svg
   SvgGenImage get google => const SvgGenImage('assets/icons/google.svg');
+
+  /// File path: assets/icons/heart.svg
+  SvgGenImage get heart => const SvgGenImage('assets/icons/heart.svg');
+
+  /// File path: assets/icons/height.svg
+  SvgGenImage get height => const SvgGenImage('assets/icons/height.svg');
 
   /// File path: assets/icons/info.svg
   SvgGenImage get info => const SvgGenImage('assets/icons/info.svg');
@@ -89,6 +101,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/loading.svg
   SvgGenImage get loading => const SvgGenImage('assets/icons/loading.svg');
+
+  /// File path: assets/icons/male.svg
+  SvgGenImage get male => const SvgGenImage('assets/icons/male.svg');
 
   /// File path: assets/icons/namespace.svg
   SvgGenImage get namespace => const SvgGenImage('assets/icons/namespace.svg');
@@ -107,6 +122,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/search.svg
   SvgGenImage get search => const SvgGenImage('assets/icons/search.svg');
+
+  /// File path: assets/icons/user.svg
+  SvgGenImage get user => const SvgGenImage('assets/icons/user.svg');
 
   /// File path: assets/icons/user_lay.svg
   SvgGenImage get userLay => const SvgGenImage('assets/icons/user_lay.svg');
@@ -139,18 +157,24 @@ class $AssetsIconsGen {
     dumbbell,
     edit,
     error,
+    female,
     filter,
     fire,
+    gender,
     google,
+    heart,
+    height,
     info,
     lineWeight,
     loading,
+    male,
     namespace,
     puregym,
     reorder,
     rest,
     rocket,
     search,
+    user,
     userLay,
     userWalk,
     weight,

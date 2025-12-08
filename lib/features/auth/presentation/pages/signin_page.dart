@@ -32,7 +32,7 @@ class SignInPage extends StatelessWidget {
         if (state.status == AuthStateStatus.authenticated &&
             state.currentUser != null) {
           showCommonToast(AppConstants.signInSuccess);
-          context.pushNamed(AppRoute.home.name);
+          context.pushReplacementNamed(AppRoute.home.name);
           return;
         }
 

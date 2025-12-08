@@ -15,6 +15,7 @@ import '../../../../gen/assets.gen.dart';
 import '../../../auth/domain/entities/user.dart';
 import '../../../auth/presentation/cubit/auth_cubit.dart';
 import '../../../auth/presentation/cubit/auth_state.dart';
+import '../dialogs/profile_update_dialog.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -38,7 +39,6 @@ class ProfilePage extends StatelessWidget {
           body: SafeArea(
             child: Column(
               children: [
-                // Header with back button
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 20.w,
@@ -52,14 +52,13 @@ class ProfilePage extends StatelessWidget {
                         iconColor: AppColors.black,
                         onTap: () => context.pop(),
                       ),
-                      Gaps.hGap12,
-                      Expanded(
-                        child: Text(
-                          AppConstants.profile,
-                          style: AppTextStyles.h2.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                      const Spacer(),
+                      CommonIconButton(
+                        backgroundColor: AppColors.grayBlue,
+                        icon: Assets.icons.edit,
+                        iconColor: AppColors.black,
+                        onTap: () =>
+                            showProfileUpdateDialog(context, user: user),
                       ),
                     ],
                   ),
@@ -69,10 +68,7 @@ class ProfilePage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
                     child: Column(
                       children: [
-                        // Avatar section
                         Container(
-                          width: 120.r,
-                          height: 120.r,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
@@ -83,21 +79,22 @@ class ProfilePage extends StatelessWidget {
                           child: ClipOval(
                             child: CommonNetworkImage(
                               url: user.avatarUrl,
-                              width: 120.r,
-                              height: 120.r,
-                              radius: 60.r,
+                              width: 80.r,
+                              height: 80.r,
+                              radius: 40.r,
+                              fit: BoxFit.contain,
                             ),
                           ),
                         ),
                         Gaps.vGap20,
                         Text(
                           user.fullName,
-                          style: AppTextStyles.h0.copyWith(
+                          style: AppTextStyles.h1.copyWith(
                             fontWeight: FontWeight.w700,
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        Gaps.vGap8,
+                        Gaps.vGap4,
                         Text(
                           user.email,
                           style: AppTextStyles.h4.copyWith(
@@ -105,51 +102,53 @@ class ProfilePage extends StatelessWidget {
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        Gaps.vGap40,
-                        // Personal Information Card
+                        Gaps.vGap30,
                         _ProfileSectionCard(
                           title: AppConstants.personalInformation,
                           children: [
                             _ProfileInfoRow(
                               label: AppConstants.age,
-                              value: '${user.age} ${AppConstants.years}',
-                              icon: Assets.icons.userLay,
+                              value: '${user.age}',
+                              icon: Assets.icons.user,
                             ),
                             Gaps.vGap16,
                             _ProfileInfoRow(
                               label: AppConstants.gender,
                               value: user.gender.name.toUpperCase(),
-                              icon: Assets.icons.userWalk,
+                              icon: user.gender == Gender.male
+                                  ? Assets.icons.male
+                                  : Assets.icons.female,
                             ),
                           ],
                         ),
                         Gaps.vGap20,
-                        // Health Metrics Card
                         _ProfileSectionCard(
                           title: AppConstants.healthMetrics,
                           children: [
                             _ProfileInfoRow(
                               label: AppConstants.height,
-                              value: '${user.height.toStringAsFixed(0)} cm',
-                              icon: Assets.icons.lineWeight,
+                              value:
+                                  '${user.height.toStringAsFixed(0)} ${AppConstants.cm.toLowerCase()}',
+                              icon: Assets.icons.height,
                             ),
                             Gaps.vGap16,
                             _ProfileInfoRow(
                               label: AppConstants.weight,
-                              value: '${user.weight.toStringAsFixed(1)} kg',
+                              value:
+                                  '${user.weight.toStringAsFixed(1)} ${AppConstants.kg.toLowerCase()}',
                               icon: Assets.icons.weight,
                             ),
                             Gaps.vGap16,
                             _ProfileInfoRow(
                               label: AppConstants.bmi,
                               value: user.bmi.toStringAsFixed(1),
-                              icon: Assets.icons.fire,
+                              icon: Assets.icons.heart,
                             ),
                             Gaps.vGap16,
                             _ProfileInfoRow(
                               label: AppConstants.calories,
                               value: '${user.calories.toStringAsFixed(0)} kcal',
-                              icon: Assets.icons.rocket,
+                              icon: Assets.icons.fire,
                             ),
                           ],
                         ),
@@ -196,6 +195,13 @@ class _ProfileSectionCard extends StatelessWidget {
         color: AppColors.white,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: AppColors.grayBlue, width: 1.r),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.grayBlue,
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -227,18 +233,23 @@ class _ProfileInfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          padding: EdgeInsets.all(8.r),
-          decoration: BoxDecoration(
-            color: AppColors.secondary,
-            borderRadius: BorderRadius.circular(12.r),
-          ),
-          child: CommonAssetIcon(
-            icon,
-            width: 20.r,
-            height: 20.r,
-            color: AppColors.black,
-          ),
+        BlocBuilder<AuthCubit, AuthState>(
+          builder: (context, state) {
+            final isMale = state.currentUser?.gender == Gender.male;
+            return Container(
+              padding: EdgeInsets.all(10.r),
+              decoration: BoxDecoration(
+                color: isMale ? AppColors.secondary : AppColors.primary,
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              child: CommonAssetIcon(
+                icon,
+                width: 20.r,
+                height: 20.r,
+                color: AppColors.black,
+              ),
+            );
+          },
         ),
         Gaps.hGap16,
         Expanded(
@@ -249,7 +260,6 @@ class _ProfileInfoRow extends StatelessWidget {
                 label,
                 style: AppTextStyles.h5.copyWith(color: AppColors.mediumGray),
               ),
-              Gaps.vGap4,
               Text(
                 value,
                 style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),

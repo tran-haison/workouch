@@ -16,6 +16,7 @@ abstract class AuthRepo {
     required String email,
     required String password,
   });
+  Future<Either<Error, bool>> updateUserProfile(User user);
   Future<Either<Error, void>> signOut();
 }
 
@@ -88,6 +89,24 @@ class AuthRepoImpl implements AuthRepo {
       }
       return Left(
         Error(message: AppConstants.signInError, errorType: ErrorType.other),
+      );
+    } catch (e) {
+      return Left(handleException(e));
+    }
+  }
+
+  @override
+  Future<Either<Error, bool>> updateUserProfile(User user) async {
+    try {
+      final success = await _authService.updateUserProfile(user);
+      if (success) {
+        return const Right(true);
+      }
+      return Left(
+        Error(
+          message: AppConstants.updateProfileError,
+          errorType: ErrorType.other,
+        ),
       );
     } catch (e) {
       return Left(handleException(e));
