@@ -175,6 +175,7 @@ class SupabaseAuthService {
       'gender': dto.gender,
       'height': dto.height,
       'weight': dto.weight,
+      'activity_level': dto.activityLevel,
     };
 
     try {

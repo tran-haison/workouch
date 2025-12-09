@@ -16,6 +16,7 @@ _$UserDtoImpl _$$UserDtoImplFromJson(Map<String, dynamic> json) =>
       age: (json['age'] as num).toInt(),
       height: (json['height'] as num).toDouble(),
       weight: (json['weight'] as num).toDouble(),
+      activityLevel: json['activity_level'] as String,
     );
 
 Map<String, dynamic> _$$UserDtoImplToJson(_$UserDtoImpl instance) =>
@@ -28,4 +29,5 @@ Map<String, dynamic> _$$UserDtoImplToJson(_$UserDtoImpl instance) =>
       'age': instance.age,
       'height': instance.height,
       'weight': instance.weight,
+      'activity_level': instance.activityLevel,
     };

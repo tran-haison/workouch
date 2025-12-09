@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../../../../core/utils/health_utils.dart';
 
 part 'user.freezed.dart';
 
@@ -19,6 +20,7 @@ class User with _$User {
     @Default(0) int age,
     @Default(0.0) double height, // in cm
     @Default(0.0) double weight, // in kg
+    @Default(ActivityLevel.sedentary) ActivityLevel activityLevel,
   }) = _User;
 }
 
@@ -28,5 +30,17 @@ extension UserExtension on User {
     return weight / pow(height * 0.01, 2); // in kg/m^2
   }
 
-  double get calories => weight * 1.036 * 24 * 60; // in kcal
+  double get calories => HealthUtils.calculateTDEEFromUserParams(
+    gender: gender,
+    weight: weight,
+    height: height,
+    age: age,
+    activityLevel: activityLevel,
+  );
+}
+
+extension GenderExt on Gender {
+  bool get isMale => this == Gender.male;
+
+  bool get isFemale => this == Gender.female;
 }

@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../core/utils/health_utils.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repo.dart';
 import 'auth_state.dart';
@@ -99,6 +100,7 @@ class AuthCubit extends Cubit<AuthState> {
     Gender? gender,
     double? height,
     double? weight,
+    ActivityLevel? activityLevel,
   }) async {
     if (state.currentUser == null) return;
 
@@ -109,6 +111,7 @@ class AuthCubit extends Cubit<AuthState> {
       gender: gender ?? state.currentUser!.gender,
       height: height ?? state.currentUser!.height,
       weight: weight ?? state.currentUser!.weight,
+      activityLevel: activityLevel ?? state.currentUser!.activityLevel,
     );
     final res = await _authRepo.updateUserProfile(user);
 

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../../core/utils/health_utils.dart';
 import '../../../domain/entities/user.dart';
 
 part 'user_dto.freezed.dart';
@@ -17,6 +18,7 @@ abstract class UserDto with _$UserDto {
     required int age,
     required double height, // in cm
     required double weight, // in kg
+    required String activityLevel,
   }) = _UserDto;
 
   factory UserDto.fromJson(Map<String, dynamic> json) =>
@@ -32,6 +34,7 @@ abstract class UserDto with _$UserDto {
       age: entity.age,
       height: entity.height,
       weight: entity.weight,
+      activityLevel: entity.activityLevel.name,
     );
   }
 }
@@ -47,6 +50,10 @@ extension UserDtoExtension on UserDto {
       age: age,
       height: height,
       weight: weight,
+      activityLevel: ActivityLevel.values.firstWhere(
+        (e) => e.name == activityLevel,
+        orElse: () => ActivityLevel.sedentary,
+      ),
     );
   }
 }

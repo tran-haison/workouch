@@ -115,7 +115,7 @@ class ProfilePage extends StatelessWidget {
                             _ProfileInfoRow(
                               label: AppConstants.gender,
                               value: user.gender.name.toUpperCase(),
-                              icon: user.gender == Gender.male
+                              icon: user.gender.isMale
                                   ? Assets.icons.male
                                   : Assets.icons.female,
                             ),
@@ -149,6 +149,12 @@ class ProfilePage extends StatelessWidget {
                               label: AppConstants.calories,
                               value: '${user.calories.toStringAsFixed(0)} kcal',
                               icon: Assets.icons.fire,
+                            ),
+                            Gaps.vGap16,
+                            _ProfileInfoRow(
+                              label: AppConstants.activityLevel,
+                              value: user.activityLevel.title,
+                              icon: Assets.icons.dumbbell,
                             ),
                           ],
                         ),

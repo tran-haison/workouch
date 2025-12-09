@@ -24,7 +24,8 @@ mixin _$User {
   Gender get gender => throw _privateConstructorUsedError;
   int get age => throw _privateConstructorUsedError;
   double get height => throw _privateConstructorUsedError; // in cm
-  double get weight => throw _privateConstructorUsedError;
+  double get weight => throw _privateConstructorUsedError; // in kg
+  ActivityLevel get activityLevel => throw _privateConstructorUsedError;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -46,6 +47,7 @@ abstract class $UserCopyWith<$Res> {
     int age,
     double height,
     double weight,
+    ActivityLevel activityLevel,
   });
 }
 
@@ -72,6 +74,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? age = null,
     Object? height = null,
     Object? weight = null,
+    Object? activityLevel = null,
   }) {
     return _then(
       _value.copyWith(
@@ -107,6 +110,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
                 ? _value.weight
                 : weight // ignore: cast_nullable_to_non_nullable
                       as double,
+            activityLevel: null == activityLevel
+                ? _value.activityLevel
+                : activityLevel // ignore: cast_nullable_to_non_nullable
+                      as ActivityLevel,
           )
           as $Val,
     );
@@ -130,6 +137,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
     int age,
     double height,
     double weight,
+    ActivityLevel activityLevel,
   });
 }
 
@@ -153,6 +161,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? age = null,
     Object? height = null,
     Object? weight = null,
+    Object? activityLevel = null,
   }) {
     return _then(
       _$UserImpl(
@@ -188,6 +197,10 @@ class __$$UserImplCopyWithImpl<$Res>
             ? _value.weight
             : weight // ignore: cast_nullable_to_non_nullable
                   as double,
+        activityLevel: null == activityLevel
+            ? _value.activityLevel
+            : activityLevel // ignore: cast_nullable_to_non_nullable
+                  as ActivityLevel,
       ),
     );
   }
@@ -205,6 +218,7 @@ class _$UserImpl extends _User {
     this.age = 0,
     this.height = 0.0,
     this.weight = 0.0,
+    this.activityLevel = ActivityLevel.sedentary,
   }) : super._();
 
   @override
@@ -232,10 +246,14 @@ class _$UserImpl extends _User {
   @override
   @JsonKey()
   final double weight;
+  // in kg
+  @override
+  @JsonKey()
+  final ActivityLevel activityLevel;
 
   @override
   String toString() {
-    return 'User(id: $id, email: $email, fullName: $fullName, avatarUrl: $avatarUrl, gender: $gender, age: $age, height: $height, weight: $weight)';
+    return 'User(id: $id, email: $email, fullName: $fullName, avatarUrl: $avatarUrl, gender: $gender, age: $age, height: $height, weight: $weight, activityLevel: $activityLevel)';
   }
 
   @override
@@ -252,7 +270,9 @@ class _$UserImpl extends _User {
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.age, age) || other.age == age) &&
             (identical(other.height, height) || other.height == height) &&
-            (identical(other.weight, weight) || other.weight == weight));
+            (identical(other.weight, weight) || other.weight == weight) &&
+            (identical(other.activityLevel, activityLevel) ||
+                other.activityLevel == activityLevel));
   }
 
   @override
@@ -266,6 +286,7 @@ class _$UserImpl extends _User {
     age,
     height,
     weight,
+    activityLevel,
   );
 
   /// Create a copy of User
@@ -287,6 +308,7 @@ abstract class _User extends User {
     final int age,
     final double height,
     final double weight,
+    final ActivityLevel activityLevel,
   }) = _$UserImpl;
   const _User._() : super._();
 
@@ -305,7 +327,9 @@ abstract class _User extends User {
   @override
   double get height; // in cm
   @override
-  double get weight;
+  double get weight; // in kg
+  @override
+  ActivityLevel get activityLevel;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.

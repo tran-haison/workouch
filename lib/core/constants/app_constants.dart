@@ -141,6 +141,20 @@ class AppConstants {
   static const male = 'Male';
   static const female = 'Female';
   static const updateProfile = 'Update profile';
+  static const activityLevel = 'Activity Level';
+  static const activityLevelTitleSedentary = 'Sedentary';
+  static const activityLevelTitleLightlyActive = 'Lightly Active';
+  static const activityLevelTitleModeratelyActive = 'Moderately Active';
+  static const activityLevelTitleVeryActive = 'Very Active';
+  static const activityLevelTitleExtremelyActive = 'Extremely Active';
+  static const activityLevelSedentary = 'Little or no exercise';
+  static const activityLevelLightlyActive = 'Light exercise 1-3 days/week';
+  static const activityLevelModeratelyActive =
+      'Moderate exercise 3-5 days/week';
+  static const activityLevelVeryActive = 'Hard exercise 6-7 days/week';
+  static const activityLevelExtremelyActive =
+      'Very hard exercise, physical job';
+  static const tdee = 'TDEE';
 }
 
 class _Supabase {

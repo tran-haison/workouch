@@ -11,9 +11,11 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_bottom_dialog.dart';
 import '../../../../core/widgets/common_button.dart';
 import '../../../../core/widgets/common_gaps.dart';
+import '../../../../core/widgets/common_icons.dart';
 import '../../../../core/widgets/common_text_field.dart';
 import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../../../core/utils/health_utils.dart';
 import '../../../auth/domain/entities/user.dart';
 import '../../../auth/presentation/cubit/auth_cubit.dart';
 import '../../../auth/presentation/cubit/auth_state.dart';
@@ -25,6 +27,16 @@ Future<void> showProfileUpdateDialog(
   return await showCommonBottomDialog(
     context,
     child: _ProfileUpdateDialog(user: user),
+  );
+}
+
+Future<dynamic> _showActivityLevelDialog(
+  BuildContext context, {
+  required ActivityLevel activityLevel,
+}) async {
+  return await showCommonBottomDialog(
+    context,
+    child: _ActivityLevelSelectionDialog(selectedActivityLevel: activityLevel),
   );
 }
 
@@ -42,6 +54,7 @@ class _ProfileUpdateDialogState extends State<_ProfileUpdateDialog> {
   late final TextEditingController _heightController;
   late final TextEditingController _weightController;
   late Gender _selectedGender;
+  late ActivityLevel _selectedActivityLevel;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -52,6 +65,7 @@ class _ProfileUpdateDialogState extends State<_ProfileUpdateDialog> {
     _heightController = TextEditingController();
     _weightController = TextEditingController();
     _selectedGender = widget.user.gender;
+    _selectedActivityLevel = widget.user.activityLevel;
   }
 
   @override
@@ -93,9 +107,7 @@ class _ProfileUpdateDialogState extends State<_ProfileUpdateDialog> {
                   Expanded(
                     child: Text(
                       AppConstants.updateProfile,
-                      style: AppTextStyles.h3.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: AppTextStyles.h3,
                     ),
                   ),
                   Gaps.hGap10,
@@ -110,11 +122,7 @@ class _ProfileUpdateDialogState extends State<_ProfileUpdateDialog> {
                 ],
               ),
               Gaps.vGap20,
-              // Age
-              Text(
-                AppConstants.age,
-                style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
-              ),
+              Text(AppConstants.age, style: AppTextStyles.h4),
               Gaps.vGap8,
               CommonTextField(
                 controller: _ageController,
@@ -141,18 +149,14 @@ class _ProfileUpdateDialogState extends State<_ProfileUpdateDialog> {
                 borderFocusColor: AppColors.black,
               ),
               Gaps.vGap20,
-              // Gender
-              Text(
-                AppConstants.gender,
-                style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
-              ),
+              Text(AppConstants.gender, style: AppTextStyles.h4),
               Gaps.vGap8,
               Row(
                 children: [
                   Expanded(
                     child: _GenderButton(
                       label: AppConstants.male.toUpperCase(),
-                      isSelected: _selectedGender == Gender.male,
+                      isSelected: _selectedGender.isMale,
                       onTap: () {
                         setState(() {
                           _selectedGender = Gender.male;
@@ -164,7 +168,7 @@ class _ProfileUpdateDialogState extends State<_ProfileUpdateDialog> {
                   Expanded(
                     child: _GenderButton(
                       label: AppConstants.female.toUpperCase(),
-                      isSelected: _selectedGender == Gender.female,
+                      isSelected: _selectedGender.isFemale,
                       onTap: () {
                         setState(() {
                           _selectedGender = Gender.female;
@@ -175,10 +179,9 @@ class _ProfileUpdateDialogState extends State<_ProfileUpdateDialog> {
                 ],
               ),
               Gaps.vGap20,
-              // Height
               Text(
                 '${AppConstants.height} (${AppConstants.cm})',
-                style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
+                style: AppTextStyles.h4,
               ),
               Gaps.vGap8,
               CommonTextField(
@@ -206,10 +209,9 @@ class _ProfileUpdateDialogState extends State<_ProfileUpdateDialog> {
                 borderFocusColor: AppColors.black,
               ),
               Gaps.vGap20,
-              // Weight
               Text(
                 '${AppConstants.weight} (${AppConstants.kg})',
-                style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
+                style: AppTextStyles.h4,
               ),
               Gaps.vGap8,
               CommonTextField(
@@ -235,6 +237,26 @@ class _ProfileUpdateDialogState extends State<_ProfileUpdateDialog> {
                 isShowBorder: true,
                 borderColor: AppColors.grayBlue,
                 borderFocusColor: AppColors.black,
+              ),
+              Gaps.vGap20,
+              Text(AppConstants.activityLevel, style: AppTextStyles.h4),
+              Gaps.vGap8,
+              CommonButton(
+                text: _selectedActivityLevel.description,
+                onPressed: _updateActivityLevel,
+                isFullWidth: true,
+                textStyle: AppTextStyles.h4.copyWith(
+                  color: AppColors.text,
+                  fontWeight: FontWeight.w600,
+                ),
+                borderColor: AppColors.grayBlue,
+                backgroundColor: AppColors.transparent,
+                trailing: CommonAssetIcon(
+                  Assets.icons.arrowDown,
+                  width: 16.r,
+                  height: 16.r,
+                  color: AppColors.black,
+                ),
               ),
               Gaps.vGap30,
               CommonButton(text: AppConstants.update, onPressed: _onSave),
@@ -264,6 +286,120 @@ class _ProfileUpdateDialogState extends State<_ProfileUpdateDialog> {
       gender: _selectedGender,
       height: height,
       weight: weight,
+      activityLevel: _selectedActivityLevel,
+    );
+  }
+
+  Future<void> _updateActivityLevel() async {
+    final selected = await _showActivityLevelDialog(
+      context,
+      activityLevel: _selectedActivityLevel,
+    );
+
+    if (mounted && selected is ActivityLevel) {
+      setState(() {
+        _selectedActivityLevel = selected;
+      });
+    }
+  }
+}
+
+class _ActivityLevelSelectionDialog extends StatelessWidget {
+  const _ActivityLevelSelectionDialog({required this.selectedActivityLevel});
+
+  final ActivityLevel selectedActivityLevel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Text(AppConstants.activityLevel, style: AppTextStyles.h3),
+            ),
+            Gaps.hGap10,
+            CommonIconButton(
+              icon: Assets.icons.close,
+              iconSize: 20.r,
+              padding: EdgeInsets.all(8.r),
+              iconColor: AppColors.black,
+              backgroundColor: AppColors.grayBlue,
+              onTap: () => context.pop(),
+            ),
+          ],
+        ),
+        Gaps.vGap16,
+        Flexible(
+          child: ListView.separated(
+            shrinkWrap: true,
+            itemCount: ActivityLevel.values.length,
+            itemBuilder: (context, index) {
+              final level = ActivityLevel.values[index];
+              final isSelected = level == selectedActivityLevel;
+
+              return InkWell(
+                onTap: () => context.pop(level),
+                borderRadius: BorderRadius.circular(12.r),
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 14.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? AppColors.secondary
+                        : AppColors.transparent,
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(
+                      color: isSelected
+                          ? AppColors.secondary
+                          : AppColors.grayBlue,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              level.title,
+                              style: AppTextStyles.h4.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Gaps.vGap4,
+                            Text(
+                              level.description,
+                              style: AppTextStyles.h5.copyWith(
+                                color: AppColors.mediumGray,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (isSelected) ...[
+                        Gaps.hGap12,
+                        CommonAssetIcon(
+                          Assets.icons.check,
+                          width: 20.r,
+                          height: 20.r,
+                          color: AppColors.black,
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              );
+            },
+            separatorBuilder: (_, _) => Gaps.vGap12,
+          ),
+        ),
+        Gaps.vGap20,
+      ],
     );
   }
 }
