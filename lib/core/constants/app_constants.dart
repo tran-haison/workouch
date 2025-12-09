@@ -159,7 +159,7 @@ class AppConstants {
   static const workoutPreferences = 'Workout Preferences';
   static const intensity = 'Intensity';
   static const targetBodyParts = 'Target Body Parts';
-  static const availableEquipment = 'Available Equipment';
+  static const availableEquipments = 'Available Equipments';
   static const numberOfExercises = 'Number of Exercises';
   static const generateWorkout = 'Generate Workout';
   static const generatingWorkout = 'Generating your workout...';
@@ -169,7 +169,7 @@ class AppConstants {
   static const mediumIntensity = 'Medium';
   static const highIntensity = 'High';
   static const selectBodyParts = 'Select Body Parts';
-  static const selectEquipment = 'Select Equipment';
+  static const selectEquipments = 'Select Equipments';
   static const anyBodyPart = 'Any body part';
   static const anyEquipmentType = 'Any equipment';
   // Location options
@@ -181,17 +181,15 @@ class AppConstants {
   static const locationCommercialGym = 'Commercial Gym';
   static const locationHotelRoom = 'Hotel Room';
   static const locationOutdoorsPark = 'Outdoors/Park';
-  // Primary Goal
-  static const primaryGoal = 'Primary Goal';
-  static const selectPrimaryGoal = 'Select Primary Goal';
-  static const anyPrimaryGoal = 'Any goal';
+  // Workout Goals
+  static const workoutGoals = 'Workout Goals';
+  static const selectYourGoals = 'Select Your Goals';
+  static const anyGoal = 'Any goal';
   static const goalStrength = 'Strength';
   static const goalHypertrophy = 'Hypertrophy/Muscle Growth';
   static const goalEndurance = 'Endurance';
   static const goalFatLoss = 'Fat Loss/HIIT';
   static const goalMobility = 'Mobility/Recovery';
-  static const done = 'Done';
-  static const selected = 'Selected';
 }
 
 class _Supabase {

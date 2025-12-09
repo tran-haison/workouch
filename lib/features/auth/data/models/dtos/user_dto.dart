@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../../core/utils/health_utils.dart';
+import '../../../../workout/domain/enums/activity_level.dart';
 import '../../../domain/entities/user.dart';
 
 part 'user_dto.freezed.dart';

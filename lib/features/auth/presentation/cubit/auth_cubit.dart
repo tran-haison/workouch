@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/utils/health_utils.dart';
+import '../../../workout/domain/enums/activity_level.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repo.dart';
 import 'auth_state.dart';

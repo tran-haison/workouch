@@ -7,7 +7,7 @@ import '../../features/workout/presentation/pages/workout_creation_page.dart';
 import '../../features/workout/presentation/pages/workout_pro_page.dart';
 import '../../features/workout/presentation/pages/exercises_page.dart';
 import '../../features/workout/presentation/pages/workout_details_page.dart';
-import '../../features/workout/presentation/pages/ai_workout_builder_page.dart';
+import '../../features/workout/presentation/pages/workout_lazy_builder_page.dart';
 import '../../features/workout/presentation/widgets/workout_scope_provider.dart';
 import '../../features/workout_session/presentation/pages/workout_ready_page.dart';
 import '../../features/workout_session/presentation/pages/workout_execution_page.dart';
@@ -22,6 +22,7 @@ enum AppRoute {
   home,
   profile,
   workoutPro,
+  workoutLazyBuilder,
   workoutCreation,
   workoutDetails,
   workoutReady,
@@ -29,7 +30,6 @@ enum AppRoute {
   workoutRest,
   workoutFinish,
   exercises,
-  aiWorkoutBuilder,
 }
 
 Page<T> _buildSlidePage<T extends Object>(
@@ -127,10 +127,10 @@ final appRouter = GoRouter(
           ),
         ),
         GoRoute(
-          name: AppRoute.aiWorkoutBuilder.name,
-          path: '/ai-workout-builder',
+          name: AppRoute.workoutLazyBuilder.name,
+          path: '/workout-lazy-builder',
           pageBuilder: (context, state) => _buildSlidePage(
-            const AIWorkoutBuilderPage(),
+            const WorkoutLazyBuilderPage(),
             key: state.pageKey,
             name: state.name,
             arguments: state.extra,
