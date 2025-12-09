@@ -7,6 +7,7 @@ import '../../features/workout/presentation/pages/workout_creation_page.dart';
 import '../../features/workout/presentation/pages/workout_pro_page.dart';
 import '../../features/workout/presentation/pages/exercises_page.dart';
 import '../../features/workout/presentation/pages/workout_details_page.dart';
+import '../../features/workout/presentation/pages/ai_workout_builder_page.dart';
 import '../../features/workout/presentation/widgets/workout_scope_provider.dart';
 import '../../features/workout_session/presentation/pages/workout_ready_page.dart';
 import '../../features/workout_session/presentation/pages/workout_execution_page.dart';
@@ -28,6 +29,7 @@ enum AppRoute {
   workoutRest,
   workoutFinish,
   exercises,
+  aiWorkoutBuilder,
 }
 
 Page<T> _buildSlidePage<T extends Object>(
@@ -119,6 +121,16 @@ final appRouter = GoRouter(
           path: '/exercises',
           pageBuilder: (context, state) => _buildSlidePage(
             const ExercisesPage(),
+            key: state.pageKey,
+            name: state.name,
+            arguments: state.extra,
+          ),
+        ),
+        GoRoute(
+          name: AppRoute.aiWorkoutBuilder.name,
+          path: '/ai-workout-builder',
+          pageBuilder: (context, state) => _buildSlidePage(
+            const AIWorkoutBuilderPage(),
             key: state.pageKey,
             name: state.name,
             arguments: state.extra,

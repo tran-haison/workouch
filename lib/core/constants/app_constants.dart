@@ -155,6 +155,43 @@ class AppConstants {
   static const activityLevelExtremelyActive =
       'Very hard exercise, physical job';
   static const tdee = 'TDEE';
+  static const aiWorkoutBuilder = 'AI Workout Builder';
+  static const workoutPreferences = 'Workout Preferences';
+  static const intensity = 'Intensity';
+  static const targetBodyParts = 'Target Body Parts';
+  static const availableEquipment = 'Available Equipment';
+  static const numberOfExercises = 'Number of Exercises';
+  static const generateWorkout = 'Generate Workout';
+  static const generatingWorkout = 'Generating your workout...';
+  static const workoutGenerated = 'Workout generated successfully';
+  static const workoutGenerationError = 'Failed to generate workout';
+  static const lowIntensity = 'Low';
+  static const mediumIntensity = 'Medium';
+  static const highIntensity = 'High';
+  static const selectBodyParts = 'Select Body Parts';
+  static const selectEquipment = 'Select Equipment';
+  static const anyBodyPart = 'Any body part';
+  static const anyEquipmentType = 'Any equipment';
+  // Location options
+  static const location = 'Location';
+  static const selectLocation = 'Select Location';
+  static const anyLocation = 'Any location';
+  static const locationLivingRoom = 'Living room (small space)';
+  static const locationGarageBackyard = 'Garage/Backyard (jumping allowed)';
+  static const locationCommercialGym = 'Commercial Gym';
+  static const locationHotelRoom = 'Hotel Room';
+  static const locationOutdoorsPark = 'Outdoors/Park';
+  // Primary Goal
+  static const primaryGoal = 'Primary Goal';
+  static const selectPrimaryGoal = 'Select Primary Goal';
+  static const anyPrimaryGoal = 'Any goal';
+  static const goalStrength = 'Strength';
+  static const goalHypertrophy = 'Hypertrophy/Muscle Growth';
+  static const goalEndurance = 'Endurance';
+  static const goalFatLoss = 'Fat Loss/HIIT';
+  static const goalMobility = 'Mobility/Recovery';
+  static const done = 'Done';
+  static const selected = 'Selected';
 }
 
 class _Supabase {
