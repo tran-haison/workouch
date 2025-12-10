@@ -64,4 +64,12 @@ class AppColors {
   static const grayBlue = Color(0xFFEEF0F4);
   static const transparent = Colors.transparent;
   static const overlay = Color.fromARGB(49, 200, 200, 200);
+
+  // Gradient Background - Mix of primary and secondary colors
+  static const backgroundGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [secondary, primary],
+    stops: [0.0, 1.0],
+  );
 }

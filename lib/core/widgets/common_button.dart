@@ -16,6 +16,7 @@ class CommonButton extends StatefulWidget {
     this.isFullWidth = true,
     this.formKey,
     this.backgroundColor,
+    this.backgroundGradientColor,
     this.textStyle,
     this.padding,
     this.radius,
@@ -34,6 +35,7 @@ class CommonButton extends StatefulWidget {
   final bool isFullWidth;
   final GlobalKey<FormState>? formKey;
   final Color? backgroundColor;
+  final Gradient? backgroundGradientColor;
   final TextStyle? textStyle;
   final EdgeInsetsGeometry? padding;
   final double? radius;
@@ -101,7 +103,10 @@ class _CommonButtonState extends State<CommonButton>
             border: widget.borderColor != null
                 ? Border.all(color: widget.borderColor!)
                 : null,
-            color: widget.backgroundColor ?? AppColors.darkBlack,
+            gradient: widget.backgroundGradientColor,
+            color: widget.backgroundGradientColor == null
+                ? (widget.backgroundColor ?? AppColors.darkBlack)
+                : null,
           ),
           child: ElevatedButton(
             onPressed: widget.isDisabled

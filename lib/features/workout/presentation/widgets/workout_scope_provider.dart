@@ -26,6 +26,8 @@ class _WorkoutScopeProviderState extends State<WorkoutScopeProvider> {
     super.initState();
     // Create the cubit instance when the scope is created
     _workoutCubit = getIt<WorkoutCubit>();
+    _workoutCubit.getBodyParts();
+    _workoutCubit.getEquipments();
   }
 
   @override

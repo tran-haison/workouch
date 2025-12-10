@@ -26,10 +26,9 @@ class LazyLocationSelector extends StatefulWidget {
 class _LazyLocationSelectorState extends State<LazyLocationSelector> {
   late String _currentLocation;
   final locations = [
-    AppConstants.locationLivingRoom,
+    AppConstants.locationRoom,
     AppConstants.locationGarageBackyard,
     AppConstants.locationCommercialGym,
-    AppConstants.locationHotelRoom,
     AppConstants.locationOutdoorsPark,
   ];
 

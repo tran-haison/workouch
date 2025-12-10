@@ -20,6 +20,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/add.svg
   SvgGenImage get add => const SvgGenImage('assets/icons/add.svg');
 
+  /// File path: assets/icons/ai_generator.svg
+  SvgGenImage get aiGenerator =>
+      const SvgGenImage('assets/icons/ai_generator.svg');
+
   /// File path: assets/icons/apple.svg
   SvgGenImage get apple => const SvgGenImage('assets/icons/apple.svg');
 
@@ -65,6 +69,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/dumbbell.svg
   SvgGenImage get dumbbell => const SvgGenImage('assets/icons/dumbbell.svg');
 
+  /// File path: assets/icons/dumbbell_outline.svg
+  SvgGenImage get dumbbellOutline =>
+      const SvgGenImage('assets/icons/dumbbell_outline.svg');
+
   /// File path: assets/icons/edit.svg
   SvgGenImage get edit => const SvgGenImage('assets/icons/edit.svg');
 
@@ -82,6 +90,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/gender.svg
   SvgGenImage get gender => const SvgGenImage('assets/icons/gender.svg');
+
+  /// File path: assets/icons/goal.svg
+  SvgGenImage get goal => const SvgGenImage('assets/icons/goal.svg');
 
   /// File path: assets/icons/google.svg
   SvgGenImage get google => const SvgGenImage('assets/icons/google.svg');
@@ -105,6 +116,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/male.svg
   SvgGenImage get male => const SvgGenImage('assets/icons/male.svg');
 
+  /// File path: assets/icons/muscle.svg
+  SvgGenImage get muscle => const SvgGenImage('assets/icons/muscle.svg');
+
   /// File path: assets/icons/namespace.svg
   SvgGenImage get namespace => const SvgGenImage('assets/icons/namespace.svg');
 
@@ -122,6 +136,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/search.svg
   SvgGenImage get search => const SvgGenImage('assets/icons/search.svg');
+
+  /// File path: assets/icons/sick.svg
+  SvgGenImage get sick => const SvgGenImage('assets/icons/sick.svg');
 
   /// File path: assets/icons/user.svg
   SvgGenImage get user => const SvgGenImage('assets/icons/user.svg');
@@ -141,6 +158,7 @@ class $AssetsIconsGen {
   /// List of all assets
   List<SvgGenImage> get values => [
     add,
+    aiGenerator,
     apple,
     arrowBack,
     arrowDown,
@@ -155,12 +173,14 @@ class $AssetsIconsGen {
     delete,
     distance,
     dumbbell,
+    dumbbellOutline,
     edit,
     error,
     female,
     filter,
     fire,
     gender,
+    goal,
     google,
     heart,
     height,
@@ -168,12 +188,14 @@ class $AssetsIconsGen {
     lineWeight,
     loading,
     male,
+    muscle,
     namespace,
     puregym,
     reorder,
     rest,
     rocket,
     search,
+    sick,
     user,
     userLay,
     userWalk,

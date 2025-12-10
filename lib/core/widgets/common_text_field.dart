@@ -138,8 +138,9 @@ class _CommonTextFieldState extends State<CommonTextField> {
         hintStyle:
             widget.hintStyle ??
             AppTextStyles.h4.copyWith(
-              color: AppColors.text,
+              color: AppColors.mediumGray,
               fontWeight: FontWeight.w300,
+              fontStyle: FontStyle.italic,
             ),
         isDense: false,
         hintText: widget.hintText,

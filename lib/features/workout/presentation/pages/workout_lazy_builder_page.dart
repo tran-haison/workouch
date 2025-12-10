@@ -49,7 +49,6 @@ class _WorkoutLazyBuilderPageState extends State<WorkoutLazyBuilderPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    _loadData();
   }
 
   @override
@@ -58,118 +57,110 @@ class _WorkoutLazyBuilderPageState extends State<WorkoutLazyBuilderPage>
     super.dispose();
   }
 
-  void _loadData() {
-    context.read<WorkoutCubit>().getBodyParts();
-    context.read<WorkoutCubit>().getEquipments();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WorkoutCubit, WorkoutState>(
-      builder: (context, state) {
-        return Scaffold(
-          body: SafeArea(
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20.w,
-                    vertical: 20.h,
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+              child: Row(
+                children: [
+                  CommonIconButton(
+                    backgroundColor: AppColors.grayBlue,
+                    icon: Assets.icons.arrowBack,
+                    iconColor: AppColors.black,
+                    onTap: () => context.pop(),
                   ),
-                  child: Row(
-                    children: [
-                      CommonIconButton(
-                        backgroundColor: AppColors.grayBlue,
-                        icon: Assets.icons.arrowBack,
-                        iconColor: AppColors.black,
-                        onTap: () => context.pop(),
-                      ),
-                      const Spacer(),
-                      Text(
-                        AppConstants.aiWorkoutBuilder,
-                        style: AppTextStyles.h3,
-                      ),
-                      const Spacer(),
-                      SizedBox(width: 48.w),
-                    ],
+                  Gaps.hGap12,
+                  Expanded(
+                    child: Text(
+                      AppConstants.lazy,
+                      style: AppTextStyles.orbitron.copyWith(fontSize: 20.sp),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                ),
-                // Tab Bar
-                TabBar(
-                  controller: _tabController,
-                  labelColor: AppColors.black,
-                  unselectedLabelColor: AppColors.mediumGray,
-                  indicatorColor: AppColors.black,
-                  indicatorWeight: 2,
-                  labelStyle: AppTextStyles.h4.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                  unselectedLabelStyle: AppTextStyles.h4,
-                  tabs: [
-                    Tab(text: AppConstants.simpleMode),
-                    Tab(text: AppConstants.advancedMode),
-                  ],
-                ),
-                Expanded(
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: [
-                      // Simple Mode Tab
-                      _SimpleModeTab(
-                        controller: _simplePreferencesController,
-                        onGenerate: _generateWorkout,
-                      ),
-                      // Advanced Mode Tab
-                      _AdvancedModeTab(
-                        state: state,
-                        nameController: _nameController,
-                        injuriesController: _injuriesController,
-                        workoutDuration: _workoutDuration,
-                        workoutIntensity: _workoutIntensity,
-                        workoutGoals: _workoutGoals,
-                        workoutBodyParts: _workoutBodyParts,
-                        workoutEquipments: _workoutEquipments,
-                        workoutLocation: _workoutLocation,
-                        onDurationChanged: (duration) {
-                          setState(() {
-                            _workoutDuration = duration;
-                          });
-                        },
-                        onIntensityChanged: (intensity) {
-                          setState(() {
-                            _workoutIntensity = intensity;
-                          });
-                        },
-                        onGoalsChanged: (goals) {
-                          setState(() {
-                            _workoutGoals = goals;
-                          });
-                        },
-                        onBodyPartsChanged: (bodyParts) {
-                          setState(() {
-                            _workoutBodyParts = bodyParts;
-                          });
-                        },
-                        onEquipmentsChanged: (equipments) {
-                          setState(() {
-                            _workoutEquipments = equipments;
-                          });
-                        },
-                        onLocationChanged: (location) {
-                          setState(() {
-                            _workoutLocation = location;
-                          });
-                        },
-                        onGenerate: _generateWorkout,
-                      ),
-                    ],
-                  ),
-                ),
+                  Gaps.hGap12,
+                  SizedBox(width: 48.w),
+                ],
+              ),
+            ),
+            // Tab Bar
+            TabBar(
+              controller: _tabController,
+              labelColor: AppColors.black,
+              unselectedLabelColor: AppColors.mediumGray,
+              indicatorColor: AppColors.black,
+              indicatorWeight: 2,
+              labelStyle: AppTextStyles.h4.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+              unselectedLabelStyle: AppTextStyles.h4,
+              dividerColor: AppColors.transparent,
+              overlayColor: WidgetStateProperty.all(AppColors.transparent),
+              tabs: [
+                Tab(text: AppConstants.theShuffleMode),
+                Tab(text: AppConstants.theNeatMode),
               ],
             ),
-          ),
-        );
-      },
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  // Shuffle Mode Tab
+                  _ShuffleModeTab(
+                    controller: _simplePreferencesController,
+                    onGenerate: _generateWorkout,
+                  ),
+                  // Neat Mode Tab
+                  _NeatModeTab(
+                    nameController: _nameController,
+                    injuriesController: _injuriesController,
+                    workoutDuration: _workoutDuration,
+                    workoutIntensity: _workoutIntensity,
+                    workoutGoals: _workoutGoals,
+                    workoutBodyParts: _workoutBodyParts,
+                    workoutEquipments: _workoutEquipments,
+                    workoutLocation: _workoutLocation,
+                    onDurationChanged: (duration) {
+                      setState(() {
+                        _workoutDuration = duration;
+                      });
+                    },
+                    onIntensityChanged: (intensity) {
+                      setState(() {
+                        _workoutIntensity = intensity;
+                      });
+                    },
+                    onGoalsChanged: (goals) {
+                      setState(() {
+                        _workoutGoals = goals;
+                      });
+                    },
+                    onBodyPartsChanged: (bodyParts) {
+                      setState(() {
+                        _workoutBodyParts = bodyParts;
+                      });
+                    },
+                    onEquipmentsChanged: (equipments) {
+                      setState(() {
+                        _workoutEquipments = equipments;
+                      });
+                    },
+                    onLocationChanged: (location) {
+                      setState(() {
+                        _workoutLocation = location;
+                      });
+                    },
+                    onGenerate: _generateWorkout,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -180,17 +171,17 @@ class _WorkoutLazyBuilderPageState extends State<WorkoutLazyBuilderPage>
   }
 }
 
-class _SimpleModeTab extends StatefulWidget {
-  const _SimpleModeTab({required this.controller, required this.onGenerate});
+class _ShuffleModeTab extends StatefulWidget {
+  const _ShuffleModeTab({required this.controller, required this.onGenerate});
 
   final TextEditingController controller;
   final VoidCallback onGenerate;
 
   @override
-  State<_SimpleModeTab> createState() => _SimpleModeTabState();
+  State<_ShuffleModeTab> createState() => _ShuffleModeTabState();
 }
 
-class _SimpleModeTabState extends State<_SimpleModeTab>
+class _ShuffleModeTabState extends State<_ShuffleModeTab>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
@@ -199,12 +190,12 @@ class _SimpleModeTabState extends State<_SimpleModeTab>
   Widget build(BuildContext context) {
     super.build(context); // Required for AutomaticKeepAliveClientMixin
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            AppConstants.workoutPreferences,
+            AppConstants.whatAreYouUpToToday,
             style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
           ),
           Gaps.vGap8,
@@ -216,15 +207,28 @@ class _SimpleModeTabState extends State<_SimpleModeTab>
             backgroundColor: AppColors.grayBlue,
             maxLines: 6,
             radius: 12.r,
+            inputTextStyle: AppTextStyles.h4.copyWith(
+              color: AppColors.text,
+              fontWeight: FontWeight.w300,
+            ),
             contentPadding: EdgeInsets.symmetric(
               horizontal: 16.w,
               vertical: 14.h,
             ),
           ),
-          Gaps.vGap32,
+          Gaps.vGap30,
           CommonButton(
             text: AppConstants.generateWorkout,
             onPressed: widget.onGenerate,
+            backgroundGradientColor: AppColors.backgroundGradient,
+            textStyle: AppTextStyles.h3,
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
+            trailing: CommonAssetIcon(
+              Assets.icons.aiGenerator,
+              width: 20.r,
+              height: 20.r,
+              color: AppColors.black,
+            ),
           ),
         ],
       ),
@@ -232,9 +236,8 @@ class _SimpleModeTabState extends State<_SimpleModeTab>
   }
 }
 
-class _AdvancedModeTab extends StatefulWidget {
-  const _AdvancedModeTab({
-    required this.state,
+class _NeatModeTab extends StatefulWidget {
+  const _NeatModeTab({
     required this.nameController,
     required this.injuriesController,
     required this.workoutDuration,
@@ -252,7 +255,6 @@ class _AdvancedModeTab extends StatefulWidget {
     required this.onGenerate,
   });
 
-  final WorkoutState state;
   final TextEditingController nameController;
   final TextEditingController injuriesController;
   final Duration workoutDuration;
@@ -270,10 +272,10 @@ class _AdvancedModeTab extends StatefulWidget {
   final VoidCallback onGenerate;
 
   @override
-  State<_AdvancedModeTab> createState() => _AdvancedModeTabState();
+  State<_NeatModeTab> createState() => _NeatModeTabState();
 }
 
-class _AdvancedModeTabState extends State<_AdvancedModeTab>
+class _NeatModeTabState extends State<_NeatModeTab>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
@@ -281,115 +283,135 @@ class _AdvancedModeTabState extends State<_AdvancedModeTab>
   @override
   Widget build(BuildContext context) {
     super.build(context); // Required for AutomaticKeepAliveClientMixin
-    return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Workout Name
-          Text(
-            AppConstants.name,
-            style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
-          ),
-          Gaps.vGap8,
-          CommonTextField(
-            controller: widget.nameController,
-            hintText: AppConstants.nameHint,
-            onChanged: (_) {},
-            isShowBorder: true,
-            borderColor: AppColors.grayBlue,
-            borderFocusColor: AppColors.black,
-          ),
-          Gaps.vGap16,
-          // Workout Duration
-          _PreferenceSection(
-            title: AppConstants.duration,
-            icon: Assets.icons.clock,
-            child: LazyDurationSelector(
-              initialDuration: widget.workoutDuration,
-              onChanged: widget.onDurationChanged,
-            ),
-          ),
-          Gaps.vGap16,
-          // Intensity
-          _PreferenceSection(
-            title: AppConstants.intensity,
-            icon: Assets.icons.fire,
-            child: LazyIntensitySelector(
-              initialIntensity: widget.workoutIntensity,
-              onChanged: widget.onIntensityChanged,
-            ),
-          ),
-          Gaps.vGap16,
-          // Workout Goals
-          _PreferenceSection(
-            title: AppConstants.workoutGoals,
-            icon: Assets.icons.rocket,
-            child: LazyGoalsSelector(
-              initialGoals: widget.workoutGoals,
-              onChanged: widget.onGoalsChanged,
-            ),
-          ),
-          Gaps.vGap16,
-          // Target Body Parts
-          _PreferenceSection(
-            title: AppConstants.targetBodyParts,
-            icon: Assets.icons.dumbbell,
-            child: LazyBodyPartsSelector(
-              initialBodyParts: widget.workoutBodyParts,
-              bodyParts: widget.state.bodyParts,
-              onChanged: widget.onBodyPartsChanged,
-            ),
-          ),
-          Gaps.vGap16,
-          // Available Equipment
-          _PreferenceSection(
-            title: AppConstants.availableEquipments,
-            icon: Assets.icons.weight,
-            child: LazyEquipmentsSelector(
-              initialEquipments: widget.workoutEquipments,
-              equipments: widget.state.equipments,
-              onChanged: widget.onEquipmentsChanged,
-            ),
-          ),
-          Gaps.vGap16,
-          // Location
-          _PreferenceSection(
-            title: AppConstants.location,
-            icon: Assets.icons.distance,
-            child: LazyLocationSelector(
-              initialLocation: widget.workoutLocation,
-              onChanged: widget.onLocationChanged,
-            ),
-          ),
-          Gaps.vGap16,
-          // Injuries/Limitations
-          _PreferenceSection(
-            title: AppConstants.injuriesLimitations,
-            icon: Assets.icons.info,
-            child: CommonTextField(
-              controller: widget.injuriesController,
-              hintText: AppConstants.injuriesLimitationsHint,
-              onChanged: (_) {},
-              isShowBorder: false,
-              backgroundColor: AppColors.grayBlue,
-              maxLines: 3,
-              radius: 12.r,
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 16.w,
-                vertical: 14.h,
+    return BlocBuilder<WorkoutCubit, WorkoutState>(
+      builder: (context, state) {
+        return SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 40.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Workout Name
+              Text(
+                AppConstants.name,
+                style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
               ),
-            ),
+              Gaps.vGap8,
+              CommonTextField(
+                controller: widget.nameController,
+                hintText: AppConstants.nameHint,
+                onChanged: (_) {},
+                isShowBorder: true,
+                borderColor: AppColors.grayBlue,
+                borderFocusColor: AppColors.black,
+                inputTextStyle: AppTextStyles.h4.copyWith(
+                  color: AppColors.text,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+              Gaps.vGap16,
+              // Workout Duration
+              _PreferenceSection(
+                title: AppConstants.duration,
+                icon: Assets.icons.clock,
+                child: LazyDurationSelector(
+                  initialDuration: widget.workoutDuration,
+                  onChanged: widget.onDurationChanged,
+                ),
+              ),
+              Gaps.vGap16,
+              // Intensity
+              _PreferenceSection(
+                title: AppConstants.intensity,
+                icon: Assets.icons.fire,
+                child: LazyIntensitySelector(
+                  initialIntensity: widget.workoutIntensity,
+                  onChanged: widget.onIntensityChanged,
+                ),
+              ),
+              Gaps.vGap16,
+              // Workout Goals
+              _PreferenceSection(
+                title: AppConstants.workoutGoals,
+                icon: Assets.icons.goal,
+                child: LazyGoalsSelector(
+                  initialGoals: widget.workoutGoals,
+                  onChanged: widget.onGoalsChanged,
+                ),
+              ),
+              Gaps.vGap16,
+              // Target Body Parts
+              _PreferenceSection(
+                title: AppConstants.targetBodyParts,
+                icon: Assets.icons.muscle,
+                child: LazyBodyPartsSelector(
+                  initialBodyParts: widget.workoutBodyParts,
+                  bodyParts: state.bodyParts,
+                  onChanged: widget.onBodyPartsChanged,
+                ),
+              ),
+              Gaps.vGap16,
+              // Available Equipment
+              _PreferenceSection(
+                title: AppConstants.availableEquipments,
+                icon: Assets.icons.dumbbellOutline,
+                child: LazyEquipmentsSelector(
+                  initialEquipments: widget.workoutEquipments,
+                  equipments: state.equipments,
+                  onChanged: widget.onEquipmentsChanged,
+                ),
+              ),
+              Gaps.vGap16,
+              // Location
+              _PreferenceSection(
+                title: AppConstants.location,
+                icon: Assets.icons.distance,
+                child: LazyLocationSelector(
+                  initialLocation: widget.workoutLocation,
+                  onChanged: widget.onLocationChanged,
+                ),
+              ),
+              Gaps.vGap16,
+              // Injuries/Limitations
+              _PreferenceSection(
+                title: AppConstants.injuriesLimitations,
+                icon: Assets.icons.sick,
+                child: CommonTextField(
+                  controller: widget.injuriesController,
+                  hintText: AppConstants.injuriesLimitationsHint,
+                  onChanged: (_) {},
+                  isShowBorder: false,
+                  backgroundColor: AppColors.grayBlue,
+                  maxLines: 3,
+                  radius: 12.r,
+                  inputTextStyle: AppTextStyles.h4.copyWith(
+                    color: AppColors.text,
+                    fontWeight: FontWeight.w300,
+                  ),
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 14.h,
+                  ),
+                ),
+              ),
+              Gaps.vGap30,
+              // Generate Button
+              CommonButton(
+                text: AppConstants.generateWorkout,
+                onPressed: widget.onGenerate,
+                backgroundGradientColor: AppColors.backgroundGradient,
+                textStyle: AppTextStyles.h3,
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
+                trailing: CommonAssetIcon(
+                  Assets.icons.aiGenerator,
+                  width: 20.r,
+                  height: 20.r,
+                  color: AppColors.black,
+                ),
+              ),
+            ],
           ),
-          Gaps.vGap20,
-          // Generate Button
-          CommonButton(
-            text: AppConstants.generateWorkout,
-            onPressed: widget.onGenerate,
-          ),
-          Gaps.vGap20,
-        ],
-      ),
+        );
+      },
     );
   }
 }

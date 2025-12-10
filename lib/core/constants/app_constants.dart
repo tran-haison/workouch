@@ -155,8 +155,8 @@ class AppConstants {
   static const activityLevelExtremelyActive =
       'Very hard exercise, physical job';
   static const tdee = 'TDEE';
-  static const aiWorkoutBuilder = 'AI Workout Builder';
-  static const workoutPreferences = 'Workout Preferences';
+  static const workoutBuilder = 'Workout Builder';
+  static const whatAreYouUpToToday = 'What are you up to today?';
   static const intensity = 'Intensity';
   static const targetBodyParts = 'Target Body Parts';
   static const availableEquipments = 'Available Equipments';
@@ -176,10 +176,9 @@ class AppConstants {
   static const location = 'Location';
   static const selectLocation = 'Select Location';
   static const anyLocation = 'Any location';
-  static const locationLivingRoom = 'Living room (small space)';
-  static const locationGarageBackyard = 'Garage/Backyard (jumping allowed)';
+  static const locationRoom = 'Room (small space)';
+  static const locationGarageBackyard = 'Garage/Backyard';
   static const locationCommercialGym = 'Commercial Gym';
-  static const locationHotelRoom = 'Hotel Room';
   static const locationOutdoorsPark = 'Outdoors/Park';
   // Workout Goals
   static const workoutGoals = 'Workout Goals';
@@ -195,10 +194,10 @@ class AppConstants {
   static const injuriesLimitationsHint =
       'E.g. Lower back pain, knee injury, etc.';
   // Tabs
-  static const simpleMode = 'Simple';
-  static const advancedMode = 'Advanced';
+  static const theShuffleMode = '"The Shuffle"';
+  static const theNeatMode = '"The Neat"';
   static const workoutPreferencesHint =
-      'E.g. 30 min full body workout, focus on strength, no equipment...';
+      'E.g. I have 30 minutes and a pair of dumbbells. Surprise me';
 }
 
 class _Supabase {
