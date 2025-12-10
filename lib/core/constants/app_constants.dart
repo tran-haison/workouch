@@ -190,6 +190,15 @@ class AppConstants {
   static const goalEndurance = 'Endurance';
   static const goalFatLoss = 'Fat Loss/HIIT';
   static const goalMobility = 'Mobility/Recovery';
+  // Injuries/Limitations
+  static const injuriesLimitations = 'Injuries/Limitations';
+  static const injuriesLimitationsHint =
+      'E.g. Lower back pain, knee injury, etc.';
+  // Tabs
+  static const simpleMode = 'Simple';
+  static const advancedMode = 'Advanced';
+  static const workoutPreferencesHint =
+      'E.g. 30 min full body workout, focus on strength, no equipment...';
 }
 
 class _Supabase {
