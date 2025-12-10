@@ -107,9 +107,11 @@ class _LazyBodyPartsSelectorState extends State<LazyBodyPartsSelector> {
       return;
     }
 
-    final selected = await showCommonMultiSelectOptionDialog(
+    final selected = await showCommonMultiSelectOptionDialog<String>(
       context,
-      items: widget.bodyParts,
+      optionItems: widget.bodyParts
+          .map((bodyPart) => OptionItem(label: bodyPart, value: bodyPart))
+          .toList(),
       title: AppConstants.selectBodyParts,
       initialSelected: List.from(_currentBodyParts),
     );

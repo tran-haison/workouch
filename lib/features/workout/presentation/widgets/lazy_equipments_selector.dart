@@ -107,9 +107,11 @@ class _LazyEquipmentsSelectorState extends State<LazyEquipmentsSelector> {
       return;
     }
 
-    final selected = await showCommonMultiSelectOptionDialog(
+    final selected = await showCommonMultiSelectOptionDialog<String>(
       context,
-      items: widget.equipments,
+      optionItems: widget.equipments
+          .map((equipment) => OptionItem(label: equipment, value: equipment))
+          .toList(),
       title: AppConstants.selectEquipments,
       initialSelected: List.from(_currentEquipments),
     );

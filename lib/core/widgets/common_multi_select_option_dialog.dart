@@ -11,41 +11,41 @@ import 'common_gaps.dart';
 import 'common_icons.dart';
 import '../../gen/assets.gen.dart';
 
-Future<dynamic> showCommonMultiSelectOptionDialog(
+Future<dynamic> showCommonMultiSelectOptionDialog<T>(
   BuildContext context, {
-  required List<String> items,
   required String title,
-  required List<String> initialSelected,
+  required List<OptionItem<T>> optionItems,
+  required List<T> initialSelected,
 }) async {
   return await showCommonBottomDialog(
     context,
-    child: _CommonMultiSelectOptionDialog(
-      items: items,
+    child: _CommonMultiSelectOptionDialog<T>(
       title: title,
+      optionItems: optionItems,
       initialSelected: initialSelected,
     ),
   );
 }
 
-class _CommonMultiSelectOptionDialog extends StatefulWidget {
+class _CommonMultiSelectOptionDialog<T> extends StatefulWidget {
   const _CommonMultiSelectOptionDialog({
-    required this.items,
     required this.title,
+    required this.optionItems,
     required this.initialSelected,
   });
 
-  final List<String> items;
   final String title;
-  final List<String> initialSelected;
+  final List<OptionItem<T>> optionItems;
+  final List<T> initialSelected;
 
   @override
-  State<_CommonMultiSelectOptionDialog> createState() =>
+  State<_CommonMultiSelectOptionDialog<T>> createState() =>
       _CommonMultiSelectOptionDialogState();
 }
 
-class _CommonMultiSelectOptionDialogState
-    extends State<_CommonMultiSelectOptionDialog> {
-  late List<String> _selectedItems;
+class _CommonMultiSelectOptionDialogState<T>
+    extends State<_CommonMultiSelectOptionDialog<T>> {
+  late List<T> _selectedItems;
 
   @override
   void initState() {
@@ -82,15 +82,15 @@ class _CommonMultiSelectOptionDialogState
         Flexible(
           child: ListView.separated(
             shrinkWrap: true,
-            itemCount: widget.items.length,
+            itemCount: widget.optionItems.length,
             itemBuilder: (context, index) {
-              final item = widget.items[index];
-              final isSelected = _selectedItems.contains(item);
+              final item = widget.optionItems[index];
+              final isSelected = _selectedItems.contains(item.value);
 
-              return _ItemTile(
-                item: item,
+              return _ItemTile<T>(
+                optionItem: item,
                 isSelected: isSelected,
-                onTap: () => _toggleItem(item),
+                onTap: () => _toggleItem(item.value),
               );
             },
             separatorBuilder: (_, _) => Gaps.vGap12,
@@ -103,7 +103,7 @@ class _CommonMultiSelectOptionDialogState
     );
   }
 
-  void _toggleItem(String item) {
+  void _toggleItem(T item) {
     setState(() {
       if (_selectedItems.contains(item)) {
         _selectedItems.remove(item);
@@ -118,14 +118,14 @@ class _CommonMultiSelectOptionDialogState
   }
 }
 
-class _ItemTile extends StatelessWidget {
+class _ItemTile<T> extends StatelessWidget {
   const _ItemTile({
-    required this.item,
+    required this.optionItem,
     required this.isSelected,
     required this.onTap,
   });
 
-  final String item;
+  final OptionItem<T> optionItem;
   final bool isSelected;
   final VoidCallback onTap;
 
@@ -145,7 +145,7 @@ class _ItemTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Expanded(child: Text(item, style: AppTextStyles.h4)),
+            Expanded(child: Text(optionItem.label, style: AppTextStyles.h4)),
             Gaps.hGap12,
             Container(
               width: 24.r,
@@ -173,4 +173,11 @@ class _ItemTile extends StatelessWidget {
       ),
     );
   }
+}
+
+class OptionItem<T> {
+  const OptionItem({required this.label, required this.value});
+
+  final String label;
+  final T value;
 }
