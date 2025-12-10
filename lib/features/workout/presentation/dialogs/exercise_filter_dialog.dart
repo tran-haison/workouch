@@ -9,6 +9,7 @@ import '../../../../core/widgets/common_bottom_dialog.dart';
 import '../../../../core/widgets/common_button.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
+import '../../../../core/widgets/common_single_select_option_dialog.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../domain/entities/exercise_filter.dart';
 
@@ -24,24 +25,6 @@ Future<dynamic> showExerciseFilterDialog(
       muscles: muscles,
       equipments: equipments,
       initialFilter: initialFilter,
-    ),
-  );
-}
-
-Future<dynamic> _showOptionListDialog(
-  BuildContext context, {
-  required List<String> items,
-  required String title,
-  required String any,
-  required String initialValue,
-}) async {
-  return await showCommonBottomDialog(
-    context,
-    child: _OptionListDialog(
-      items: items,
-      title: title,
-      any: any,
-      initialValue: initialValue,
     ),
   );
 }
@@ -174,7 +157,7 @@ class _ExerciseFilterDialogState extends State<_ExerciseFilterDialog> {
   }
 
   Future<void> _showMusclesListDialog() async {
-    final muscle = await _showOptionListDialog(
+    final muscle = await showCommonSingleSelectOptionDialog(
       context,
       items: widget.muscles,
       title: AppConstants.muscle,
@@ -196,7 +179,7 @@ class _ExerciseFilterDialogState extends State<_ExerciseFilterDialog> {
   }
 
   Future<void> _showEquipmentsListDialog() async {
-    final equipment = await _showOptionListDialog(
+    final equipment = await showCommonSingleSelectOptionDialog(
       context,
       items: widget.equipments,
       title: AppConstants.equipment,
@@ -215,98 +198,5 @@ class _ExerciseFilterDialogState extends State<_ExerciseFilterDialog> {
         );
       });
     }
-  }
-}
-
-class _OptionListDialog extends StatelessWidget {
-  const _OptionListDialog({
-    required this.items,
-    required this.title,
-    required this.any,
-    required this.initialValue,
-  });
-
-  final List<String> items;
-  final String title;
-  final String any;
-  final String initialValue;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Expanded(child: Text(title, style: AppTextStyles.h3)),
-            Gaps.hGap10,
-            CommonIconButton(
-              icon: Assets.icons.close,
-              iconSize: 20.r,
-              padding: EdgeInsets.all(8.r),
-              iconColor: AppColors.black,
-              backgroundColor: AppColors.grayBlue,
-              onTap: () => context.pop(),
-            ),
-          ],
-        ),
-        Gaps.vGap16,
-        Flexible(
-          child: ListView.separated(
-            shrinkWrap: true,
-            itemCount: items.length + 1, // +1 for "any item"
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                // "Any" item
-                return _buildItemTile(
-                  context,
-                  item: any,
-                  isSelected: initialValue == any,
-                );
-              } else {
-                // Other items
-                return _buildItemTile(
-                  context,
-                  item: items[index - 1],
-                  isSelected: initialValue == items[index - 1],
-                );
-              }
-            },
-            separatorBuilder: (_, _) => Gaps.vGap12,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildItemTile(
-    BuildContext context, {
-    required String item,
-    bool isSelected = false,
-  }) {
-    return InkWell(
-      onTap: () => Navigator.of(context).pop(item),
-      borderRadius: BorderRadius.circular(16.r),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.black : AppColors.grayBlue,
-          borderRadius: BorderRadius.circular(16.r),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                item,
-                style: AppTextStyles.h4.copyWith(
-                  color: isSelected ? AppColors.white : AppColors.text,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

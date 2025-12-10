@@ -4,12 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/widgets/common_bottom_dialog.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
-import '../dialogs/multi_select_option_list_dialog.dart';
+import '../../../../core/widgets/common_multi_select_option_dialog.dart';
 
 class LazyBodyPartsSelector extends StatefulWidget {
   const LazyBodyPartsSelector({
@@ -108,7 +107,12 @@ class _LazyBodyPartsSelectorState extends State<LazyBodyPartsSelector> {
       return;
     }
 
-    final selected = await _showBodyPartsSelectionDialog();
+    final selected = await showCommonMultiSelectOptionDialog(
+      context,
+      items: widget.bodyParts,
+      title: AppConstants.selectBodyParts,
+      initialSelected: List.from(_currentBodyParts),
+    );
 
     if (mounted && selected is List<String>) {
       setState(() {
@@ -116,16 +120,5 @@ class _LazyBodyPartsSelectorState extends State<LazyBodyPartsSelector> {
       });
       widget.onChanged(_currentBodyParts);
     }
-  }
-
-  Future<dynamic> _showBodyPartsSelectionDialog() async {
-    return await showCommonBottomDialog(
-      context,
-      child: MultiSelectOptionListDialog(
-        items: widget.bodyParts,
-        title: AppConstants.selectBodyParts,
-        initialSelected: List.from(_currentBodyParts),
-      ),
-    );
   }
 }

@@ -2,17 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/widgets/common_button.dart';
-import '../../../../core/widgets/common_gaps.dart';
-import '../../../../core/widgets/common_icons.dart';
-import '../../../../gen/assets.gen.dart';
+import '../constants/app_constants.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
+import 'common_bottom_dialog.dart';
+import 'common_button.dart';
+import 'common_gaps.dart';
+import 'common_icons.dart';
+import '../../gen/assets.gen.dart';
 
-class MultiSelectOptionListDialog extends StatefulWidget {
-  const MultiSelectOptionListDialog({
-    super.key,
+Future<dynamic> showCommonMultiSelectOptionDialog(
+  BuildContext context, {
+  required List<String> items,
+  required String title,
+  required List<String> initialSelected,
+}) async {
+  return await showCommonBottomDialog(
+    context,
+    child: _CommonMultiSelectOptionDialog(
+      items: items,
+      title: title,
+      initialSelected: initialSelected,
+    ),
+  );
+}
+
+class _CommonMultiSelectOptionDialog extends StatefulWidget {
+  const _CommonMultiSelectOptionDialog({
     required this.items,
     required this.title,
     required this.initialSelected,
@@ -23,12 +39,12 @@ class MultiSelectOptionListDialog extends StatefulWidget {
   final List<String> initialSelected;
 
   @override
-  State<MultiSelectOptionListDialog> createState() =>
-      _MultiSelectOptionListDialogState();
+  State<_CommonMultiSelectOptionDialog> createState() =>
+      _CommonMultiSelectOptionDialogState();
 }
 
-class _MultiSelectOptionListDialogState
-    extends State<MultiSelectOptionListDialog> {
+class _CommonMultiSelectOptionDialogState
+    extends State<_CommonMultiSelectOptionDialog> {
   late List<String> _selectedItems;
 
   @override
@@ -45,7 +61,12 @@ class _MultiSelectOptionListDialogState
       children: [
         Row(
           children: [
-            Expanded(child: Text(widget.title, style: AppTextStyles.h3)),
+            Expanded(
+              child: Text(
+                widget.title,
+                style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w600),
+              ),
+            ),
             Gaps.hGap10,
             CommonIconButton(
               icon: Assets.icons.close,
@@ -124,12 +145,7 @@ class _ItemTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Expanded(
-              child: Text(
-                item,
-                style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
-              ),
-            ),
+            Expanded(child: Text(item, style: AppTextStyles.h4)),
             Gaps.hGap12,
             Container(
               width: 24.r,

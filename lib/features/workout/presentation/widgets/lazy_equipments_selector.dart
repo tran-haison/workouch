@@ -4,15 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/widgets/common_bottom_dialog.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
-import '../dialogs/multi_select_option_list_dialog.dart';
+import '../../../../core/widgets/common_multi_select_option_dialog.dart';
 
-class LazyEquipmentSelector extends StatefulWidget {
-  const LazyEquipmentSelector({
+class LazyEquipmentsSelector extends StatefulWidget {
+  const LazyEquipmentsSelector({
     super.key,
     required this.initialEquipments,
     required this.equipments,
@@ -24,10 +23,10 @@ class LazyEquipmentSelector extends StatefulWidget {
   final ValueChanged<List<String>> onChanged;
 
   @override
-  State<LazyEquipmentSelector> createState() => _LazyEquipmentSelectorState();
+  State<LazyEquipmentsSelector> createState() => _LazyEquipmentsSelectorState();
 }
 
-class _LazyEquipmentSelectorState extends State<LazyEquipmentSelector> {
+class _LazyEquipmentsSelectorState extends State<LazyEquipmentsSelector> {
   late List<String> _currentEquipments;
 
   @override
@@ -108,7 +107,12 @@ class _LazyEquipmentSelectorState extends State<LazyEquipmentSelector> {
       return;
     }
 
-    final selected = await _showEquipmentsSelectionDialog();
+    final selected = await showCommonMultiSelectOptionDialog(
+      context,
+      items: widget.equipments,
+      title: AppConstants.selectEquipments,
+      initialSelected: List.from(_currentEquipments),
+    );
 
     if (mounted && selected is List<String>) {
       setState(() {
@@ -116,16 +120,5 @@ class _LazyEquipmentSelectorState extends State<LazyEquipmentSelector> {
       });
       widget.onChanged(_currentEquipments);
     }
-  }
-
-  Future<dynamic> _showEquipmentsSelectionDialog() async {
-    return await showCommonBottomDialog(
-      context,
-      child: MultiSelectOptionListDialog(
-        items: widget.equipments,
-        title: AppConstants.selectEquipments,
-        initialSelected: List.from(_currentEquipments),
-      ),
-    );
   }
 }
