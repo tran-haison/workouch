@@ -162,7 +162,7 @@ class AppConstants {
   static const availableEquipments = 'Available Equipments';
   static const numberOfExercises = 'Number of Exercises';
   static const generateWorkout = 'Generate Workout';
-  static const generatingWorkout = 'Generating your workout...';
+  static const buildingWorkout = 'Building your workout...';
   static const workoutGenerated = 'Workout generated successfully';
   static const workoutGenerationError = 'Failed to generate workout';
   static const lowIntensity = 'Low';

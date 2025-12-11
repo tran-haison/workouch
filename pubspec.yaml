@@ -127,6 +127,9 @@ dependencies:
 
   # https://pub.dev/packages/crypto
   crypto: ^3.0.7
+
+  # https://pub.dev/packages/lottie
+  lottie: ^3.3.2
   
 dev_dependencies:
   flutter_test:
@@ -161,6 +164,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/fonts/
+    - assets/animations/
     - .env
 
 # Auto generate assets
