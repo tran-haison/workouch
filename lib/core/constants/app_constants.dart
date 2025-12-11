@@ -14,6 +14,12 @@ class AppConstants {
   static const exerciseDbApiKeyHeader = 'x-api-key';
   static const exerciseDbApiKeyEnv = 'EXERCISE_DB_API_KEY';
 
+  // OpenAI
+  static const openai = 'openai';
+  static const openaiUrl = 'https://api.openai.com/v1';
+  static const openaiApiKeyEnv = 'OPENAI_API_KEY';
+  static const openaiModel = 'gpt-4o-mini';
+
   // Errors
   static const networkError = 'Network error';
   static const commonError = 'Something went wrong';

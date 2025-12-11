@@ -35,6 +35,17 @@ abstract class InjectionModule {
     },
   );
 
+  @LazySingleton()
+  @Named(AppConstants.openai)
+  Dio get dioOpenAI => _createDio(
+    baseUrl: AppConstants.openaiUrl,
+    headers: {
+      'Authorization':
+          'Bearer ${dotenv.env[AppConstants.openaiApiKeyEnv] ?? ''}',
+      'Content-Type': 'application/json',
+    },
+  );
+
   Dio _createDio({
     required String baseUrl,
     Map<String, dynamic>? headers,

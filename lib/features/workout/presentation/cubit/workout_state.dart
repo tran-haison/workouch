@@ -16,6 +16,8 @@ class WorkoutState with _$WorkoutState {
     @Default(WorkoutStateStatus.initial) WorkoutStateStatus saveWorkoutStatus,
     @Default(WorkoutStateStatus.initial) WorkoutStateStatus getWorkoutsStatus,
     @Default(WorkoutStateStatus.initial) WorkoutStateStatus deleteWorkoutStatus,
+    @Default(WorkoutStateStatus.initial)
+    WorkoutStateStatus generateAIWorkoutStatus,
     @Default([]) List<Exercise> exercises,
     @Default([]) List<String> bodyParts,
     @Default([]) List<String> equipments,
@@ -31,6 +33,8 @@ class WorkoutState with _$WorkoutState {
     Error? saveWorkoutError,
     Error? getWorkoutsError,
     Error? deleteWorkoutError,
+    Error? generateAIWorkoutError,
+    Workout? generatedAIWorkout,
   }) = _WorkoutState;
 }
 

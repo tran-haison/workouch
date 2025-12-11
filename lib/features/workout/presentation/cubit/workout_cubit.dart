@@ -8,15 +8,20 @@ import '../../data/models/requests/paging_request.dart';
 import '../../domain/entities/exercise.dart';
 import '../../domain/entities/exercise_filter.dart';
 import '../../domain/entities/workout.dart';
+import '../../domain/repositories/ai_workout_repo.dart';
 import '../../domain/repositories/exercise_repo.dart';
 import '../../domain/repositories/workout_repo.dart';
+import '../../domain/enums/workout_goal.dart';
+import '../../domain/enums/workout_intensity.dart';
+import '../../../auth/domain/entities/user.dart';
 
 @injectable
 class WorkoutCubit extends Cubit<WorkoutState> {
   final ExerciseRepo _exerciseRepo;
   final WorkoutRepo _workoutRepo;
+  final AIWorkoutRepo _aiWorkoutRepo;
 
-  WorkoutCubit(this._exerciseRepo, this._workoutRepo)
+  WorkoutCubit(this._exerciseRepo, this._workoutRepo, this._aiWorkoutRepo)
     : super(const WorkoutState());
 
   Future<void> saveWorkout(Workout workout) async {
@@ -288,6 +293,90 @@ class WorkoutCubit extends Cubit<WorkoutState> {
       (e) => e.exerciseId == exercise.exerciseId,
     );
     return matches.isEmpty ? null : matches.first;
+  }
+
+  /// Generate AI workout - Shuffle Mode
+  Future<void> generateShuffleModeWorkout({
+    required String userPreferences,
+    User? user,
+  }) async {
+    emit(
+      state.copyWith(
+        generateAIWorkoutStatus: WorkoutStateStatus.loading,
+        generateAIWorkoutError: null,
+        generatedAIWorkout: null,
+      ),
+    );
+
+    final res = await _aiWorkoutRepo.generateShuffleModeWorkout(
+      userPreferences: userPreferences,
+      user: user,
+    );
+
+    res.fold(
+      (error) => emit(
+        state.copyWith(
+          generateAIWorkoutStatus: WorkoutStateStatus.error,
+          generateAIWorkoutError: error,
+        ),
+      ),
+      (workout) => emit(
+        state.copyWith(
+          generateAIWorkoutStatus: WorkoutStateStatus.success,
+          generateAIWorkoutError: null,
+          generatedAIWorkout: workout,
+        ),
+      ),
+    );
+  }
+
+  /// Generate AI workout - Neat Mode
+  Future<void> generateNeatModeWorkout({
+    required String workoutName,
+    required Duration duration,
+    required WorkoutIntensity intensity,
+    required List<WorkoutGoal> goals,
+    required List<String> bodyParts,
+    required List<String> equipments,
+    required String location,
+    String? injuriesLimitations,
+    User? user,
+  }) async {
+    emit(
+      state.copyWith(
+        generateAIWorkoutStatus: WorkoutStateStatus.loading,
+        generateAIWorkoutError: null,
+        generatedAIWorkout: null,
+      ),
+    );
+
+    final res = await _aiWorkoutRepo.generateNeatModeWorkout(
+      workoutName: workoutName,
+      duration: duration,
+      intensity: intensity,
+      goals: goals,
+      bodyParts: bodyParts,
+      equipments: equipments,
+      location: location,
+      injuriesLimitations: injuriesLimitations,
+      user: user,
+    );
+
+    res.fold(
+      (error) => emit(
+        state.copyWith(
+          generateAIWorkoutStatus: WorkoutStateStatus.error,
+          generateAIWorkoutError: error,
+        ),
+      ),
+      (workout) => emit(
+        state.copyWith(
+          generateAIWorkoutStatus: WorkoutStateStatus.success,
+          generateAIWorkoutError: null,
+          generatedAIWorkout: workout,
+        ),
+      ),
+    );
   }
 
   ExerciseFilterRequest? _convertFilterToRequest() {
