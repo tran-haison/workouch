@@ -17,8 +17,6 @@ import 'package:shared_preferences/shared_preferences.dart' as _i460;
 import '../../features/auth/data/services/supabase_auth_service.dart' as _i738;
 import '../../features/auth/domain/repositories/auth_repo.dart' as _i723;
 import '../../features/auth/presentation/cubit/auth_cubit.dart' as _i117;
-import '../../features/workout/data/repositories/ai_workout_repo_impl.dart'
-    as _i870;
 import '../../features/workout/data/services/exercise_service.dart' as _i747;
 import '../../features/workout/data/services/openai_service.dart' as _i122;
 import '../../features/workout/data/services/supabase_workout_service.dart'
@@ -73,7 +71,7 @@ Future<_i174.GetIt> $initGetIt(
   );
   gh.factory<_i117.AuthCubit>(() => _i117.AuthCubit(gh<_i723.AuthRepo>()));
   gh.lazySingleton<_i1018.AIWorkoutRepo>(
-    () => _i870.AIWorkoutRepoImpl(gh<_i122.OpenAIService>()),
+    () => _i1018.AIWorkoutRepoImpl(gh<_i122.OpenAIService>()),
   );
   gh.lazySingleton<_i275.ExerciseRepo>(
     () => _i275.ExerciseRepoImpl(gh<_i747.ExerciseService>()),

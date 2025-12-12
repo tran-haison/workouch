@@ -177,7 +177,6 @@ class AppConstants {
   static const selectBodyParts = 'Select Body Parts';
   static const selectEquipments = 'Select Equipments';
   static const anyBodyPart = 'Any body part';
-  static const anyEquipmentType = 'Any equipment';
   // Location options
   static const location = 'Location';
   static const selectLocation = 'Select Location';
