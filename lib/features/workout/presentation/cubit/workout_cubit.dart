@@ -295,7 +295,6 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     return matches.isEmpty ? null : matches.first;
   }
 
-  /// Generate AI workout - Shuffle Mode
   Future<void> generateShuffleModeWorkout({
     required String userPreferences,
     User? user,
@@ -304,7 +303,6 @@ class WorkoutCubit extends Cubit<WorkoutState> {
       state.copyWith(
         generateAIWorkoutStatus: WorkoutStateStatus.loading,
         generateAIWorkoutError: null,
-        generatedAIWorkout: null,
       ),
     );
 
@@ -324,13 +322,12 @@ class WorkoutCubit extends Cubit<WorkoutState> {
         state.copyWith(
           generateAIWorkoutStatus: WorkoutStateStatus.success,
           generateAIWorkoutError: null,
-          generatedAIWorkout: workout,
+          aiGeneratedWorkout: workout,
         ),
       ),
     );
   }
 
-  /// Generate AI workout - Neat Mode
   Future<void> generateNeatModeWorkout({
     required String workoutName,
     required Duration duration,
@@ -346,7 +343,6 @@ class WorkoutCubit extends Cubit<WorkoutState> {
       state.copyWith(
         generateAIWorkoutStatus: WorkoutStateStatus.loading,
         generateAIWorkoutError: null,
-        generatedAIWorkout: null,
       ),
     );
 
@@ -373,7 +369,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
         state.copyWith(
           generateAIWorkoutStatus: WorkoutStateStatus.success,
           generateAIWorkoutError: null,
-          generatedAIWorkout: workout,
+          aiGeneratedWorkout: workout,
         ),
       ),
     );

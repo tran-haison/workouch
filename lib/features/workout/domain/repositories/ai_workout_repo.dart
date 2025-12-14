@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:dio/dio.dart';
 import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
 
@@ -11,7 +10,6 @@ import '../entities/workout.dart';
 import '../enums/workout_goal.dart';
 import '../enums/workout_intensity.dart';
 import '../../data/models/dtos/ai_workout_dto.dart';
-import '../../data/models/requests/openai_request.dart';
 import '../../data/services/ai_workout_prompt_builder.dart';
 import '../../data/services/openai_service.dart';
 
@@ -51,23 +49,25 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
         user: user,
       );
 
-      final request = OpenAIRequest(
-        model: AppConstants.openaiModel,
-        input: [
-          const OpenAIInput(
-            role: 'system',
-            content: OpenAIContent.text(
-              'You are an expert fitness trainer. Always respond with valid JSON only.\n\nIMPORTANT: You have access to an input file containing a complete database of exercises. Each exercise in the input file has this structure: {exerciseId, name, gifUrl, targetMuscles, bodyParts, equipments, secondaryMuscles, instructions, description}. You MUST ONLY select exercises from this input file. Do not invent or use exercise names that are not in the input file. When copying exercise data, use the exact field names and values as they appear in the input file (camelCase format: exerciseId, name, gifUrl, targetMuscles, bodyParts, equipments, secondaryMuscles, instructions, description).',
-            ),
-          ),
-          OpenAIInput(role: 'user', content: OpenAIContent.text(prompt)),
+      final request = <String, dynamic>{
+        'model': AppConstants.openaiModel,
+        'tools': [
+          {
+            'type': 'file_search',
+            'vector_store_ids': ['vs_693b860bc2cc819199b63e41d29496aa'],
+          },
         ],
-      );
+        'input': [
+          {'role': 'system', 'content': _systemPrompt},
+          {'role': 'user', 'content': prompt},
+        ],
+      };
 
       final response = await _openAIService.generateWorkout(request);
       final responseData = response.data;
 
-      if (responseData.output.isEmpty) {
+      if (responseData['output'] == null ||
+          (responseData['output'] as List).isEmpty) {
         return Left(
           Error(
             message: AppConstants.workoutGenerationError,
@@ -76,31 +76,55 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
         );
       }
 
-      final text = responseData.output.first.content.first.text;
-      final json = jsonDecode(text) as Map<String, dynamic>;
-      final aiWorkout = AIWorkoutDto.fromJson(json);
+      final output = responseData['output'] as List;
 
-      // Convert AI workout to domain Workout entity
-      final workout = aiWorkout.toEntity();
+      // Filter for message type outputs only
+      final messageOutputs = output.where((item) {
+        final itemMap = item as Map<String, dynamic>;
+        return itemMap['type'] == 'message' && itemMap['content'] != null;
+      }).toList();
+
+      if (messageOutputs.isEmpty) {
+        return Left(
+          Error(
+            message: AppConstants.workoutGenerationError,
+            errorType: ErrorType.server,
+          ),
+        );
+      }
+
+      final lastMessage = messageOutputs.last as Map<String, dynamic>;
+      final content = lastMessage['content'] as List?;
+
+      if (content == null || content.isEmpty) {
+        return Left(
+          Error(
+            message: AppConstants.workoutGenerationError,
+            errorType: ErrorType.server,
+          ),
+        );
+      }
+
+      final firstContent = content.first as Map<String, dynamic>;
+      final text = firstContent['text'] as String?;
+
+      if (text == null || text.isEmpty) {
+        return Left(
+          Error(
+            message: AppConstants.workoutGenerationError,
+            errorType: ErrorType.server,
+          ),
+        );
+      }
+
+      final json = jsonDecode(text) as Map<String, dynamic>;
+      final dto = AIWorkoutDto.fromJson(json);
+      final workout = dto.toEntity();
+      Log.e('workout: $workout');
 
       return Right(workout);
-    } on DioException catch (e) {
-      Log.e('OpenAI API error: ${e.message}');
-      return Left(
-        Error(
-          message: AppConstants.workoutGenerationError,
-          code: e.response?.statusCode.toString() ?? '',
-          errorType: ErrorType.network,
-        ),
-      );
     } catch (e) {
-      Log.e('Error generating workout: $e');
-      return Left(
-        Error(
-          message: AppConstants.workoutGenerationError,
-          errorType: ErrorType.other,
-        ),
-      );
+      return Left(handleException(e));
     }
   }
 
@@ -129,23 +153,25 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
         user: user,
       );
 
-      final request = OpenAIRequest(
-        model: AppConstants.openaiModel,
-        input: [
-          const OpenAIInput(
-            role: 'system',
-            content: OpenAIContent.text(
-              'You are an expert fitness trainer. Always respond with valid JSON only.\n\nIMPORTANT: You have access to an input file containing a complete database of exercises. Each exercise in the input file has this structure: {exerciseId, name, gifUrl, targetMuscles, bodyParts, equipments, secondaryMuscles, instructions, description}. You MUST ONLY select exercises from this input file. Do not invent or use exercise names that are not in the input file. When copying exercise data, use the exact field names and values as they appear in the input file (camelCase format: exerciseId, name, gifUrl, targetMuscles, bodyParts, equipments, secondaryMuscles, instructions, description).',
-            ),
-          ),
-          OpenAIInput(role: 'user', content: OpenAIContent.text(prompt)),
+      final request = <String, dynamic>{
+        'model': AppConstants.openaiModel,
+        'tools': [
+          {
+            'type': 'file_search',
+            'vector_store_ids': ['vs_693b860bc2cc819199b63e41d29496aa'],
+          },
         ],
-      );
+        'input': [
+          {'role': 'system', 'content': _systemPrompt},
+          {'role': 'user', 'content': prompt},
+        ],
+      };
 
       final response = await _openAIService.generateWorkout(request);
       final responseData = response.data;
 
-      if (responseData.output.isEmpty) {
+      if (responseData['output'] == null ||
+          (responseData['output'] as List).isEmpty) {
         return Left(
           Error(
             message: AppConstants.workoutGenerationError,
@@ -154,31 +180,60 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
         );
       }
 
-      final content = responseData.output.first.content.first.text;
-      final workoutData = jsonDecode(content) as Map<String, dynamic>;
-      final aiWorkout = AIWorkoutDto.fromJson(workoutData);
+      final output = responseData['output'] as List;
 
-      // Convert AI workout to domain Workout entity
-      final workout = aiWorkout.toEntity();
+      // Filter for message type outputs only
+      final messageOutputs = output.where((item) {
+        final itemMap = item as Map<String, dynamic>;
+        return itemMap['type'] == 'message' && itemMap['content'] != null;
+      }).toList();
+
+      if (messageOutputs.isEmpty) {
+        return Left(
+          Error(
+            message: AppConstants.workoutGenerationError,
+            errorType: ErrorType.server,
+          ),
+        );
+      }
+
+      final lastMessage = messageOutputs.last as Map<String, dynamic>;
+      final content = lastMessage['content'] as List?;
+
+      if (content == null || content.isEmpty) {
+        return Left(
+          Error(
+            message: AppConstants.workoutGenerationError,
+            errorType: ErrorType.server,
+          ),
+        );
+      }
+
+      final firstContent = content.first as Map<String, dynamic>;
+      final text = firstContent['text'] as String?;
+
+      if (text == null || text.isEmpty) {
+        return Left(
+          Error(
+            message: AppConstants.workoutGenerationError,
+            errorType: ErrorType.server,
+          ),
+        );
+      }
+
+      final json = jsonDecode(text) as Map<String, dynamic>;
+      final dto = AIWorkoutDto.fromJson(json);
+      final workout = dto.toEntity();
 
       return Right(workout);
-    } on DioException catch (e) {
-      Log.e('OpenAI API error: ${e.message}');
-      return Left(
-        Error(
-          message: AppConstants.workoutGenerationError,
-          code: e.response?.statusCode.toString() ?? '',
-          errorType: ErrorType.network,
-        ),
-      );
     } catch (e) {
-      Log.e('Error generating workout: $e');
-      return Left(
-        Error(
-          message: AppConstants.workoutGenerationError,
-          errorType: ErrorType.other,
-        ),
-      );
+      return Left(handleException(e));
     }
   }
 }
+
+const _systemPrompt =
+    'You are an expert fitness trainer. Always respond with valid JSON only. \n\n'
+    'IMPORTANT: You have access to an input file containing a complete database of exercises. Each exercise in the input file has this structure: {exerciseId, name, gifUrl, targetMuscles, bodyParts, equipments, secondaryMuscles, instructions, description}. '
+    'You MUST ONLY select exercises from this input file. Do not invent or use exercise names that are not in the input file. '
+    'When copying exercise data, use the exact field names and values as they appear in the input file (camelCase format: exerciseId, name, gifUrl, targetMuscles, bodyParts, equipments, secondaryMuscles, instructions, description).';

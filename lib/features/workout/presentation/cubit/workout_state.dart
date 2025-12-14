@@ -24,6 +24,7 @@ class WorkoutState with _$WorkoutState {
     @Default([]) List<Workout> workouts,
     @Default(Workout()) Workout selectedWorkout,
     @Default(Workout()) Workout displayedWorkout,
+    @Default(Workout()) Workout aiGeneratedWorkout,
     @Default(ExerciseFilter()) ExerciseFilter filter,
     @Default('') String search,
     @Default(0) int currentOffset,
@@ -34,7 +35,6 @@ class WorkoutState with _$WorkoutState {
     Error? getWorkoutsError,
     Error? deleteWorkoutError,
     Error? generateAIWorkoutError,
-    Workout? generatedAIWorkout,
   }) = _WorkoutState;
 }
 

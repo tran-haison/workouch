@@ -53,7 +53,7 @@ abstract class InjectionModule {
   }) {
     final BaseOptions options = BaseOptions(
       connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 15),
+      receiveTimeout: const Duration(seconds: 120),
       sendTimeout: const Duration(seconds: 30),
       baseUrl: baseUrl,
       responseType: ResponseType.json,

@@ -18,12 +18,15 @@ class _OpenAIService implements OpenAIService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<OpenAIDto>> generateWorkout(OpenAIRequest request) async {
+  Future<HttpResponse<Map<String, dynamic>>> generateWorkout(
+    Map<String, dynamic> request,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = request;
-    final _options = _setStreamType<HttpResponse<OpenAIDto>>(
+    final _data = <String, dynamic>{};
+    _data.addAll(request);
+    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -34,9 +37,12 @@ class _OpenAIService implements OpenAIService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late OpenAIDto _value;
+    late Map<String, dynamic> _value;
     try {
-      _value = OpenAIDto.fromJson(_result.data!);
+      _value = _result.data!.map(
+        (k, dynamic v) =>
+            MapEntry(k, v as dynamic),
+      );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

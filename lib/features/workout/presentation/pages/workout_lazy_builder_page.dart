@@ -73,18 +73,15 @@ class _WorkoutLazyBuilderPageState extends State<WorkoutLazyBuilderPage>
         }
 
         if (state.generateAIWorkoutStatus == WorkoutStateStatus.success) {
-          final generatedWorkout = state.generatedAIWorkout;
-          if (generatedWorkout != null) {
-            // Update selected workout with generated workout
-            context.read<WorkoutCubit>().updateSelectedWorkout(
-              name: generatedWorkout.name,
-              exercises: generatedWorkout.exercises,
-              restTime: generatedWorkout.restTimeBetweenExercises,
-            );
-            // Navigate to workout creation page
-            context.pushNamed(AppRoute.workoutCreation.name);
-            showCommonToast(AppConstants.workoutGenerated, isError: false);
-          }
+          final generatedWorkout = state.aiGeneratedWorkout;
+          context.read<WorkoutCubit>().updateSelectedWorkout(
+            name: generatedWorkout.name,
+            exercises: generatedWorkout.exercises,
+            restTime: generatedWorkout.restTimeBetweenExercises,
+          );
+          context.pushNamed(AppRoute.workoutCreation.name);
+          showCommonToast(AppConstants.workoutGenerated);
+          return;
         }
 
         if (state.generateAIWorkoutStatus == WorkoutStateStatus.error) {
