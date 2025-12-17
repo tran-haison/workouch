@@ -9,16 +9,10 @@ class AppConstants {
 
   // Exercise DB
   static const exerciseDb = 'exercise-db';
-  static const exerciseDbUrl = 'https://workouch-exercise-db.vercel.app';
+  static const exerciseDbUrl = 'https://api.vigorworkouch.com';
   static const exerciseDbApiVersion = '/api/v1';
   static const exerciseDbApiKeyHeader = 'x-api-key';
   static const exerciseDbApiKeyEnv = 'EXERCISE_DB_API_KEY';
-
-  // OpenAI
-  static const openai = 'openai';
-  static const openaiUrl = 'https://api.openai.com/v1';
-  static const openaiApiKeyEnv = 'OPENAI_API_KEY';
-  static const openaiModel = 'gpt-4o-mini';
 
   // Errors
   static const networkError = 'Network error';
@@ -203,6 +197,8 @@ class AppConstants {
   static const theNeatMode = '"The Neat"';
   static const workoutPreferencesHint =
       'E.g. I have 30 minutes and a pair of dumbbells. Surprise me';
+  static const pleaseEnterYourWorkoutPreferences =
+      'Please enter your workout preferences';
 }
 
 class _Supabase {

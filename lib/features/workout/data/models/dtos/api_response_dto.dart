@@ -17,3 +17,19 @@ class ApiResponseDto<T> {
   Map<String, dynamic> toJson(Object? Function(T) toJsonT) =>
       _$ApiResponseDtoToJson(this, toJsonT);
 }
+
+@JsonSerializable(genericArgumentFactories: true)
+class ApiSingleResponseDto<T> {
+  final bool success;
+  final T data;
+
+  ApiSingleResponseDto({required this.success, required this.data});
+
+  factory ApiSingleResponseDto.fromJson(
+    Map<String, dynamic> json,
+    T Function(Object?) fromJsonT,
+  ) => _$ApiSingleResponseDtoFromJson(json, fromJsonT);
+
+  Map<String, dynamic> toJson(Object? Function(T) toJsonT) =>
+      _$ApiSingleResponseDtoToJson(this, toJsonT);
+}

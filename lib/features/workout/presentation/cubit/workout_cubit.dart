@@ -307,7 +307,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     );
 
     final res = await _aiWorkoutRepo.generateShuffleModeWorkout(
-      userPreferences: userPreferences,
+      preferences: userPreferences,
       user: user,
     );
 
@@ -329,14 +329,14 @@ class WorkoutCubit extends Cubit<WorkoutState> {
   }
 
   Future<void> generateNeatModeWorkout({
-    required String workoutName,
-    required Duration duration,
-    required WorkoutIntensity intensity,
-    required List<WorkoutGoal> goals,
-    required List<String> bodyParts,
-    required List<String> equipments,
-    required String location,
-    String? injuriesLimitations,
+    String? workoutName,
+    Duration? duration,
+    WorkoutIntensity? intensity,
+    List<WorkoutGoal>? goals,
+    List<String>? bodyParts,
+    List<String>? equipments,
+    String? location,
+    String? injuries,
     User? user,
   }) async {
     emit(
@@ -354,7 +354,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
       bodyParts: bodyParts,
       equipments: equipments,
       location: location,
-      injuriesLimitations: injuriesLimitations,
+      injuries: injuries,
       user: user,
     );
 

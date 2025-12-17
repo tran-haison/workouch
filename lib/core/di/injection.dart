@@ -35,17 +35,6 @@ abstract class InjectionModule {
     },
   );
 
-  @LazySingleton()
-  @Named(AppConstants.openai)
-  Dio get dioOpenAI => _createDio(
-    baseUrl: AppConstants.openaiUrl,
-    headers: {
-      'Authorization':
-          'Bearer ${dotenv.env[AppConstants.openaiApiKeyEnv] ?? ''}',
-      'Content-Type': 'application/json',
-    },
-  );
-
   Dio _createDio({
     required String baseUrl,
     Map<String, dynamic>? headers,
@@ -53,7 +42,7 @@ abstract class InjectionModule {
   }) {
     final BaseOptions options = BaseOptions(
       connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 120),
+      receiveTimeout: const Duration(seconds: 180),
       sendTimeout: const Duration(seconds: 30),
       baseUrl: baseUrl,
       responseType: ResponseType.json,

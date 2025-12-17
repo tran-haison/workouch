@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:workouch/core/extension/string_extension.dart';
 import 'package:workouch/features/workout/domain/entities/working_exercise.dart';
 import 'package:workouch/features/workout/domain/entities/working_set.dart';
 
@@ -49,13 +50,13 @@ extension WorkingExerciseDtoExtension on WorkingExerciseDto {
   WorkingExercise toEntity() {
     return WorkingExercise(
       exerciseId: exerciseId,
-      name: name,
+      name: name.capitalized,
       gifUrl: gifUrl,
       description: description,
-      targetMuscles: targetMuscles,
-      bodyParts: bodyParts,
-      equipments: equipments,
-      secondaryMuscles: secondaryMuscles,
+      targetMuscles: targetMuscles.map((e) => e.capitalized).toList(),
+      bodyParts: bodyParts.map((e) => e.capitalized).toList(),
+      equipments: equipments.map((e) => e.capitalized).toList(),
+      secondaryMuscles: secondaryMuscles.map((e) => e.capitalized).toList(),
       instructions: instructions,
       sets: sets.map((set) => set.toEntity()).toList(),
       restTimeBetweenSets: Duration(seconds: restTimeBetweenSets),

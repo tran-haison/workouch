@@ -208,7 +208,10 @@ class _WorkoutLazyBuilderPageState extends State<WorkoutLazyBuilderPage>
       // Shuffle Mode - Simple text input
       final preferences = _simplePreferencesController.text.trim();
       if (preferences.isEmpty) {
-        showCommonToast('Please enter your workout preferences', isError: true);
+        showCommonToast(
+          AppConstants.pleaseEnterYourWorkoutPreferences,
+          isError: true,
+        );
         return;
       }
 
@@ -218,21 +221,17 @@ class _WorkoutLazyBuilderPageState extends State<WorkoutLazyBuilderPage>
       );
     } else {
       // Neat Mode - Structured preferences
-      final workoutName = _nameController.text.trim();
-      if (workoutName.isEmpty) {
-        showCommonToast(AppConstants.pleaseEnterAWorkoutName, isError: true);
-        return;
-      }
-
       await workoutCubit.generateNeatModeWorkout(
-        workoutName: workoutName,
         duration: _workoutDuration,
         intensity: _workoutIntensity,
         goals: _workoutGoals,
         bodyParts: _workoutBodyParts,
         equipments: _workoutEquipments,
         location: _workoutLocation,
-        injuriesLimitations: _injuriesController.text.trim().isEmpty
+        workoutName: _nameController.text.trim().isEmpty
+            ? null
+            : _nameController.text.trim(),
+        injuries: _injuriesController.text.trim().isEmpty
             ? null
             : _injuriesController.text.trim(),
         user: currentUser,

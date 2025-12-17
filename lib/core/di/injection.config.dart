@@ -18,7 +18,6 @@ import '../../features/auth/data/services/supabase_auth_service.dart' as _i738;
 import '../../features/auth/domain/repositories/auth_repo.dart' as _i723;
 import '../../features/auth/presentation/cubit/auth_cubit.dart' as _i117;
 import '../../features/workout/data/services/exercise_service.dart' as _i747;
-import '../../features/workout/data/services/openai_service.dart' as _i122;
 import '../../features/workout/data/services/supabase_workout_service.dart'
     as _i275;
 import '../../features/workout/domain/repositories/ai_workout_repo.dart'
@@ -50,18 +49,11 @@ Future<_i174.GetIt> $initGetIt(
     () => _i275.SupabaseWorkoutService(),
   );
   gh.lazySingleton<_i361.Dio>(
-    () => injectionModule.dioOpenAI,
-    instanceName: 'openai',
-  );
-  gh.lazySingleton<_i361.Dio>(
     () => injectionModule.dioExerciseDb,
     instanceName: 'exercise-db',
   );
   gh.lazySingleton<_i723.AuthRepo>(
     () => _i723.AuthRepoImpl(gh<_i738.SupabaseAuthService>()),
-  );
-  gh.lazySingleton<_i122.OpenAIService>(
-    () => _i122.OpenAIService(gh<_i361.Dio>(instanceName: 'openai')),
   );
   gh.lazySingleton<_i597.WorkoutRepo>(
     () => _i597.WorkoutRepoImpl(gh<_i275.SupabaseWorkoutService>()),
@@ -70,11 +62,11 @@ Future<_i174.GetIt> $initGetIt(
     () => _i747.ExerciseService(gh<_i361.Dio>(instanceName: 'exercise-db')),
   );
   gh.factory<_i117.AuthCubit>(() => _i117.AuthCubit(gh<_i723.AuthRepo>()));
-  gh.lazySingleton<_i1018.AIWorkoutRepo>(
-    () => _i1018.AIWorkoutRepoImpl(gh<_i122.OpenAIService>()),
-  );
   gh.lazySingleton<_i275.ExerciseRepo>(
     () => _i275.ExerciseRepoImpl(gh<_i747.ExerciseService>()),
+  );
+  gh.lazySingleton<_i1018.AIWorkoutRepo>(
+    () => _i1018.AIWorkoutRepoImpl(gh<_i747.ExerciseService>()),
   );
   gh.factory<_i645.WorkoutCubit>(
     () => _i645.WorkoutCubit(
