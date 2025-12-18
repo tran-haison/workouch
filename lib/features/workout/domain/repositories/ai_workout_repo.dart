@@ -61,12 +61,37 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
 
       if (res.response.statusCode == HttpStatus.ok && res.data.success) {
         final dto = res.data.data;
-        return Right(dto.toEntity());
+        final workout = dto.toEntity();
+
+        // Validate that the workout has exercises
+        if (workout.exercises.isEmpty) {
+          return Left(
+            Error(
+              message: 'Generated workout has no exercises. Please try again.',
+              errorType: ErrorType.server,
+            ),
+          );
+        }
+
+        return Right(workout);
+      }
+
+      // Try to extract error message from response data
+      String errorMessage = AppConstants.commonError;
+      final responseData = res.response.data;
+      if (responseData is Map<String, dynamic>) {
+        errorMessage =
+            responseData['message']?.toString() ??
+            responseData['error']?.toString() ??
+            res.response.statusMessage ??
+            AppConstants.commonError;
+      } else {
+        errorMessage = res.response.statusMessage ?? AppConstants.commonError;
       }
 
       return Left(
         Error(
-          message: res.response.statusMessage ?? AppConstants.commonError,
+          message: errorMessage,
           code: res.response.statusCode.toString(),
           errorType: ErrorType.server,
         ),
@@ -116,12 +141,37 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
 
       if (res.response.statusCode == HttpStatus.ok && res.data.success) {
         final dto = res.data.data;
-        return Right(dto.toEntity());
+        final workout = dto.toEntity();
+
+        // Validate that the workout has exercises
+        if (workout.exercises.isEmpty) {
+          return Left(
+            Error(
+              message: 'Generated workout has no exercises. Please try again.',
+              errorType: ErrorType.server,
+            ),
+          );
+        }
+
+        return Right(workout);
+      }
+
+      // Try to extract error message from response data
+      String errorMessage = AppConstants.commonError;
+      final responseData = res.response.data;
+      if (responseData is Map<String, dynamic>) {
+        errorMessage =
+            responseData['message']?.toString() ??
+            responseData['error']?.toString() ??
+            res.response.statusMessage ??
+            AppConstants.commonError;
+      } else {
+        errorMessage = res.response.statusMessage ?? AppConstants.commonError;
       }
 
       return Left(
         Error(
-          message: res.response.statusMessage ?? AppConstants.commonError,
+          message: errorMessage,
           code: res.response.statusCode.toString(),
           errorType: ErrorType.server,
         ),
