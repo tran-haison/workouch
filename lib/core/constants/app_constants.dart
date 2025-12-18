@@ -165,6 +165,16 @@ class AppConstants {
   static const buildingWorkout = 'Building your workout...';
   static const workoutGenerated = 'Workout generated successfully';
   static const workoutGenerationError = 'Failed to generate workout';
+  // AI Workout Generation Messages
+  static const List<String> aiGenerationMessages = [
+    'Analyzing your preferences...',
+    'Selecting perfect exercises...',
+    'Creating workout structure...',
+    'Optimizing sets and reps...',
+    'Calculating rest times...',
+    'Fine-tuning your workout...',
+    'Almost ready...',
+  ];
   static const lowIntensity = 'Low';
   static const mediumIntensity = 'Medium';
   static const highIntensity = 'High';

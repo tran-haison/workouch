@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -11,9 +12,7 @@ import 'common_gaps.dart';
 bool _isDialogVisible = false;
 
 class CommonAiGeneratingDialog extends StatefulWidget {
-  const CommonAiGeneratingDialog({required this.message, super.key});
-
-  final String message;
+  const CommonAiGeneratingDialog({super.key});
 
   @override
   State<CommonAiGeneratingDialog> createState() =>
@@ -21,8 +20,36 @@ class CommonAiGeneratingDialog extends StatefulWidget {
 }
 
 class _CommonAiGeneratingDialogState extends State<CommonAiGeneratingDialog> {
+  late Timer _messageTimer;
+  int _currentMessageIndex = 0;
+  static const Duration _messageInterval = Duration(seconds: 6);
+
+  @override
+  void initState() {
+    super.initState();
+    // Start cycling through messages
+    _messageTimer = Timer.periodic(_messageInterval, (timer) {
+      if (mounted) {
+        setState(() {
+          _currentMessageIndex =
+              (_currentMessageIndex + 1) %
+              AppConstants.aiGenerationMessages.length;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _messageTimer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final currentMessage =
+        AppConstants.aiGenerationMessages[_currentMessageIndex];
+
     return Dialog(
       backgroundColor: AppColors.transparent,
       child: Column(
@@ -40,10 +67,26 @@ class _CommonAiGeneratingDialogState extends State<CommonAiGeneratingDialog> {
                 ),
               ),
               Gaps.vGap16,
-              Text(
-                widget.message,
-                style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w600),
-                textAlign: TextAlign.center,
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(0.0, 0.2),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
+                    ),
+                  );
+                },
+                child: Text(
+                  currentMessage,
+                  key: ValueKey<String>(currentMessage),
+                  style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ],
           ),
@@ -55,10 +98,7 @@ class _CommonAiGeneratingDialogState extends State<CommonAiGeneratingDialog> {
 
 // Extension to show AI workout generation dialog easily
 extension BuildContextExt on BuildContext {
-  void showCommonAiGeneratingDialog({
-    String message = AppConstants.buildingWorkout,
-    bool barrierDismissible = false,
-  }) {
+  void showCommonAiGeneratingDialog({bool barrierDismissible = false}) {
     if (_isDialogVisible) {
       return;
     }
@@ -68,7 +108,7 @@ extension BuildContextExt on BuildContext {
       context: this,
       barrierDismissible: barrierDismissible,
       barrierColor: AppColors.white.withValues(alpha: 0.6),
-      builder: (context) => CommonAiGeneratingDialog(message: message),
+      builder: (context) => const CommonAiGeneratingDialog(),
     );
   }
 
