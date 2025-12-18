@@ -22,20 +22,24 @@ class CommonAiGeneratingDialog extends StatefulWidget {
 class _CommonAiGeneratingDialogState extends State<CommonAiGeneratingDialog> {
   late Timer _messageTimer;
   int _currentMessageIndex = 0;
-  static const Duration _messageInterval = Duration(seconds: 6);
 
   @override
   void initState() {
     super.initState();
     // Start cycling through messages
-    _messageTimer = Timer.periodic(_messageInterval, (timer) {
-      if (mounted) {
-        setState(() {
-          _currentMessageIndex =
-              (_currentMessageIndex + 1) %
-              AppConstants.aiGenerationMessages.length;
-        });
+    _messageTimer = Timer.periodic(Duration(seconds: 5), (timer) {
+      if (!mounted) return;
+
+      // Stop updating when we reach the last message
+      if (_currentMessageIndex >=
+          AppConstants.aiGenerationMessages.length - 1) {
+        _messageTimer.cancel();
+        return;
       }
+
+      setState(() {
+        _currentMessageIndex++;
+      });
     });
   }
 

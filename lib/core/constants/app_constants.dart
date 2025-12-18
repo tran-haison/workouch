@@ -168,7 +168,7 @@ class AppConstants {
   // AI Workout Generation Messages
   static const List<String> aiGenerationMessages = [
     'Analyzing your preferences...',
-    'Selecting perfect exercises...',
+    'Selecting exercises...',
     'Creating workout structure...',
     'Optimizing sets and reps...',
     'Calculating rest times...',
