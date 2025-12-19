@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "182025146080",
+    "project_id": "vigor-workouch-411810",
+    "storage_bucket": "vigor-workouch-411810.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182025146080:android:60385d9e75d74179c8ca85",
+        "android_client_info": {
+          "package_name": "com.vigor.workouch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "182025146080-7gkji2r7qjljqru2ccshhk0aapmkr223.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWJC92kSKktW17FNTAKf2782b_JUHO0mQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "182025146080-7gkji2r7qjljqru2ccshhk0aapmkr223.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "182025146080-t8pubo4cvdugvo39rd3ebanvd511k1qu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.vigor.workouch"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
