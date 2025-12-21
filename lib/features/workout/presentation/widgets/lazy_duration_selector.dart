@@ -39,42 +39,58 @@ class _LazyDurationSelectorState extends State<LazyDurationSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 44.h,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: durations.length,
-        separatorBuilder: (_, _) => Gaps.hGap12,
-        itemBuilder: (context, index) {
-          final durationOption = durations[index];
-          final label = '${durationOption.inMinutes} ${AppConstants.mins}';
-          final isSelected =
-              _currentDuration.inMinutes == durationOption.inMinutes;
-
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                _currentDuration = durationOption;
-              });
-              widget.onChanged(durationOption);
-            },
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-              decoration: BoxDecoration(
-                color: isSelected ? AppColors.black : AppColors.grayBlue,
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Center(
-                child: Text(
-                  label,
-                  style: AppTextStyles.h4.copyWith(
-                    color: isSelected ? AppColors.white : AppColors.black,
-                  ),
-                ),
-              ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          for (int i = 0; i < durations.length; i++) ...[
+            if (i > 0) Gaps.hGap12,
+            _DurationItem(
+              label: '${durations[i].inMinutes} ${AppConstants.mins}',
+              isSelected: _currentDuration.inMinutes == durations[i].inMinutes,
+              onTap: () {
+                setState(() {
+                  _currentDuration = durations[i];
+                });
+                widget.onChanged(durations[i]);
+              },
             ),
-          );
-        },
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _DurationItem extends StatelessWidget {
+  const _DurationItem({
+    required this.label,
+    required this.onTap,
+    required this.isSelected,
+  });
+
+  final String label;
+  final VoidCallback onTap;
+  final bool isSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.black : AppColors.grayBlue,
+          borderRadius: BorderRadius.circular(12.r),
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: AppTextStyles.h4.copyWith(
+              color: isSelected ? AppColors.white : AppColors.black,
+            ),
+          ),
+        ),
       ),
     );
   }

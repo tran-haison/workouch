@@ -50,9 +50,15 @@ class _WorkoutRestPageState extends State<WorkoutRestPage> {
               ? state.workout.exercises[state.currentExerciseIndex + 1]
               : null;
 
-          return Scaffold(
-            body: SafeArea(
-              child: Column(
+          return PopScope(
+            canPop: false,
+            onPopInvokedWithResult: (didPop, result) {
+              if (didPop) return;
+              _exitWorkout(context);
+            },
+            child: Scaffold(
+              body: SafeArea(
+                child: Column(
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(
@@ -216,6 +222,7 @@ class _WorkoutRestPageState extends State<WorkoutRestPage> {
                     ),
                 ],
               ),
+            ),
             ),
           );
         },

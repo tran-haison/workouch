@@ -29,9 +29,15 @@ class WorkoutExecutionPage extends StatelessWidget {
       builder: (context, state) {
         final currentExercise = state.currentExercise;
 
-        return Scaffold(
-          body: SafeArea(
-            child: Column(
+        return PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (didPop, result) {
+            if (didPop) return;
+            _exitWorkout(context);
+          },
+          child: Scaffold(
+            body: SafeArea(
+              child: Column(
               children: [
                 // Header with progress and back button
                 Padding(
@@ -267,6 +273,7 @@ class WorkoutExecutionPage extends StatelessWidget {
                 ),
               ],
             ),
+          ),
           ),
         );
       },

@@ -64,8 +64,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '182025146080',
     projectId: 'vigor-workouch-411810',
     storageBucket: 'vigor-workouch-411810.firebasestorage.app',
-    androidClientId: '182025146080-62no00ami3a7hbgk6lc55gelek9nd0h5.apps.googleusercontent.com',
-    iosClientId: '182025146080-t8pubo4cvdugvo39rd3ebanvd511k1qu.apps.googleusercontent.com',
+    androidClientId:
+        '182025146080-62no00ami3a7hbgk6lc55gelek9nd0h5.apps.googleusercontent.com',
+    iosClientId:
+        '182025146080-t8pubo4cvdugvo39rd3ebanvd511k1qu.apps.googleusercontent.com',
     iosBundleId: 'com.vigor.workouch',
   );
 
@@ -75,8 +77,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '182025146080',
     projectId: 'vigor-workouch-411810',
     storageBucket: 'vigor-workouch-411810.firebasestorage.app',
-    androidClientId: '182025146080-62no00ami3a7hbgk6lc55gelek9nd0h5.apps.googleusercontent.com',
-    iosClientId: '182025146080-t8pubo4cvdugvo39rd3ebanvd511k1qu.apps.googleusercontent.com',
+    androidClientId:
+        '182025146080-62no00ami3a7hbgk6lc55gelek9nd0h5.apps.googleusercontent.com',
+    iosClientId:
+        '182025146080-t8pubo4cvdugvo39rd3ebanvd511k1qu.apps.googleusercontent.com',
     iosBundleId: 'com.vigor.workouch',
   );
 

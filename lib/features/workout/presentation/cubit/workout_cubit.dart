@@ -25,6 +25,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     : super(const WorkoutState());
 
   Future<void> saveWorkout(Workout workout) async {
+    if (isClosed) return;
     emit(
       state.copyWith(
         saveWorkoutStatus: WorkoutStateStatus.loading,
@@ -49,6 +50,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
   }
 
   Future<void> getAllWorkouts() async {
+    if (isClosed) return;
     emit(
       state.copyWith(
         getWorkoutsStatus: WorkoutStateStatus.loading,
@@ -74,6 +76,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
   }
 
   Future<void> deleteWorkout(String workoutId) async {
+    if (isClosed) return;
     emit(
       state.copyWith(
         deleteWorkoutStatus: WorkoutStateStatus.loading,
@@ -102,6 +105,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
   /// Load exercises with pagination support
   /// [loadMore] - true to load next page, false to load from beginning
   Future<void> getExercises({bool loadMore = false}) async {
+    if (isClosed) return;
     if (loadMore) {
       if (!state.hasMore ||
           state.getExercisesStatus == WorkoutStateStatus.loadingMore ||
@@ -178,6 +182,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
 
   /// Load body parts
   Future<void> getBodyParts() async {
+    if (isClosed) return;
     final res = await _exerciseRepo.getBodyParts();
     res.fold(
       (error) => emit(state.copyWith(bodyParts: [])),
@@ -187,6 +192,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
 
   /// Load equipments
   Future<void> getEquipments() async {
+    if (isClosed) return;
     final res = await _exerciseRepo.getEquipments();
     res.fold(
       (error) => emit(state.copyWith(equipments: [])),
@@ -299,6 +305,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     required String userPreferences,
     User? user,
   }) async {
+    if (isClosed) return;
     emit(
       state.copyWith(
         generateAIWorkoutStatus: WorkoutStateStatus.loading,
@@ -339,6 +346,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     String? injuries,
     User? user,
   }) async {
+    if (isClosed) return;
     emit(
       state.copyWith(
         generateAIWorkoutStatus: WorkoutStateStatus.loading,

@@ -44,94 +44,97 @@ class _WorkoutFinishPageState extends State<WorkoutFinishPage> {
               minutes: state.totalTime.minutes,
             );
 
-            return Scaffold(
-              body: SafeArea(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      AppConstants.youHaveCompleted,
-                      style: AppTextStyles.h4.copyWith(
-                        color: AppColors.mediumGray,
+            return PopScope(
+              canPop: false,
+              child: Scaffold(
+                body: SafeArea(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        AppConstants.youHaveCompleted,
+                        style: AppTextStyles.h4.copyWith(
+                          color: AppColors.mediumGray,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      state.workout.name,
-                      style: AppTextStyles.anton.copyWith(fontSize: 32.sp),
-                      textAlign: TextAlign.center,
-                    ),
-                    Gaps.vGap30,
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.w),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: _SummaryCard(
-                              icon: Assets.icons.dumbbell,
-                              iconColor: AppColors.white,
-                              value: state.totalExercisesCompleted.toString(),
-                              label: AppConstants.exercises,
-                              backgroundColor: AppColors.darkBlack,
-                              textColor: AppColors.white,
-                            ),
-                          ),
-                          Gaps.hGap8,
-                          Expanded(
-                            child: _SummaryCard(
-                              icon: Assets.icons.lineWeight,
-                              iconColor: AppColors.black,
-                              value: state.totalSetsCompleted.toString(),
-                              label: AppConstants.sets,
-                              backgroundColor: AppColors.primary,
-                              textColor: AppColors.text,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        state.workout.name,
+                        style: AppTextStyles.anton.copyWith(fontSize: 32.sp),
+                        textAlign: TextAlign.center,
                       ),
-                    ),
-                    Gaps.vGap8,
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.w),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: _SummaryCard(
-                              icon: Assets.icons.clock,
-                              iconColor: AppColors.black,
-                              value: state.totalTime.hhmmss,
-                              label: AppConstants.duration,
-                              backgroundColor: AppColors.secondary,
-                              textColor: AppColors.text,
+                      Gaps.vGap30,
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: _SummaryCard(
+                                icon: Assets.icons.dumbbell,
+                                iconColor: AppColors.white,
+                                value: state.totalExercisesCompleted.toString(),
+                                label: AppConstants.exercises,
+                                backgroundColor: AppColors.darkBlack,
+                                textColor: AppColors.white,
+                              ),
                             ),
-                          ),
-                          Gaps.hGap8,
-                          Expanded(
-                            child: _SummaryCard(
-                              icon: Assets.icons.fire,
-                              iconColor: AppColors.black,
-                              value: '$calories',
-                              label: AppConstants.calories,
-                              backgroundColor: AppColors.grayBlue,
-                              textColor: AppColors.text,
+                            Gaps.hGap8,
+                            Expanded(
+                              child: _SummaryCard(
+                                icon: Assets.icons.lineWeight,
+                                iconColor: AppColors.black,
+                                value: state.totalSetsCompleted.toString(),
+                                label: AppConstants.sets,
+                                backgroundColor: AppColors.primary,
+                                textColor: AppColors.text,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Gaps.vGap40,
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.w),
-                      child: CommonButton(
-                        text: AppConstants.backToHome,
-                        backgroundColor: AppColors.darkBlack,
-                        onPressed: () {
-                          // Navigate to home
-                          context.goNamed(AppRoute.home.name);
-                        },
+                      Gaps.vGap8,
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: _SummaryCard(
+                                icon: Assets.icons.clock,
+                                iconColor: AppColors.black,
+                                value: state.totalTime.hhmmss,
+                                label: AppConstants.duration,
+                                backgroundColor: AppColors.secondary,
+                                textColor: AppColors.text,
+                              ),
+                            ),
+                            Gaps.hGap8,
+                            Expanded(
+                              child: _SummaryCard(
+                                icon: Assets.icons.fire,
+                                iconColor: AppColors.black,
+                                value: '$calories',
+                                label: AppConstants.calories,
+                                backgroundColor: AppColors.grayBlue,
+                                textColor: AppColors.text,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      Gaps.vGap40,
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: CommonButton(
+                          text: AppConstants.backToHome,
+                          backgroundColor: AppColors.darkBlack,
+                          onPressed: () {
+                            // Navigate to home
+                            context.goNamed(AppRoute.home.name);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );

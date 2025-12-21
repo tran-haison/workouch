@@ -84,10 +84,10 @@ dependencies:
   cached_network_image: ^3.4.1
 
   # https://pub.dev/packages/firebase_crashlytics
-  firebase_crashlytics: ^4.3.9
+  firebase_crashlytics: ^4.3.10
 
   # https://pub.dev/packages/firebase_analytics
-  firebase_analytics: ^11.5.2
+  firebase_analytics: ^11.6.0
 
   # https://pub.dev/packages/firebase_core
   firebase_core: ^3.15.1
