@@ -92,6 +92,14 @@ class AppConstants {
   static const loading = 'Loading...';
   static const continueWithGoogle = 'Continue with Google';
   static const continueWithApple = 'Continue with Apple';
+  static const continueWithEmail = 'Continue with Email';
+  static const email = 'Email';
+  static const password = 'Password';
+  static const emailHint = 'Enter your email';
+  static const passwordHint = 'Enter your password';
+  static const pleaseEnterYourEmail = 'Please enter your email';
+  static const pleaseEnterAValidEmail = 'Please enter a valid email';
+  static const pleaseEnterYourPassword = 'Please enter your password';
   static const signInSuccess = 'Signed in successfully';
   static const signInError = 'Failed to sign in. Please try again.';
   static const userNotFound = 'User not found';

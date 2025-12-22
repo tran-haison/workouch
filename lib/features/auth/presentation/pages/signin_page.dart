@@ -15,6 +15,7 @@ import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
+import '../dialogs/email_signin_dialog.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -43,56 +44,75 @@ class SignInPage extends StatelessWidget {
           );
         }
       },
-      child: Scaffold(
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.all(20.r),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // App Logo/Title
-                Text(
-                  AppConstants.appName,
-                  style: AppTextStyles.anton.copyWith(fontSize: 48.sp),
-                ),
-                Gaps.vGap8,
-                Text(
-                  AppConstants.signInSubtitle,
-                  style: AppTextStyles.h4.copyWith(color: AppColors.mediumGray),
-                  textAlign: TextAlign.center,
-                ),
-                Gaps.vGap40,
-                // Google Sign In Button
-                CommonButton(
-                  text: AppConstants.continueWithGoogle,
-                  onPressed: () => context.read<AuthCubit>().signInWithGoogle(),
-                  backgroundColor: AppColors.white,
-                  textStyle: AppTextStyles.h4.copyWith(
-                    color: AppColors.text,
-                    fontWeight: FontWeight.w600,
+      child: PopScope(
+        canPop: false,
+        child: Scaffold(
+          body: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.all(20.r),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // App Logo/Title
+                  Text(
+                    AppConstants.appName,
+                    style: AppTextStyles.anton.copyWith(fontSize: 48.sp),
                   ),
-                  borderColor: AppColors.grayBlue,
-                  leading: CommonAssetIcon(
-                    Assets.icons.google,
-                    useDefaultColor: true,
+                  Gaps.vGap8,
+                  Text(
+                    AppConstants.signInSubtitle,
+                    style: AppTextStyles.h4.copyWith(
+                      color: AppColors.mediumGray,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                ),
-                Gaps.vGap16,
-                // Apple Sign In Button
-                CommonButton(
-                  text: AppConstants.continueWithApple,
-                  onPressed: () => context.read<AuthCubit>().signInWithApple(),
-                  backgroundColor: AppColors.black,
-                  textStyle: AppTextStyles.h4.copyWith(
-                    color: AppColors.white,
-                    fontWeight: FontWeight.w600,
+                  Gaps.vGap40,
+                  // Google Sign In Button
+                  CommonButton(
+                    text: AppConstants.continueWithGoogle,
+                    onPressed: () =>
+                        context.read<AuthCubit>().signInWithGoogle(),
+                    backgroundColor: AppColors.white,
+                    textStyle: AppTextStyles.h4.copyWith(
+                      color: AppColors.text,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    borderColor: AppColors.grayBlue,
+                    leading: CommonAssetIcon(
+                      Assets.icons.google,
+                      useDefaultColor: true,
+                    ),
                   ),
-                  leading: CommonAssetIcon(
-                    Assets.icons.apple,
-                    useDefaultColor: false,
+                  Gaps.vGap16,
+                  // Apple Sign In Button
+                  CommonButton(
+                    text: AppConstants.continueWithApple,
+                    onPressed: () =>
+                        context.read<AuthCubit>().signInWithApple(),
+                    backgroundColor: AppColors.black,
+                    textStyle: AppTextStyles.h4.copyWith(
+                      color: AppColors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    leading: CommonAssetIcon(
+                      Assets.icons.apple,
+                      useDefaultColor: false,
+                    ),
                   ),
-                ),
-              ],
+                  Gaps.vGap16,
+                  // Email Sign In Button
+                  CommonButton(
+                    text: AppConstants.continueWithEmail,
+                    onPressed: () => showEmailSignInDialog(context),
+                    backgroundColor: AppColors.secondary,
+                    textStyle: AppTextStyles.h4.copyWith(
+                      color: AppColors.text,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    borderColor: AppColors.grayBlue,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

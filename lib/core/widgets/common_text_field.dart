@@ -201,12 +201,12 @@ class _CommonTextFieldState extends State<CommonTextField> {
                 icon: _passwordVisible
                     ? Icon(
                         Icons.visibility_outlined,
-                        color: AppColors.primary,
+                        color: AppColors.mediumGray,
                         size: 20.r,
                       )
                     : Icon(
                         Icons.visibility_off_outlined,
-                        color: AppColors.primary,
+                        color: AppColors.mediumGray,
                         size: 20.r,
                       ),
                 onPressed: () =>
