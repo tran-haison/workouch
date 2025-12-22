@@ -11,6 +11,7 @@ import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_images.dart';
 import '../../../auth/presentation/cubit/auth_cubit.dart';
 import '../../../auth/presentation/cubit/auth_state.dart';
+import '../../../auth/presentation/widgets/avatar_placeholder.dart';
 import '../widgets/home_health_metrics.dart';
 
 class HomePage extends StatelessWidget {
@@ -44,6 +45,9 @@ class HomePage extends StatelessWidget {
                             width: 60.r,
                             height: 60.r,
                             radius: 30.r,
+                            errorWidget: AvatarPlaceholder(
+                              user: state.currentUser,
+                            ),
                           ),
                         ),
                         Gaps.vGap16,

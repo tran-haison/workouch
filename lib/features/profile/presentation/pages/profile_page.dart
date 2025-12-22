@@ -15,6 +15,7 @@ import '../../../../gen/assets.gen.dart';
 import '../../../auth/domain/entities/user.dart';
 import '../../../auth/presentation/cubit/auth_cubit.dart';
 import '../../../auth/presentation/cubit/auth_state.dart';
+import '../../../auth/presentation/widgets/avatar_placeholder.dart';
 import '../dialogs/profile_update_dialog.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -83,18 +84,24 @@ class ProfilePage extends StatelessWidget {
                               height: 80.r,
                               radius: 40.r,
                               fit: BoxFit.contain,
+                              errorWidget: AvatarPlaceholder(
+                                user: user,
+                                containerSize: 80.r,
+                              ),
                             ),
                           ),
                         ),
                         Gaps.vGap20,
-                        Text(
-                          user.fullName,
-                          style: AppTextStyles.h1.copyWith(
-                            fontWeight: FontWeight.w700,
+                        if (user.fullName.isNotEmpty) ...[
+                          Text(
+                            user.fullName,
+                            style: AppTextStyles.h1.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Gaps.vGap4,
+                          Gaps.vGap4,
+                        ],
                         Text(
                           user.email,
                           style: AppTextStyles.h4.copyWith(

@@ -19,7 +19,7 @@ class AppDateUtils {
         ? 'Good afternoon'
         : 'Good evening';
 
-    return name != null ? '$greet, $name!' : greet;
+    return name?.isNotEmpty == true ? '$greet, $name!' : greet;
   }
 
   static String _ordinalSuffix(int day) {

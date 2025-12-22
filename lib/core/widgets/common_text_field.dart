@@ -165,7 +165,7 @@ class _CommonTextFieldState extends State<CommonTextField> {
         focusedBorder: OutlineInputBorder(
           borderSide: widget.isShowBorder
               ? BorderSide(
-                  color: widget.borderFocusColor ?? AppColors.error,
+                  color: widget.borderFocusColor ?? AppColors.black,
                   width: widget.borderWidth,
                 )
               : BorderSide.none,
@@ -174,7 +174,7 @@ class _CommonTextFieldState extends State<CommonTextField> {
         enabledBorder: OutlineInputBorder(
           borderSide: widget.isShowBorder
               ? BorderSide(
-                  color: widget.borderColor ?? AppColors.error,
+                  color: widget.borderColor ?? AppColors.grayBlue,
                   width: widget.borderWidth,
                 )
               : BorderSide.none,
