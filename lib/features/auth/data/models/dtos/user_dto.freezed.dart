@@ -30,6 +30,7 @@ mixin _$UserDto {
   double get height => throw _privateConstructorUsedError; // in cm
   double get weight => throw _privateConstructorUsedError; // in kg
   String get activityLevel => throw _privateConstructorUsedError;
+  String get subscriptionTier => throw _privateConstructorUsedError;
 
   /// Serializes this UserDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -55,6 +56,7 @@ abstract class $UserDtoCopyWith<$Res> {
     double height,
     double weight,
     String activityLevel,
+    String subscriptionTier,
   });
 }
 
@@ -82,6 +84,7 @@ class _$UserDtoCopyWithImpl<$Res, $Val extends UserDto>
     Object? height = null,
     Object? weight = null,
     Object? activityLevel = null,
+    Object? subscriptionTier = null,
   }) {
     return _then(
       _value.copyWith(
@@ -121,6 +124,10 @@ class _$UserDtoCopyWithImpl<$Res, $Val extends UserDto>
                 ? _value.activityLevel
                 : activityLevel // ignore: cast_nullable_to_non_nullable
                       as String,
+            subscriptionTier: null == subscriptionTier
+                ? _value.subscriptionTier
+                : subscriptionTier // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -145,6 +152,7 @@ abstract class _$$UserDtoImplCopyWith<$Res> implements $UserDtoCopyWith<$Res> {
     double height,
     double weight,
     String activityLevel,
+    String subscriptionTier,
   });
 }
 
@@ -171,6 +179,7 @@ class __$$UserDtoImplCopyWithImpl<$Res>
     Object? height = null,
     Object? weight = null,
     Object? activityLevel = null,
+    Object? subscriptionTier = null,
   }) {
     return _then(
       _$UserDtoImpl(
@@ -210,6 +219,10 @@ class __$$UserDtoImplCopyWithImpl<$Res>
             ? _value.activityLevel
             : activityLevel // ignore: cast_nullable_to_non_nullable
                   as String,
+        subscriptionTier: null == subscriptionTier
+            ? _value.subscriptionTier
+            : subscriptionTier // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -229,6 +242,7 @@ class _$UserDtoImpl implements _UserDto {
     required this.height,
     required this.weight,
     required this.activityLevel,
+    required this.subscriptionTier,
   });
 
   factory _$UserDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -254,10 +268,12 @@ class _$UserDtoImpl implements _UserDto {
   // in kg
   @override
   final String activityLevel;
+  @override
+  final String subscriptionTier;
 
   @override
   String toString() {
-    return 'UserDto(id: $id, email: $email, fullName: $fullName, avatarUrl: $avatarUrl, gender: $gender, age: $age, height: $height, weight: $weight, activityLevel: $activityLevel)';
+    return 'UserDto(id: $id, email: $email, fullName: $fullName, avatarUrl: $avatarUrl, gender: $gender, age: $age, height: $height, weight: $weight, activityLevel: $activityLevel, subscriptionTier: $subscriptionTier)';
   }
 
   @override
@@ -276,7 +292,9 @@ class _$UserDtoImpl implements _UserDto {
             (identical(other.height, height) || other.height == height) &&
             (identical(other.weight, weight) || other.weight == weight) &&
             (identical(other.activityLevel, activityLevel) ||
-                other.activityLevel == activityLevel));
+                other.activityLevel == activityLevel) &&
+            (identical(other.subscriptionTier, subscriptionTier) ||
+                other.subscriptionTier == subscriptionTier));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -292,6 +310,7 @@ class _$UserDtoImpl implements _UserDto {
     height,
     weight,
     activityLevel,
+    subscriptionTier,
   );
 
   /// Create a copy of UserDto
@@ -319,6 +338,7 @@ abstract class _UserDto implements UserDto {
     required final double height,
     required final double weight,
     required final String activityLevel,
+    required final String subscriptionTier,
   }) = _$UserDtoImpl;
 
   factory _UserDto.fromJson(Map<String, dynamic> json) = _$UserDtoImpl.fromJson;
@@ -341,6 +361,8 @@ abstract class _UserDto implements UserDto {
   double get weight; // in kg
   @override
   String get activityLevel;
+  @override
+  String get subscriptionTier;
 
   /// Create a copy of UserDto
   /// with the given fields replaced by the non-null parameter values.

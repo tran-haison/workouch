@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../subscription/domain/entities/subscription_plan.dart';
 import '../../../../workout/domain/enums/activity_level.dart';
 import '../../../domain/entities/user.dart';
 
@@ -19,6 +20,7 @@ abstract class UserDto with _$UserDto {
     required double height, // in cm
     required double weight, // in kg
     required String activityLevel,
+    required String subscriptionTier,
   }) = _UserDto;
 
   factory UserDto.fromJson(Map<String, dynamic> json) =>
@@ -35,6 +37,7 @@ abstract class UserDto with _$UserDto {
       height: entity.height,
       weight: entity.weight,
       activityLevel: entity.activityLevel.name,
+      subscriptionTier: entity.subscriptionTier.name,
     );
   }
 }
@@ -53,6 +56,10 @@ extension UserDtoExtension on UserDto {
       activityLevel: ActivityLevel.values.firstWhere(
         (e) => e.name == activityLevel,
         orElse: () => ActivityLevel.sedentary,
+      ),
+      subscriptionTier: SubscriptionTier.values.firstWhere(
+        (e) => e.name == subscriptionTier,
+        orElse: () => SubscriptionTier.basic,
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../core/utils/health_utils.dart';
+import '../../../subscription/domain/entities/subscription_plan.dart';
 import '../../../workout/domain/enums/activity_level.dart';
 
 part 'user.freezed.dart';
@@ -22,6 +23,7 @@ class User with _$User {
     @Default(0.0) double height, // in cm
     @Default(0.0) double weight, // in kg
     @Default(ActivityLevel.sedentary) ActivityLevel activityLevel,
+    @Default(SubscriptionTier.basic) SubscriptionTier subscriptionTier,
   }) = _User;
 }
 

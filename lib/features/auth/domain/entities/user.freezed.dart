@@ -26,6 +26,7 @@ mixin _$User {
   double get height => throw _privateConstructorUsedError; // in cm
   double get weight => throw _privateConstructorUsedError; // in kg
   ActivityLevel get activityLevel => throw _privateConstructorUsedError;
+  SubscriptionTier get subscriptionTier => throw _privateConstructorUsedError;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -48,6 +49,7 @@ abstract class $UserCopyWith<$Res> {
     double height,
     double weight,
     ActivityLevel activityLevel,
+    SubscriptionTier subscriptionTier,
   });
 }
 
@@ -75,6 +77,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? height = null,
     Object? weight = null,
     Object? activityLevel = null,
+    Object? subscriptionTier = null,
   }) {
     return _then(
       _value.copyWith(
@@ -114,6 +117,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
                 ? _value.activityLevel
                 : activityLevel // ignore: cast_nullable_to_non_nullable
                       as ActivityLevel,
+            subscriptionTier: null == subscriptionTier
+                ? _value.subscriptionTier
+                : subscriptionTier // ignore: cast_nullable_to_non_nullable
+                      as SubscriptionTier,
           )
           as $Val,
     );
@@ -138,6 +145,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
     double height,
     double weight,
     ActivityLevel activityLevel,
+    SubscriptionTier subscriptionTier,
   });
 }
 
@@ -162,6 +170,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? height = null,
     Object? weight = null,
     Object? activityLevel = null,
+    Object? subscriptionTier = null,
   }) {
     return _then(
       _$UserImpl(
@@ -201,6 +210,10 @@ class __$$UserImplCopyWithImpl<$Res>
             ? _value.activityLevel
             : activityLevel // ignore: cast_nullable_to_non_nullable
                   as ActivityLevel,
+        subscriptionTier: null == subscriptionTier
+            ? _value.subscriptionTier
+            : subscriptionTier // ignore: cast_nullable_to_non_nullable
+                  as SubscriptionTier,
       ),
     );
   }
@@ -219,6 +232,7 @@ class _$UserImpl extends _User {
     this.height = 0.0,
     this.weight = 0.0,
     this.activityLevel = ActivityLevel.sedentary,
+    this.subscriptionTier = SubscriptionTier.basic,
   }) : super._();
 
   @override
@@ -250,10 +264,13 @@ class _$UserImpl extends _User {
   @override
   @JsonKey()
   final ActivityLevel activityLevel;
+  @override
+  @JsonKey()
+  final SubscriptionTier subscriptionTier;
 
   @override
   String toString() {
-    return 'User(id: $id, email: $email, fullName: $fullName, avatarUrl: $avatarUrl, gender: $gender, age: $age, height: $height, weight: $weight, activityLevel: $activityLevel)';
+    return 'User(id: $id, email: $email, fullName: $fullName, avatarUrl: $avatarUrl, gender: $gender, age: $age, height: $height, weight: $weight, activityLevel: $activityLevel, subscriptionTier: $subscriptionTier)';
   }
 
   @override
@@ -272,7 +289,9 @@ class _$UserImpl extends _User {
             (identical(other.height, height) || other.height == height) &&
             (identical(other.weight, weight) || other.weight == weight) &&
             (identical(other.activityLevel, activityLevel) ||
-                other.activityLevel == activityLevel));
+                other.activityLevel == activityLevel) &&
+            (identical(other.subscriptionTier, subscriptionTier) ||
+                other.subscriptionTier == subscriptionTier));
   }
 
   @override
@@ -287,6 +306,7 @@ class _$UserImpl extends _User {
     height,
     weight,
     activityLevel,
+    subscriptionTier,
   );
 
   /// Create a copy of User
@@ -309,6 +329,7 @@ abstract class _User extends User {
     final double height,
     final double weight,
     final ActivityLevel activityLevel,
+    final SubscriptionTier subscriptionTier,
   }) = _$UserImpl;
   const _User._() : super._();
 
@@ -330,6 +351,8 @@ abstract class _User extends User {
   double get weight; // in kg
   @override
   ActivityLevel get activityLevel;
+  @override
+  SubscriptionTier get subscriptionTier;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
