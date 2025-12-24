@@ -6,6 +6,7 @@ class AppConstants {
   // Class constants
   static final timeConst = _Time();
   static final supabase = _Supabase();
+  static final url = _Url();
 
   // Exercise DB
   static const exerciseDb = 'exercise-db';
@@ -241,4 +242,8 @@ class _Time {
   List<int> get secs => [for (var i = 0; i < 60; i++) i];
 
   int get searchDebounce => 500; // milliseconds
+}
+
+class _Url {
+  String get formDeleteAccount => 'https://forms.gle/zgemJjqtUz4HqL6J7';
 }
