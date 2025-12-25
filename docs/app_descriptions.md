@@ -8,8 +8,8 @@
 
 ## Short Description (Up to 80 characters)
 
-ANDROID: AI Workout Planner & Tracker. Personal Trainer. Fitness Coach
-iOS: 
+ANDROID: Workout Planner. Exercise Tracker. Personal Trainer. Fitness Coach
+iOS: Personal Trainer. Gym Tracker
 
 ---
 
@@ -117,4 +117,4 @@ Fitness, workout, exercise, AI fitness, personal trainer, gym, home workout, str
 
 ---
 
-**Last Updated**: 2024
+**Last Updated**: 2025
