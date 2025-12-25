@@ -218,6 +218,7 @@ class AppConstants {
       'E.g. I have 30 minutes and a pair of dumbbells. Surprise me';
   static const pleaseEnterYourWorkoutPreferences =
       'Please enter your workout preferences';
+  static const subscriptionPlans = 'Subscription Plans';
 }
 
 class _Supabase {

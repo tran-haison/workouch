@@ -28,6 +28,7 @@ import '../../features/workout/presentation/cubit/workout_cubit.dart' as _i645;
 import '../../features/workout_session/presentation/cubit/workout_session_cubit.dart'
     as _i613;
 import '../services/firebase_service.dart' as _i758;
+import '../services/subscription_service.dart' as _i833;
 import 'injection.dart' as _i464;
 
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -43,13 +44,16 @@ Future<_i174.GetIt> $initGetIt(
     () => injectionModule.sharedPreferences,
     preResolve: true,
   );
-  gh.lazySingleton<_i275.SupabaseWorkoutService>(
-    () => _i275.SupabaseWorkoutService(),
-  );
+  gh.lazySingleton<_i758.FirebaseService>(() => _i758.FirebaseService());
   gh.lazySingleton<_i738.SupabaseAuthService>(
     () => _i738.SupabaseAuthService(),
   );
-  gh.lazySingleton<_i758.FirebaseService>(() => _i758.FirebaseService());
+  gh.lazySingleton<_i275.SupabaseWorkoutService>(
+    () => _i275.SupabaseWorkoutService(),
+  );
+  gh.lazySingleton<_i833.SubscriptionService>(
+    () => _i833.SubscriptionService(),
+  );
   gh.lazySingleton<_i361.Dio>(
     () => injectionModule.dioExerciseDb,
     instanceName: 'exercise-db',

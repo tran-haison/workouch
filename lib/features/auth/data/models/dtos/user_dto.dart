@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../subscription/domain/entities/subscription_plan.dart';
+import '../../../../profile/domain/entities/subscription_plan.dart';
 import '../../../../workout/domain/enums/activity_level.dart';
 import '../../../domain/entities/user.dart';
 
