@@ -13,9 +13,9 @@ iOS: Personal Trainer. Gym Tracker
 
 ---
 
-## Short Description (Extended - Up to 120 characters)
+## Short Description (Extended - Up to 170 characters)
 
-**Workouch: Your AI fitness coach. Generate personalized workouts instantly with "The Shuffle" or build custom routines with "The Neat". Track your progress and reach your goals.**
+**AI workout planner & personal trainer. Generate personalized fitness routines instantly. Track workouts, monitor progress, achieve goals. Ideal for gym or home.**
 
 ---
 
@@ -113,7 +113,7 @@ Workouch offers 4 types of subscription plans:
 
 ## Keywords (For App Store Optimization)
 
-Fitness, workout, exercise, AI fitness, personal trainer, gym, home workout, strength training, cardio, HIIT, bodybuilding, weightlifting, fitness app, workout planner, exercise library, fitness tracker, health, wellness, training, muscle building, fat loss, endurance, mobility, stretching, yoga, pilates, calisthenics, dumbbell, barbell, bodyweight, gym equipment, fitness goals, workout routine, exercise plan, fitness coach, personal training, workout generator, AI workout, smart fitness, fitness technology
+workout,workout plan,AI workout,personal trainer,workout tracker,fitness,gym,home workout,training
 
 ---
 
