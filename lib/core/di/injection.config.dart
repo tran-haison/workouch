@@ -45,14 +45,14 @@ Future<_i174.GetIt> $initGetIt(
     preResolve: true,
   );
   gh.lazySingleton<_i758.FirebaseService>(() => _i758.FirebaseService());
+  gh.lazySingleton<_i833.SubscriptionService>(
+    () => _i833.SubscriptionService(),
+  );
   gh.lazySingleton<_i738.SupabaseAuthService>(
     () => _i738.SupabaseAuthService(),
   );
   gh.lazySingleton<_i275.SupabaseWorkoutService>(
     () => _i275.SupabaseWorkoutService(),
-  );
-  gh.lazySingleton<_i833.SubscriptionService>(
-    () => _i833.SubscriptionService(),
   );
   gh.lazySingleton<_i361.Dio>(
     () => injectionModule.dioExerciseDb,
