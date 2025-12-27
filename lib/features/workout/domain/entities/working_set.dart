@@ -76,4 +76,43 @@ extension WorkingSetExtension on WorkingSet {
       },
     );
   }
+
+  // Returns a map of the display information for the set
+  // For weight based set, the map will contain the weight and reps (no sets cause it does not make sense when showing on UI)
+  // For reps only set, the map will contain the reps (no sets cause it does not make sense when showing on UI)
+  // For time based set, the map will contain the duration
+  // For distance based set, the map will contain the distance
+  Map<String, String>? get displayInfoMap {
+    return when(
+      weightBased: (sets, reps, weight) {
+        if (sets == 0 || reps == 0 || weight == 0) return null;
+        return {
+          AppConstants.weight: '$weight ${AppConstants.kg}',
+          AppConstants.reps: reps.toString(),
+        };
+      },
+      repsOnly: (sets, reps) {
+        if (sets == 0 || reps == 0) return null;
+        return {AppConstants.reps: reps.toString()};
+      },
+      timeBased: (duration) {
+        if (duration.inSeconds == 0) return null;
+        return {AppConstants.duration: duration.mmss.toLowerCase()};
+      },
+      distanceBased: (distance) {
+        if (distance == 0) return null;
+        if (distance >= 1000) {
+          final km = distance / 1000;
+          final kmString = km
+              .toStringAsFixed(3)
+              .replaceAll(RegExp(r'0+$'), '')
+              .replaceAll(RegExp(r'\.$'), '');
+          return {AppConstants.distance: '$kmString ${AppConstants.km}'};
+        }
+        return {
+          AppConstants.distance: '${distance.toInt()} ${AppConstants.meters}',
+        };
+      },
+    );
+  }
 }
