@@ -147,6 +147,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/search.svg
   SvgGenImage get search => const SvgGenImage('assets/icons/search.svg');
 
+  /// File path: assets/icons/settings.svg
+  SvgGenImage get settings => const SvgGenImage('assets/icons/settings.svg');
+
   /// File path: assets/icons/sick.svg
   SvgGenImage get sick => const SvgGenImage('assets/icons/sick.svg');
 
@@ -205,6 +208,7 @@ class $AssetsIconsGen {
     rest,
     rocket,
     search,
+    settings,
     sick,
     user,
     userLay,

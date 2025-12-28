@@ -15,9 +15,9 @@ import '../../../../core/widgets/common_icons.dart';
 import '../../../../core/widgets/common_text_field.dart';
 import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
-import '../../../auth/domain/entities/user.dart';
-import '../../../auth/presentation/cubit/auth_cubit.dart';
-import '../../../auth/presentation/cubit/auth_state.dart';
+import '../../domain/entities/user.dart';
+import '../cubit/auth_cubit.dart';
+import '../cubit/auth_state.dart';
 import '../../../workout/domain/enums/activity_level.dart';
 
 Future<void> showProfileUpdateDialog(
@@ -107,7 +107,9 @@ class _ProfileUpdateDialogState extends State<_ProfileUpdateDialog> {
                   Expanded(
                     child: Text(
                       AppConstants.updateProfile,
-                      style: AppTextStyles.h3,
+                      style: AppTextStyles.h3.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   Gaps.hGap10,

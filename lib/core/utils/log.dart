@@ -16,6 +16,18 @@ class Log {
     }
   }
 
+  static void i(String msg) {
+    if (!kReleaseMode) {
+      _logger.i(msg);
+    }
+  }
+
+  static void w(String msg) {
+    if (!kReleaseMode) {
+      _logger.w(msg);
+    }
+  }
+
   static void e(String msg) {
     if (!kReleaseMode) {
       _logger.e(msg);
