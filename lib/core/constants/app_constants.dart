@@ -219,6 +219,18 @@ class AppConstants {
   static const pleaseEnterYourWorkoutPreferences =
       'Please enter your workout preferences';
   static const subscriptionPlans = 'Subscription Plans';
+  static const settings = 'Settings';
+  static const account = 'Account';
+  static const deleteAccount = 'Delete Account';
+  static const deleteAccountConfirmation =
+      'Are you sure you want to delete your account? This action cannot be undone.';
+  static const legal = 'Legal';
+  static const termsAndConditions = 'Terms and Conditions';
+  static const privacyPolicy = 'Privacy Policy';
+  static const support = 'Support';
+  static const about = 'About';
+  static const contactUs = 'Contact Us';
+  static const version = 'Version';
 }
 
 class _Supabase {
