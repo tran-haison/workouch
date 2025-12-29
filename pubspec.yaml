@@ -105,7 +105,10 @@ dependencies:
   url_launcher: ^6.3.2
 
   # https://pub.dev/packages/purchases_flutter
-  purchases_flutter: ^8.10.6
+  purchases_flutter: ^9.10.2
+
+  # https://pub.dev/packages/purchases_ui_flutter
+  purchases_ui_flutter: ^9.10.2
   
   # https://pub.dev/packages/go_router
   go_router: ^16.3.0

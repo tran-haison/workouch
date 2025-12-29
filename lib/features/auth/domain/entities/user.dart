@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../core/utils/health_utils.dart';
-import '../../../profile/domain/entities/subscription_plan.dart';
+import 'subscription_plan.dart';
 import '../../../workout/domain/enums/activity_level.dart';
 
 part 'user.freezed.dart';

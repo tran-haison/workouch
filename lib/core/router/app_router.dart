@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/home/presentation/pages/home_page.dart';
-import '../../features/profile/presentation/pages/profile_page.dart';
+import '../../features/auth/presentation/pages/profile_page.dart';
 import '../../features/workout/presentation/pages/workout_creation_page.dart';
 import '../../features/workout/presentation/pages/workout_pro_page.dart';
 import '../../features/workout/presentation/pages/exercises_page.dart';
@@ -14,6 +14,8 @@ import '../../features/workout_session/presentation/pages/workout_execution_page
 import '../../features/workout_session/presentation/pages/workout_rest_page.dart';
 import '../../features/workout_session/presentation/pages/workout_finish_page.dart';
 import '../../features/auth/presentation/pages/signin_page.dart';
+import '../../features/auth/presentation/pages/subscription_page.dart';
+import '../../features/auth/presentation/pages/settings_page.dart';
 import '../../features/workout/domain/entities/workout.dart';
 import '../../features/workout_session/presentation/widgets/workout_session_scope_provider.dart';
 
@@ -21,6 +23,8 @@ enum AppRoute {
   signIn,
   home,
   profile,
+  subscription,
+  settings,
   workoutPro,
   workoutLazyBuilder,
   workoutCreation,
@@ -75,6 +79,26 @@ final appRouter = GoRouter(
       path: '/profile',
       pageBuilder: (context, state) => _buildSlidePage(
         const ProfilePage(),
+        key: state.pageKey,
+        name: state.name,
+        arguments: state.extra,
+      ),
+    ),
+    GoRoute(
+      name: AppRoute.subscription.name,
+      path: '/subscription',
+      pageBuilder: (context, state) => _buildSlidePage(
+        const SubscriptionPage(),
+        key: state.pageKey,
+        name: state.name,
+        arguments: state.extra,
+      ),
+    ),
+    GoRoute(
+      name: AppRoute.settings.name,
+      path: '/settings',
+      pageBuilder: (context, state) => _buildSlidePage(
+        const SettingsPage(),
         key: state.pageKey,
         name: state.name,
         arguments: state.extra,
