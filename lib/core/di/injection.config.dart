@@ -43,20 +43,20 @@ Future<_i174.GetIt> $initGetIt(
   final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
   final injectionModule = _$InjectionModule();
   gh.factory<_i613.WorkoutSessionCubit>(() => _i613.WorkoutSessionCubit());
+  await gh.lazySingletonAsync<_i460.SharedPreferences>(
+    () => injectionModule.sharedPreferences,
+    preResolve: true,
+  );
   gh.lazySingleton<_i999.VersionService>(() => _i999.VersionService());
   gh.lazySingleton<_i758.FirebaseService>(() => _i758.FirebaseService());
   gh.lazySingleton<_i833.SubscriptionService>(
     () => _i833.SubscriptionService(),
   );
-  await gh.lazySingletonAsync<_i460.SharedPreferences>(
-    () => injectionModule.sharedPreferences,
-    preResolve: true,
+  gh.lazySingleton<_i738.SupabaseAuthService>(
+    () => _i738.SupabaseAuthService(),
   );
   gh.lazySingleton<_i275.SupabaseWorkoutService>(
     () => _i275.SupabaseWorkoutService(),
-  );
-  gh.lazySingleton<_i738.SupabaseAuthService>(
-    () => _i738.SupabaseAuthService(),
   );
   gh.lazySingleton<_i361.Dio>(
     () => injectionModule.dioExerciseDb,
