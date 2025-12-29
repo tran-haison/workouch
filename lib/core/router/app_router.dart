@@ -15,7 +15,7 @@ import '../../features/workout_session/presentation/pages/workout_rest_page.dart
 import '../../features/workout_session/presentation/pages/workout_finish_page.dart';
 import '../../features/auth/presentation/pages/signin_page.dart';
 import '../../features/auth/presentation/pages/subscription_page.dart';
-import '../../features/auth/presentation/pages/settings_page.dart';
+import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/workout/domain/entities/workout.dart';
 import '../../features/workout_session/presentation/widgets/workout_session_scope_provider.dart';
 

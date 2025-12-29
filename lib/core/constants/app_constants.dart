@@ -19,8 +19,12 @@ class AppConstants {
   static const networkError = 'Network error';
   static const commonError = 'Something went wrong';
 
-  // Text
+  // Main
   static const appName = 'Workouch';
+  static const appVersion = '1.0.0';
+  static const contactEmailAddress = 'vigor.workouch@gmail.com';
+
+  // App
   static const workout = 'Workout';
   static const lazy = 'LAZY';
   static const lazyDescription = 'Let AI build a quick workout';
@@ -225,12 +229,21 @@ class AppConstants {
   static const deleteAccountConfirmation =
       'Are you sure you want to delete your account? This action cannot be undone.';
   static const legal = 'Legal';
-  static const termsAndConditions = 'Terms and Conditions';
+  static const termsConditions = 'Terms & Conditions';
   static const privacyPolicy = 'Privacy Policy';
   static const support = 'Support';
   static const about = 'About';
   static const contactUs = 'Contact Us';
   static const version = 'Version';
+  static const website = 'Website';
+  static const feedback = 'Feedback';
+  static const feedbackDescription = 'Send us your feedback';
+  static const responseTime = 'Response Time';
+  static const responseTimeDescription =
+      'We typically respond within 24-48 hours. For urgent issues, please mark your email as "Urgent" in the subject line.';
+  static const workingHours = 'Working Hours';
+  static const workingHoursDescription =
+      'Monday - Friday: 9:00 AM - 6:00 PM (UTC)\nWeekend: Limited availability';
 }
 
 class _Supabase {
@@ -259,4 +272,17 @@ class _Time {
 
 class _Url {
   String get formDeleteAccount => 'https://forms.gle/zgemJjqtUz4HqL6J7';
+
+  String get pageTermsConditions =>
+      'https://vigorworkouch.com/terms-conditions';
+
+  String get pagePrivacyPolicy => 'https://vigorworkouch.com/privacy-policy';
+
+  String get pageSupport => 'https://vigorworkouch.com/support';
+
+  String get pageFeedback => 'https://vigorworkouch.com/#get-in-touch';
+
+  String get website => 'https://vigorworkouch.com';
+
+  String get contactEmail => 'mailto:vigor.workouch@gmail.com';
 }

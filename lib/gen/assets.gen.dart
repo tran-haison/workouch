@@ -70,6 +70,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/close.svg
   SvgGenImage get close => const SvgGenImage('assets/icons/close.svg');
 
+  /// File path: assets/icons/contact.svg
+  SvgGenImage get contact => const SvgGenImage('assets/icons/contact.svg');
+
   /// File path: assets/icons/delete.svg
   SvgGenImage get delete => const SvgGenImage('assets/icons/delete.svg');
 
@@ -86,8 +89,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/edit.svg
   SvgGenImage get edit => const SvgGenImage('assets/icons/edit.svg');
 
+  /// File path: assets/icons/email.svg
+  SvgGenImage get email => const SvgGenImage('assets/icons/email.svg');
+
   /// File path: assets/icons/error.svg
   SvgGenImage get error => const SvgGenImage('assets/icons/error.svg');
+
+  /// File path: assets/icons/feedback.svg
+  SvgGenImage get feedback => const SvgGenImage('assets/icons/feedback.svg');
 
   /// File path: assets/icons/female.svg
   SvgGenImage get female => const SvgGenImage('assets/icons/female.svg');
@@ -132,6 +141,12 @@ class $AssetsIconsGen {
   /// File path: assets/icons/namespace.svg
   SvgGenImage get namespace => const SvgGenImage('assets/icons/namespace.svg');
 
+  /// File path: assets/icons/plant.svg
+  SvgGenImage get plant => const SvgGenImage('assets/icons/plant.svg');
+
+  /// File path: assets/icons/privacy.svg
+  SvgGenImage get privacy => const SvgGenImage('assets/icons/privacy.svg');
+
   /// File path: assets/icons/puregym.svg
   SvgGenImage get puregym => const SvgGenImage('assets/icons/puregym.svg');
 
@@ -153,6 +168,16 @@ class $AssetsIconsGen {
   /// File path: assets/icons/sick.svg
   SvgGenImage get sick => const SvgGenImage('assets/icons/sick.svg');
 
+  /// File path: assets/icons/subscription.svg
+  SvgGenImage get subscription =>
+      const SvgGenImage('assets/icons/subscription.svg');
+
+  /// File path: assets/icons/support.svg
+  SvgGenImage get support => const SvgGenImage('assets/icons/support.svg');
+
+  /// File path: assets/icons/terms.svg
+  SvgGenImage get terms => const SvgGenImage('assets/icons/terms.svg');
+
   /// File path: assets/icons/user.svg
   SvgGenImage get user => const SvgGenImage('assets/icons/user.svg');
 
@@ -161,6 +186,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/user_walk.svg
   SvgGenImage get userWalk => const SvgGenImage('assets/icons/user_walk.svg');
+
+  /// File path: assets/icons/website.svg
+  SvgGenImage get website => const SvgGenImage('assets/icons/website.svg');
 
   /// File path: assets/icons/weight.svg
   SvgGenImage get weight => const SvgGenImage('assets/icons/weight.svg');
@@ -183,12 +211,15 @@ class $AssetsIconsGen {
     check,
     clock,
     close,
+    contact,
     delete,
     distance,
     dumbbell,
     dumbbellOutline,
     edit,
+    email,
     error,
+    feedback,
     female,
     filter,
     fire,
@@ -203,6 +234,8 @@ class $AssetsIconsGen {
     male,
     muscle,
     namespace,
+    plant,
+    privacy,
     puregym,
     reorder,
     rest,
@@ -210,9 +243,13 @@ class $AssetsIconsGen {
     search,
     settings,
     sick,
+    subscription,
+    support,
+    terms,
     user,
     userLay,
     userWalk,
+    website,
     weight,
     work,
   ];

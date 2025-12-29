@@ -17,6 +17,8 @@ import 'package:shared_preferences/shared_preferences.dart' as _i460;
 import '../../features/auth/data/services/supabase_auth_service.dart' as _i738;
 import '../../features/auth/domain/repositories/auth_repo.dart' as _i723;
 import '../../features/auth/presentation/cubit/auth_cubit.dart' as _i117;
+import '../../features/settings/presentation/cubit/settings_cubit.dart'
+    as _i792;
 import '../../features/workout/data/services/exercise_service.dart' as _i747;
 import '../../features/workout/data/services/supabase_workout_service.dart'
     as _i275;
@@ -29,6 +31,7 @@ import '../../features/workout_session/presentation/cubit/workout_session_cubit.
     as _i613;
 import '../services/firebase_service.dart' as _i758;
 import '../services/subscription_service.dart' as _i833;
+import '../services/version_service.dart' as _i999;
 import 'injection.dart' as _i464;
 
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -40,19 +43,20 @@ Future<_i174.GetIt> $initGetIt(
   final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
   final injectionModule = _$InjectionModule();
   gh.factory<_i613.WorkoutSessionCubit>(() => _i613.WorkoutSessionCubit());
-  await gh.lazySingletonAsync<_i460.SharedPreferences>(
-    () => injectionModule.sharedPreferences,
-    preResolve: true,
-  );
+  gh.lazySingleton<_i999.VersionService>(() => _i999.VersionService());
   gh.lazySingleton<_i758.FirebaseService>(() => _i758.FirebaseService());
   gh.lazySingleton<_i833.SubscriptionService>(
     () => _i833.SubscriptionService(),
   );
-  gh.lazySingleton<_i738.SupabaseAuthService>(
-    () => _i738.SupabaseAuthService(),
+  await gh.lazySingletonAsync<_i460.SharedPreferences>(
+    () => injectionModule.sharedPreferences,
+    preResolve: true,
   );
   gh.lazySingleton<_i275.SupabaseWorkoutService>(
     () => _i275.SupabaseWorkoutService(),
+  );
+  gh.lazySingleton<_i738.SupabaseAuthService>(
+    () => _i738.SupabaseAuthService(),
   );
   gh.lazySingleton<_i361.Dio>(
     () => injectionModule.dioExerciseDb,
@@ -63,6 +67,9 @@ Future<_i174.GetIt> $initGetIt(
   );
   gh.lazySingleton<_i597.WorkoutRepo>(
     () => _i597.WorkoutRepoImpl(gh<_i275.SupabaseWorkoutService>()),
+  );
+  gh.factory<_i792.SettingsCubit>(
+    () => _i792.SettingsCubit(gh<_i999.VersionService>()),
   );
   gh.lazySingleton<_i747.ExerciseService>(
     () => _i747.ExerciseService(gh<_i361.Dio>(instanceName: 'exercise-db')),
