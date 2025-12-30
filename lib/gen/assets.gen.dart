@@ -168,6 +168,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/sick.svg
   SvgGenImage get sick => const SvgGenImage('assets/icons/sick.svg');
 
+  /// File path: assets/icons/star_ai.svg
+  SvgGenImage get starAi => const SvgGenImage('assets/icons/star_ai.svg');
+
   /// File path: assets/icons/subscription.svg
   SvgGenImage get subscription =>
       const SvgGenImage('assets/icons/subscription.svg');
@@ -243,6 +246,7 @@ class $AssetsIconsGen {
     search,
     settings,
     sick,
+    starAi,
     subscription,
     support,
     terms,

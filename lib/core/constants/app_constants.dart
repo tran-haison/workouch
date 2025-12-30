@@ -244,6 +244,12 @@ class AppConstants {
   static const workingHours = 'Working Hours';
   static const workingHoursDescription =
       'Monday - Friday: 9:00 AM - 6:00 PM (UTC)\nWeekend: Limited availability';
+  static const unlock = 'Unlock';
+  static const enjoyUnlimitedAccess =
+      'Enjoy unlimited access to all features after upgrading to pro plan';
+  static const noChargesYetCancelAnytime = 'No charges yet. Cancel anytime';
+  static const restorePurchase = 'Restore Purchase';
+  static const continueText = 'Continue';
 }
 
 class _Supabase {
