@@ -169,12 +169,12 @@ class AppConstants {
       'Very hard exercise, physical job';
   static const tdee = 'TDEE';
   static const workoutBuilder = 'Workout Builder';
-  static const whatAreYouUpToToday = 'What are you up to today?';
+  static const showUsYourPreferences = 'Show us your preferences';
   static const intensity = 'Intensity';
   static const targetBodyParts = 'Target Body Parts';
   static const availableEquipments = 'Available Equipments';
   static const numberOfExercises = 'Number of Exercises';
-  static const generateWorkout = 'Generate Workout';
+  static const buildMyWorkout = 'Build My Workout';
   static const buildingWorkout = 'Building your workout...';
   static const workoutGenerated = 'Workout generated successfully';
   static const workoutGenerationError = 'Failed to generate workout';
@@ -250,6 +250,7 @@ class AppConstants {
   static const noChargesYetCancelAnytime = 'No charges yet. Cancel anytime';
   static const restorePurchase = 'Restore Purchase';
   static const continueText = 'Continue';
+  static const mostPopular = 'Most Popular';
 }
 
 class _Supabase {

@@ -33,13 +33,15 @@ class WorkoutSetItem extends StatelessWidget {
         color: isCompleted ? AppColors.lightGray : AppColors.white,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: AppColors.grayBlue, width: 1.r),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.grayBlue,
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        boxShadow: isCompleted
+            ? null
+            : [
+                BoxShadow(
+                  color: AppColors.grayBlue,
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,

@@ -264,7 +264,7 @@ class _ShuffleModeTabState extends State<_ShuffleModeTab>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            AppConstants.whatAreYouUpToToday,
+            AppConstants.showUsYourPreferences,
             style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
           ),
           Gaps.vGap8,
@@ -301,7 +301,7 @@ class _ShuffleModeTabState extends State<_ShuffleModeTab>
           ),
           Gaps.vGap30,
           CommonButton(
-            text: AppConstants.generateWorkout,
+            text: AppConstants.buildMyWorkout,
             onPressed: widget.onGenerate,
             backgroundGradientColor: AppColors.backgroundGradient,
             textStyle: AppTextStyles.h3,
@@ -369,7 +369,7 @@ class _NeatModeTabState extends State<_NeatModeTab>
     return BlocBuilder<WorkoutCubit, WorkoutState>(
       builder: (context, state) {
         return SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 40.h),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -391,7 +391,7 @@ class _NeatModeTabState extends State<_NeatModeTab>
                   fontWeight: FontWeight.w300,
                 ),
               ),
-              Gaps.vGap16,
+              Gaps.vGap24,
               // Workout Duration
               _PreferenceSection(
                 title: AppConstants.duration,
@@ -401,7 +401,7 @@ class _NeatModeTabState extends State<_NeatModeTab>
                   onChanged: widget.onDurationChanged,
                 ),
               ),
-              Gaps.vGap16,
+              Gaps.vGap24,
               // Intensity
               _PreferenceSection(
                 title: AppConstants.intensity,
@@ -411,7 +411,7 @@ class _NeatModeTabState extends State<_NeatModeTab>
                   onChanged: widget.onIntensityChanged,
                 ),
               ),
-              Gaps.vGap16,
+              Gaps.vGap24,
               // Workout Goals
               _PreferenceSection(
                 title: AppConstants.workoutGoals,
@@ -421,7 +421,7 @@ class _NeatModeTabState extends State<_NeatModeTab>
                   onChanged: widget.onGoalsChanged,
                 ),
               ),
-              Gaps.vGap16,
+              Gaps.vGap24,
               // Target Body Parts
               _PreferenceSection(
                 title: AppConstants.targetBodyParts,
@@ -432,7 +432,7 @@ class _NeatModeTabState extends State<_NeatModeTab>
                   onChanged: widget.onBodyPartsChanged,
                 ),
               ),
-              Gaps.vGap16,
+              Gaps.vGap24,
               // Available Equipment
               _PreferenceSection(
                 title: AppConstants.availableEquipments,
@@ -443,7 +443,7 @@ class _NeatModeTabState extends State<_NeatModeTab>
                   onChanged: widget.onEquipmentsChanged,
                 ),
               ),
-              Gaps.vGap16,
+              Gaps.vGap24,
               // Location
               _PreferenceSection(
                 title: AppConstants.location,
@@ -453,7 +453,7 @@ class _NeatModeTabState extends State<_NeatModeTab>
                   onChanged: widget.onLocationChanged,
                 ),
               ),
-              Gaps.vGap16,
+              Gaps.vGap24,
               // Injuries/Limitations
               _PreferenceSection(
                 title: AppConstants.injuriesLimitations,
@@ -479,7 +479,7 @@ class _NeatModeTabState extends State<_NeatModeTab>
               Gaps.vGap30,
               // Generate Button
               CommonButton(
-                text: AppConstants.generateWorkout,
+                text: AppConstants.buildMyWorkout,
                 onPressed: widget.onGenerate,
                 backgroundGradientColor: AppColors.backgroundGradient,
                 textStyle: AppTextStyles.h3,
@@ -512,42 +512,27 @@ class _PreferenceSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16.r),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppColors.grayBlue, width: 1.r),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.grayBlue,
-            blurRadius: 8,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              CommonAssetIcon(
-                icon,
-                width: 20.r,
-                height: 20.r,
-                color: AppColors.black,
-              ),
-              Gaps.hGap10,
-              Text(
-                title,
-                style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-          Gaps.vGap12,
-          child,
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            CommonAssetIcon(
+              icon,
+              width: 20.r,
+              height: 20.r,
+              color: AppColors.black,
+            ),
+            Gaps.hGap10,
+            Text(
+              title,
+              style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
+        Gaps.vGap12,
+        child,
+      ],
     );
   }
 }

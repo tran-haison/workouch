@@ -52,7 +52,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 20.w,
-                    vertical: 20.h,
+                    vertical: 10.h,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -131,11 +131,11 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                                   ),
                                 ],
                               ),
-                              Gaps.vGap12,
+                              Gaps.vGap16,
                               Text(
                                 AppConstants.enjoyUnlimitedAccess,
                                 style: AppTextStyles.h4.copyWith(
-                                  color: AppColors.text.withValues(alpha: 0.7),
+                                  color: AppColors.mediumGray,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -164,23 +164,25 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                             });
                           },
                         ),
-                        Gaps.vGap16,
+                        Gaps.vGap24,
                         _SubscriptionPlanCard(
                           plan: yearlyPlan,
                           isSelected:
                               _selectedTier == SubscriptionTier.proYearly,
-                          discountPercent: 50,
+                          discountPercent: yearlyPlan.discountPercent,
+                          showMostPopular: true,
                           onTap: () {
                             setState(() {
                               _selectedTier = SubscriptionTier.proYearly;
                             });
                           },
                         ),
-                        Gaps.vGap16,
+                        Gaps.vGap20,
                         _SubscriptionPlanCard(
                           plan: lifetimePlan,
                           isSelected:
                               _selectedTier == SubscriptionTier.proLifetime,
+                          discountPercent: lifetimePlan.discountPercent,
                           onTap: () {
                             setState(() {
                               _selectedTier = SubscriptionTier.proLifetime;
@@ -206,8 +208,10 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                             },
                             backgroundGradientColor:
                                 AppColors.backgroundGradient,
-                            textStyle: AppTextStyles.h4.copyWith(
-                              fontWeight: FontWeight.w600,
+                            textStyle: AppTextStyles.h3,
+                            padding: EdgeInsets.symmetric(
+                              vertical: 16.h,
+                              horizontal: 20.w,
                             ),
                           ),
                         Gaps.vGap24,
@@ -270,13 +274,17 @@ class _BenefitItem extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: 24.r,
-          height: 24.r,
+          padding: EdgeInsets.all(4.r),
           decoration: BoxDecoration(
-            color: AppColors.primary,
+            color: AppColors.secondary,
             shape: BoxShape.circle,
           ),
-          child: CommonAssetIcon(Assets.icons.check, color: AppColors.black),
+          child: CommonAssetIcon(
+            Assets.icons.check,
+            color: AppColors.black,
+            width: 20.r,
+            height: 20.r,
+          ),
         ),
         Gaps.hGap12,
         Expanded(child: Text(text, style: AppTextStyles.h4)),
@@ -291,12 +299,14 @@ class _SubscriptionPlanCard extends StatelessWidget {
     required this.isSelected,
     required this.onTap,
     this.discountPercent,
+    this.showMostPopular = false,
   });
 
   final SubscriptionPlan plan;
   final bool isSelected;
   final VoidCallback onTap;
   final int? discountPercent;
+  final bool showMostPopular;
 
   @override
   Widget build(BuildContext context) {
@@ -309,69 +319,114 @@ class _SubscriptionPlanCard extends StatelessWidget {
           color: AppColors.white,
           borderRadius: BorderRadius.circular(20.r),
           border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.grayBlue,
+            color: isSelected ? AppColors.darkBlack : AppColors.grayBlue,
             width: isSelected ? 2.r : 1.r,
           ),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 24.r,
-              height: 24.r,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: isSelected ? AppColors.primary : AppColors.grayBlue,
-                  width: 2.r,
-                ),
-                color: isSelected ? AppColors.primary : Colors.transparent,
-              ),
-              child: isSelected
-                  ? CommonAssetIcon(Assets.icons.check, color: AppColors.black)
-                  : null,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.grayBlue,
+              blurRadius: 8,
+              offset: const Offset(0, 2),
             ),
-            Gaps.hGap16,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+          ],
+        ),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 24.r,
+                  height: 24.r,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: isSelected
+                          ? AppColors.darkBlack
+                          : AppColors.grayBlue,
+                      width: 2.r,
+                    ),
+                    color: isSelected
+                        ? AppColors.darkBlack
+                        : Colors.transparent,
+                  ),
+                  child: isSelected
+                      ? CommonAssetIcon(
+                          Assets.icons.check,
+                          color: AppColors.white,
+                        )
+                      : null,
+                ),
+                Gaps.hGap16,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        plan.name,
-                        style: AppTextStyles.h2.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      if (discountPercent != null) ...[
-                        Gaps.hGap8,
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8.w,
-                            vertical: 4.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.primary.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: Text(
-                            '-$discountPercent%',
-                            style: AppTextStyles.h6.copyWith(
-                              color: AppColors.text.withValues(alpha: 0.8),
-                              fontWeight: FontWeight.w800,
+                      Row(
+                        children: [
+                          Text(
+                            plan.period,
+                            style: AppTextStyles.h3.copyWith(
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                        ),
-                      ],
+                          if (discountPercent != null) ...[
+                            Gaps.hGap8,
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8.w,
+                                vertical: 4.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.primary.withValues(alpha: 0.5),
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              child: Text(
+                                '-$discountPercent%',
+                                style: AppTextStyles.h5.copyWith(
+                                  color: AppColors.text.withValues(alpha: 0.8),
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
                     ],
                   ),
-                ],
+                ),
+                Text(
+                  plan.priceString,
+                  style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
+            if (showMostPopular)
+              Positioned(
+                top: -32.r,
+                left: 0.r,
+                child: Center(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 4.h,
+                    ),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [AppColors.primary, AppColors.secondary],
+                      ),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Text(
+                      AppConstants.mostPopular,
+                      style: AppTextStyles.h6.copyWith(
+                        color: AppColors.text,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
-            Text(
-              '${plan.priceString}/${plan.period.toLowerCase()}',
-              style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w600),
-            ),
           ],
         ),
       ),

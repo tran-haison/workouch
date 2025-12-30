@@ -27,6 +27,37 @@ class SubscriptionPlan with _$SubscriptionPlan {
 
 extension SubscriptionPlanExtension on SubscriptionPlan {
   String get productId => Platform.isIOS ? appleProductId : googleProductId;
+
+  /// Calculate discount percentage compared to monthly plan
+  /// Returns null if no discount applies (e.g., for basic or monthly plans)
+  int? get discountPercent {
+    if (tier == SubscriptionTier.basic || tier == SubscriptionTier.proMonthly) {
+      return null;
+    }
+
+    final monthlyPlan = SubscriptionTier.proMonthly.plan;
+    final monthlyPrice = monthlyPlan.price;
+
+    if (tier == SubscriptionTier.proYearly) {
+      // Yearly: $49.99/year vs Monthly: $5.99/month × 12 = $71.88/year
+      // Discount: (($71.88 - $49.99) / $71.88) × 100 = 30.45% ≈ 30%
+      const monthsInYear = 12;
+      final monthlyCostForYear = monthlyPrice * monthsInYear;
+      final discount =
+          ((monthlyCostForYear - price) / monthlyCostForYear) * 100;
+      return discount.round();
+    } else if (tier == SubscriptionTier.proLifetime) {
+      // Lifetime: $149.99 vs Monthly: $5.99/month × 36 months (3 years) = $215.64
+      // Discount: (($215.64 - $149.99) / $215.64) × 100 = 30.45% ≈ 30%
+      const comparisonMonths = 36; // Compare to 3 years of monthly subscription
+      final monthlyCostForPeriod = monthlyPrice * comparisonMonths;
+      final discount =
+          ((monthlyCostForPeriod - price) / monthlyCostForPeriod) * 100;
+      return discount.round();
+    }
+
+    return null;
+  }
 }
 
 extension SubscriptionTierExtension on SubscriptionTier {
@@ -55,13 +86,9 @@ extension SubscriptionTierExtension on SubscriptionTier {
           priceString: 'FREE',
           period: 'Forever',
           features: [
-            'Manual workout creation',
+            'Manual workout creation & management',
             'Exercise database access',
-            'Workout execution with timer',
-            'Rest timer functionality',
-            'Profile management',
-            'BMI and TDEE calculation',
-            'Workout history tracking',
+            'Basic progress tracking',
           ],
           packageId: '',
           appleProductId: '',
@@ -77,15 +104,11 @@ extension SubscriptionTierExtension on SubscriptionTier {
           priceString: '\$5.99',
           period: 'Monthly',
           features: [
-            'AI-powered workout generation',
-            'The Shuffle mode (custom preferences)',
-            'The Neat mode (duration-based)',
-            'Workout goals selection',
-            'Intensity customization',
-            'Target body parts selection',
-            'Equipment-based filtering',
-            'Injuries/Limitations consideration',
-            'All basic features included',
+            'Unlimited access to all premium features',
+            'Unlimited AI-powered workout generation',
+            'Advanced progress tracking & analytics',
+            'Comprehensive body stats & insights',
+            'All future updates included',
           ],
           packageId: '\$rc_monthly',
           appleProductId: 'pomofy_pro_monthly',
@@ -101,16 +124,11 @@ extension SubscriptionTierExtension on SubscriptionTier {
           priceString: '\$49.99',
           period: 'Yearly',
           features: [
-            'AI-powered workout generation',
-            'The Shuffle mode (custom preferences)',
-            'The Neat mode (duration-based)',
-            'Workout goals selection',
-            'Intensity customization',
-            'Target body parts selection',
-            'Equipment-based filtering',
-            'Injuries/Limitations consideration',
-            'All basic features included',
-            'Best value - Save 33%',
+            'Unlimited access to all premium features',
+            'Unlimited AI-powered workout generation',
+            'Advanced progress tracking & analytics',
+            'Comprehensive body stats & insights',
+            'All future updates included',
           ],
           packageId: '\$rc_yearly',
           appleProductId: 'pomofy_pro_yearly',
@@ -124,19 +142,13 @@ extension SubscriptionTierExtension on SubscriptionTier {
           icon: Assets.icons.rocket,
           price: 149.99,
           priceString: '\$149.99',
-          period: 'Forever',
+          period: 'Lifetime',
           features: [
-            'AI-powered workout generation',
-            'The Shuffle mode (custom preferences)',
-            'The Neat mode (duration-based)',
-            'Workout goals selection',
-            'Intensity customization',
-            'Target body parts selection',
-            'Equipment-based filtering',
-            'Injuries/Limitations consideration',
-            'All basic features included',
-            'One-time payment, lifetime access',
-            'All future features included',
+            'Unlimited access to all premium features',
+            'Unlimited AI-powered workout generation',
+            'Advanced progress tracking & analytics',
+            'Comprehensive body stats & insights',
+            'Lifetime access with all future updates',
           ],
           packageId: '\$rc_lifetime',
           appleProductId: 'pomofy_pro_lifetime',
