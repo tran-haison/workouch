@@ -17,6 +17,7 @@ class SubscriptionPlan with _$SubscriptionPlan {
     required SvgGenImage icon,
     required double price,
     required String priceString,
+    required int discountPercent,
     required String period,
     required List<String> features,
     required String packageId,
@@ -28,39 +29,18 @@ class SubscriptionPlan with _$SubscriptionPlan {
 extension SubscriptionPlanExtension on SubscriptionPlan {
   String get productId => Platform.isIOS ? appleProductId : googleProductId;
 
-  /// Calculate discount percentage compared to monthly plan
-  /// Returns null if no discount applies (e.g., for basic or monthly plans)
-  int? get discountPercent {
-    if (tier == SubscriptionTier.basic || tier == SubscriptionTier.proMonthly) {
-      return null;
-    }
-
-    final monthlyPlan = SubscriptionTier.proMonthly.plan;
-    final monthlyPrice = monthlyPlan.price;
-
-    if (tier == SubscriptionTier.proYearly) {
-      // Yearly: $49.99/year vs Monthly: $5.99/month × 12 = $71.88/year
-      // Discount: (($71.88 - $49.99) / $71.88) × 100 = 30.45% ≈ 30%
-      const monthsInYear = 12;
-      final monthlyCostForYear = monthlyPrice * monthsInYear;
-      final discount =
-          ((monthlyCostForYear - price) / monthlyCostForYear) * 100;
-      return discount.round();
-    } else if (tier == SubscriptionTier.proLifetime) {
-      // Lifetime: $149.99 vs Monthly: $5.99/month × 36 months (3 years) = $215.64
-      // Discount: (($215.64 - $149.99) / $215.64) × 100 = 30.45% ≈ 30%
-      const comparisonMonths = 36; // Compare to 3 years of monthly subscription
-      final monthlyCostForPeriod = monthlyPrice * comparisonMonths;
-      final discount =
-          ((monthlyCostForPeriod - price) / monthlyCostForPeriod) * 100;
-      return discount.round();
-    }
-
-    return null;
+  bool isActive(String productId) {
+    return productId == appleProductId || productId == googleProductId;
   }
 }
 
 extension SubscriptionTierExtension on SubscriptionTier {
+  bool get isBasic => this == SubscriptionTier.basic;
+  bool get isProMonthly => this == SubscriptionTier.proMonthly;
+  bool get isProYearly => this == SubscriptionTier.proYearly;
+  bool get isProLifetime => this == SubscriptionTier.proLifetime;
+  bool get isPro => isProMonthly || isProYearly || isProLifetime;
+
   String get string {
     switch (this) {
       case SubscriptionTier.basic:
@@ -74,6 +54,19 @@ extension SubscriptionTierExtension on SubscriptionTier {
     }
   }
 
+  String get stringShort {
+    switch (this) {
+      case SubscriptionTier.basic:
+        return 'Basic';
+      case SubscriptionTier.proMonthly:
+        return 'Pro';
+      case SubscriptionTier.proYearly:
+        return 'Pro';
+      case SubscriptionTier.proLifetime:
+        return 'Pro';
+    }
+  }
+
   SubscriptionPlan get plan {
     switch (this) {
       case SubscriptionTier.basic:
@@ -84,6 +77,7 @@ extension SubscriptionTierExtension on SubscriptionTier {
           icon: Assets.icons.lineWeight,
           price: 0.0,
           priceString: 'FREE',
+          discountPercent: 0,
           period: 'Forever',
           features: [
             'Manual workout creation & management',
@@ -100,19 +94,21 @@ extension SubscriptionTierExtension on SubscriptionTier {
           name: 'Pro Monthly',
           description: 'Unlimited access to all features',
           icon: Assets.icons.rocket,
-          price: 5.99,
-          priceString: '\$5.99',
+          price:
+              5.99, // This is base price in USD, actual price will be fetched from RevenueCat
+          priceString:
+              '\$5.99', // This is base price string in USD, actual price string will be fetched from RevenueCat
+          discountPercent: 0,
           period: 'Monthly',
           features: [
-            'Unlimited access to all premium features',
             'Unlimited AI-powered workout generation',
             'Advanced progress tracking & analytics',
             'Comprehensive body stats & insights',
             'All future updates included',
           ],
           packageId: '\$rc_monthly',
-          appleProductId: 'pomofy_pro_monthly',
-          googleProductId: 'pomofy_pro_monthly',
+          appleProductId: 'workouch_pro_monthly',
+          googleProductId: 'workouch_pro:workouch-pro-monthly',
         );
       case SubscriptionTier.proYearly:
         return SubscriptionPlan(
@@ -120,19 +116,21 @@ extension SubscriptionTierExtension on SubscriptionTier {
           name: 'Pro Yearly',
           description: 'Unlimited access to all features',
           icon: Assets.icons.rocket,
-          price: 49.99,
-          priceString: '\$49.99',
+          price:
+              49.99, // This is base price in USD, actual price will be fetched from RevenueCat
+          priceString:
+              '\$49.99', // This is base price string in USD, actual price string will be fetched from RevenueCat
+          discountPercent: 30,
           period: 'Yearly',
           features: [
-            'Unlimited access to all premium features',
             'Unlimited AI-powered workout generation',
             'Advanced progress tracking & analytics',
             'Comprehensive body stats & insights',
             'All future updates included',
           ],
-          packageId: '\$rc_yearly',
-          appleProductId: 'pomofy_pro_yearly',
-          googleProductId: 'pomofy_pro_yearly',
+          packageId: '\$rc_annual',
+          appleProductId: 'workouch_pro_yearly',
+          googleProductId: 'workouch_pro:workouch-pro-yearly',
         );
       case SubscriptionTier.proLifetime:
         return SubscriptionPlan(
@@ -140,19 +138,21 @@ extension SubscriptionTierExtension on SubscriptionTier {
           name: 'Pro Lifetime',
           description: 'Unlimited access to all features',
           icon: Assets.icons.rocket,
-          price: 149.99,
-          priceString: '\$149.99',
+          price:
+              149.99, // This is base price in USD, actual price will be fetched from RevenueCat
+          priceString:
+              '\$149.99', // This is base price string in USD, actual price string will be fetched from RevenueCat
+          discountPercent: 30,
           period: 'Lifetime',
           features: [
-            'Unlimited access to all premium features',
             'Unlimited AI-powered workout generation',
             'Advanced progress tracking & analytics',
             'Comprehensive body stats & insights',
             'Lifetime access with all future updates',
           ],
           packageId: '\$rc_lifetime',
-          appleProductId: 'pomofy_pro_lifetime',
-          googleProductId: 'pomofy_pro_lifetime',
+          appleProductId: 'workouch_pro_lifetime',
+          googleProductId: 'workouch_pro_lifetime',
         );
     }
   }

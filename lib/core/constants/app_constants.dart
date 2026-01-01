@@ -245,12 +245,24 @@ class AppConstants {
   static const workingHoursDescription =
       'Monday - Friday: 9:00 AM - 6:00 PM (UTC)\nWeekend: Limited availability';
   static const unlock = 'Unlock';
-  static const enjoyUnlimitedAccess =
-      'Enjoy unlimited access to all features after upgrading to pro plan';
+  static const enjoyUnlimitedAccess = 'Enjoy unlimited access to all features';
   static const noChargesYetCancelAnytime = 'No charges yet. Cancel anytime';
   static const restorePurchase = 'Restore Purchase';
   static const continueText = 'Continue';
   static const mostPopular = 'Most Popular';
+  static const unlimitedWorkoutGeneration =
+      'Unlimited AI-powered workout generation';
+  static const advancedProgressTrackingAnalytics =
+      'Advanced progress tracking & analytics';
+  static const comprehensiveBodyStatsInsights =
+      'Comprehensive body stats & insights';
+  static const allFutureUpdatesIncluded = 'All future updates included';
+  static const purchaseSuccess = 'Subscription purchased successfully';
+  static const purchaseError =
+      'Failed to proceed with purchase. Please try again.';
+  static const restoreSuccess = 'Subscription restored successfully';
+  static const restoreError =
+      'Failed to restore subscription. Please try again.';
 }
 
 class _Supabase {

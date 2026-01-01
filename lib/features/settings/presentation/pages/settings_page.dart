@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/url_utils.dart';
 import '../../../../core/widgets/common_button.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_pop_up_dialog.dart';
-import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../auth/presentation/cubit/auth_cubit.dart';
 import '../cubit/settings_cubit.dart';
@@ -100,19 +99,26 @@ class _SettingsViewState extends State<_SettingsView> {
                         SettingsItem(
                           icon: Assets.icons.terms,
                           title: AppConstants.termsConditions,
-                          onTap: () =>
-                              _openUrl(AppConstants.url.pageTermsConditions),
+                          onTap: () => UrlUtils.openUrl(
+                            context,
+                            AppConstants.url.pageTermsConditions,
+                          ),
                         ),
                         SettingsItem(
                           icon: Assets.icons.privacy,
                           title: AppConstants.privacyPolicy,
-                          onTap: () =>
-                              _openUrl(AppConstants.url.pagePrivacyPolicy),
+                          onTap: () => UrlUtils.openUrl(
+                            context,
+                            AppConstants.url.pagePrivacyPolicy,
+                          ),
                         ),
                         SettingsItem(
                           icon: Assets.icons.support,
                           title: AppConstants.support,
-                          onTap: () => _openUrl(AppConstants.url.pageSupport),
+                          onTap: () => UrlUtils.openUrl(
+                            context,
+                            AppConstants.url.pageSupport,
+                          ),
                         ),
                       ],
                     ),
@@ -163,21 +169,9 @@ class _SettingsViewState extends State<_SettingsView> {
       context,
       title: AppConstants.deleteAccount,
       message: AppConstants.deleteAccountConfirmation,
-      onFirstButtonPressed: () => _openUrl(AppConstants.url.formDeleteAccount),
+      onFirstButtonPressed: () =>
+          UrlUtils.openUrl(context, AppConstants.url.formDeleteAccount),
     );
-  }
-
-  Future<void> _openUrl(String urlString) async {
-    try {
-      final url = Uri.parse(urlString);
-      // On Android 11+, canLaunchUrl might return false even with proper queries
-      // So we try to launch directly and handle exceptions
-      await launchUrl(url, mode: LaunchMode.externalApplication);
-    } catch (e) {
-      if (context.mounted) {
-        showCommonToast(AppConstants.commonError, isError: true);
-      }
-    }
   }
 
   Future<void> _signOut(BuildContext context) async {

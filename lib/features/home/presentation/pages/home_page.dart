@@ -58,6 +58,7 @@ class HomePage extends StatelessWidget {
                         Text(
                           AppDateUtils.greetUser(state.currentUser?.fullName),
                           style: AppTextStyles.h0,
+                          textAlign: TextAlign.center,
                         ),
                       ],
                     ),

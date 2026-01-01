@@ -15,8 +15,6 @@ class SubscriptionService {
   static const _packageIdMonthly = '\$rc_monthly';
   static const _packageIdYearly = '\$rc_annual';
   static const _packageIdLifetime = '\$rc_lifetime';
-  // static const _appleProductIds = ['pomofy_pro_lifetime'];
-  // static const _googleProductIds = ['pomofy_pro_lifetime'];
 
   // Public RevenueCat key associated with the app
   static const String _appleApiKey = 'appl_KsRXtcAZdAAEavRLvZsmlBTrcCE';
@@ -86,24 +84,8 @@ class SubscriptionService {
     }
   }
 
-  Future<List<StoreProduct>> getAvailableProducts() async {
-    try {
-      final packages = await getAvailablePackages();
-      final products = packages.map((e) => e.storeProduct).toList();
-
-      Log.i(
-        'Available products: ${products.map((e) => e.identifier).join(', ')}',
-      );
-
-      return products;
-    } catch (e) {
-      Log.e('Error getting available products: $e');
-      return [];
-    }
-  }
-
   // Check if user has active subscription
-  Future<bool> hasActiveSubscription() async {
+  Future<bool> _hasActiveSubscription() async {
     try {
       final customerInfo = await Purchases.getCustomerInfo();
       return customerInfo.entitlements.active.containsKey(_entitlementIdPro);
@@ -116,7 +98,7 @@ class SubscriptionService {
   // Get current subscription tier for this user
   Future<SubscriptionTier> getUserSubscriptionTier() async {
     try {
-      final hasSubscription = await hasActiveSubscription();
+      final hasSubscription = await _hasActiveSubscription();
 
       // If user has no active subscription, return basic tier
       if (!hasSubscription) {
@@ -127,11 +109,30 @@ class SubscriptionService {
       final activeEntitlement =
           customerInfo.entitlements.active[_entitlementIdPro]!;
 
-      final productIdentifier = activeEntitlement.productIdentifier;
-      Log.e('Product identifier: $productIdentifier');
+      // Android: workouch_pro
+      // iOS: workouch_pro_monthly
+      final productId = activeEntitlement.productIdentifier;
+      Log.i('Product identifier: $productId');
 
-      // TODO: Check if user has monthly, yearly, or lifetime subscription
-      return SubscriptionTier.proMonthly;
+      // This is for Android only
+      // Android: workouch-pro-monthly
+      // iOS: null
+      final productPlanId = activeEntitlement.productPlanIdentifier;
+      Log.i('Product plan identifier: $productPlanId');
+
+      // This is the final id that matches id on RevenueCat
+      // Android: workouch_pro:workouch-pro-monthly
+      // iOS: workouch_pro_monthly
+      final id =
+          '$productId${productPlanId?.isNotEmpty == true ? ':$productPlanId' : ''}';
+
+      // Find the matching subscription tier
+      final matchingTier = SubscriptionTier.values.firstWhere(
+        (tier) => tier.plan.isActive(id),
+        orElse: () => SubscriptionTier.basic,
+      );
+
+      return matchingTier;
     } catch (e) {
       Log.e('Error getting subscription tier: $e');
       return SubscriptionTier.basic;
@@ -139,7 +140,7 @@ class SubscriptionService {
   }
 
   // Purchase a package
-  Future<bool> purchaseProduct(Package package) async {
+  Future<bool> purchase(Package package) async {
     try {
       final purchaseParams = PurchaseParams.package(package);
       final result = await Purchases.purchase(purchaseParams);

@@ -2,21 +2,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../workout/domain/enums/activity_level.dart';
+import '../../domain/entities/subscription_plan.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repo.dart';
+import '../../domain/repositories/subscription_repo.dart';
 import 'auth_state.dart';
 
 @injectable
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepo _authRepo;
+  final SubscriptionRepo _subRepo;
 
-  AuthCubit(this._authRepo) : super(const AuthState()) {
-    _getCurrentUser();
+  AuthCubit(this._authRepo, this._subRepo) : super(const AuthState()) {
+    initUser();
+    _getAvailableSubPackages();
   }
 
-  /// Get current user
-  Future<void> _getCurrentUser() async {
+  Future<void> initUser() async {
     emit(state.copyWith(status: AuthStateStatus.loading, error: null));
+
+    /// Get current user
     final res = await _authRepo.getCurrentUser();
     res.fold(
       (error) => emit(
@@ -25,12 +30,27 @@ class AuthCubit extends Cubit<AuthState> {
           currentUser: null,
         ),
       ),
-      (user) => emit(
-        state.copyWith(
-          status: AuthStateStatus.authenticated,
-          currentUser: user,
-        ),
-      ),
+      (user) async {
+        // Login to RevenueCat
+        await _subRepo.login(user.id);
+        var updatedUser = user;
+
+        // Sync user subscription from RevenueCat if it has changed
+        final resUserSub = await _subRepo.getUserSubscriptionTier();
+        if (resUserSub.isRight && resUserSub.right != user.subscriptionTier) {
+          updatedUser = updatedUser.copyWith(
+            subscriptionTier: resUserSub.right,
+          );
+          await _authRepo.updateUserProfile(updatedUser);
+        }
+
+        emit(
+          state.copyWith(
+            status: AuthStateStatus.authenticated,
+            currentUser: updatedUser,
+          ),
+        );
+      },
     );
   }
 
@@ -44,7 +64,7 @@ class AuthCubit extends Cubit<AuthState> {
       (success) async {
         if (success) {
           // Get current user after successful sign in
-          await _getCurrentUser();
+          await initUser();
         } else {
           emit(state.copyWith(status: AuthStateStatus.error));
         }
@@ -62,7 +82,7 @@ class AuthCubit extends Cubit<AuthState> {
       (success) async {
         if (success) {
           // Get current user after successful sign in
-          await _getCurrentUser();
+          await initUser();
         } else {
           emit(state.copyWith(status: AuthStateStatus.error));
         }
@@ -86,7 +106,7 @@ class AuthCubit extends Cubit<AuthState> {
       (success) async {
         if (success) {
           // Get current user after successful sign in
-          await _getCurrentUser();
+          await initUser();
         } else {
           emit(state.copyWith(status: AuthStateStatus.error));
         }
@@ -121,7 +141,7 @@ class AuthCubit extends Cubit<AuthState> {
       (success) async {
         if (success) {
           // Refresh user data after successful update
-          await _getCurrentUser();
+          await initUser();
         } else {
           emit(state.copyWith(status: AuthStateStatus.error));
         }
@@ -141,6 +161,63 @@ class AuthCubit extends Cubit<AuthState> {
           status: AuthStateStatus.unauthenticated,
           error: null,
           currentUser: null,
+        ),
+      ),
+    );
+  }
+
+  /// Get available subscription packages
+  Future<void> _getAvailableSubPackages() async {
+    final res = await _subRepo.getAvailablePackages();
+    res.fold(
+      (_) => emit(state.copyWith(availablePackages: [])),
+      (packages) => emit(state.copyWith(availablePackages: packages)),
+    );
+  }
+
+  Future<void> purchaseSubscription(SubscriptionTier tier) async {
+    emit(state.copyWith(status: AuthStateStatus.loading, error: null));
+
+    // Get the subscription plan for this tier to get the packageId
+    final plan = tier.plan;
+
+    // Find the matching Package by comparing package identifier with plan's packageId
+    final package = state.availablePackages.firstWhere(
+      (pkg) => pkg.identifier == plan.packageId,
+      orElse: () => throw StateError(
+        'Package not found for tier ${tier.name}. Please ensure packages are loaded.',
+      ),
+    );
+
+    final res = await _subRepo.purchase(package);
+    res.fold(
+      (error) => emit(
+        state.copyWith(status: AuthStateStatus.purchaseSubError, error: error),
+      ),
+      (success) => emit(
+        state.copyWith(
+          status: success
+              ? AuthStateStatus.purchaseSubSuccess
+              : AuthStateStatus.purchaseSubError,
+          error: null,
+        ),
+      ),
+    );
+  }
+
+  Future<void> restoreSubscription() async {
+    emit(state.copyWith(status: AuthStateStatus.loading, error: null));
+    final res = await _subRepo.restorePurchases();
+    res.fold(
+      (error) => emit(
+        state.copyWith(status: AuthStateStatus.restoreSubError, error: error),
+      ),
+      (success) => emit(
+        state.copyWith(
+          status: success
+              ? AuthStateStatus.restoreSubSuccess
+              : AuthStateStatus.restoreSubError,
+          error: null,
         ),
       ),
     );

@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/url_utils.dart';
 import '../../../../core/widgets/common_button.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
+import '../../../../core/widgets/common_loading_dialog.dart';
+import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../domain/entities/subscription_plan.dart';
+import '../cubit/auth_cubit.dart';
+import '../cubit/auth_state.dart';
 
 class SubscriptionPage extends StatefulWidget {
   const SubscriptionPage({super.key});
@@ -20,45 +27,66 @@ class SubscriptionPage extends StatefulWidget {
 
 class _SubscriptionPageState extends State<SubscriptionPage> {
   SubscriptionTier? _selectedTier;
-  final monthlyPlan = SubscriptionTier.proMonthly.plan;
-  final yearlyPlan = SubscriptionTier.proYearly.plan;
-  final lifetimePlan = SubscriptionTier.proLifetime.plan;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    AppColors.primary,
-                    AppColors.backgroundLight,
-                    AppColors.backgroundLight,
-                    AppColors.secondary,
-                  ],
-                  stops: const [0.0, 0.2, 0.8, 1.0],
-                ),
-              ),
-            ),
-          ),
-          SafeArea(
+    return BlocConsumer<AuthCubit, AuthState>(
+      listenWhen: (prev, curr) => prev.status != curr.status,
+      listener: (context, state) {
+        if (state.status == AuthStateStatus.loading) {
+          context.showLoadingDialog();
+        } else {
+          context.hideLoadingDialog();
+        }
+
+        if (state.status == AuthStateStatus.purchaseSubSuccess) {
+          context.read<AuthCubit>().initUser();
+          showCommonToast(AppConstants.purchaseSuccess);
+          context.goNamed(AppRoute.home.name);
+          return;
+        }
+
+        if (state.status == AuthStateStatus.restoreSubSuccess) {
+          context.read<AuthCubit>().initUser();
+          showCommonToast(AppConstants.restoreSuccess);
+          context.goNamed(AppRoute.home.name);
+          return;
+        }
+
+        if (state.status == AuthStateStatus.purchaseSubError) {
+          showCommonToast(
+            state.error?.message ?? AppConstants.purchaseError,
+            isError: true,
+          );
+          return;
+        }
+
+        if (state.status == AuthStateStatus.restoreSubError) {
+          showCommonToast(
+            state.error?.message ?? AppConstants.restoreError,
+            isError: true,
+          );
+        }
+      },
+      builder: (context, state) {
+        final monthlyPlan = state.monthlyPlan;
+        final yearlyPlan = state.yearlyPlan;
+        final lifetimePlan = state.lifetimePlan;
+
+        return Scaffold(
+          body: SafeArea(
             child: Column(
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 20.w,
-                    vertical: 10.h,
+                    vertical: 20.h,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       CommonIconButton(
-                        backgroundColor: Colors.transparent,
+                        backgroundColor: AppColors.transparent,
                         icon: Assets.icons.close,
                         iconColor: AppColors.black,
                         onTap: () => context.pop(),
@@ -143,21 +171,25 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                           ),
                         ),
                         Gaps.vGap32,
-                        // Benefits List
-                        ...yearlyPlan.features.asMap().entries.expand((entry) {
-                          final index = entry.key;
-                          final feature = entry.value;
-                          return [
-                            _BenefitItem(text: feature),
-                            if (index < yearlyPlan.features.length - 1)
-                              Gaps.vGap16,
-                          ];
-                        }),
+                        const _BenefitItem(
+                          text: AppConstants.unlimitedWorkoutGeneration,
+                        ),
+                        Gaps.vGap16,
+                        const _BenefitItem(
+                          text: AppConstants.advancedProgressTrackingAnalytics,
+                        ),
+                        Gaps.vGap16,
+                        const _BenefitItem(
+                          text: AppConstants.comprehensiveBodyStatsInsights,
+                        ),
+                        Gaps.vGap16,
+                        const _BenefitItem(
+                          text: AppConstants.allFutureUpdatesIncluded,
+                        ),
                         Gaps.vGap32,
                         _SubscriptionPlanCard(
                           plan: monthlyPlan,
-                          isSelected:
-                              _selectedTier == SubscriptionTier.proMonthly,
+                          isSelected: _selectedTier?.isProMonthly ?? false,
                           onTap: () {
                             setState(() {
                               _selectedTier = SubscriptionTier.proMonthly;
@@ -167,8 +199,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                         Gaps.vGap24,
                         _SubscriptionPlanCard(
                           plan: yearlyPlan,
-                          isSelected:
-                              _selectedTier == SubscriptionTier.proYearly,
+                          isSelected: _selectedTier?.isProYearly ?? false,
                           discountPercent: yearlyPlan.discountPercent,
                           showMostPopular: true,
                           onTap: () {
@@ -180,8 +211,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                         Gaps.vGap20,
                         _SubscriptionPlanCard(
                           plan: lifetimePlan,
-                          isSelected:
-                              _selectedTier == SubscriptionTier.proLifetime,
+                          isSelected: _selectedTier?.isProLifetime ?? false,
                           discountPercent: lifetimePlan.discountPercent,
                           onTap: () {
                             setState(() {
@@ -203,12 +233,14 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                           CommonButton(
                             text: AppConstants.continueText,
                             onPressed: () {
-                              // TODO: Handle subscription purchase
-                              context.pop();
+                              context.read<AuthCubit>().purchaseSubscription(
+                                _selectedTier!,
+                              );
                             },
-                            backgroundGradientColor:
-                                AppColors.backgroundGradient,
-                            textStyle: AppTextStyles.h3,
+                            backgroundColor: AppColors.darkBlack,
+                            textStyle: AppTextStyles.h3.copyWith(
+                              color: AppColors.white,
+                            ),
                             padding: EdgeInsets.symmetric(
                               vertical: 16.h,
                               horizontal: 20.w,
@@ -221,7 +253,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                             _FooterLink(
                               text: AppConstants.restorePurchase,
                               onTap: () {
-                                // TODO: Handle restore purchases
+                                context.read<AuthCubit>().restoreSubscription();
                               },
                             ),
                             Text(
@@ -233,7 +265,10 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                             _FooterLink(
                               text: AppConstants.privacyPolicy,
                               onTap: () {
-                                // TODO: Navigate to privacy policy
+                                UrlUtils.openUrl(
+                                  context,
+                                  AppConstants.url.pagePrivacyPolicy,
+                                );
                               },
                             ),
                             Text(
@@ -245,7 +280,10 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                             _FooterLink(
                               text: AppConstants.termsConditions,
                               onTap: () {
-                                // TODO: Navigate to terms of use
+                                UrlUtils.openUrl(
+                                  context,
+                                  AppConstants.url.pageTermsConditions,
+                                );
                               },
                             ),
                           ],
@@ -258,8 +296,8 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
               ],
             ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -313,7 +351,6 @@ class _SubscriptionPlanCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 1.sw,
         padding: EdgeInsets.all(20.r),
         decoration: BoxDecoration(
           color: AppColors.white,
@@ -383,7 +420,7 @@ class _SubscriptionPlanCard extends StatelessWidget {
                               ),
                               child: Text(
                                 '-$discountPercent%',
-                                style: AppTextStyles.h5.copyWith(
+                                style: AppTextStyles.h6.copyWith(
                                   color: AppColors.text.withValues(alpha: 0.8),
                                   fontWeight: FontWeight.w800,
                                 ),

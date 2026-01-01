@@ -23,6 +23,7 @@ mixin _$SubscriptionPlan {
   SvgGenImage get icon => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
   String get priceString => throw _privateConstructorUsedError;
+  int get discountPercent => throw _privateConstructorUsedError;
   String get period => throw _privateConstructorUsedError;
   List<String> get features => throw _privateConstructorUsedError;
   String get packageId => throw _privateConstructorUsedError;
@@ -50,6 +51,7 @@ abstract class $SubscriptionPlanCopyWith<$Res> {
     SvgGenImage icon,
     double price,
     String priceString,
+    int discountPercent,
     String period,
     List<String> features,
     String packageId,
@@ -79,6 +81,7 @@ class _$SubscriptionPlanCopyWithImpl<$Res, $Val extends SubscriptionPlan>
     Object? icon = freezed,
     Object? price = null,
     Object? priceString = null,
+    Object? discountPercent = null,
     Object? period = null,
     Object? features = null,
     Object? packageId = null,
@@ -111,6 +114,10 @@ class _$SubscriptionPlanCopyWithImpl<$Res, $Val extends SubscriptionPlan>
                 ? _value.priceString
                 : priceString // ignore: cast_nullable_to_non_nullable
                       as String,
+            discountPercent: null == discountPercent
+                ? _value.discountPercent
+                : discountPercent // ignore: cast_nullable_to_non_nullable
+                      as int,
             period: null == period
                 ? _value.period
                 : period // ignore: cast_nullable_to_non_nullable
@@ -153,6 +160,7 @@ abstract class _$$SubscriptionPlanImplCopyWith<$Res>
     SvgGenImage icon,
     double price,
     String priceString,
+    int discountPercent,
     String period,
     List<String> features,
     String packageId,
@@ -181,6 +189,7 @@ class __$$SubscriptionPlanImplCopyWithImpl<$Res>
     Object? icon = freezed,
     Object? price = null,
     Object? priceString = null,
+    Object? discountPercent = null,
     Object? period = null,
     Object? features = null,
     Object? packageId = null,
@@ -213,6 +222,10 @@ class __$$SubscriptionPlanImplCopyWithImpl<$Res>
             ? _value.priceString
             : priceString // ignore: cast_nullable_to_non_nullable
                   as String,
+        discountPercent: null == discountPercent
+            ? _value.discountPercent
+            : discountPercent // ignore: cast_nullable_to_non_nullable
+                  as int,
         period: null == period
             ? _value.period
             : period // ignore: cast_nullable_to_non_nullable
@@ -248,6 +261,7 @@ class _$SubscriptionPlanImpl implements _SubscriptionPlan {
     required this.icon,
     required this.price,
     required this.priceString,
+    required this.discountPercent,
     required this.period,
     required final List<String> features,
     required this.packageId,
@@ -268,6 +282,8 @@ class _$SubscriptionPlanImpl implements _SubscriptionPlan {
   @override
   final String priceString;
   @override
+  final int discountPercent;
+  @override
   final String period;
   final List<String> _features;
   @override
@@ -286,7 +302,7 @@ class _$SubscriptionPlanImpl implements _SubscriptionPlan {
 
   @override
   String toString() {
-    return 'SubscriptionPlan(tier: $tier, name: $name, description: $description, icon: $icon, price: $price, priceString: $priceString, period: $period, features: $features, packageId: $packageId, appleProductId: $appleProductId, googleProductId: $googleProductId)';
+    return 'SubscriptionPlan(tier: $tier, name: $name, description: $description, icon: $icon, price: $price, priceString: $priceString, discountPercent: $discountPercent, period: $period, features: $features, packageId: $packageId, appleProductId: $appleProductId, googleProductId: $googleProductId)';
   }
 
   @override
@@ -302,6 +318,8 @@ class _$SubscriptionPlanImpl implements _SubscriptionPlan {
             (identical(other.price, price) || other.price == price) &&
             (identical(other.priceString, priceString) ||
                 other.priceString == priceString) &&
+            (identical(other.discountPercent, discountPercent) ||
+                other.discountPercent == discountPercent) &&
             (identical(other.period, period) || other.period == period) &&
             const DeepCollectionEquality().equals(other._features, _features) &&
             (identical(other.packageId, packageId) ||
@@ -321,6 +339,7 @@ class _$SubscriptionPlanImpl implements _SubscriptionPlan {
     const DeepCollectionEquality().hash(icon),
     price,
     priceString,
+    discountPercent,
     period,
     const DeepCollectionEquality().hash(_features),
     packageId,
@@ -348,6 +367,7 @@ abstract class _SubscriptionPlan implements SubscriptionPlan {
     required final SvgGenImage icon,
     required final double price,
     required final String priceString,
+    required final int discountPercent,
     required final String period,
     required final List<String> features,
     required final String packageId,
@@ -367,6 +387,8 @@ abstract class _SubscriptionPlan implements SubscriptionPlan {
   double get price;
   @override
   String get priceString;
+  @override
+  int get discountPercent;
   @override
   String get period;
   @override

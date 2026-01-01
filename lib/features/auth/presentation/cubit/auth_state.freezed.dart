@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$AuthState {
   AuthStateStatus get status => throw _privateConstructorUsedError;
+  List<Package> get availablePackages => throw _privateConstructorUsedError;
   User? get currentUser => throw _privateConstructorUsedError;
   Error? get error => throw _privateConstructorUsedError;
 
@@ -33,7 +34,12 @@ abstract class $AuthStateCopyWith<$Res> {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
       _$AuthStateCopyWithImpl<$Res, AuthState>;
   @useResult
-  $Res call({AuthStateStatus status, User? currentUser, Error? error});
+  $Res call({
+    AuthStateStatus status,
+    List<Package> availablePackages,
+    User? currentUser,
+    Error? error,
+  });
 
   $UserCopyWith<$Res>? get currentUser;
   $ErrorCopyWith<$Res>? get error;
@@ -55,6 +61,7 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   @override
   $Res call({
     Object? status = null,
+    Object? availablePackages = null,
     Object? currentUser = freezed,
     Object? error = freezed,
   }) {
@@ -64,6 +71,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
                       as AuthStateStatus,
+            availablePackages: null == availablePackages
+                ? _value.availablePackages
+                : availablePackages // ignore: cast_nullable_to_non_nullable
+                      as List<Package>,
             currentUser: freezed == currentUser
                 ? _value.currentUser
                 : currentUser // ignore: cast_nullable_to_non_nullable
@@ -115,7 +126,12 @@ abstract class _$$AuthStateImplCopyWith<$Res>
   ) = __$$AuthStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AuthStateStatus status, User? currentUser, Error? error});
+  $Res call({
+    AuthStateStatus status,
+    List<Package> availablePackages,
+    User? currentUser,
+    Error? error,
+  });
 
   @override
   $UserCopyWith<$Res>? get currentUser;
@@ -138,6 +154,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? status = null,
+    Object? availablePackages = null,
     Object? currentUser = freezed,
     Object? error = freezed,
   }) {
@@ -147,6 +164,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as AuthStateStatus,
+        availablePackages: null == availablePackages
+            ? _value._availablePackages
+            : availablePackages // ignore: cast_nullable_to_non_nullable
+                  as List<Package>,
         currentUser: freezed == currentUser
             ? _value.currentUser
             : currentUser // ignore: cast_nullable_to_non_nullable
@@ -165,13 +186,24 @@ class __$$AuthStateImplCopyWithImpl<$Res>
 class _$AuthStateImpl implements _AuthState {
   const _$AuthStateImpl({
     this.status = AuthStateStatus.initial,
+    final List<Package> availablePackages = const [],
     this.currentUser,
     this.error,
-  });
+  }) : _availablePackages = availablePackages;
 
   @override
   @JsonKey()
   final AuthStateStatus status;
+  final List<Package> _availablePackages;
+  @override
+  @JsonKey()
+  List<Package> get availablePackages {
+    if (_availablePackages is EqualUnmodifiableListView)
+      return _availablePackages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_availablePackages);
+  }
+
   @override
   final User? currentUser;
   @override
@@ -179,7 +211,7 @@ class _$AuthStateImpl implements _AuthState {
 
   @override
   String toString() {
-    return 'AuthState(status: $status, currentUser: $currentUser, error: $error)';
+    return 'AuthState(status: $status, availablePackages: $availablePackages, currentUser: $currentUser, error: $error)';
   }
 
   @override
@@ -188,13 +220,23 @@ class _$AuthStateImpl implements _AuthState {
         (other.runtimeType == runtimeType &&
             other is _$AuthStateImpl &&
             (identical(other.status, status) || other.status == status) &&
+            const DeepCollectionEquality().equals(
+              other._availablePackages,
+              _availablePackages,
+            ) &&
             (identical(other.currentUser, currentUser) ||
                 other.currentUser == currentUser) &&
             (identical(other.error, error) || other.error == error));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, currentUser, error);
+  int get hashCode => Object.hash(
+    runtimeType,
+    status,
+    const DeepCollectionEquality().hash(_availablePackages),
+    currentUser,
+    error,
+  );
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -208,12 +250,15 @@ class _$AuthStateImpl implements _AuthState {
 abstract class _AuthState implements AuthState {
   const factory _AuthState({
     final AuthStateStatus status,
+    final List<Package> availablePackages,
     final User? currentUser,
     final Error? error,
   }) = _$AuthStateImpl;
 
   @override
   AuthStateStatus get status;
+  @override
+  List<Package> get availablePackages;
   @override
   User? get currentUser;
   @override

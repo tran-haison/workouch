@@ -18,6 +18,7 @@ import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 import '../widgets/avatar_placeholder.dart';
 import '../dialogs/profile_update_dialog.dart';
+import '../widgets/subscription_badge.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -129,6 +130,8 @@ class ProfilePage extends StatelessWidget {
                           ),
                           textAlign: TextAlign.center,
                         ),
+                        Gaps.vGap10,
+                        const SubscriptionBadge(),
                         Gaps.vGap30,
                         Row(
                           children: [
