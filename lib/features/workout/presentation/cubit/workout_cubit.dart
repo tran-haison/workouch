@@ -281,13 +281,12 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     emit(state.copyWith(search: search));
   }
 
-  /// Clear all selections and filters
-  void clearAll() {
+  /// Reset state
+  void reset() {
     emit(
       state.copyWith(
         getExercisesStatus: WorkoutStateStatus.initial,
         getExercisesError: null,
-        selectedWorkout: state.selectedWorkout.copyWith(exercises: []),
         filter: const ExerciseFilter(),
         search: '',
       ),

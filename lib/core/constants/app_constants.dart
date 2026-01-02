@@ -44,6 +44,7 @@ class AppConstants {
   static const nameHint = 'E.g. Chest Workout';
   static const restBetweenExercises = 'Rest between exercises';
   static const clearAll = 'Clear all';
+  static const reset = 'Reset';
   static const searchByName = 'Search by name';
   static const selectExercises = 'Select exercises';
   static const error = 'Error';
@@ -78,8 +79,8 @@ class AppConstants {
   static const delete = 'Delete';
   static const dragToReorder = 'Hold and drag to reorder, swipe to delete';
   static const noExerciseSelected = 'No exercise selected';
-  static const invalidSets = 'All sets must be valid';
-  static const addFirstWorkout = 'Add your first workout';
+  static const invalidSets = 'Please fill in data for all sets';
+  static const buildFirstWorkout = 'Let\'s build your first workout';
   static const workoutSavedSuccessfully = 'Workout saved successfully';
   static const workoutSavedError = 'Failed to save workout';
   static const workoutNotFound = 'Workout not found';
@@ -125,6 +126,7 @@ class AppConstants {
   static const youHaveCompleted = 'You have completed';
   static const backToHome = 'Back to Home';
   static const duration = 'Duration';
+  static const tenSecs = '10s';
   static const plusTenSecs = '+ 10s';
   static const minusTenSecs = '- 10s';
   static const description = 'Description';

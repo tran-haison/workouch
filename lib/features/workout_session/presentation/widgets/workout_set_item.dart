@@ -30,7 +30,11 @@ class WorkoutSetItem extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 20.w),
       decoration: BoxDecoration(
-        color: isCompleted ? AppColors.lightGray : AppColors.white,
+        color: isCompleted
+            ? AppColors.lightGray
+            : isCurrent
+            ? AppColors.secondary
+            : AppColors.white,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: AppColors.grayBlue, width: 1.r),
         boxShadow: isCompleted
@@ -50,7 +54,7 @@ class WorkoutSetItem extends StatelessWidget {
             width: 40.r,
             height: 40.r,
             decoration: BoxDecoration(
-              color: isCurrent ? AppColors.secondary : AppColors.grayBlue,
+              color: AppColors.grayBlue,
               borderRadius: BorderRadius.circular(16.r),
             ),
             child: Center(

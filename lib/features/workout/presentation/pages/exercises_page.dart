@@ -86,8 +86,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
                               const Spacer(),
                               CommonButton(
                                 isFullWidth: false,
-                                text: AppConstants.clearAll,
-                                onPressed: _clearAll,
+                                text: AppConstants.reset,
+                                onPressed: _reset,
                                 textStyle: AppTextStyles.h4.copyWith(
                                   color: AppColors.text,
                                   fontWeight: FontWeight.w600,
@@ -303,9 +303,9 @@ class _ExercisesPageState extends State<ExercisesPage> {
     }
   }
 
-  void _clearAll() {
+  void _reset() {
     _searchController.clear();
-    context.read<WorkoutCubit>().clearAll();
+    context.read<WorkoutCubit>().reset();
     context.read<WorkoutCubit>().getExercises();
   }
 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:workouch/core/extension/duration_extension.dart';
+import 'package:workouch/core/widgets/common_icons.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -186,30 +187,58 @@ class _RestTimerOverlayState extends State<RestTimerOverlay>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CommonIconButton(
-                            icon: Assets.icons.arrowDown,
-                            iconColor: AppColors.black,
-                            backgroundColor: AppColors.grayBlue,
-                            radius: 12.r,
-                            onTap: () {
-                              context
-                                  .read<WorkoutSessionCubit>()
-                                  .decreaseRestSets(10);
-                              _showPopUpText('-10');
-                            },
+                          Flexible(
+                            child: CommonButton(
+                              isFullWidth: false,
+                              text: AppConstants.tenSecs,
+                              backgroundColor: AppColors.grayBlue,
+                              textStyle: AppTextStyles.h4.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                              leading: CommonAssetIcon(
+                                Assets.icons.arrowDown,
+                                color: AppColors.black,
+                              ),
+                              spaceWithLeading: 4.w,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12.w,
+                                vertical: 12.h,
+                              ),
+                              radius: 12.r,
+                              onPressed: () {
+                                context
+                                    .read<WorkoutSessionCubit>()
+                                    .decreaseRestSets(10);
+                                _showPopUpText('-10');
+                              },
+                            ),
                           ),
-                          Gaps.hGap16,
-                          CommonIconButton(
-                            icon: Assets.icons.arrowUp,
-                            iconColor: AppColors.black,
-                            backgroundColor: AppColors.grayBlue,
-                            radius: 12.r,
-                            onTap: () {
-                              context
-                                  .read<WorkoutSessionCubit>()
-                                  .increaseRestSets(10);
-                              _showPopUpText('+10');
-                            },
+                          Gaps.hGap10,
+                          Flexible(
+                            child: CommonButton(
+                              isFullWidth: false,
+                              text: AppConstants.tenSecs,
+                              backgroundColor: AppColors.grayBlue,
+                              textStyle: AppTextStyles.h4.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                              leading: CommonAssetIcon(
+                                Assets.icons.arrowUp,
+                                color: AppColors.black,
+                              ),
+                              spaceWithLeading: 4.w,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12.w,
+                                vertical: 12.h,
+                              ),
+                              radius: 12.r,
+                              onPressed: () {
+                                context
+                                    .read<WorkoutSessionCubit>()
+                                    .increaseRestSets(10);
+                                _showPopUpText('+10');
+                              },
+                            ),
                           ),
                         ],
                       ),

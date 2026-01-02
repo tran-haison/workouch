@@ -99,7 +99,7 @@ class _WorkoutProPageState extends State<WorkoutProPage> {
                       if (workouts.isEmpty) {
                         return Center(
                           child: Text(
-                            AppConstants.addFirstWorkout,
+                            AppConstants.buildFirstWorkout,
                             style: AppTextStyles.h4.copyWith(
                               color: AppColors.mediumGray,
                             ),
