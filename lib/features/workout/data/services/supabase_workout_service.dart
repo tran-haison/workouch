@@ -4,9 +4,11 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/log.dart';
 import '../../domain/entities/workout.dart';
+import '../../domain/entities/user_subscription.dart';
 import '../models/dtos/working_exercise_dto.dart';
 import '../models/dtos/working_set_dto.dart';
 import '../models/dtos/workout_dto.dart';
+import '../models/dtos/user_subscription_dto.dart';
 
 @lazySingleton
 class SupabaseWorkoutService {
@@ -16,7 +18,6 @@ class SupabaseWorkoutService {
   String? get _currentUserId => _supabase.auth.currentUser?.id;
 
   /// Create or update a workout with exercises
-  /// Returns true if successful, false if an error occurred
   Future<bool> saveWorkout(Workout workout) async {
     try {
       final userId = _currentUserId;
@@ -93,7 +94,6 @@ class SupabaseWorkoutService {
   }
 
   /// Get a single workout by ID with all exercises
-  /// Returns the workout entity, or null if not found
   Future<Workout?> getWorkout(String workoutId) async {
     try {
       final userId = _currentUserId;
@@ -182,7 +182,6 @@ class SupabaseWorkoutService {
   }
 
   /// Get all workouts for the current user with their exercises
-  /// Returns a list of workout entities
   Future<List<Workout>> getAllWorkouts() async {
     try {
       final userId = _currentUserId;
@@ -306,7 +305,6 @@ class SupabaseWorkoutService {
   }
 
   /// Delete a workout by ID
-  /// Returns true if successful, false if an error occurred
   Future<bool> deleteWorkout(String workoutId) async {
     try {
       final userId = _currentUserId;
@@ -325,6 +323,128 @@ class SupabaseWorkoutService {
       return true;
     } catch (e) {
       Log.e('Error deleting workout: $e');
+      return false;
+    }
+  }
+
+  /// Get user subscription for the current user
+  Future<UserSubscription?> getUserSubscription() async {
+    try {
+      final userId = _currentUserId;
+      if (userId == null) {
+        Log.e('No authenticated user found');
+        return null;
+      }
+
+      // Fetch user subscription
+      final res = await _supabase
+          .from(AppConstants.supabase.tableUserSubscription)
+          .select()
+          .eq('user_id', userId)
+          .maybeSingle();
+
+      if (res == null) {
+        return null;
+      }
+
+      // Convert to DTO
+      final dto = UserSubscriptionDto.fromJson(res);
+
+      // Convert to entity
+      return dto.toEntity();
+    } catch (e) {
+      Log.e('Error fetching user subscription: $e');
+      return null;
+    }
+  }
+
+  /// Update user subscription (increment workoutGenUsed)
+  Future<bool> incrementWorkoutGenUsed() async {
+    try {
+      final userId = _currentUserId;
+      if (userId == null) {
+        Log.e('No authenticated user found');
+        return false;
+      }
+
+      // Fetch current subscription to get current workout_gen_used
+      final currentRes = await _supabase
+          .from(AppConstants.supabase.tableUserSubscription)
+          .select('workout_gen_used')
+          .eq('user_id', userId)
+          .maybeSingle();
+
+      if (currentRes == null) {
+        Log.e('User subscription not found');
+        return false;
+      }
+
+      final currentUsed = (currentRes['workout_gen_used'] as num).toInt();
+      final newUsed = currentUsed + 1;
+
+      // Update with incremented value
+      await _supabase
+          .from(AppConstants.supabase.tableUserSubscription)
+          .update({'workout_gen_used': newUsed})
+          .eq('user_id', userId);
+
+      return true;
+    } catch (e) {
+      Log.e('Error incrementing workout gen used: $e');
+      return false;
+    }
+  }
+
+  /// Reset user subscription period
+  /// The new period_start is set to the current period_end
+  /// The new period_end is calculated by adding 30 days to the new period_start
+  /// This ensures no gaps or overlaps between periods
+  Future<bool> resetSubscriptionPeriod() async {
+    try {
+      final userId = _currentUserId;
+      if (userId == null) {
+        Log.e('No authenticated user found');
+        return false;
+      }
+
+      // Fetch current subscription to get the current period_end
+      final currentRes = await _supabase
+          .from(AppConstants.supabase.tableUserSubscription)
+          .select('period_end')
+          .eq('user_id', userId)
+          .maybeSingle();
+
+      if (currentRes == null) {
+        Log.e('User subscription not found');
+        return false;
+      }
+
+      // Parse the current period_end from the database
+      final currPeriodEndStr = currentRes['period_end'] as String;
+      final currPeriodEnd = DateTime.parse(currPeriodEndStr);
+
+      // Set new period_start to be the current period_end
+      // This ensures no gaps or overlaps between periods
+      final newPeriodStart = currPeriodEnd;
+
+      // Calculate new period_end by adding exactly 30 days to new period_start
+      // This always adds 30 days regardless of month length (28, 29, 30, or 31 days)
+      final newPeriodEnd = newPeriodStart.add(const Duration(days: 30));
+
+      // Reset period: set workout_gen_used to 0, update period_start and period_end
+      // workout_gen_limit is kept as is (not updated)
+      await _supabase
+          .from(AppConstants.supabase.tableUserSubscription)
+          .update({
+            'workout_gen_used': 0,
+            'period_start': newPeriodStart.toIso8601String(),
+            'period_end': newPeriodEnd.toIso8601String(),
+          })
+          .eq('user_id', userId);
+
+      return true;
+    } catch (e) {
+      Log.e('Error resetting subscription period: $e');
       return false;
     }
   }

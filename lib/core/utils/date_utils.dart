@@ -35,4 +35,14 @@ class AppDateUtils {
         return 'th';
     }
   }
+
+  /// Format a date for display (e.g., "15th October 2024")
+  static String formatDate(DateTime date) {
+    final weekday = DateFormat('EEEE').format(date);
+    final month = DateFormat('MMM').format(date);
+    final day = date.day;
+    final year = date.year;
+    final suffix = _ordinalSuffix(day);
+    return '$weekday, $day$suffix $month $year';
+  }
 }

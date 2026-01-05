@@ -265,6 +265,19 @@ class AppConstants {
   static const restoreSuccess = 'Subscription restored successfully';
   static const restoreError =
       'Failed to restore subscription. Please try again.';
+  static const userSubscriptionNotFound = 'Failed to get user subscription';
+  static const upgradeToPro = 'Upgrade to Pro';
+  static const upgradeToProMessage =
+      'You\'ve reached your workout generation limit. Upgrade to Pro for unlimited AI workout generation!';
+  static const goToSubscription = 'View Plans';
+  static const maybeLater = 'Maybe Later';
+  static const limitReached = 'Limit Reached';
+  static const proLimitReachedMessage =
+      'You\'ve used all your workout generations for this period. Please wait until the next period starts.';
+  static const incrementWorkoutGenUsedFailed =
+      'Failed to update workout generation count';
+  static const resetSubscriptionPeriodFailed =
+      'Failed to reset subscription period';
 }
 
 class _Supabase {
@@ -281,6 +294,8 @@ class _Supabase {
   String get tableWorkoutExercises => 'workout_exercises';
 
   String get tableUsers => 'users';
+
+  String get tableUserSubscription => 'user_subscription';
 }
 
 class _Time {

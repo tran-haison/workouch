@@ -43,8 +43,6 @@ class _ExercisesPageState extends State<ExercisesPage> {
 
     // Load initial data
     context.read<WorkoutCubit>().getExercises();
-    context.read<WorkoutCubit>().getBodyParts();
-    context.read<WorkoutCubit>().getEquipments();
   }
 
   @override

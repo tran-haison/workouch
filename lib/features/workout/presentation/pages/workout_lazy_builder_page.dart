@@ -14,11 +14,14 @@ import '../../../../core/widgets/common_text_field.dart';
 import '../../../../core/widgets/common_ai_generating_dialog.dart';
 import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../../auth/domain/entities/subscription_plan.dart';
 import '../../../auth/presentation/cubit/auth_cubit.dart';
+import '../cubit/workout_state.dart';
+import '../dialogs/workout_generation_limit_dialog.dart';
+import '../../domain/entities/user_subscription.dart';
 import '../../domain/enums/workout_goal.dart';
 import '../../domain/enums/workout_intensity.dart';
 import '../cubit/workout_cubit.dart';
-import '../cubit/workout_state.dart';
 import '../widgets/lazy_body_parts_selector.dart';
 import '../widgets/lazy_duration_selector.dart';
 import '../widgets/lazy_equipments_selector.dart';
@@ -64,7 +67,8 @@ class _WorkoutLazyBuilderPageState extends State<WorkoutLazyBuilderPage>
   Widget build(BuildContext context) {
     return BlocListener<WorkoutCubit, WorkoutState>(
       listenWhen: (prev, curr) =>
-          prev.generateAIWorkoutStatus != curr.generateAIWorkoutStatus,
+          prev.generateAIWorkoutStatus != curr.generateAIWorkoutStatus ||
+          prev.workoutGenLimitStatus != curr.workoutGenLimitStatus,
       listener: (context, state) {
         if (state.generateAIWorkoutStatus == WorkoutStateStatus.loading) {
           context.showCommonAiGeneratingDialog();
@@ -85,6 +89,25 @@ class _WorkoutLazyBuilderPageState extends State<WorkoutLazyBuilderPage>
         }
 
         if (state.generateAIWorkoutStatus == WorkoutStateStatus.error) {
+          // Basic user → show upgrade dialog to Pro plan
+          if (state.workoutGenLimitStatus.isNeedUpgradePlan) {
+            showUpgradePlanDialog(context);
+            context.read<WorkoutCubit>().resetWorkoutGenLimitStatus();
+            return;
+          }
+
+          // Pro user → show limit reached dialog
+          if (state.workoutGenLimitStatus.isReachedProLimit &&
+              state.userSubscription != null) {
+            showProLimitDialog(
+              context,
+              currPeriodEnd: state.userSubscription!.periodEnd,
+            );
+            context.read<WorkoutCubit>().resetWorkoutGenLimitStatus();
+            return;
+          }
+
+          // Only show error toast if it's not the workout generation limit dialog case
           showCommonToast(
             state.generateAIWorkoutError?.message ??
                 AppConstants.workoutGenerationError,
@@ -98,24 +121,76 @@ class _WorkoutLazyBuilderPageState extends State<WorkoutLazyBuilderPage>
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-                child: Row(
+                child: Column(
                   children: [
-                    CommonIconButton(
-                      backgroundColor: AppColors.grayBlue,
-                      icon: Assets.icons.arrowBack,
-                      iconColor: AppColors.black,
-                      onTap: () => context.pop(),
+                    Row(
+                      children: [
+                        CommonIconButton(
+                          backgroundColor: AppColors.grayBlue,
+                          icon: Assets.icons.arrowBack,
+                          iconColor: AppColors.black,
+                          onTap: () => context.pop(),
+                        ),
+                        Gaps.hGap12,
+                        Expanded(
+                          child: Text(
+                            AppConstants.lazy,
+                            style: AppTextStyles.orbitron.copyWith(
+                              fontSize: 20.sp,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Gaps.hGap12,
+                        SizedBox(width: 48.w),
+                      ],
                     ),
-                    Gaps.hGap12,
-                    Expanded(
-                      child: Text(
-                        AppConstants.lazy,
-                        style: AppTextStyles.orbitron.copyWith(fontSize: 20.sp),
-                        textAlign: TextAlign.center,
-                      ),
+                    BlocBuilder<WorkoutCubit, WorkoutState>(
+                      builder: (context, state) {
+                        final subscription = state.userSubscription;
+                        if (subscription == null) {
+                          return const SizedBox.shrink();
+                        }
+
+                        final planShort =
+                            subscription.subscriptionTier.stringShort;
+                        final remaining = subscription.remainingWorkoutGen;
+                        return Padding(
+                          padding: EdgeInsets.only(top: 12.h),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 12.w,
+                              vertical: 6.h,
+                            ),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  AppColors.primary,
+                                  AppColors.secondary,
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(12.r),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.3,
+                                  ),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Text(
+                              '$planShort: $remaining ${remaining == 1 ? 'generation' : 'generations'} remaining',
+                              style: AppTextStyles.h5.copyWith(
+                                color: AppColors.text,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                    Gaps.hGap12,
-                    SizedBox(width: 48.w),
                   ],
                 ),
               ),
