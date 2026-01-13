@@ -332,6 +332,22 @@ class AppConstants {
   static const onboardAnalyticsWorkoutFrequency = 'Workout Frequency';
   static const onboardAnalyticsGoalProgress = 'Goal Progress';
   static const onboardAnalyticsConsistency = 'Consistency';
+
+  // Onboarding main pages
+  static const onboardGenderTitle = 'What\'s your gender?';
+  static const onboardGenderDescription =
+      'This helps us personalize your workout plan';
+  static const onboardAgeTitle = 'How old are you?';
+  static const onboardAgeDescription =
+      'This helps us calculate your optimal workout intensity';
+  static const onboardHeightTitle = 'What\'s your height?';
+  static const onboardHeightDescription = 'Enter your height in centimeters';
+  static const onboardWeightTitle = 'What\'s your weight?';
+  static const onboardWeightDescription = 'Enter your weight in kilograms';
+  static const onboardActivityLevelTitle = 'How active are you?';
+  static const onboardActivityLevelDescription =
+      'This helps us calculate your daily calorie needs';
+  static const completeSetup = 'Complete Setup';
 }
 
 class _Supabase {

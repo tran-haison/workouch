@@ -35,6 +35,7 @@ class Gaps {
   static final vGap30 = SizedBox(height: 30.h);
   static final vGap32 = SizedBox(height: 32.h);
   static final vGap40 = SizedBox(height: 40.h);
+  static final vGap60 = SizedBox(height: 60.h);
   static final vGap80 = SizedBox(height: 80.h);
   static final vGap100 = SizedBox(height: 100.h);
   static SizedBox vGap(double height) => SizedBox(height: height);

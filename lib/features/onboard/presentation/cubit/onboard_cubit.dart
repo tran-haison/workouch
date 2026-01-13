@@ -97,6 +97,7 @@ class OnboardCubit extends Cubit<OnboardState> {
 
     emit(state.copyWith(status: OnboardStateStatus.loading));
 
+    // TODO: remove cubit inside cubit, need to use repository instead
     _authCubit.updateUserProfile(
       age: age,
       gender: gender,
