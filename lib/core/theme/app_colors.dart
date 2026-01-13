@@ -11,7 +11,7 @@ class AppColors {
   // Secondary Colors - Pastel blue
   static const secondary = Color(0xFFC3E6D8); // Pastel blue
   static const secondaryLight = Color(0xFFE1F5FE);
-  static const secondaryDark = Color(0xFF81D4FA);
+  static const secondaryDark = Color.fromARGB(255, 157, 201, 183);
 
   // Accent Colors - Pastel yellow
   static const accent = Color(0xFFFFF9C4); // Pastel yellow
@@ -24,12 +24,12 @@ class AppColors {
   static const textDark = Color(0xFFB0B0B0);
 
   // Error Colors - Pastel red
-  static const error = Color(0xFFFF5353); // Pastel red
+  static const error = Colors.red; // Pastel red
   static const errorLight = Color(0xFFFCE4EC);
   static const errorDark = Color(0xFFCA3535);
 
   // Success Colors - Pastel green
-  static const success = Color(0xFFC8E6C9); // Pastel green
+  static const success = Colors.green; // Pastel green
   static const successLight = Color(0xFFE8F5E8);
   static const successDark = Color(0xFFA5D6A7);
 

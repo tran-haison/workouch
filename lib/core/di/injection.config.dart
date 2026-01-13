@@ -19,6 +19,7 @@ import '../../features/auth/domain/repositories/auth_repo.dart' as _i723;
 import '../../features/auth/domain/repositories/subscription_repo.dart'
     as _i240;
 import '../../features/auth/presentation/cubit/auth_cubit.dart' as _i117;
+import '../../features/onboard/presentation/cubit/onboard_cubit.dart' as _i754;
 import '../../features/settings/presentation/cubit/settings_cubit.dart'
     as _i792;
 import '../../features/workout/data/services/exercise_service.dart' as _i747;
@@ -81,6 +82,9 @@ Future<_i174.GetIt> $initGetIt(
   );
   gh.lazySingleton<_i747.ExerciseService>(
     () => _i747.ExerciseService(gh<_i361.Dio>(instanceName: 'exercise-db')),
+  );
+  gh.factory<_i754.OnboardCubit>(
+    () => _i754.OnboardCubit(gh<_i117.AuthCubit>()),
   );
   gh.lazySingleton<_i275.ExerciseRepo>(
     () => _i275.ExerciseRepoImpl(gh<_i747.ExerciseService>()),

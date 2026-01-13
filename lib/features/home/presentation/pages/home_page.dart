@@ -66,7 +66,12 @@ class HomePage extends StatelessWidget {
                   Gaps.vGap40,
                   HomeWorkoutCard(
                     onLazyTap: () {
-                      context.pushNamed(AppRoute.workoutLazyBuilder.name);
+                      final user = state.currentUser;
+                      if (user != null && !user.hasBasicHealthInfo) {
+                        context.pushNamed(AppRoute.onboard.name);
+                      } else {
+                        context.pushNamed(AppRoute.workoutLazyBuilder.name);
+                      }
                     },
                     onProTap: () {
                       context.pushNamed(AppRoute.workoutPro.name);

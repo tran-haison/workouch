@@ -259,15 +259,182 @@ class $AssetsIconsGen {
   ];
 }
 
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
+
+  /// File path: assets/images/img-phone-sample-1.png
+  AssetGenImage get imgPhoneSample1 =>
+      const AssetGenImage('assets/images/img-phone-sample-1.png');
+
+  /// File path: assets/images/img-phone-sample-2.png
+  AssetGenImage get imgPhoneSample2 =>
+      const AssetGenImage('assets/images/img-phone-sample-2.png');
+
+  /// File path: assets/images/img-sample-exercise-1.gif
+  AssetGenImage get imgSampleExercise1 =>
+      const AssetGenImage('assets/images/img-sample-exercise-1.gif');
+
+  /// File path: assets/images/img-sample-exercise-2.gif
+  AssetGenImage get imgSampleExercise2 =>
+      const AssetGenImage('assets/images/img-sample-exercise-2.gif');
+
+  /// File path: assets/images/img-sample-exercise-3.gif
+  AssetGenImage get imgSampleExercise3 =>
+      const AssetGenImage('assets/images/img-sample-exercise-3.gif');
+
+  /// File path: assets/images/img-sample-exercise-4.gif
+  AssetGenImage get imgSampleExercise4 =>
+      const AssetGenImage('assets/images/img-sample-exercise-4.gif');
+
+  /// File path: assets/images/img-sample-exercise-5.gif
+  AssetGenImage get imgSampleExercise5 =>
+      const AssetGenImage('assets/images/img-sample-exercise-5.gif');
+
+  /// File path: assets/images/img-sample-exercise-6.gif
+  AssetGenImage get imgSampleExercise6 =>
+      const AssetGenImage('assets/images/img-sample-exercise-6.gif');
+
+  /// File path: assets/images/img-sample-exercise-7.gif
+  AssetGenImage get imgSampleExercise7 =>
+      const AssetGenImage('assets/images/img-sample-exercise-7.gif');
+
+  /// File path: assets/images/img-sample-exercise-8.gif
+  AssetGenImage get imgSampleExercise8 =>
+      const AssetGenImage('assets/images/img-sample-exercise-8.gif');
+
+  /// File path: assets/images/img-sample-exercise-9.gif
+  AssetGenImage get imgSampleExercise9 =>
+      const AssetGenImage('assets/images/img-sample-exercise-9.gif');
+
+  /// File path: assets/images/img-testimonial-1.png
+  AssetGenImage get imgTestimonial1 =>
+      const AssetGenImage('assets/images/img-testimonial-1.png');
+
+  /// File path: assets/images/img-testimonial-2.png
+  AssetGenImage get imgTestimonial2 =>
+      const AssetGenImage('assets/images/img-testimonial-2.png');
+
+  /// File path: assets/images/img-testimonial-3.png
+  AssetGenImage get imgTestimonial3 =>
+      const AssetGenImage('assets/images/img-testimonial-3.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+    imgPhoneSample1,
+    imgPhoneSample2,
+    imgSampleExercise1,
+    imgSampleExercise2,
+    imgSampleExercise3,
+    imgSampleExercise4,
+    imgSampleExercise5,
+    imgSampleExercise6,
+    imgSampleExercise7,
+    imgSampleExercise8,
+    imgSampleExercise9,
+    imgTestimonial1,
+    imgTestimonial2,
+    imgTestimonial3,
+  ];
+}
+
 class Assets {
   const Assets._();
 
   static const String aEnv = '.env';
   static const $AssetsAnimationsGen animations = $AssetsAnimationsGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
+  static const $AssetsImagesGen images = $AssetsImagesGen();
 
   /// List of all assets
   static List<String> get values => [aEnv];
+}
+
+class AssetGenImage {
+  const AssetGenImage(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+    this.animation,
+  });
+
+  final String _assetName;
+
+  final Size? size;
+  final Set<String> flavors;
+  final AssetGenImageAnimation? animation;
+
+  Image image({
+    Key? key,
+    AssetBundle? bundle,
+    ImageFrameBuilder? frameBuilder,
+    ImageErrorWidgetBuilder? errorBuilder,
+    String? semanticLabel,
+    bool excludeFromSemantics = false,
+    double? scale,
+    double? width,
+    double? height,
+    Color? color,
+    Animation<double>? opacity,
+    BlendMode? colorBlendMode,
+    BoxFit? fit,
+    AlignmentGeometry alignment = Alignment.center,
+    ImageRepeat repeat = ImageRepeat.noRepeat,
+    Rect? centerSlice,
+    bool matchTextDirection = false,
+    bool gaplessPlayback = true,
+    bool isAntiAlias = false,
+    String? package,
+    FilterQuality filterQuality = FilterQuality.medium,
+    int? cacheWidth,
+    int? cacheHeight,
+  }) {
+    return Image.asset(
+      _assetName,
+      key: key,
+      bundle: bundle,
+      frameBuilder: frameBuilder,
+      errorBuilder: errorBuilder,
+      semanticLabel: semanticLabel,
+      excludeFromSemantics: excludeFromSemantics,
+      scale: scale,
+      width: width,
+      height: height,
+      color: color,
+      opacity: opacity,
+      colorBlendMode: colorBlendMode,
+      fit: fit,
+      alignment: alignment,
+      repeat: repeat,
+      centerSlice: centerSlice,
+      matchTextDirection: matchTextDirection,
+      gaplessPlayback: gaplessPlayback,
+      isAntiAlias: isAntiAlias,
+      package: package,
+      filterQuality: filterQuality,
+      cacheWidth: cacheWidth,
+      cacheHeight: cacheHeight,
+    );
+  }
+
+  ImageProvider provider({AssetBundle? bundle, String? package}) {
+    return AssetImage(_assetName, bundle: bundle, package: package);
+  }
+
+  String get path => _assetName;
+
+  String get keyName => _assetName;
+}
+
+class AssetGenImageAnimation {
+  const AssetGenImageAnimation({
+    required this.isAnimation,
+    required this.duration,
+    required this.frames,
+  });
+
+  final bool isAnimation;
+  final Duration duration;
+  final int frames;
 }
 
 class SvgGenImage {

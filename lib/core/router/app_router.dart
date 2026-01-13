@@ -16,6 +16,7 @@ import '../../features/workout_session/presentation/pages/workout_finish_page.da
 import '../../features/auth/presentation/pages/signin_page.dart';
 import '../../features/auth/presentation/pages/subscription_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
+import '../../features/onboard/presentation/pages/onboard_main_page.dart';
 import '../../features/workout/domain/entities/workout.dart';
 import '../../features/workout_session/presentation/widgets/workout_session_scope_provider.dart';
 
@@ -25,6 +26,7 @@ enum AppRoute {
   profile,
   subscription,
   settings,
+  onboard,
   workoutPro,
   workoutLazyBuilder,
   workoutCreation,
@@ -99,6 +101,16 @@ final appRouter = GoRouter(
       path: '/settings',
       pageBuilder: (context, state) => _buildSlidePage(
         const SettingsPage(),
+        key: state.pageKey,
+        name: state.name,
+        arguments: state.extra,
+      ),
+    ),
+    GoRoute(
+      name: AppRoute.onboard.name,
+      path: '/onboard',
+      pageBuilder: (context, state) => _buildSlidePage(
+        const OnboardMainPage(),
         key: state.pageKey,
         name: state.name,
         arguments: state.extra,

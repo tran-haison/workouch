@@ -278,6 +278,60 @@ class AppConstants {
       'Failed to update workout generation count';
   static const resetSubscriptionPeriodFailed =
       'Failed to reset subscription period';
+  static const getStarted = 'Get Started';
+  static const skip = 'Skip';
+  // Onboarding Introduction Features
+  static const onboardFeature1Title =
+      'Stop spending hours planning your workouts';
+  static const onboardFeature1Description =
+      'Let AI create your perfect workout plan in seconds';
+  static const onboardFeature2Title =
+      'Get personalized routines, tailored for you';
+  static const onboardFeature2Description =
+      'Workouts designed based on your goals, fitness level, and preferences';
+  static const onboardFeature3Title = 'Be the best version of yourself';
+  static const onboardFeature3Description =
+      'Stay consistent and motivated with smart workout plans';
+  static const onboardFeature4Title = 'Know your data, track your progress';
+  static const onboardFeature4Description =
+      'Monitor your fitness journey with detailed analytics and insights';
+  static const onboardFeature5Title = 'Full list of exercises';
+  static const onboardFeature5Description =
+      'Access comprehensive exercise database with instructions and variations';
+  static const pleaseFillInAllRequiredInformation =
+      'Please fill in all required information';
+  static const pleaseEnterValidValues = 'Please enter valid values';
+
+  // Onboarding sample routine
+  static const onboardSampleRoutineName = 'Chest Workout';
+  static const onboardSampleRoutineExerciseCount = 2;
+  static const onboardSampleExercise1Name = 'Cable Cross Over';
+  static const onboardSampleExercise1Info = 'Chest > Cable';
+  static const onboardSampleExercise2Name = 'Decline Cable Push';
+  static const onboardSampleExercise2Info = 'Chest > Cable';
+
+  // Onboarding testimonials
+  static const onboardTestimonial1UserName = 'James K.';
+  static const onboardTestimonial1Feedback =
+      '"Best workout app I\'ve ever tried! The AI builds perfect routines for my busy schedule"';
+  static const onboardTestimonial2UserName = 'David R.';
+  static const onboardTestimonial2Feedback =
+      '"Incredible results in just weeks! Got my PRs in big compound exercises"';
+  static const onboardTestimonial3UserName = 'Emma L.';
+  static const onboardTestimonial3Feedback =
+      '"Love how personalized the workouts are. I\'ve never been more consistent!"';
+
+  // Onboarding analytics
+  static const onboardAnalyticsTitle = 'Weekly Progress';
+  static const onboardAnalyticsWeightValue = '72.5 kg';
+  static const onboardAnalyticsWeightChange = '+0.8 kg';
+  static const onboardAnalyticsBmiValue = '23.1';
+  static const onboardAnalyticsBmiChange = '+0.2';
+  static const onboardAnalyticsWorkoutsValue = '12';
+  static const onboardAnalyticsWorkoutsChange = '+3';
+  static const onboardAnalyticsWorkoutFrequency = 'Workout Frequency';
+  static const onboardAnalyticsGoalProgress = 'Goal Progress';
+  static const onboardAnalyticsConsistency = 'Consistency';
 }
 
 class _Supabase {

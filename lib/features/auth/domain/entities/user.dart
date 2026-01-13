@@ -40,6 +40,8 @@ extension UserExtension on User {
     age: age,
     activityLevel: activityLevel,
   );
+
+  bool get hasBasicHealthInfo => age > 0 && height > 0 && weight > 0;
 }
 
 extension GenderExt on Gender {
