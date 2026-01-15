@@ -1128,6 +1128,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
+  ruler_slider:
+    dependency: "direct main"
+    description:
+      name: ruler_slider
+      sha256: d80a22f66604019bae0cf3b46c644c0fe91b6d466ace2918dcc04e83f09fd1e7
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
   rxdart:
     dependency: transitive
     description:

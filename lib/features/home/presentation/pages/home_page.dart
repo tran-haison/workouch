@@ -66,6 +66,7 @@ class HomePage extends StatelessWidget {
                   Gaps.vGap40,
                   HomeWorkoutCard(
                     onLazyTap: () {
+                      // TODO: add new field called isOnboarded to user db table and check from that instead of hasBasicHealthInfo
                       final user = state.currentUser;
                       if (user != null && !user.hasBasicHealthInfo) {
                         context.pushNamed(AppRoute.onboard.name);

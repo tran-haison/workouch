@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../core/utils/error.dart';
 import '../../../workout/domain/enums/activity_level.dart';
 import '../../../auth/domain/entities/user.dart';
+import '../../utils/onboard_utils.dart';
 
 part 'onboard_state.freezed.dart';
 
@@ -15,8 +16,8 @@ class OnboardState with _$OnboardState {
     @Default(0) int currentPage,
     Gender? gender,
     int? age,
-    double? height,
-    double? weight,
+    @Default(OnboardUtils.defaultHeight) double height,
+    @Default(OnboardUtils.defaultWeight) double weight,
     ActivityLevel? activityLevel,
     Error? error,
   }) = _OnboardState;

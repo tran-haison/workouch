@@ -25,14 +25,13 @@ class SignInPage extends StatelessWidget {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state.status == AuthStateStatus.loading) {
-          context.showLoadingDialog();
+          context.showLoadingDialog(message: AppConstants.signingIn);
         } else {
           context.hideLoadingDialog();
         }
 
         if (state.status == AuthStateStatus.authenticated &&
             state.currentUser != null) {
-          showCommonToast(AppConstants.signInSuccess);
           context.pushReplacementNamed(AppRoute.home.name);
           return;
         }

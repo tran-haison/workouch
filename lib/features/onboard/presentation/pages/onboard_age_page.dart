@@ -7,29 +7,19 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_button.dart';
 import '../../../../core/widgets/common_gaps.dart';
-import '../../../../core/widgets/common_text_field.dart';
+import '../../../../core/widgets/common_spinner.dart';
 import '../../../../gen/assets.gen.dart';
 import '../cubit/onboard_cubit.dart';
 import '../cubit/onboard_state.dart';
+import '../../utils/onboard_utils.dart';
 
-class OnboardAgePage extends StatefulWidget {
+class OnboardAgePage extends StatelessWidget {
   const OnboardAgePage({super.key});
-
-  @override
-  State<OnboardAgePage> createState() => _OnboardAgePageState();
-}
-
-class _OnboardAgePageState extends State<OnboardAgePage> {
-  final _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OnboardCubit, OnboardState>(
       builder: (context, state) {
-        if (state.age != null && _controller.text.isEmpty) {
-          _controller.text = state.age.toString();
-        }
-
         return Scaffold(
           body: SafeArea(
             child: Padding(
@@ -63,19 +53,26 @@ class _OnboardAgePageState extends State<OnboardAgePage> {
                           ),
                         ),
                         Gaps.vGap60,
-                        CommonTextField(
-                          controller: _controller,
-                          hintText: AppConstants.enterYourAge,
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) {
-                            final age = int.tryParse(value);
-                            if (age != null && age > 0 && age <= 150) {
-                              context.read<OnboardCubit>().updateAge(age);
-                            }
-                          },
-                          isShowBorder: true,
-                          inputTextStyle: AppTextStyles.h2.copyWith(
-                            fontWeight: FontWeight.w700,
+                        Center(
+                          child: CommonSpinner<int>(
+                            height: 200.h,
+                            initialItem: OnboardUtils.getAgeIndex(state.age),
+                            items: OnboardUtils.availableAges
+                                .map(
+                                  (age) =>
+                                      SpinnerItem(label: '$age', item: age),
+                                )
+                                .toList(),
+                            onSelected: (index) {
+                              final selectedAge =
+                                  OnboardUtils.availableAges[index];
+                              context.read<OnboardCubit>().updateAge(
+                                selectedAge,
+                              );
+                            },
+                            textStyle: AppTextStyles.h3.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ],

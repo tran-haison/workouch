@@ -95,6 +95,7 @@ class AppConstants {
   static const workoutDeletedSuccessfully = 'Workout deleted successfully';
   static const workoutDeletedError = 'Failed to delete workout';
   static const signInSubtitle = 'Sign in to continue';
+  static const signingIn = 'Signing in...';
   static const loading = 'Loading...';
   static const continueWithGoogle = 'Continue with Google';
   static const continueWithApple = 'Continue with Apple';
@@ -346,8 +347,11 @@ class AppConstants {
   static const onboardWeightDescription = 'Enter your weight in kilograms';
   static const onboardActivityLevelTitle = 'How active are you?';
   static const onboardActivityLevelDescription =
-      'This helps us calculate your daily calorie needs';
+      'This helps us plan the best workout routines for you';
   static const completeSetup = 'Complete Setup';
+  static const settingUp = 'Setting up...';
+  static const settingUpSuccess = 'Setup completed successfully';
+  static const settingUpError = 'Failed to complete setup';
 }
 
 class _Supabase {

@@ -1,35 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ruler_slider/ruler_slider.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_button.dart';
 import '../../../../core/widgets/common_gaps.dart';
-import '../../../../core/widgets/common_text_field.dart';
 import '../../../../gen/assets.gen.dart';
 import '../cubit/onboard_cubit.dart';
 import '../cubit/onboard_state.dart';
+import '../../utils/onboard_utils.dart';
 
-class OnboardHeightPage extends StatefulWidget {
+class OnboardHeightPage extends StatelessWidget {
   const OnboardHeightPage({super.key});
-
-  @override
-  State<OnboardHeightPage> createState() => _OnboardHeightPageState();
-}
-
-class _OnboardHeightPageState extends State<OnboardHeightPage> {
-  final _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OnboardCubit, OnboardState>(
       builder: (context, state) {
-        if (state.height != null && _controller.text.isEmpty) {
-          _controller.text = state.height!.toStringAsFixed(0);
-        }
-
         return Scaffold(
           body: SafeArea(
             child: Padding(
@@ -62,27 +52,43 @@ class _OnboardHeightPageState extends State<OnboardHeightPage> {
                             color: AppColors.mediumGray,
                           ),
                         ),
-                        Gaps.vGap(60.h),
-                        CommonTextField(
-                          controller: _controller,
-                          hintText:
-                              '${AppConstants.enterYourHeight} (${AppConstants.cm})',
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) {
-                            final height = double.tryParse(value);
-                            if (height != null && height > 0 && height <= 300) {
-                              context.read<OnboardCubit>().updateHeight(height);
-                            }
-                          },
-                          isShowBorder: true,
-                          inputTextStyle: AppTextStyles.h2.copyWith(
-                            fontWeight: FontWeight.w700,
+                        Gaps.vGap60,
+                        Center(
+                          child: Text(
+                            '${state.height.toStringAsFixed(1)} ${AppConstants.cm.toLowerCase()}',
+                            style: AppTextStyles.h1,
                           ),
+                        ),
+                        RulerSlider(
+                          minValue: OnboardUtils.minHeight,
+                          maxValue: OnboardUtils.maxHeight,
+                          initialValue: state.height,
+                          rulerHeight: 100.h,
+                          selectedBarColor: AppColors.black,
+                          unselectedBarColor: AppColors.grayBlue,
+                          tickSpacing: 14.w,
+                          onChanged: (double value) {
+                            context.read<OnboardCubit>().updateHeight(value);
+                          },
+                          showFixedBar: true,
+                          showFixedLabel: false,
+                          showBottomLabels: false,
+                          fixedBarColor: AppColors.secondaryDark,
+                          fixedBarWidth: 3.w,
+                          fixedBarHeight: 50.h,
+                          scrollSensitivity: 1.5,
+                          enableSnapping: true,
+                          majorTickInterval: 5,
+                          labelInterval: 1,
+                          labelVerticalOffset: 40.h,
+                          labelTextStyle: AppTextStyles.h5,
+                          majorTickHeight: 16.h,
+                          minorTickHeight: 10.h,
                         ),
                       ],
                     ),
                   ),
-                  if (state.height != null && state.height! > 0)
+                  if (state.height > 0)
                     CommonButton(
                       text: AppConstants.next,
                       onPressed: () {

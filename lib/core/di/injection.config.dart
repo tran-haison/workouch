@@ -46,6 +46,7 @@ Future<_i174.GetIt> $initGetIt(
   final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
   final injectionModule = _$InjectionModule();
   gh.factory<_i613.WorkoutSessionCubit>(() => _i613.WorkoutSessionCubit());
+  gh.factory<_i754.OnboardCubit>(() => _i754.OnboardCubit());
   await gh.lazySingletonAsync<_i460.SharedPreferences>(
     () => injectionModule.sharedPreferences,
     preResolve: true,
@@ -82,9 +83,6 @@ Future<_i174.GetIt> $initGetIt(
   );
   gh.lazySingleton<_i747.ExerciseService>(
     () => _i747.ExerciseService(gh<_i361.Dio>(instanceName: 'exercise-db')),
-  );
-  gh.factory<_i754.OnboardCubit>(
-    () => _i754.OnboardCubit(gh<_i117.AuthCubit>()),
   );
   gh.lazySingleton<_i275.ExerciseRepo>(
     () => _i275.ExerciseRepoImpl(gh<_i747.ExerciseService>()),

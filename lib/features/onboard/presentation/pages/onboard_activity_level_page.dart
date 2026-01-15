@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:workouch/features/auth/presentation/cubit/auth_cubit.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/router/app_router.dart';
@@ -10,7 +11,10 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_button.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
+import '../../../../core/widgets/common_loading_dialog.dart';
+import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../../auth/presentation/cubit/auth_state.dart';
 import '../../../workout/domain/enums/activity_level.dart';
 import '../cubit/onboard_cubit.dart';
 import '../cubit/onboard_state.dart';
@@ -59,7 +63,7 @@ class OnboardActivityLevelPage extends StatelessWidget {
                           child: ListView.separated(
                             itemCount: ActivityLevel.values.length,
                             separatorBuilder: (_, _) => Gaps.vGap12,
-                            padding: EdgeInsets.only(bottom: 20.h),
+                            padding: EdgeInsets.only(bottom: 10.h),
                             itemBuilder: (context, index) {
                               final level = ActivityLevel.values[index];
                               final isSelected = state.activityLevel == level;
@@ -127,24 +131,41 @@ class OnboardActivityLevelPage extends StatelessWidget {
                             },
                           ),
                         ),
+                        Gaps.vGap20,
                       ],
                     ),
                   ),
                   if (state.activityLevel != null)
-                    BlocListener<OnboardCubit, OnboardState>(
-                      listenWhen: (prev, curr) =>
-                          prev.status != curr.status &&
-                          curr.status == OnboardStateStatus.success,
+                    BlocListener<AuthCubit, AuthState>(
+                      listenWhen: (prev, curr) => prev.status != curr.status,
                       listener: (context, state) {
-                        context.goNamed(AppRoute.home.name);
+                        if (state.status == AuthStateStatus.loading) {
+                          context.showLoadingDialog(
+                            message: AppConstants.settingUp,
+                          );
+                        } else {
+                          context.hideLoadingDialog();
+                        }
+
+                        if (state.status == AuthStateStatus.authenticated &&
+                            state.currentUser != null) {
+                          showCommonToast(AppConstants.settingUpSuccess);
+                          context.pushReplacementNamed(
+                            AppRoute.workoutLazyBuilder.name,
+                          );
+                          return;
+                        }
+
+                        if (state.status == AuthStateStatus.error) {
+                          showCommonToast(
+                            state.error?.message ?? AppConstants.settingUpError,
+                            isError: true,
+                          );
+                        }
                       },
                       child: CommonButton(
                         text: AppConstants.completeSetup,
-                        onPressed: () async {
-                          await context
-                              .read<OnboardCubit>()
-                              .completeOnboarding();
-                        },
+                        onPressed: () => _completeOnboarding(context),
                         textStyle: AppTextStyles.h3.copyWith(
                           color: AppColors.white,
                           fontWeight: FontWeight.w600,
@@ -162,6 +183,17 @@ class OnboardActivityLevelPage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Future<void> _completeOnboarding(BuildContext context) async {
+    final state = context.read<OnboardCubit>().state;
+    await context.read<AuthCubit>().updateUserProfile(
+      age: state.age,
+      gender: state.gender,
+      height: state.height,
+      weight: state.weight,
+      activityLevel: state.activityLevel,
     );
   }
 }

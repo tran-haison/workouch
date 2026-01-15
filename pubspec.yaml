@@ -140,6 +140,9 @@ dependencies:
   # https://pub.dev/packages/package_info_plus
   package_info_plus: ^9.0.0
 
+  # https://pub.dev/packages/ruler_slider
+  ruler_slider: ^0.0.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

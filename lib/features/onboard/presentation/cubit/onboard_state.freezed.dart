@@ -21,8 +21,8 @@ mixin _$OnboardState {
   int get currentPage => throw _privateConstructorUsedError;
   Gender? get gender => throw _privateConstructorUsedError;
   int? get age => throw _privateConstructorUsedError;
-  double? get height => throw _privateConstructorUsedError;
-  double? get weight => throw _privateConstructorUsedError;
+  double get height => throw _privateConstructorUsedError;
+  double get weight => throw _privateConstructorUsedError;
   ActivityLevel? get activityLevel => throw _privateConstructorUsedError;
   Error? get error => throw _privateConstructorUsedError;
 
@@ -45,8 +45,8 @@ abstract class $OnboardStateCopyWith<$Res> {
     int currentPage,
     Gender? gender,
     int? age,
-    double? height,
-    double? weight,
+    double height,
+    double weight,
     ActivityLevel? activityLevel,
     Error? error,
   });
@@ -73,8 +73,8 @@ class _$OnboardStateCopyWithImpl<$Res, $Val extends OnboardState>
     Object? currentPage = null,
     Object? gender = freezed,
     Object? age = freezed,
-    Object? height = freezed,
-    Object? weight = freezed,
+    Object? height = null,
+    Object? weight = null,
     Object? activityLevel = freezed,
     Object? error = freezed,
   }) {
@@ -96,14 +96,14 @@ class _$OnboardStateCopyWithImpl<$Res, $Val extends OnboardState>
                 ? _value.age
                 : age // ignore: cast_nullable_to_non_nullable
                       as int?,
-            height: freezed == height
+            height: null == height
                 ? _value.height
                 : height // ignore: cast_nullable_to_non_nullable
-                      as double?,
-            weight: freezed == weight
+                      as double,
+            weight: null == weight
                 ? _value.weight
                 : weight // ignore: cast_nullable_to_non_nullable
-                      as double?,
+                      as double,
             activityLevel: freezed == activityLevel
                 ? _value.activityLevel
                 : activityLevel // ignore: cast_nullable_to_non_nullable
@@ -146,8 +146,8 @@ abstract class _$$OnboardStateImplCopyWith<$Res>
     int currentPage,
     Gender? gender,
     int? age,
-    double? height,
-    double? weight,
+    double height,
+    double weight,
     ActivityLevel? activityLevel,
     Error? error,
   });
@@ -174,8 +174,8 @@ class __$$OnboardStateImplCopyWithImpl<$Res>
     Object? currentPage = null,
     Object? gender = freezed,
     Object? age = freezed,
-    Object? height = freezed,
-    Object? weight = freezed,
+    Object? height = null,
+    Object? weight = null,
     Object? activityLevel = freezed,
     Object? error = freezed,
   }) {
@@ -197,14 +197,14 @@ class __$$OnboardStateImplCopyWithImpl<$Res>
             ? _value.age
             : age // ignore: cast_nullable_to_non_nullable
                   as int?,
-        height: freezed == height
+        height: null == height
             ? _value.height
             : height // ignore: cast_nullable_to_non_nullable
-                  as double?,
-        weight: freezed == weight
+                  as double,
+        weight: null == weight
             ? _value.weight
             : weight // ignore: cast_nullable_to_non_nullable
-                  as double?,
+                  as double,
         activityLevel: freezed == activityLevel
             ? _value.activityLevel
             : activityLevel // ignore: cast_nullable_to_non_nullable
@@ -226,8 +226,8 @@ class _$OnboardStateImpl implements _OnboardState {
     this.currentPage = 0,
     this.gender,
     this.age,
-    this.height,
-    this.weight,
+    this.height = OnboardUtils.defaultHeight,
+    this.weight = OnboardUtils.defaultWeight,
     this.activityLevel,
     this.error,
   });
@@ -243,9 +243,11 @@ class _$OnboardStateImpl implements _OnboardState {
   @override
   final int? age;
   @override
-  final double? height;
+  @JsonKey()
+  final double height;
   @override
-  final double? weight;
+  @JsonKey()
+  final double weight;
   @override
   final ActivityLevel? activityLevel;
   @override
@@ -301,8 +303,8 @@ abstract class _OnboardState implements OnboardState {
     final int currentPage,
     final Gender? gender,
     final int? age,
-    final double? height,
-    final double? weight,
+    final double height,
+    final double weight,
     final ActivityLevel? activityLevel,
     final Error? error,
   }) = _$OnboardStateImpl;
@@ -316,9 +318,9 @@ abstract class _OnboardState implements OnboardState {
   @override
   int? get age;
   @override
-  double? get height;
+  double get height;
   @override
-  double? get weight;
+  double get weight;
   @override
   ActivityLevel? get activityLevel;
   @override

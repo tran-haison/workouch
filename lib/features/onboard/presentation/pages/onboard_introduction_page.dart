@@ -26,13 +26,10 @@ class OnboardIntroductionPage extends StatefulWidget {
       _OnboardIntroductionPageState();
 }
 
-class _OnboardIntroductionPageState extends State<OnboardIntroductionPage>
-    with SingleTickerProviderStateMixin {
+class _OnboardIntroductionPageState extends State<OnboardIntroductionPage> {
   int _currentFeatureIndex = 0;
   Timer? _timer;
-  late AnimationController _controller;
-  late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
+  late PageController _pageController;
 
   final List<_Feature> _features = [
     _Feature(
@@ -65,43 +62,40 @@ class _OnboardIntroductionPageState extends State<OnboardIntroductionPage>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 600),
-      vsync: this,
-    );
-
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
-
-    _controller.forward();
+    _pageController = PageController(initialPage: 0);
     _startTimer();
   }
 
   @override
   void dispose() {
     _timer?.cancel();
-    _controller.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
   void _startTimer() {
     _timer?.cancel();
+    _timer = null;
     _timer = Timer.periodic(const Duration(seconds: 4), (timer) {
-      if (mounted) {
-        setState(() {
-          _currentFeatureIndex = (_currentFeatureIndex + 1) % _features.length;
-        });
-        _controller.reset();
-        _controller.forward();
+      if (mounted && _pageController.hasClients) {
+        final nextIndex = (_currentFeatureIndex + 1) % _features.length;
+        _pageController.animateToPage(
+          nextIndex,
+          duration: const Duration(milliseconds: 700),
+          curve: Curves.easeInOutCubic,
+        );
       }
     });
+  }
+
+  void _onPageChanged(int index) {
+    if (mounted) {
+      setState(() {
+        _currentFeatureIndex = index;
+      });
+      // Reset timer when user manually swipes
+      _startTimer();
+    }
   }
 
   void _onGetStarted() {
@@ -118,8 +112,6 @@ class _OnboardIntroductionPageState extends State<OnboardIntroductionPage>
 
   @override
   Widget build(BuildContext context) {
-    final currentFeature = _features[_currentFeatureIndex];
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -132,14 +124,14 @@ class _OnboardIntroductionPageState extends State<OnboardIntroductionPage>
                   // Invisible button to balance layout
                   Opacity(
                     opacity: 0,
-                    child: TextButton(
+                    child: CommonButton(
+                      text: AppConstants.skip,
+                      isFullWidth: false,
                       onPressed: () {},
-                      child: Text(
-                        AppConstants.skip,
-                        style: AppTextStyles.h4.copyWith(
-                          color: AppColors.mediumGray,
-                        ),
+                      textStyle: AppTextStyles.h4.copyWith(
+                        color: AppColors.mediumGray,
                       ),
+                      backgroundColor: AppColors.transparent,
                     ),
                   ),
                   // Feature indicator dots - centered
@@ -163,47 +155,47 @@ class _OnboardIntroductionPageState extends State<OnboardIntroductionPage>
                       ),
                     ),
                   ),
-                  // Skip button
-                  TextButton(
+                  CommonButton(
+                    text: AppConstants.skip,
+                    isFullWidth: false,
                     onPressed: _onSkip,
-                    child: Text(
-                      AppConstants.skip,
-                      style: AppTextStyles.h4.copyWith(
-                        color: AppColors.mediumGray,
-                      ),
+                    textStyle: AppTextStyles.h4.copyWith(
+                      color: AppColors.mediumGray,
                     ),
+                    backgroundColor: AppColors.transparent,
                   ),
                 ],
               ),
               Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FadeTransition(
-                      opacity: _fadeAnimation,
-                      child: SlideTransition(
-                        position: _slideAnimation,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _StyledFeatureTitle(title: currentFeature.title),
-                            Gaps.vGap16,
-                            Text(
-                              currentFeature.description,
-                              style: AppTextStyles.h4.copyWith(
-                                color: AppColors.mediumGray,
-                              ),
+                child: PageView.builder(
+                  controller: _pageController,
+                  onPageChanged: _onPageChanged,
+                  itemCount: _features.length,
+                  itemBuilder: (context, index) {
+                    final feature = _features[index];
+                    return SingleChildScrollView(
+                      padding: EdgeInsets.symmetric(vertical: 20.h),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _StyledFeatureTitle(title: feature.title),
+                          Gaps.vGap16,
+                          Text(
+                            feature.description,
+                            style: AppTextStyles.h4.copyWith(
+                              color: AppColors.mediumGray,
                             ),
-                            Gaps.vGap40,
-                            currentFeature.content,
-                          ],
-                        ),
+                          ),
+                          Gaps.vGap40,
+                          feature.content,
+                        ],
                       ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
-              Gaps.vGap40,
+              Gaps.vGap20,
               CommonButton(
                 text: AppConstants.getStarted,
                 onPressed: _onGetStarted,
