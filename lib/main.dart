@@ -13,6 +13,7 @@ import 'core/services/subscription_service.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/log.dart';
 import 'features/auth/presentation/cubit/auth_cubit.dart';
+import 'features/workout/presentation/cubit/workout_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,8 +42,11 @@ class WorkouchApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(384, 800),
-      child: BlocProvider(
-        create: (context) => getIt<AuthCubit>(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => getIt<AuthCubit>()),
+          BlocProvider(create: (context) => getIt<WorkoutCubit>()),
+        ],
         child: const AuthAppWrapper(),
       ),
     );
