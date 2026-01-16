@@ -142,54 +142,35 @@ class _WorkoutLazyBuilderPageState extends State<WorkoutLazyBuilderPage>
                           ),
                         ),
                         Gaps.hGap12,
-                        SizedBox(width: 48.w),
-                      ],
-                    ),
-                    BlocBuilder<WorkoutCubit, WorkoutState>(
-                      builder: (context, state) {
-                        final subscription = state.userSubscription;
-                        if (subscription == null) {
-                          return const SizedBox.shrink();
-                        }
+                        BlocBuilder<WorkoutCubit, WorkoutState>(
+                          builder: (context, state) {
+                            final userSub = state.userSubscription;
+                            final hasLeft =
+                                userSub?.hasWorkoutGenRemaining == true;
 
-                        final planShort =
-                            subscription.subscriptionTier.stringShort;
-                        final remaining = subscription.remainingWorkoutGen;
-                        return Padding(
-                          padding: EdgeInsets.only(top: 12.h),
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 12.w,
-                              vertical: 6.h,
-                            ),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  AppColors.primary,
-                                  AppColors.secondary,
-                                ],
+                            return Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12.w,
+                                vertical: 8.h,
                               ),
-                              borderRadius: BorderRadius.circular(12.r),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.primary.withValues(
-                                    alpha: 0.3,
+                              decoration: BoxDecoration(
+                                color: AppColors.grayBlue,
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '${userSub?.workoutGenUsed} / ${userSub?.workoutGenLimit}',
+                                  style: AppTextStyles.h5.copyWith(
+                                    color: hasLeft
+                                        ? AppColors.darkBlack
+                                        : AppColors.mediumGray,
                                   ),
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 2),
                                 ),
-                              ],
-                            ),
-                            child: Text(
-                              '$planShort: $remaining ${remaining == 1 ? 'generation' : 'generations'} remaining',
-                              style: AppTextStyles.h5.copyWith(
-                                color: AppColors.text,
-                                fontWeight: FontWeight.w600,
                               ),
-                            ),
-                          ),
-                        );
-                      },
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -283,10 +264,7 @@ class _WorkoutLazyBuilderPageState extends State<WorkoutLazyBuilderPage>
       // Shuffle Mode - Simple text input
       final preferences = _simplePreferencesController.text.trim();
       if (preferences.isEmpty) {
-        showCommonToast(
-          AppConstants.pleaseEnterYourWorkoutPreferences,
-          isError: true,
-        );
+        showCommonToast(AppConstants.pleaseEnterWorkoutPref, isError: true);
         return;
       }
 
@@ -339,7 +317,7 @@ class _ShuffleModeTabState extends State<_ShuffleModeTab>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            AppConstants.showUsYourPreferences,
+            AppConstants.letAiPlanWorkoutForYou,
             style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
           ),
           Gaps.vGap8,

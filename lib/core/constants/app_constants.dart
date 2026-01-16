@@ -173,7 +173,7 @@ class AppConstants {
       'Very hard exercise, physical job';
   static const tdee = 'TDEE';
   static const workoutBuilder = 'Workout Builder';
-  static const showUsYourPreferences = 'Show us your preferences';
+  static const letAiPlanWorkoutForYou = 'Let AI plan a workout for you';
   static const intensity = 'Intensity';
   static const targetBodyParts = 'Target Body Parts';
   static const availableEquipments = 'Available Equipments';
@@ -224,8 +224,7 @@ class AppConstants {
   static const theNeatMode = '"The Neat"';
   static const workoutPreferencesHint =
       'E.g. I have 30 minutes and a pair of dumbbells. Surprise me';
-  static const pleaseEnterYourWorkoutPreferences =
-      'Please enter your workout preferences';
+  static const pleaseEnterWorkoutPref = 'Please enter your workout preferences';
   static const subscriptionPlans = 'Subscription Plans';
   static const settings = 'Settings';
   static const account = 'Account';
