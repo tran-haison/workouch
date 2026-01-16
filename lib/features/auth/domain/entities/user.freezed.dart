@@ -27,6 +27,7 @@ mixin _$User {
   double get weight => throw _privateConstructorUsedError; // in kg
   ActivityLevel get activityLevel => throw _privateConstructorUsedError;
   SubscriptionTier get subscriptionTier => throw _privateConstructorUsedError;
+  bool get hasOnboard => throw _privateConstructorUsedError;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -50,6 +51,7 @@ abstract class $UserCopyWith<$Res> {
     double weight,
     ActivityLevel activityLevel,
     SubscriptionTier subscriptionTier,
+    bool hasOnboard,
   });
 }
 
@@ -78,6 +80,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? weight = null,
     Object? activityLevel = null,
     Object? subscriptionTier = null,
+    Object? hasOnboard = null,
   }) {
     return _then(
       _value.copyWith(
@@ -121,6 +124,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
                 ? _value.subscriptionTier
                 : subscriptionTier // ignore: cast_nullable_to_non_nullable
                       as SubscriptionTier,
+            hasOnboard: null == hasOnboard
+                ? _value.hasOnboard
+                : hasOnboard // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -146,6 +153,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
     double weight,
     ActivityLevel activityLevel,
     SubscriptionTier subscriptionTier,
+    bool hasOnboard,
   });
 }
 
@@ -171,6 +179,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? weight = null,
     Object? activityLevel = null,
     Object? subscriptionTier = null,
+    Object? hasOnboard = null,
   }) {
     return _then(
       _$UserImpl(
@@ -214,6 +223,10 @@ class __$$UserImplCopyWithImpl<$Res>
             ? _value.subscriptionTier
             : subscriptionTier // ignore: cast_nullable_to_non_nullable
                   as SubscriptionTier,
+        hasOnboard: null == hasOnboard
+            ? _value.hasOnboard
+            : hasOnboard // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -233,6 +246,7 @@ class _$UserImpl extends _User {
     this.weight = 0.0,
     this.activityLevel = ActivityLevel.sedentary,
     this.subscriptionTier = SubscriptionTier.basic,
+    this.hasOnboard = false,
   }) : super._();
 
   @override
@@ -267,10 +281,13 @@ class _$UserImpl extends _User {
   @override
   @JsonKey()
   final SubscriptionTier subscriptionTier;
+  @override
+  @JsonKey()
+  final bool hasOnboard;
 
   @override
   String toString() {
-    return 'User(id: $id, email: $email, fullName: $fullName, avatarUrl: $avatarUrl, gender: $gender, age: $age, height: $height, weight: $weight, activityLevel: $activityLevel, subscriptionTier: $subscriptionTier)';
+    return 'User(id: $id, email: $email, fullName: $fullName, avatarUrl: $avatarUrl, gender: $gender, age: $age, height: $height, weight: $weight, activityLevel: $activityLevel, subscriptionTier: $subscriptionTier, hasOnboard: $hasOnboard)';
   }
 
   @override
@@ -291,7 +308,9 @@ class _$UserImpl extends _User {
             (identical(other.activityLevel, activityLevel) ||
                 other.activityLevel == activityLevel) &&
             (identical(other.subscriptionTier, subscriptionTier) ||
-                other.subscriptionTier == subscriptionTier));
+                other.subscriptionTier == subscriptionTier) &&
+            (identical(other.hasOnboard, hasOnboard) ||
+                other.hasOnboard == hasOnboard));
   }
 
   @override
@@ -307,6 +326,7 @@ class _$UserImpl extends _User {
     weight,
     activityLevel,
     subscriptionTier,
+    hasOnboard,
   );
 
   /// Create a copy of User
@@ -330,6 +350,7 @@ abstract class _User extends User {
     final double weight,
     final ActivityLevel activityLevel,
     final SubscriptionTier subscriptionTier,
+    final bool hasOnboard,
   }) = _$UserImpl;
   const _User._() : super._();
 
@@ -353,6 +374,8 @@ abstract class _User extends User {
   ActivityLevel get activityLevel;
   @override
   SubscriptionTier get subscriptionTier;
+  @override
+  bool get hasOnboard;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.

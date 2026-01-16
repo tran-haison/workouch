@@ -95,6 +95,7 @@ class AppConstants {
   static const workoutDeletedSuccessfully = 'Workout deleted successfully';
   static const workoutDeletedError = 'Failed to delete workout';
   static const signInSubtitle = 'Sign in to continue';
+  static const pleaseSignIn = 'Please sign in to continue';
   static const signingIn = 'Signing in...';
   static const loading = 'Loading...';
   static const continueWithGoogle = 'Continue with Google';

@@ -21,6 +21,7 @@ abstract class UserDto with _$UserDto {
     required double weight, // in kg
     required String activityLevel,
     required String subscriptionTier,
+    required bool hasOnboard,
   }) = _UserDto;
 
   factory UserDto.fromJson(Map<String, dynamic> json) =>
@@ -38,6 +39,7 @@ abstract class UserDto with _$UserDto {
       weight: entity.weight,
       activityLevel: entity.activityLevel.name,
       subscriptionTier: entity.subscriptionTier.name,
+      hasOnboard: entity.hasOnboard,
     );
   }
 }
@@ -61,6 +63,7 @@ extension UserDtoExtension on UserDto {
         (e) => e.name == subscriptionTier,
         orElse: () => SubscriptionTier.basic,
       ),
+      hasOnboard: hasOnboard,
     );
   }
 }

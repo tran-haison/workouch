@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:workouch/core/widgets/common_toast.dart';
 import 'package:workouch/features/auth/domain/entities/user.dart';
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/utils/date_utils.dart';
 import 'package:workouch/features/home/presentation/widgets/home_workout_card.dart';
@@ -65,15 +67,7 @@ class HomePage extends StatelessWidget {
                   ),
                   Gaps.vGap40,
                   HomeWorkoutCard(
-                    onLazyTap: () {
-                      // TODO: add new field called isOnboarded to user db table and check from that instead of hasBasicHealthInfo
-                      final user = state.currentUser;
-                      if (user != null && !user.hasBasicHealthInfo) {
-                        context.pushNamed(AppRoute.onboard.name);
-                      } else {
-                        context.pushNamed(AppRoute.workoutLazyBuilder.name);
-                      }
-                    },
+                    onLazyTap: () => _onLazyTap(context),
                     onProTap: () {
                       context.pushNamed(AppRoute.workoutPro.name);
                     },
@@ -91,5 +85,20 @@ class HomePage extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _onLazyTap(BuildContext context) {
+    final user = context.read<AuthCubit>().state.currentUser;
+
+    if (user == null) {
+      showCommonToast(AppConstants.pleaseSignIn, isError: true);
+      return;
+    }
+
+    if (!user.hasOnboard) {
+      context.pushNamed(AppRoute.onboard.name);
+    } else {
+      context.pushNamed(AppRoute.workoutLazyBuilder.name);
+    }
   }
 }

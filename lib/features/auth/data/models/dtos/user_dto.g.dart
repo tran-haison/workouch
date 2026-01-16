@@ -18,6 +18,7 @@ _$UserDtoImpl _$$UserDtoImplFromJson(Map<String, dynamic> json) =>
       weight: (json['weight'] as num).toDouble(),
       activityLevel: json['activity_level'] as String,
       subscriptionTier: json['subscription_tier'] as String,
+      hasOnboard: json['has_onboard'] as bool,
     );
 
 Map<String, dynamic> _$$UserDtoImplToJson(_$UserDtoImpl instance) =>
@@ -32,4 +33,5 @@ Map<String, dynamic> _$$UserDtoImplToJson(_$UserDtoImpl instance) =>
       'weight': instance.weight,
       'activity_level': instance.activityLevel,
       'subscription_tier': instance.subscriptionTier,
+      'has_onboard': instance.hasOnboard,
     };

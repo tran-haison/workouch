@@ -24,6 +24,7 @@ class User with _$User {
     @Default(0.0) double weight, // in kg
     @Default(ActivityLevel.sedentary) ActivityLevel activityLevel,
     @Default(SubscriptionTier.basic) SubscriptionTier subscriptionTier,
+    @Default(false) bool hasOnboard,
   }) = _User;
 }
 

@@ -47,20 +47,20 @@ Future<_i174.GetIt> $initGetIt(
   final injectionModule = _$InjectionModule();
   gh.factory<_i613.WorkoutSessionCubit>(() => _i613.WorkoutSessionCubit());
   gh.factory<_i754.OnboardCubit>(() => _i754.OnboardCubit());
-  await gh.lazySingletonAsync<_i460.SharedPreferences>(
-    () => injectionModule.sharedPreferences,
-    preResolve: true,
-  );
   gh.lazySingleton<_i999.VersionService>(() => _i999.VersionService());
   gh.lazySingleton<_i758.FirebaseService>(() => _i758.FirebaseService());
   gh.lazySingleton<_i833.SubscriptionService>(
     () => _i833.SubscriptionService(),
   );
-  gh.lazySingleton<_i738.SupabaseAuthService>(
-    () => _i738.SupabaseAuthService(),
+  await gh.lazySingletonAsync<_i460.SharedPreferences>(
+    () => injectionModule.sharedPreferences,
+    preResolve: true,
   );
   gh.lazySingleton<_i275.SupabaseWorkoutService>(
     () => _i275.SupabaseWorkoutService(),
+  );
+  gh.lazySingleton<_i738.SupabaseAuthService>(
+    () => _i738.SupabaseAuthService(),
   );
   gh.lazySingleton<_i240.SubscriptionRepo>(
     () => _i240.SubscriptionRepoImpl(gh<_i833.SubscriptionService>()),

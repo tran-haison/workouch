@@ -31,6 +31,7 @@ mixin _$UserDto {
   double get weight => throw _privateConstructorUsedError; // in kg
   String get activityLevel => throw _privateConstructorUsedError;
   String get subscriptionTier => throw _privateConstructorUsedError;
+  bool get hasOnboard => throw _privateConstructorUsedError;
 
   /// Serializes this UserDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -57,6 +58,7 @@ abstract class $UserDtoCopyWith<$Res> {
     double weight,
     String activityLevel,
     String subscriptionTier,
+    bool hasOnboard,
   });
 }
 
@@ -85,6 +87,7 @@ class _$UserDtoCopyWithImpl<$Res, $Val extends UserDto>
     Object? weight = null,
     Object? activityLevel = null,
     Object? subscriptionTier = null,
+    Object? hasOnboard = null,
   }) {
     return _then(
       _value.copyWith(
@@ -128,6 +131,10 @@ class _$UserDtoCopyWithImpl<$Res, $Val extends UserDto>
                 ? _value.subscriptionTier
                 : subscriptionTier // ignore: cast_nullable_to_non_nullable
                       as String,
+            hasOnboard: null == hasOnboard
+                ? _value.hasOnboard
+                : hasOnboard // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -153,6 +160,7 @@ abstract class _$$UserDtoImplCopyWith<$Res> implements $UserDtoCopyWith<$Res> {
     double weight,
     String activityLevel,
     String subscriptionTier,
+    bool hasOnboard,
   });
 }
 
@@ -180,6 +188,7 @@ class __$$UserDtoImplCopyWithImpl<$Res>
     Object? weight = null,
     Object? activityLevel = null,
     Object? subscriptionTier = null,
+    Object? hasOnboard = null,
   }) {
     return _then(
       _$UserDtoImpl(
@@ -223,6 +232,10 @@ class __$$UserDtoImplCopyWithImpl<$Res>
             ? _value.subscriptionTier
             : subscriptionTier // ignore: cast_nullable_to_non_nullable
                   as String,
+        hasOnboard: null == hasOnboard
+            ? _value.hasOnboard
+            : hasOnboard // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -243,6 +256,7 @@ class _$UserDtoImpl implements _UserDto {
     required this.weight,
     required this.activityLevel,
     required this.subscriptionTier,
+    required this.hasOnboard,
   });
 
   factory _$UserDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -270,10 +284,12 @@ class _$UserDtoImpl implements _UserDto {
   final String activityLevel;
   @override
   final String subscriptionTier;
+  @override
+  final bool hasOnboard;
 
   @override
   String toString() {
-    return 'UserDto(id: $id, email: $email, fullName: $fullName, avatarUrl: $avatarUrl, gender: $gender, age: $age, height: $height, weight: $weight, activityLevel: $activityLevel, subscriptionTier: $subscriptionTier)';
+    return 'UserDto(id: $id, email: $email, fullName: $fullName, avatarUrl: $avatarUrl, gender: $gender, age: $age, height: $height, weight: $weight, activityLevel: $activityLevel, subscriptionTier: $subscriptionTier, hasOnboard: $hasOnboard)';
   }
 
   @override
@@ -294,7 +310,9 @@ class _$UserDtoImpl implements _UserDto {
             (identical(other.activityLevel, activityLevel) ||
                 other.activityLevel == activityLevel) &&
             (identical(other.subscriptionTier, subscriptionTier) ||
-                other.subscriptionTier == subscriptionTier));
+                other.subscriptionTier == subscriptionTier) &&
+            (identical(other.hasOnboard, hasOnboard) ||
+                other.hasOnboard == hasOnboard));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -311,6 +329,7 @@ class _$UserDtoImpl implements _UserDto {
     weight,
     activityLevel,
     subscriptionTier,
+    hasOnboard,
   );
 
   /// Create a copy of UserDto
@@ -339,6 +358,7 @@ abstract class _UserDto implements UserDto {
     required final double weight,
     required final String activityLevel,
     required final String subscriptionTier,
+    required final bool hasOnboard,
   }) = _$UserDtoImpl;
 
   factory _UserDto.fromJson(Map<String, dynamic> json) = _$UserDtoImpl.fromJson;
@@ -363,6 +383,8 @@ abstract class _UserDto implements UserDto {
   String get activityLevel;
   @override
   String get subscriptionTier;
+  @override
+  bool get hasOnboard;
 
   /// Create a copy of UserDto
   /// with the given fields replaced by the non-null parameter values.

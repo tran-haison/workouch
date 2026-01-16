@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS public.users (
   weight DOUBLE PRECISION NOT NULL DEFAULT 0 CHECK (weight >= 0), -- kilograms
   activity_level TEXT NOT NULL DEFAULT 'sedentary' CHECK (activity_level IN ('sedentary', 'lightlyActive', 'moderatelyActive', 'veryActive', 'extremelyActive')),
   subscription_tier TEXT NOT NULL DEFAULT 'basic' CHECK (subscription_tier IN ('basic', 'proMonthly', 'proYearly', 'proLifetime')),
+  has_onboard BOOLEAN NOT NULL DEFAULT false,
   created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc', now()),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc', now())
 );

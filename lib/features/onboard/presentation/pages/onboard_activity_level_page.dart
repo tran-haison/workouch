@@ -194,6 +194,7 @@ class OnboardActivityLevelPage extends StatelessWidget {
       height: state.height,
       weight: state.weight,
       activityLevel: state.activityLevel,
+      hasOnboard: true,
     );
   }
 }

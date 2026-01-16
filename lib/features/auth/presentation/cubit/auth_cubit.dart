@@ -121,6 +121,7 @@ class AuthCubit extends Cubit<AuthState> {
     double? height,
     double? weight,
     ActivityLevel? activityLevel,
+    bool? hasOnboard,
   }) async {
     if (state.currentUser == null) return;
 
@@ -132,6 +133,7 @@ class AuthCubit extends Cubit<AuthState> {
       height: height ?? state.currentUser!.height,
       weight: weight ?? state.currentUser!.weight,
       activityLevel: activityLevel ?? state.currentUser!.activityLevel,
+      hasOnboard: hasOnboard ?? state.currentUser!.hasOnboard,
     );
     final res = await _authRepo.updateUserProfile(user);
 

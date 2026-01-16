@@ -177,6 +177,7 @@ class SupabaseAuthService {
       'weight': dto.weight,
       'activity_level': dto.activityLevel,
       'subscription_tier': dto.subscriptionTier,
+      'has_onboard': dto.hasOnboard,
     };
 
     try {
