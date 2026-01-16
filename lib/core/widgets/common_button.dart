@@ -50,40 +50,62 @@ class CommonButton extends StatefulWidget {
 }
 
 class _CommonButtonState extends State<CommonButton>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _controller;
+  late AnimationController _splashController;
   late Animation<double> _scaleAnimation;
+  late Animation<double> _splashAnimation;
+  Offset? _tapPosition;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 30),
+      duration: const Duration(milliseconds: 100),
+    );
+    _splashController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
     );
     _scaleAnimation = Tween<double>(
       begin: 1.0,
       end: 0.95,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+    _splashAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _splashController, curve: Curves.easeOut),
+    );
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _splashController.dispose();
     super.dispose();
+  }
+
+  void _handleTapDown(TapDownDetails details) {
+    if (!widget.isDisabled) {
+      setState(() {
+        _tapPosition = details.localPosition;
+      });
+      _controller.forward();
+      _splashController.forward(from: 0.0);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTapDown: (_) {
-        if (!widget.isDisabled) {
-          _controller.forward();
-        }
-      },
+      onTapDown: _handleTapDown,
       onTapUp: (_) {
         if (!widget.isDisabled) {
-          _controller.reverse();
+          // Add a small delay to ensure scale effect is visible even on fast taps
+          Future.delayed(const Duration(milliseconds: 50), () {
+            if (mounted) {
+              _controller.reverse();
+            }
+          });
           if (widget.formKey != null) {
             final currentState = widget.formKey!.currentState;
             if (currentState == null || !currentState.validate()) {
@@ -93,95 +115,161 @@ class _CommonButtonState extends State<CommonButton>
           widget.onPressed();
         }
       },
-      onTapCancel: () => _controller.reverse(),
+      onTapCancel: () {
+        _controller.reverse();
+        _splashController.reset();
+      },
       child: ScaleTransition(
         scale: _scaleAnimation,
-        child: Container(
-          padding: EdgeInsets.zero,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(widget.radius ?? 30.r),
-            border: widget.borderColor != null
-                ? Border.all(color: widget.borderColor!)
-                : null,
-            gradient: widget.backgroundGradientColor,
-            color: widget.backgroundGradientColor == null
-                ? (widget.backgroundColor ?? AppColors.darkBlack)
-                : null,
-          ),
-          child: ElevatedButton(
-            onPressed: widget.isDisabled
-                ? null
-                : () {
-                    if (widget.formKey != null) {
-                      final currentState = widget.formKey!.currentState;
-                      if (currentState == null || !currentState.validate()) {
-                        return;
-                      }
-                    }
-                    widget.onPressed();
-                  },
-            style: ButtonStyle(
-              elevation: WidgetStateProperty.resolveWith((states) => 0),
-              backgroundColor: WidgetStateProperty.resolveWith(
-                (states) => AppColors.transparent,
-              ),
-              overlayColor: WidgetStateProperty.resolveWith(
-                (states) => states.contains(WidgetState.pressed)
-                    ? AppColors.transparent
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              padding: EdgeInsets.zero,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(widget.radius ?? 30.r),
+                border: widget.borderColor != null
+                    ? Border.all(color: widget.borderColor!)
+                    : null,
+                gradient: widget.backgroundGradientColor,
+                color: widget.backgroundGradientColor == null
+                    ? (widget.backgroundColor ?? AppColors.darkBlack)
                     : null,
               ),
-              shadowColor: WidgetStateProperty.resolveWith(
-                (states) => AppColors.transparent,
-              ),
-              padding: WidgetStateProperty.resolveWith(
-                (states) =>
-                    widget.padding ??
-                    EdgeInsets.symmetric(vertical: 14.h, horizontal: 20.w),
-              ),
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              minimumSize: WidgetStateProperty.all(Size.zero),
-              shape: WidgetStateProperty.resolveWith(
-                (states) => RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(widget.radius ?? 30.r),
-                ),
-              ),
-            ),
-            child: Row(
-              mainAxisSize: widget.isFullWidth
-                  ? MainAxisSize.max
-                  : MainAxisSize.min,
-              mainAxisAlignment: widget.alignCenter
-                  ? MainAxisAlignment.center
-                  : MainAxisAlignment.start,
-              children: [
-                if (widget.leading != null) ...[
-                  widget.leading!,
-                  Gaps.hGap(widget.spaceWithLeading ?? 12.w),
-                ],
-                Flexible(
-                  child: Text(
-                    widget.text,
-                    style:
-                        widget.textStyle ??
-                        AppTextStyles.h4.copyWith(
-                          color: AppColors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
-                    softWrap: false,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+              child: ElevatedButton(
+                onPressed: widget.isDisabled
+                    ? null
+                    : () {
+                        if (widget.formKey != null) {
+                          final currentState = widget.formKey!.currentState;
+                          if (currentState == null ||
+                              !currentState.validate()) {
+                            return;
+                          }
+                        }
+                        widget.onPressed();
+                      },
+                style: ButtonStyle(
+                  elevation: WidgetStateProperty.resolveWith((states) => 0),
+                  backgroundColor: WidgetStateProperty.resolveWith(
+                    (states) => AppColors.transparent,
+                  ),
+                  overlayColor: WidgetStateProperty.resolveWith(
+                    (states) => states.contains(WidgetState.pressed)
+                        ? AppColors.transparent
+                        : null,
+                  ),
+                  shadowColor: WidgetStateProperty.resolveWith(
+                    (states) => AppColors.transparent,
+                  ),
+                  padding: WidgetStateProperty.resolveWith(
+                    (states) =>
+                        widget.padding ??
+                        EdgeInsets.symmetric(vertical: 14.h, horizontal: 20.w),
+                  ),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  minimumSize: WidgetStateProperty.all(Size.zero),
+                  shape: WidgetStateProperty.resolveWith(
+                    (states) => RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        widget.radius ?? 30.r,
+                      ),
+                    ),
                   ),
                 ),
-                if (widget.trailing != null) ...[
-                  Gaps.hGap(widget.spaceWithTrailing ?? 12.w),
-                  widget.trailing!,
-                ],
-              ],
+                child: Row(
+                  mainAxisSize: widget.isFullWidth
+                      ? MainAxisSize.max
+                      : MainAxisSize.min,
+                  mainAxisAlignment: widget.alignCenter
+                      ? MainAxisAlignment.center
+                      : MainAxisAlignment.start,
+                  children: [
+                    if (widget.leading != null) ...[
+                      widget.leading!,
+                      Gaps.hGap(widget.spaceWithLeading ?? 12.w),
+                    ],
+                    Flexible(
+                      child: Text(
+                        widget.text,
+                        style:
+                            widget.textStyle ??
+                            AppTextStyles.h4.copyWith(
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                        softWrap: false,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    if (widget.trailing != null) ...[
+                      Gaps.hGap(widget.spaceWithTrailing ?? 12.w),
+                      widget.trailing!,
+                    ],
+                  ],
+                ),
+              ),
             ),
-          ),
+            // Splash effect
+            if (_tapPosition != null)
+              Positioned.fill(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(widget.radius ?? 30.r),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return AnimatedBuilder(
+                        animation: _splashAnimation,
+                        builder: (context, child) {
+                          final maxRadius =
+                              (constraints.maxWidth + constraints.maxHeight) *
+                              0.8;
+                          final currentRadius =
+                              maxRadius * _splashAnimation.value;
+
+                          return CustomPaint(
+                            painter: _SplashPainter(
+                              center: _tapPosition ?? Offset.zero,
+                              radius: currentRadius,
+                              opacity: 1.0 - _splashAnimation.value,
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ),
+          ],
         ),
       ),
     );
+  }
+}
+
+class _SplashPainter extends CustomPainter {
+  _SplashPainter({
+    required this.center,
+    required this.radius,
+    required this.opacity,
+  });
+
+  final Offset center;
+  final double radius;
+  final double opacity;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = AppColors.white.withValues(alpha: opacity * 0.3)
+      ..style = PaintingStyle.fill;
+
+    canvas.drawCircle(center, radius, paint);
+  }
+
+  @override
+  bool shouldRepaint(_SplashPainter oldDelegate) {
+    return oldDelegate.radius != radius || oldDelegate.opacity != opacity;
   }
 }
 
@@ -214,27 +302,46 @@ class CommonIconButton extends StatefulWidget {
 }
 
 class _CommonIconButtonState extends State<CommonIconButton>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _controller;
+  late AnimationController _splashController;
   late Animation<double> _scaleAnimation;
+  late Animation<double> _splashAnimation;
+  Offset? _tapPosition;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 30),
+      duration: const Duration(milliseconds: 100),
+    );
+    _splashController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
     );
     _scaleAnimation = Tween<double>(
       begin: 1.0,
       end: 0.90,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+    _splashAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _splashController, curve: Curves.easeOut),
+    );
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _splashController.dispose();
     super.dispose();
+  }
+
+  void _handleTapDown(TapDownDetails details) {
+    setState(() {
+      _tapPosition = details.localPosition;
+    });
+    _controller.forward();
+    _splashController.forward(from: 0.0);
   }
 
   @override
@@ -242,34 +349,76 @@ class _CommonIconButtonState extends State<CommonIconButton>
     final borderRadius = widget.radius ?? 50.r;
 
     return GestureDetector(
-      onTapDown: (_) => _controller.forward(),
+      onTapDown: _handleTapDown,
       onTapUp: (_) {
-        _controller.reverse();
+        // Add a small delay to ensure scale effect is visible even on fast taps
+        Future.delayed(const Duration(milliseconds: 50), () {
+          if (mounted) {
+            _controller.reverse();
+          }
+        });
         widget.onTap();
       },
-      onTapCancel: () => _controller.reverse(),
+      onTapCancel: () {
+        _controller.reverse();
+        _splashController.reset();
+      },
       child: ScaleTransition(
         scale: _scaleAnimation,
-        child: Container(
-          decoration: BoxDecoration(
-            color: widget.backgroundColor,
-            borderRadius: BorderRadius.circular(borderRadius),
-            border: widget.borderColor != null
-                ? Border.all(
-                    color: widget.borderColor!,
-                    width: widget.borderWidth ?? 1.r,
-                  )
-                : null,
-          ),
-          child: Padding(
-            padding: widget.padding ?? EdgeInsets.all(12.r),
-            child: CommonAssetIcon(
-              widget.icon,
-              width: widget.iconSize,
-              height: widget.iconSize,
-              color: widget.iconColor,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: widget.backgroundColor,
+                borderRadius: BorderRadius.circular(borderRadius),
+                border: widget.borderColor != null
+                    ? Border.all(
+                        color: widget.borderColor!,
+                        width: widget.borderWidth ?? 1.r,
+                      )
+                    : null,
+              ),
+              child: Padding(
+                padding: widget.padding ?? EdgeInsets.all(12.r),
+                child: CommonAssetIcon(
+                  widget.icon,
+                  width: widget.iconSize,
+                  height: widget.iconSize,
+                  color: widget.iconColor,
+                ),
+              ),
             ),
-          ),
+            // Splash effect
+            if (_tapPosition != null)
+              Positioned.fill(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(borderRadius),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return AnimatedBuilder(
+                        animation: _splashAnimation,
+                        builder: (context, child) {
+                          final maxRadius =
+                              (constraints.maxWidth + constraints.maxHeight) *
+                              0.8;
+                          final currentRadius =
+                              maxRadius * _splashAnimation.value;
+
+                          return CustomPaint(
+                            painter: _SplashPainter(
+                              center: _tapPosition ?? Offset.zero,
+                              radius: currentRadius,
+                              opacity: 1.0 - _splashAnimation.value,
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ),
+          ],
         ),
       ),
     );
