@@ -33,6 +33,8 @@ import '../../features/workout/presentation/cubit/workout_cubit.dart' as _i645;
 import '../../features/workout_session/presentation/cubit/workout_session_cubit.dart'
     as _i613;
 import '../services/firebase_service.dart' as _i758;
+import '../services/review_service.dart' as _i793;
+import '../services/storage_service.dart' as _i306;
 import '../services/subscription_service.dart' as _i833;
 import '../services/version_service.dart' as _i999;
 import 'injection.dart' as _i464;
@@ -47,20 +49,23 @@ Future<_i174.GetIt> $initGetIt(
   final injectionModule = _$InjectionModule();
   gh.factory<_i613.WorkoutSessionCubit>(() => _i613.WorkoutSessionCubit());
   gh.factory<_i754.OnboardCubit>(() => _i754.OnboardCubit());
+  await gh.lazySingletonAsync<_i460.SharedPreferences>(
+    () => injectionModule.sharedPreferences,
+    preResolve: true,
+  );
   gh.lazySingleton<_i999.VersionService>(() => _i999.VersionService());
   gh.lazySingleton<_i758.FirebaseService>(() => _i758.FirebaseService());
   gh.lazySingleton<_i833.SubscriptionService>(
     () => _i833.SubscriptionService(),
   );
-  await gh.lazySingletonAsync<_i460.SharedPreferences>(
-    () => injectionModule.sharedPreferences,
-    preResolve: true,
+  gh.lazySingleton<_i738.SupabaseAuthService>(
+    () => _i738.SupabaseAuthService(),
   );
   gh.lazySingleton<_i275.SupabaseWorkoutService>(
     () => _i275.SupabaseWorkoutService(),
   );
-  gh.lazySingleton<_i738.SupabaseAuthService>(
-    () => _i738.SupabaseAuthService(),
+  gh.lazySingleton<_i306.AppPrefs>(
+    () => _i306.AppPrefs(gh<_i460.SharedPreferences>()),
   );
   gh.lazySingleton<_i240.SubscriptionRepo>(
     () => _i240.SubscriptionRepoImpl(gh<_i833.SubscriptionService>()),
@@ -75,11 +80,17 @@ Future<_i174.GetIt> $initGetIt(
   gh.factory<_i117.AuthCubit>(
     () => _i117.AuthCubit(gh<_i723.AuthRepo>(), gh<_i240.SubscriptionRepo>()),
   );
+  gh.lazySingleton<_i306.StorageService>(
+    () => _i306.StorageService(gh<_i306.AppPrefs>()),
+  );
   gh.lazySingleton<_i597.WorkoutRepo>(
     () => _i597.WorkoutRepoImpl(gh<_i275.SupabaseWorkoutService>()),
   );
   gh.factory<_i792.SettingsCubit>(
     () => _i792.SettingsCubit(gh<_i999.VersionService>()),
+  );
+  gh.lazySingleton<_i793.ReviewService>(
+    () => _i793.ReviewService(gh<_i306.StorageService>()),
   );
   gh.lazySingleton<_i747.ExerciseService>(
     () => _i747.ExerciseService(gh<_i361.Dio>(instanceName: 'exercise-db')),

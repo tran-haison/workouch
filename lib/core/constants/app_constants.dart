@@ -87,6 +87,7 @@ class AppConstants {
   static const pleaseEnterAWorkoutName = 'Please enter a workout name';
   static const pleaseAddAtLeastOneExercise = 'Please add at least one exercise';
   static const startWorkout = 'Start workout';
+  static const savingWorkout = 'Saving workout...';
   static const update = 'Update';
   static const updateWorkout = 'Update workout';
   static const deleteWorkout = 'Delete workout';
@@ -352,6 +353,13 @@ class AppConstants {
   static const settingUp = 'Setting up...';
   static const settingUpSuccess = 'Setup completed successfully';
   static const settingUpError = 'Failed to complete setup';
+
+  // Review
+  static const reviewTitle = 'Love Workouch?';
+  static const reviewDescription =
+      'We would love to hear your thoughts on how we can make Workouch better';
+  static const rateUs = 'Rate Us';
+  static const doNotAskAgain = 'Do not ask again';
 }
 
 class _Supabase {
@@ -381,6 +389,12 @@ class _Time {
 }
 
 class _Url {
+  String get appStore =>
+      'https://apps.apple.com/app/pomofy-pomodoro-timer/id6748651874'; // TODO: update this
+
+  String get playStore =>
+      'https://play.google.com/store/apps/details?id=com.vigor.workouch';
+
   String get formDeleteAccount => 'https://forms.gle/zgemJjqtUz4HqL6J7';
 
   String get pageTermsConditions =>

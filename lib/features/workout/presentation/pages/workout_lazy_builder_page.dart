@@ -14,7 +14,6 @@ import '../../../../core/widgets/common_text_field.dart';
 import '../../../../core/widgets/common_ai_generating_dialog.dart';
 import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
-import '../../../auth/domain/entities/subscription_plan.dart';
 import '../../../auth/presentation/cubit/auth_cubit.dart';
 import '../cubit/workout_state.dart';
 import '../dialogs/workout_generation_limit_dialog.dart';

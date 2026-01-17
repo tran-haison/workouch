@@ -18,6 +18,7 @@ import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/onboard/presentation/pages/onboard_main_page.dart';
 import '../../features/workout/domain/entities/workout.dart';
 import '../../features/workout_session/presentation/widgets/workout_session_scope_provider.dart';
+import 'navigator_observer.dart';
 
 enum AppRoute {
   signIn,
@@ -60,7 +61,10 @@ Page<T> _buildSlidePage<T extends Object>(
   );
 }
 
+final navObserver = NavigationHistoryObserver();
+
 final appRouter = GoRouter(
+  observers: [navObserver],
   initialLocation: '/signin',
   routes: <RouteBase>[
     GoRoute(

@@ -6,13 +6,16 @@ import 'package:workouch/core/extension/duration_extension.dart';
 import 'package:workouch/features/auth/presentation/cubit/auth_cubit.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_router.dart';
+import '../../../../core/services/review_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/health_utils.dart';
 import '../../../../core/widgets/common_button.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
+import '../../../../core/widgets/review_dialog.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../auth/presentation/cubit/auth_state.dart';
 import '../cubit/workout_session_cubit.dart';
@@ -30,6 +33,11 @@ class _WorkoutFinishPageState extends State<WorkoutFinishPage> {
   void initState() {
     super.initState();
     context.read<WorkoutSessionCubit>().stopAllTimers();
+
+    // Show review dialog after page is built
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showReviewDialog(context);
+    });
   }
 
   @override
@@ -142,6 +150,14 @@ class _WorkoutFinishPageState extends State<WorkoutFinishPage> {
         );
       },
     );
+  }
+
+  Future<void> _showReviewDialog(BuildContext context) async {
+    final reviewService = getIt<ReviewService>();
+    final shouldShow = await reviewService.shouldShowReviewDialog();
+    if (shouldShow && context.mounted) {
+      context.showReviewDialog();
+    }
   }
 }
 

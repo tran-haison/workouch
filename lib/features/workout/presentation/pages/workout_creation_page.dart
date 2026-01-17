@@ -40,7 +40,7 @@ class _WorkoutCreationPageState extends State<WorkoutCreationPage> {
           prev.saveWorkoutStatus != curr.saveWorkoutStatus,
       listener: (context, state) {
         if (state.saveWorkoutStatus == WorkoutStateStatus.loading) {
-          context.showLoadingDialog();
+          context.showLoadingDialog(message: AppConstants.savingWorkout);
         } else {
           context.hideLoadingDialog();
         }
@@ -51,7 +51,14 @@ class _WorkoutCreationPageState extends State<WorkoutCreationPage> {
             state.selectedWorkout,
           ); // update the displayed workout to the new one
           context.read<WorkoutCubit>().getAllWorkouts();
-          context.pop();
+
+          final prevPage = navObserver.prevRoute;
+          if (prevPage == AppRoute.workoutDetails.name) {
+            context.pop();
+          } else {
+            context.pushReplacementNamed(AppRoute.workoutDetails.name);
+          }
+
           return;
         }
 
