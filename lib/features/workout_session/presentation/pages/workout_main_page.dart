@@ -20,8 +20,8 @@ import '../dialogs/workout_finish_dialogs.dart';
 import '../widgets/workout_set_list.dart';
 import '../widgets/rest_timer_overlay.dart';
 
-class WorkoutExecutionPage extends StatelessWidget {
-  const WorkoutExecutionPage({super.key});
+class WorkoutMainPage extends StatelessWidget {
+  const WorkoutMainPage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -37,7 +37,7 @@ class _WorkoutRestPageState extends State<WorkoutRestPage> {
       listenWhen: (prev, current) =>
           prev.isRestExercisesActive != current.isRestExercisesActive,
       listener: (context, state) {
-        // Navigate back to execution page when rest timer completes automatically
+        // Navigate back to main page when rest timer completes automatically
         if (!state.isRestExercisesActive) {
           if (mounted && context.canPop()) {
             _nextExercise(context);

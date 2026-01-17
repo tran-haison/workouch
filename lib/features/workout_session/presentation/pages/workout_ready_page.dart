@@ -170,6 +170,6 @@ class WorkoutReadyPage extends StatelessWidget {
 
   void _startWorkout(BuildContext context) {
     context.read<WorkoutSessionCubit>().startTotalTimer();
-    context.pushNamed(AppRoute.workoutExecution.name);
+    context.pushNamed(AppRoute.workoutMain.name);
   }
 }
