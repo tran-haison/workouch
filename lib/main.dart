@@ -9,6 +9,7 @@ import 'core/router/app_router.dart';
 import 'core/constants/app_constants.dart';
 import 'core/di/injection.dart';
 import 'core/services/firebase_service.dart';
+import 'core/services/posthog_analytics_service.dart';
 import 'core/services/subscription_service.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/log.dart';
@@ -28,6 +29,7 @@ Future<void> main() async {
     );
     await getIt<FirebaseService>().initialize();
     await getIt<SubscriptionService>().initialize();
+    await getIt<PostHogAnalyticsService>().initialize();
   } catch (e) {
     Log.e('Failed to initialize dependencies: $e');
   }

@@ -143,6 +143,9 @@ dependencies:
   # https://pub.dev/packages/ruler_slider
   ruler_slider: ^0.0.5
 
+  # https://pub.dev/packages/posthog_flutter
+  posthog_flutter: ^5.11.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

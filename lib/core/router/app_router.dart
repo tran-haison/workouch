@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 
 import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/auth/presentation/pages/profile_page.dart';
@@ -62,9 +63,10 @@ Page<T> _buildSlidePage<T extends Object>(
 }
 
 final navObserver = NavigationHistoryObserver();
+final posthogObserver = PosthogObserver();
 
 final appRouter = GoRouter(
-  observers: [navObserver],
+  observers: [navObserver, posthogObserver],
   initialLocation: '/signin',
   routes: <RouteBase>[
     GoRoute(

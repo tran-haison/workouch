@@ -33,6 +33,7 @@ import '../../features/workout/presentation/cubit/workout_cubit.dart' as _i645;
 import '../../features/workout_session/presentation/cubit/workout_session_cubit.dart'
     as _i613;
 import '../services/firebase_service.dart' as _i758;
+import '../services/posthog_analytics_service.dart' as _i135;
 import '../services/review_service.dart' as _i793;
 import '../services/storage_service.dart' as _i306;
 import '../services/subscription_service.dart' as _i833;
@@ -55,6 +56,9 @@ Future<_i174.GetIt> $initGetIt(
   );
   gh.lazySingleton<_i999.VersionService>(() => _i999.VersionService());
   gh.lazySingleton<_i758.FirebaseService>(() => _i758.FirebaseService());
+  gh.lazySingleton<_i135.PostHogAnalyticsService>(
+    () => _i135.PostHogAnalyticsService(),
+  );
   gh.lazySingleton<_i833.SubscriptionService>(
     () => _i833.SubscriptionService(),
   );

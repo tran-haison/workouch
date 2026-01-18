@@ -7,6 +7,7 @@ class AppConstants {
   static final timeConst = _Time();
   static final supabase = _Supabase();
   static final url = _Url();
+  static final posthog = _PostHog();
 
   // Exercise DB
   static const exerciseDb = 'exercise-db';
@@ -390,7 +391,7 @@ class _Time {
 
 class _Url {
   String get appStore =>
-      'https://apps.apple.com/app/pomofy-pomodoro-timer/id6748651874'; // TODO: update this
+      'https://apps.apple.com/app/workouch-ai-workout-planner/id6756765073';
 
   String get playStore =>
       'https://play.google.com/store/apps/details?id=com.vigor.workouch';
@@ -409,4 +410,9 @@ class _Url {
   String get website => 'https://vigorworkouch.com';
 
   String get contactEmail => 'mailto:vigor.workouch@gmail.com';
+}
+
+class _PostHog {
+  String get apiKey => dotenv.env['POSTHOG_API_KEY'] ?? '';
+  String get host => dotenv.env['POSTHOG_HOST'] ?? 'https://us.i.posthog.com';
 }
