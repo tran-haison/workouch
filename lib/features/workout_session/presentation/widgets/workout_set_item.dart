@@ -33,7 +33,7 @@ class WorkoutSetItem extends StatelessWidget {
         color: isCompleted
             ? AppColors.lightGray
             : isCurrent
-            ? AppColors.secondary
+            ? AppColors.darkBlack
             : AppColors.white,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: AppColors.grayBlue, width: 1.r),
@@ -69,7 +69,9 @@ class WorkoutSetItem extends StatelessWidget {
                       Text(
                         entry.key,
                         style: AppTextStyles.h5.copyWith(
-                          color: AppColors.mediumGray,
+                          color: isCurrent
+                              ? AppColors.white
+                              : AppColors.mediumGray,
                         ),
                       ),
                       Gaps.vGap4,
@@ -77,6 +79,7 @@ class WorkoutSetItem extends StatelessWidget {
                         entry.value,
                         style: AppTextStyles.h4.copyWith(
                           fontWeight: FontWeight.w600,
+                          color: isCurrent ? AppColors.white : AppColors.text,
                         ),
                       ),
                     ],

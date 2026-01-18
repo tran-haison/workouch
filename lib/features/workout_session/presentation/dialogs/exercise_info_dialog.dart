@@ -83,62 +83,6 @@ class _ExerciseInfoDialog extends StatelessWidget {
             ),
             Gaps.vGap20,
           ],
-          // Target Muscles
-          if (exercise.targetMuscles.isNotEmpty) ...[
-            Text(
-              AppConstants.targetMuscles,
-              style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
-            ),
-            Gaps.vGap8,
-            Wrap(
-              spacing: 8.w,
-              runSpacing: 8.h,
-              children: exercise.targetMuscles
-                  .map(
-                    (muscle) => Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 12.w,
-                        vertical: 6.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.grayBlue,
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      child: Text(muscle, style: AppTextStyles.h5),
-                    ),
-                  )
-                  .toList(),
-            ),
-            Gaps.vGap20,
-          ],
-          // Secondary Muscles
-          if (exercise.secondaryMuscles.isNotEmpty) ...[
-            Text(
-              AppConstants.secondaryMuscles,
-              style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
-            ),
-            Gaps.vGap8,
-            Wrap(
-              spacing: 8.w,
-              runSpacing: 8.h,
-              children: exercise.secondaryMuscles
-                  .map(
-                    (muscle) => Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 12.w,
-                        vertical: 6.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.grayBlue,
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      child: Text(muscle, style: AppTextStyles.h5),
-                    ),
-                  )
-                  .toList(),
-            ),
-            Gaps.vGap20,
-          ],
           // Body Parts
           if (exercise.bodyParts.isNotEmpty) ...[
             Text(
@@ -194,6 +138,62 @@ class _ExerciseInfoDialog extends StatelessWidget {
                           color: AppColors.white,
                         ),
                       ),
+                    ),
+                  )
+                  .toList(),
+            ),
+            Gaps.vGap20,
+          ],
+          // Target Muscles
+          if (exercise.targetMuscles.isNotEmpty) ...[
+            Text(
+              AppConstants.targetMuscles,
+              style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
+            ),
+            Gaps.vGap8,
+            Wrap(
+              spacing: 8.w,
+              runSpacing: 8.h,
+              children: exercise.targetMuscles
+                  .map(
+                    (muscle) => Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 6.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.grayBlue,
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      child: Text(muscle, style: AppTextStyles.h5),
+                    ),
+                  )
+                  .toList(),
+            ),
+            Gaps.vGap20,
+          ],
+          // Secondary Muscles
+          if (exercise.secondaryMuscles.isNotEmpty) ...[
+            Text(
+              AppConstants.secondaryMuscles,
+              style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
+            ),
+            Gaps.vGap8,
+            Wrap(
+              spacing: 8.w,
+              runSpacing: 8.h,
+              children: exercise.secondaryMuscles
+                  .map(
+                    (muscle) => Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 6.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.grayBlue,
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      child: Text(muscle, style: AppTextStyles.h5),
                     ),
                   )
                   .toList(),
