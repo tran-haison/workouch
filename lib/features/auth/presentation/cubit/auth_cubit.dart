@@ -44,6 +44,9 @@ class AuthCubit extends Cubit<AuthState> {
           await _authRepo.updateUserProfile(updatedUser);
         }
 
+        // Sign in user to PostHog for analytics
+        await _authRepo.signInPosthog(updatedUser);
+
         emit(
           state.copyWith(
             status: AuthStateStatus.authenticated,

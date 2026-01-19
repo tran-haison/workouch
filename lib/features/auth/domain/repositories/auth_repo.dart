@@ -2,6 +2,7 @@ import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/services/posthog_analytics_service.dart';
 import '../../../../core/utils/error.dart';
 import '../../data/services/supabase_auth_service.dart';
 import '../entities/user.dart';
@@ -18,13 +19,15 @@ abstract class AuthRepo {
   });
   Future<Either<Error, bool>> updateUserProfile(User user);
   Future<Either<Error, void>> signOut();
+  Future<Either<Error, void>> signInPosthog(User user);
 }
 
 @LazySingleton(as: AuthRepo)
 class AuthRepoImpl implements AuthRepo {
   final SupabaseAuthService _authService;
+  final PostHogAnalyticsService _posthogService;
 
-  AuthRepoImpl(this._authService);
+  AuthRepoImpl(this._authService, this._posthogService);
 
   @override
   bool get isAuthenticated => _authService.isAuthenticated;
@@ -117,6 +120,24 @@ class AuthRepoImpl implements AuthRepo {
   Future<Either<Error, void>> signOut() async {
     try {
       await _authService.signOut();
+      await _posthogService.reset();
+      return const Right(null);
+    } catch (e) {
+      return Left(handleException(e));
+    }
+  }
+
+  @override
+  Future<Either<Error, void>> signInPosthog(User user) async {
+    try {
+      await _posthogService.identify(
+        userId: user.id,
+        properties: {
+          'email': user.email,
+          'subscription_tier': user.subscriptionTier.name,
+          'has_onboard': user.hasOnboard,
+        },
+      );
       return const Right(null);
     } catch (e) {
       return Left(handleException(e));

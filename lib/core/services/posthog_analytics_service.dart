@@ -9,6 +9,32 @@ import '../utils/log.dart';
 class PostHogAnalyticsService {
   PostHogAnalyticsService();
 
+  // Event name constants
+  static const String eventOnboardingStarted = 'onboarding_started';
+  static const String eventOnboardingCompleted = 'onboarding_completed';
+  static const String eventSubscriptionPurchaseStarted =
+      'subscription_purchase_started';
+  static const String eventSubscriptionPurchaseSucceeded =
+      'subscription_purchase_succeeded';
+  static const String eventSubscriptionPurchaseFailed =
+      'subscription_purchase_failed';
+  static const String eventSubscriptionRestoreStarted =
+      'subscription_restore_started';
+  static const String eventSubscriptionRestoreSucceeded =
+      'subscription_restore_succeeded';
+  static const String eventSubscriptionRestoreFailed =
+      'subscription_restore_failed';
+  static const String eventWorkoutSaved = 'workout_saved';
+  static const String eventAIWorkoutGenerateShuffleStarted =
+      'ai_workout_generate_shuffle_started';
+  static const String eventAIWorkoutGenerateShuffleFailed =
+      'ai_workout_generate_shuffle_failed';
+  static const String eventAIWorkoutGenerateNeatStarted =
+      'ai_workout_generate_neat_started';
+  static const String eventAIWorkoutGenerateNeatFailed =
+      'ai_workout_generate_neat_failed';
+  static const String eventAIWorkoutGenerated = 'ai_workout_generated';
+
   /// Initialize PostHog analytics
   Future<void> initialize() async {
     try {

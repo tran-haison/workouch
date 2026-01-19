@@ -3,6 +3,7 @@ import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/services/posthog_analytics_service.dart';
 import '../../../../core/utils/error.dart';
 import '../../../auth/domain/entities/user.dart';
 import '../../data/models/dtos/generate_workout_dto.dart';
@@ -34,8 +35,9 @@ abstract class AIWorkoutRepo {
 @LazySingleton(as: AIWorkoutRepo)
 class AIWorkoutRepoImpl implements AIWorkoutRepo {
   final ExerciseService _exerciseService;
+  final PostHogAnalyticsService _posthogService;
 
-  AIWorkoutRepoImpl(this._exerciseService);
+  AIWorkoutRepoImpl(this._exerciseService, this._posthogService);
 
   @override
   Future<Either<Error, Workout>> generateShuffleModeWorkout({
@@ -43,6 +45,11 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
     User? user,
   }) async {
     try {
+      // Track AI workout generation (shuffle mode) start
+      await _posthogService.capture(
+        PostHogAnalyticsService.eventAIWorkoutGenerateShuffleStarted,
+      );
+
       final request = GenerateWorkoutRequest.shuffleMode(
         mode: 'shuffle',
         preferences: preferences,
@@ -73,6 +80,15 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
           );
         }
 
+        // Track successful AI workout generation
+        await _posthogService.capture(
+          PostHogAnalyticsService.eventAIWorkoutGenerated,
+          properties: {
+            'workout_id': workout.id,
+            'exercise_count': workout.exercises.length,
+          },
+        );
+
         return Right(workout);
       }
 
@@ -89,6 +105,11 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
         errorMessage = res.response.statusMessage ?? AppConstants.commonError;
       }
 
+      await _posthogService.capture(
+        PostHogAnalyticsService.eventAIWorkoutGenerateShuffleFailed,
+        properties: {'error': errorMessage},
+      );
+
       return Left(
         Error(
           message: errorMessage,
@@ -97,7 +118,12 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
         ),
       );
     } catch (e) {
-      return Left(handleException(e));
+      final error = handleException(e);
+      await _posthogService.capture(
+        PostHogAnalyticsService.eventAIWorkoutGenerateShuffleFailed,
+        properties: {'error': error.message},
+      );
+      return Left(error);
     }
   }
 
@@ -114,6 +140,16 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
     User? user,
   }) async {
     try {
+      // Track AI workout generation (neat mode) start
+      await _posthogService.capture(
+        PostHogAnalyticsService.eventAIWorkoutGenerateNeatStarted,
+        properties: {
+          'duration_minutes': duration?.inMinutes ?? 0,
+          'intensity': intensity?.name ?? '',
+          'goals': goals?.map((g) => g.name).toList() ?? <String>[],
+        },
+      );
+
       final request = GenerateWorkoutRequest.neatMode(
         mode: 'neat',
         userContext: user != null
@@ -153,6 +189,15 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
           );
         }
 
+        // Track successful AI workout generation
+        await _posthogService.capture(
+          PostHogAnalyticsService.eventAIWorkoutGenerated,
+          properties: {
+            'workout_id': workout.id,
+            'exercise_count': workout.exercises.length,
+          },
+        );
+
         return Right(workout);
       }
 
@@ -169,6 +214,11 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
         errorMessage = res.response.statusMessage ?? AppConstants.commonError;
       }
 
+      await _posthogService.capture(
+        PostHogAnalyticsService.eventAIWorkoutGenerateNeatFailed,
+        properties: {'error': errorMessage},
+      );
+
       return Left(
         Error(
           message: errorMessage,
@@ -177,7 +227,12 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
         ),
       );
     } catch (e) {
-      return Left(handleException(e));
+      final error = handleException(e);
+      await _posthogService.capture(
+        PostHogAnalyticsService.eventAIWorkoutGenerateNeatFailed,
+        properties: {'error': error.message},
+      );
+      return Left(error);
     }
   }
 }
