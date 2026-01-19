@@ -8,6 +8,7 @@ import 'package:workouch/features/auth/presentation/cubit/auth_cubit.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_router.dart';
+import '../../../../core/services/posthog_analytics_service.dart';
 import '../../../../core/services/review_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -136,6 +137,9 @@ class _WorkoutFinishPageState extends State<WorkoutFinishPage> {
                           text: AppConstants.backToHome,
                           backgroundColor: AppColors.darkBlack,
                           onPressed: () {
+                            // Analytics: workout completed
+                            PosthogService.logWorkoutCompleted();
+
                             // Navigate to home
                             context.goNamed(AppRoute.home.name);
                           },

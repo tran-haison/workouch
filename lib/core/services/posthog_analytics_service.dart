@@ -3,37 +3,12 @@ import 'package:injectable/injectable.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
 
 import '../constants/app_constants.dart';
+import '../di/injection.dart';
 import '../utils/log.dart';
 
 @lazySingleton
 class PostHogAnalyticsService {
   PostHogAnalyticsService();
-
-  // Event name constants
-  static const String eventOnboardingStarted = 'onboarding_started';
-  static const String eventOnboardingCompleted = 'onboarding_completed';
-  static const String eventSubscriptionPurchaseStarted =
-      'subscription_purchase_started';
-  static const String eventSubscriptionPurchaseSucceeded =
-      'subscription_purchase_succeeded';
-  static const String eventSubscriptionPurchaseFailed =
-      'subscription_purchase_failed';
-  static const String eventSubscriptionRestoreStarted =
-      'subscription_restore_started';
-  static const String eventSubscriptionRestoreSucceeded =
-      'subscription_restore_succeeded';
-  static const String eventSubscriptionRestoreFailed =
-      'subscription_restore_failed';
-  static const String eventWorkoutSaved = 'workout_saved';
-  static const String eventAIWorkoutGenerateShuffleStarted =
-      'ai_workout_generate_shuffle_started';
-  static const String eventAIWorkoutGenerateShuffleFailed =
-      'ai_workout_generate_shuffle_failed';
-  static const String eventAIWorkoutGenerateNeatStarted =
-      'ai_workout_generate_neat_started';
-  static const String eventAIWorkoutGenerateNeatFailed =
-      'ai_workout_generate_neat_failed';
-  static const String eventAIWorkoutGenerated = 'ai_workout_generated';
 
   /// Initialize PostHog analytics
   Future<void> initialize() async {
@@ -155,5 +130,103 @@ class PostHogAnalyticsService {
       Log.e('Failed to get feature flag in PostHog: $e');
       return null;
     }
+  }
+}
+
+class PosthogService {
+  static const String eventOnboardingStarted = 'onboarding_started';
+  static const String eventOnboardingStepReached = 'onboarding_step_reached';
+  static const String eventOnboardingCompleted = 'onboarding_completed';
+  static const String eventSubscriptionPurchaseSuccess =
+      'subscription_purchase_succeeded';
+  static const String eventSubscriptionPurchaseFailed =
+      'subscription_purchase_failed';
+  static const String eventSubscriptionRestoreSuccess =
+      'subscription_restore_succeeded';
+  static const String eventSubscriptionRestoreFailed =
+      'subscription_restore_failed';
+  static const String eventWorkoutGeneratedSuccessShuffle =
+      'workout_generated_success_shuffle';
+  static const String eventWorkoutGeneratedSuccessNeat =
+      'workout_generated_success_neat';
+  static const String eventWorkoutGeneratedFailed = 'workout_generated_failed';
+  static const String eventWorkoutStarted = 'workout_started';
+  static const String eventWorkoutCompleted = 'workout_completed';
+
+  static Future<void> logOnboardingStarted() async {
+    await getIt<PostHogAnalyticsService>().capture(eventOnboardingStarted);
+  }
+
+  static Future<void> logOnboardingStepReached(int step) async {
+    await getIt<PostHogAnalyticsService>().capture(
+      eventOnboardingStepReached,
+      properties: {'step': step},
+    );
+  }
+
+  static Future<void> logOnboardingCompleted() async {
+    await getIt<PostHogAnalyticsService>().capture(eventOnboardingCompleted);
+  }
+
+  static Future<void> logSubscriptionPurchaseSuccess(String packageId) async {
+    await getIt<PostHogAnalyticsService>().capture(
+      eventSubscriptionPurchaseSuccess,
+      properties: {'package_id': packageId},
+    );
+  }
+
+  static Future<void> logSubscriptionPurchaseFailed(
+    String packageId, {
+    String? errorMessage,
+  }) async {
+    await getIt<PostHogAnalyticsService>().capture(
+      eventSubscriptionPurchaseFailed,
+      properties: {
+        'package_id': packageId,
+        if (errorMessage != null) 'error_message': errorMessage,
+      },
+    );
+  }
+
+  static Future<void> logSubscriptionRestoreSuccess() async {
+    await getIt<PostHogAnalyticsService>().capture(
+      eventSubscriptionRestoreSuccess,
+    );
+  }
+
+  static Future<void> logSubscriptionRestoreFailed({
+    String? errorMessage,
+  }) async {
+    await getIt<PostHogAnalyticsService>().capture(
+      eventSubscriptionRestoreFailed,
+      properties: {if (errorMessage != null) 'error_message': errorMessage},
+    );
+  }
+
+  static Future<void> logWorkoutGeneratedSuccessShuffle() async {
+    await getIt<PostHogAnalyticsService>().capture(
+      eventWorkoutGeneratedSuccessShuffle,
+    );
+  }
+
+  static Future<void> logWorkoutGeneratedSuccessNeat() async {
+    await getIt<PostHogAnalyticsService>().capture(
+      eventWorkoutGeneratedSuccessNeat,
+    );
+  }
+
+  static Future<void> logWorkoutGeneratedFailed({String? errorMessage}) async {
+    await getIt<PostHogAnalyticsService>().capture(
+      eventWorkoutGeneratedFailed,
+      properties: {if (errorMessage != null) 'error_message': errorMessage},
+    );
+  }
+
+  static Future<void> logWorkoutStarted() async {
+    await getIt<PostHogAnalyticsService>().capture(eventWorkoutStarted);
+  }
+
+  static Future<void> logWorkoutCompleted() async {
+    await getIt<PostHogAnalyticsService>().capture(eventWorkoutCompleted);
   }
 }

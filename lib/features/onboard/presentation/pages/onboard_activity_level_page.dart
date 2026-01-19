@@ -6,6 +6,7 @@ import 'package:workouch/features/auth/presentation/cubit/auth_cubit.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/router/app_router.dart';
+import '../../../../core/services/posthog_analytics_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_button.dart';
@@ -149,6 +150,9 @@ class OnboardActivityLevelPage extends StatelessWidget {
 
                         if (state.status == AuthStateStatus.authenticated &&
                             state.currentUser != null) {
+                          // Analytics: onboarding completed
+                          PosthogService.logOnboardingCompleted();
+
                           showCommonToast(AppConstants.settingUpSuccess);
                           context.pushReplacementNamed(
                             AppRoute.workoutLazyBuilder.name,

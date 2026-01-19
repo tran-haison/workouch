@@ -6,6 +6,7 @@ import 'package:workouch/core/extension/duration_extension.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/router/app_router.dart';
+import '../../../../core/services/posthog_analytics_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_button.dart';
@@ -169,6 +170,9 @@ class WorkoutReadyPage extends StatelessWidget {
   }
 
   void _startWorkout(BuildContext context) {
+    // Analytics: workout started
+    PosthogService.logWorkoutStarted();
+
     context.read<WorkoutSessionCubit>().startTotalTimer();
     context.pushNamed(AppRoute.workoutMain.name);
   }

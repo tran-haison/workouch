@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:workouch/core/di/injection.dart';
 
+import '../../../../core/services/posthog_analytics_service.dart';
 import '../cubit/onboard_cubit.dart';
 import '../cubit/onboard_state.dart';
 import 'onboard_introduction_page.dart';
@@ -18,7 +19,11 @@ class OnboardMainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => getIt<OnboardCubit>(),
-      child: BlocBuilder<OnboardCubit, OnboardState>(
+      child: BlocConsumer<OnboardCubit, OnboardState>(
+        listenWhen: (prev, curr) => prev.currentPage != curr.currentPage,
+        listener: (context, state) {
+          PosthogService.logOnboardingStepReached(state.currentPage);
+        },
         builder: (context, state) {
           // Page 0: Introduction
           if (state.currentPage == 0) {

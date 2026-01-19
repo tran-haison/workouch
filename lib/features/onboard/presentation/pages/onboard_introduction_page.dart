@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/router/app_router.dart';
+import '../../../../core/services/posthog_analytics_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_button.dart';
@@ -64,6 +65,9 @@ class _OnboardIntroductionPageState extends State<OnboardIntroductionPage> {
     super.initState();
     _pageController = PageController(initialPage: 0);
     _startTimer();
+
+    // Analytics: onboarding started
+    PosthogService.logOnboardingStarted();
   }
 
   @override

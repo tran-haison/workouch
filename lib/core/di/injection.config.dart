@@ -50,23 +50,23 @@ Future<_i174.GetIt> $initGetIt(
   final injectionModule = _$InjectionModule();
   gh.factory<_i613.WorkoutSessionCubit>(() => _i613.WorkoutSessionCubit());
   gh.factory<_i754.OnboardCubit>(() => _i754.OnboardCubit());
-  gh.lazySingleton<_i999.VersionService>(() => _i999.VersionService());
-  gh.lazySingleton<_i135.PostHogAnalyticsService>(
-    () => _i135.PostHogAnalyticsService(),
-  );
-  gh.lazySingleton<_i758.FirebaseService>(() => _i758.FirebaseService());
-  gh.lazySingleton<_i833.SubscriptionService>(
-    () => _i833.SubscriptionService(),
-  );
   await gh.lazySingletonAsync<_i460.SharedPreferences>(
     () => injectionModule.sharedPreferences,
     preResolve: true,
   );
-  gh.lazySingleton<_i275.SupabaseWorkoutService>(
-    () => _i275.SupabaseWorkoutService(),
+  gh.lazySingleton<_i999.VersionService>(() => _i999.VersionService());
+  gh.lazySingleton<_i758.FirebaseService>(() => _i758.FirebaseService());
+  gh.lazySingleton<_i135.PostHogAnalyticsService>(
+    () => _i135.PostHogAnalyticsService(),
+  );
+  gh.lazySingleton<_i833.SubscriptionService>(
+    () => _i833.SubscriptionService(),
   );
   gh.lazySingleton<_i738.SupabaseAuthService>(
     () => _i738.SupabaseAuthService(),
+  );
+  gh.lazySingleton<_i275.SupabaseWorkoutService>(
+    () => _i275.SupabaseWorkoutService(),
   );
   gh.lazySingleton<_i306.AppPrefs>(
     () => _i306.AppPrefs(gh<_i460.SharedPreferences>()),
@@ -77,15 +77,12 @@ Future<_i174.GetIt> $initGetIt(
       gh<_i135.PostHogAnalyticsService>(),
     ),
   );
+  gh.lazySingleton<_i240.SubscriptionRepo>(
+    () => _i240.SubscriptionRepoImpl(gh<_i833.SubscriptionService>()),
+  );
   gh.lazySingleton<_i361.Dio>(
     () => injectionModule.dioExerciseDb,
     instanceName: 'exercise-db',
-  );
-  gh.lazySingleton<_i240.SubscriptionRepo>(
-    () => _i240.SubscriptionRepoImpl(
-      gh<_i833.SubscriptionService>(),
-      gh<_i135.PostHogAnalyticsService>(),
-    ),
   );
   gh.factory<_i117.AuthCubit>(
     () => _i117.AuthCubit(gh<_i723.AuthRepo>(), gh<_i240.SubscriptionRepo>()),
@@ -109,10 +106,7 @@ Future<_i174.GetIt> $initGetIt(
     () => _i275.ExerciseRepoImpl(gh<_i747.ExerciseService>()),
   );
   gh.lazySingleton<_i1018.AIWorkoutRepo>(
-    () => _i1018.AIWorkoutRepoImpl(
-      gh<_i747.ExerciseService>(),
-      gh<_i135.PostHogAnalyticsService>(),
-    ),
+    () => _i1018.AIWorkoutRepoImpl(gh<_i747.ExerciseService>()),
   );
   gh.factory<_i645.WorkoutCubit>(
     () => _i645.WorkoutCubit(

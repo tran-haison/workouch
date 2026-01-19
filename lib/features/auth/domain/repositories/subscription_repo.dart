@@ -19,9 +19,8 @@ abstract class SubscriptionRepo {
 @LazySingleton(as: SubscriptionRepo)
 class SubscriptionRepoImpl implements SubscriptionRepo {
   final SubscriptionService _subscriptionService;
-  final PostHogAnalyticsService _posthogService;
 
-  SubscriptionRepoImpl(this._subscriptionService, this._posthogService);
+  SubscriptionRepoImpl(this._subscriptionService);
 
   @override
   Future<Either<Error, void>> initialize({String? userId}) async {
@@ -71,24 +70,14 @@ class SubscriptionRepoImpl implements SubscriptionRepo {
   @override
   Future<Either<Error, bool>> purchase(Package package) async {
     try {
-      // Track purchase attempt
-      await _posthogService.capture(
-        PostHogAnalyticsService.eventSubscriptionPurchaseStarted,
-        properties: {'package_id': package.identifier},
-      );
-
       final success = await _subscriptionService.purchase(package);
       if (success) {
-        await _posthogService.capture(
-          PostHogAnalyticsService.eventSubscriptionPurchaseSucceeded,
-          properties: {'package_id': package.identifier},
-        );
+        PosthogService.logSubscriptionPurchaseSuccess(package.identifier);
         return const Right(true);
       }
-      await _posthogService.capture(
-        PostHogAnalyticsService.eventSubscriptionPurchaseFailed,
-        properties: {'package_id': package.identifier},
-      );
+
+      PosthogService.logSubscriptionPurchaseFailed(package.identifier);
+
       return Left(
         Error(
           message: 'Purchase failed. Please try again.',
@@ -97,9 +86,9 @@ class SubscriptionRepoImpl implements SubscriptionRepo {
       );
     } catch (e) {
       final error = handleException(e);
-      await _posthogService.capture(
-        PostHogAnalyticsService.eventSubscriptionPurchaseFailed,
-        properties: {'package_id': package.identifier, 'error': error.message},
+      PosthogService.logSubscriptionPurchaseFailed(
+        package.identifier,
+        errorMessage: error.message,
       );
       return Left(error);
     }
@@ -108,21 +97,14 @@ class SubscriptionRepoImpl implements SubscriptionRepo {
   @override
   Future<Either<Error, bool>> restorePurchases() async {
     try {
-      // Track restore attempt
-      await _posthogService.capture(
-        PostHogAnalyticsService.eventSubscriptionRestoreStarted,
-      );
-
       final success = await _subscriptionService.restorePurchases();
       if (success) {
-        await _posthogService.capture(
-          PostHogAnalyticsService.eventSubscriptionRestoreSucceeded,
-        );
+        PosthogService.logSubscriptionRestoreSuccess();
         return const Right(true);
       }
-      await _posthogService.capture(
-        PostHogAnalyticsService.eventSubscriptionRestoreFailed,
-      );
+
+      PosthogService.logSubscriptionRestoreFailed();
+
       return Left(
         Error(
           message: 'No purchases found to restore',
@@ -131,10 +113,7 @@ class SubscriptionRepoImpl implements SubscriptionRepo {
       );
     } catch (e) {
       final error = handleException(e);
-      await _posthogService.capture(
-        PostHogAnalyticsService.eventSubscriptionRestoreFailed,
-        properties: {'error': error.message},
-      );
+      PosthogService.logSubscriptionRestoreFailed(errorMessage: error.message);
       return Left(error);
     }
   }

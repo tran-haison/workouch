@@ -35,9 +35,8 @@ abstract class AIWorkoutRepo {
 @LazySingleton(as: AIWorkoutRepo)
 class AIWorkoutRepoImpl implements AIWorkoutRepo {
   final ExerciseService _exerciseService;
-  final PostHogAnalyticsService _posthogService;
 
-  AIWorkoutRepoImpl(this._exerciseService, this._posthogService);
+  AIWorkoutRepoImpl(this._exerciseService);
 
   @override
   Future<Either<Error, Workout>> generateShuffleModeWorkout({
@@ -45,11 +44,6 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
     User? user,
   }) async {
     try {
-      // Track AI workout generation (shuffle mode) start
-      await _posthogService.capture(
-        PostHogAnalyticsService.eventAIWorkoutGenerateShuffleStarted,
-      );
-
       final request = GenerateWorkoutRequest.shuffleMode(
         mode: 'shuffle',
         preferences: preferences,
@@ -80,14 +74,7 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
           );
         }
 
-        // Track successful AI workout generation
-        await _posthogService.capture(
-          PostHogAnalyticsService.eventAIWorkoutGenerated,
-          properties: {
-            'workout_id': workout.id,
-            'exercise_count': workout.exercises.length,
-          },
-        );
+        PosthogService.logWorkoutGeneratedSuccessShuffle();
 
         return Right(workout);
       }
@@ -105,10 +92,7 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
         errorMessage = res.response.statusMessage ?? AppConstants.commonError;
       }
 
-      await _posthogService.capture(
-        PostHogAnalyticsService.eventAIWorkoutGenerateShuffleFailed,
-        properties: {'error': errorMessage},
-      );
+      PosthogService.logWorkoutGeneratedFailed(errorMessage: errorMessage);
 
       return Left(
         Error(
@@ -119,10 +103,7 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
       );
     } catch (e) {
       final error = handleException(e);
-      await _posthogService.capture(
-        PostHogAnalyticsService.eventAIWorkoutGenerateShuffleFailed,
-        properties: {'error': error.message},
-      );
+      PosthogService.logWorkoutGeneratedFailed(errorMessage: error.message);
       return Left(error);
     }
   }
@@ -140,16 +121,6 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
     User? user,
   }) async {
     try {
-      // Track AI workout generation (neat mode) start
-      await _posthogService.capture(
-        PostHogAnalyticsService.eventAIWorkoutGenerateNeatStarted,
-        properties: {
-          'duration_minutes': duration?.inMinutes ?? 0,
-          'intensity': intensity?.name ?? '',
-          'goals': goals?.map((g) => g.name).toList() ?? <String>[],
-        },
-      );
-
       final request = GenerateWorkoutRequest.neatMode(
         mode: 'neat',
         userContext: user != null
@@ -189,14 +160,7 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
           );
         }
 
-        // Track successful AI workout generation
-        await _posthogService.capture(
-          PostHogAnalyticsService.eventAIWorkoutGenerated,
-          properties: {
-            'workout_id': workout.id,
-            'exercise_count': workout.exercises.length,
-          },
-        );
+        PosthogService.logWorkoutGeneratedSuccessNeat();
 
         return Right(workout);
       }
@@ -214,10 +178,7 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
         errorMessage = res.response.statusMessage ?? AppConstants.commonError;
       }
 
-      await _posthogService.capture(
-        PostHogAnalyticsService.eventAIWorkoutGenerateNeatFailed,
-        properties: {'error': errorMessage},
-      );
+      PosthogService.logWorkoutGeneratedFailed(errorMessage: errorMessage);
 
       return Left(
         Error(
@@ -228,10 +189,7 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
       );
     } catch (e) {
       final error = handleException(e);
-      await _posthogService.capture(
-        PostHogAnalyticsService.eventAIWorkoutGenerateNeatFailed,
-        properties: {'error': error.message},
-      );
+      PosthogService.logWorkoutGeneratedFailed(errorMessage: error.message);
       return Left(error);
     }
   }
