@@ -34,6 +34,9 @@ class $AssetsIconsGen {
   SvgGenImage get aiGenerator =>
       const SvgGenImage('assets/icons/ai_generator.svg');
 
+  /// File path: assets/icons/analytics.svg
+  SvgGenImage get analytics => const SvgGenImage('assets/icons/analytics.svg');
+
   /// File path: assets/icons/apple.svg
   SvgGenImage get apple => const SvgGenImage('assets/icons/apple.svg');
 
@@ -116,6 +119,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/google.svg
   SvgGenImage get google => const SvgGenImage('assets/icons/google.svg');
 
+  /// File path: assets/icons/grid.svg
+  SvgGenImage get grid => const SvgGenImage('assets/icons/grid.svg');
+
   /// File path: assets/icons/heart.svg
   SvgGenImage get heart => const SvgGenImage('assets/icons/heart.svg');
 
@@ -184,6 +190,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/terms.svg
   SvgGenImage get terms => const SvgGenImage('assets/icons/terms.svg');
 
+  /// File path: assets/icons/track.svg
+  SvgGenImage get track => const SvgGenImage('assets/icons/track.svg');
+
   /// File path: assets/icons/user.svg
   SvgGenImage get user => const SvgGenImage('assets/icons/user.svg');
 
@@ -206,6 +215,7 @@ class $AssetsIconsGen {
   List<SvgGenImage> get values => [
     add,
     aiGenerator,
+    analytics,
     apple,
     arrowBack,
     arrowDown,
@@ -232,6 +242,7 @@ class $AssetsIconsGen {
     gender,
     goal,
     google,
+    grid,
     heart,
     height,
     info,
@@ -254,6 +265,7 @@ class $AssetsIconsGen {
     subscription,
     support,
     terms,
+    track,
     user,
     userLay,
     userWalk,

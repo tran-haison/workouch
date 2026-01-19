@@ -45,4 +45,22 @@ class AppDateUtils {
     final suffix = _ordinalSuffix(day);
     return '$weekday, $day$suffix $month $year';
   }
+
+  /// Get all days of the current week (Monday to Sunday)
+  static List<DateTime> getCurrentWeekDays() {
+    final now = DateTime.now();
+    final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
+
+    return List.generate(7, (index) {
+      return startOfWeek.add(Duration(days: index));
+    });
+  }
+
+  /// Check if a given date is today
+  static bool isToday(DateTime date) {
+    final now = DateTime.now();
+    return date.year == now.year &&
+        date.month == now.month &&
+        date.day == now.day;
+  }
 }

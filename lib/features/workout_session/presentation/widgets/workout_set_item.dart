@@ -30,13 +30,12 @@ class WorkoutSetItem extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 20.w),
       decoration: BoxDecoration(
-        color: isCompleted
-            ? AppColors.lightGray
-            : isCurrent
-            ? AppColors.darkBlack
-            : AppColors.white,
+        color: isCompleted ? AppColors.lightGray : AppColors.white,
         borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: AppColors.grayBlue, width: 1.r),
+        border: Border.all(
+          color: isCurrent ? AppColors.darkBlack : AppColors.grayBlue,
+          width: isCurrent ? 1.5.r : 1.r,
+        ),
         boxShadow: isCompleted
             ? null
             : [
@@ -54,11 +53,16 @@ class WorkoutSetItem extends StatelessWidget {
             width: 40.r,
             height: 40.r,
             decoration: BoxDecoration(
-              color: AppColors.grayBlue,
+              color: isCurrent ? AppColors.darkBlack : AppColors.grayBlue,
               borderRadius: BorderRadius.circular(16.r),
             ),
             child: Center(
-              child: Text('${setIndex + 1}', style: AppTextStyles.h4),
+              child: Text(
+                '${setIndex + 1}',
+                style: AppTextStyles.h4.copyWith(
+                  color: isCurrent ? AppColors.white : AppColors.text,
+                ),
+              ),
             ),
           ),
           Gaps.hGap16,
@@ -69,9 +73,7 @@ class WorkoutSetItem extends StatelessWidget {
                       Text(
                         entry.key,
                         style: AppTextStyles.h5.copyWith(
-                          color: isCurrent
-                              ? AppColors.white
-                              : AppColors.mediumGray,
+                          color: AppColors.mediumGray,
                         ),
                       ),
                       Gaps.vGap4,
@@ -79,7 +81,7 @@ class WorkoutSetItem extends StatelessWidget {
                         entry.value,
                         style: AppTextStyles.h4.copyWith(
                           fontWeight: FontWeight.w600,
-                          color: isCurrent ? AppColors.white : AppColors.text,
+                          color: AppColors.text,
                         ),
                       ),
                     ],
@@ -91,10 +93,10 @@ class WorkoutSetItem extends StatelessWidget {
           if (isCurrent)
             CommonIconButton(
               icon: Assets.icons.check,
-              iconColor: Colors.green,
+              iconColor: AppColors.darkBlack,
               iconSize: 16.r,
               padding: EdgeInsets.all(1.r),
-              borderColor: Colors.green,
+              borderColor: AppColors.darkBlack,
               borderWidth: 1.5.r,
               radius: 8.r,
               backgroundColor: AppColors.transparent,

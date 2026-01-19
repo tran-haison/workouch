@@ -255,6 +255,9 @@ class AppConstants {
   static const restorePurchase = 'Restore Purchase';
   static const continueText = 'Continue';
   static const mostPopular = 'Most Popular';
+  // History
+  static const thisWeek = 'This Week';
+  static const noWorkoutsYet = 'No workouts yet';
   static const unlimitedWorkoutGeneration =
       'Unlimited AI-powered workout generation';
   static const advancedProgressTrackingAnalytics =

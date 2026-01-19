@@ -1,104 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:workouch/core/widgets/common_toast.dart';
-import 'package:workouch/features/auth/domain/entities/user.dart';
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/router/app_router.dart';
-import '../../../../core/utils/date_utils.dart';
-import 'package:workouch/features/home/presentation/widgets/home_workout_card.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/widgets/common_gaps.dart';
-import '../../../../core/widgets/common_images.dart';
-import '../../../auth/presentation/cubit/auth_cubit.dart';
-import '../../../auth/presentation/cubit/auth_state.dart';
-import '../../../auth/presentation/widgets/avatar_placeholder.dart';
-import '../widgets/home_health_metrics.dart';
+import '../../../../core/widgets/common_bottom_navbar.dart';
+import '../widgets/home_tab.dart';
+import '../widgets/history_tab.dart';
+import '../widgets/exercises_tab.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<AuthCubit, AuthState>(
-      builder: (context, state) {
-        return Scaffold(
-          body: SafeArea(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.only(
-                top: 40.h,
-                bottom: 100.h,
-                left: 4.w,
-                right: 4.w,
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            context.pushNamed(AppRoute.profile.name);
-                          },
-                          child: CommonNetworkImage(
-                            url: state.currentUser?.avatarUrl ?? '',
-                            width: 60.r,
-                            height: 60.r,
-                            radius: 30.r,
-                            errorWidget: AvatarPlaceholder(
-                              user: state.currentUser,
-                            ),
-                          ),
-                        ),
-                        Gaps.vGap16,
-                        Text(
-                          AppDateUtils.formatTodayDate(),
-                          style: AppTextStyles.h5,
-                        ),
-                        Text(
-                          AppDateUtils.greetUser(state.currentUser?.fullName),
-                          style: AppTextStyles.h0,
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Gaps.vGap40,
-                  HomeWorkoutCard(
-                    onLazyTap: () => _onLazyTap(context),
-                    onProTap: () {
-                      context.pushNamed(AppRoute.workoutPro.name);
-                    },
-                  ),
-                  Gaps.vGap40,
-                  HomeHealthMetrics(
-                    weight: state.currentUser?.weight ?? 0.0,
-                    bmi: state.currentUser?.bmi ?? 0.0,
-                    calories: state.currentUser?.calories ?? 0.0,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
+
+  void _onNavItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
-  void _onLazyTap(BuildContext context) {
-    final user = context.read<AuthCubit>().state.currentUser;
-
-    if (user == null) {
-      showCommonToast(AppConstants.pleaseSignIn, isError: true);
-      return;
-    }
-
-    if (!user.hasOnboard) {
-      context.pushNamed(AppRoute.onboard.name);
-    } else {
-      context.pushNamed(AppRoute.workoutLazyBuilder.name);
-    }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
+          children: [
+            IndexedStack(
+              index: _currentIndex,
+              children: const [HomeTab(), HistoryTab(), ExercisesTab()],
+            ),
+            Positioned(
+              bottom: 20.h,
+              left: 20.w,
+              right: 20.w,
+              child: CommonBottomNavbar(
+                currentIndex: _currentIndex,
+                onTap: _onNavItemTapped,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
