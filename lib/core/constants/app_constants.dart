@@ -257,6 +257,7 @@ class AppConstants {
   static const mostPopular = 'Most Popular';
   // History
   static const thisWeek = 'This Week';
+  static const thisMonth = 'This Month';
   static const noWorkoutsYet = 'No workouts yet';
   static const unlimitedWorkoutGeneration =
       'Unlimited AI-powered workout generation';

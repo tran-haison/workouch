@@ -63,4 +63,29 @@ class AppDateUtils {
         date.month == now.month &&
         date.day == now.day;
   }
+
+  /// Get all days in a month
+  static List<DateTime> getDaysInMonth(DateTime month) {
+    final lastDay = DateTime(month.year, month.month + 1, 0);
+    final daysInMonth = lastDay.day;
+
+    return List.generate(daysInMonth, (index) {
+      return DateTime(month.year, month.month, index + 1);
+    });
+  }
+
+  /// Get the first day of the week for a month (to show empty cells before month starts)
+  /// Returns the number of days to pad before the first day of the month
+  static int getDaysBeforeMonthStart(DateTime month) {
+    // Monday = 1, Sunday = 7
+    // If first day is Monday (1), we need 0 padding days
+    // If first day is Sunday (7), we need 6 padding days
+    final firstDay = DateTime(month.year, month.month, 1);
+    return (firstDay.weekday - 1) % 7;
+  }
+
+  /// Format month and year for display (e.g., "January 2024")
+  static String formatMonthYear(DateTime date) {
+    return DateFormat('MMMM yyyy').format(date);
+  }
 }
