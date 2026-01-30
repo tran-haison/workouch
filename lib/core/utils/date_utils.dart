@@ -1,6 +1,8 @@
 import 'package:intl/intl.dart';
 
 class AppDateUtils {
+  AppDateUtils._();
+
   static String formatTodayDate() {
     final now = DateTime.now();
     final weekday = DateFormat('EEEE').format(now);
@@ -65,24 +67,39 @@ class AppDateUtils {
   }
 
   /// Get all days in a month
-  static List<DateTime> getDaysInMonth(DateTime month) {
-    final lastDay = DateTime(month.year, month.month + 1, 0);
+  static List<DateTime> getAllDaysInMonth(DateTime date) {
+    final lastDay = DateTime(date.year, date.month + 1, 0);
     final daysInMonth = lastDay.day;
 
     return List.generate(daysInMonth, (index) {
-      return DateTime(month.year, month.month, index + 1);
+      return DateTime(date.year, date.month, index + 1);
     });
   }
 
   /// Get the first day of the week for a month (to show empty cells before month starts)
   /// Returns the number of days to pad before the first day of the month
-  static int getDaysBeforeMonthStart(DateTime month) {
+  static int getDaysBeforeMonthStart(DateTime date) {
     // Monday = 1, Sunday = 7
     // If first day is Monday (1), we need 0 padding days
     // If first day is Sunday (7), we need 6 padding days
-    final firstDay = DateTime(month.year, month.month, 1);
+    final firstDay = DateTime(date.year, date.month, 1);
     return (firstDay.weekday - 1) % 7;
   }
+
+  static bool isThisMonth(DateTime date) {
+    final now = DateTime.now();
+    return date.year == now.year && date.month == now.month;
+  }
+
+  static List<String> weekdays = [
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+    'Sun',
+  ];
 
   /// Format month and year for display (e.g., "January 2024")
   static String formatMonthYear(DateTime date) {

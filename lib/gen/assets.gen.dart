@@ -46,6 +46,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/arrow_down.svg
   SvgGenImage get arrowDown => const SvgGenImage('assets/icons/arrow_down.svg');
 
+  /// File path: assets/icons/arrow_down_diagonal.svg
+  SvgGenImage get arrowDownDiagonal =>
+      const SvgGenImage('assets/icons/arrow_down_diagonal.svg');
+
   /// File path: assets/icons/arrow_left.svg
   SvgGenImage get arrowLeft => const SvgGenImage('assets/icons/arrow_left.svg');
 
@@ -63,6 +67,10 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/arrow_up.svg
   SvgGenImage get arrowUp => const SvgGenImage('assets/icons/arrow_up.svg');
+
+  /// File path: assets/icons/arrow_up_diagonal.svg
+  SvgGenImage get arrowUpDiagonal =>
+      const SvgGenImage('assets/icons/arrow_up_diagonal.svg');
 
   /// File path: assets/icons/check.svg
   SvgGenImage get check => const SvgGenImage('assets/icons/check.svg');
@@ -94,6 +102,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/email.svg
   SvgGenImage get email => const SvgGenImage('assets/icons/email.svg');
+
+  /// File path: assets/icons/equal.svg
+  SvgGenImage get equal => const SvgGenImage('assets/icons/equal.svg');
 
   /// File path: assets/icons/error.svg
   SvgGenImage get error => const SvgGenImage('assets/icons/error.svg');
@@ -140,6 +151,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/male.svg
   SvgGenImage get male => const SvgGenImage('assets/icons/male.svg');
+
+  /// File path: assets/icons/mood_empty.svg
+  SvgGenImage get moodEmpty => const SvgGenImage('assets/icons/mood_empty.svg');
 
   /// File path: assets/icons/muscle.svg
   SvgGenImage get muscle => const SvgGenImage('assets/icons/muscle.svg');
@@ -219,11 +233,13 @@ class $AssetsIconsGen {
     apple,
     arrowBack,
     arrowDown,
+    arrowDownDiagonal,
     arrowLeft,
     arrowRight,
     arrowRightWide,
     arrowTopRight,
     arrowUp,
+    arrowUpDiagonal,
     check,
     clock,
     close,
@@ -234,6 +250,7 @@ class $AssetsIconsGen {
     dumbbellOutline,
     edit,
     email,
+    equal,
     error,
     feedback,
     female,
@@ -249,6 +266,7 @@ class $AssetsIconsGen {
     lineWeight,
     loading,
     male,
+    moodEmpty,
     muscle,
     namespace,
     plant,

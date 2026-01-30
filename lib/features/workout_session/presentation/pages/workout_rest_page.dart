@@ -59,170 +59,170 @@ class _WorkoutRestPageState extends State<WorkoutRestPage> {
             child: Scaffold(
               body: SafeArea(
                 child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 20.w,
-                      vertical: 20.h,
-                    ),
-                    child: Row(
-                      children: [
-                        CommonIconButton(
-                          backgroundColor: AppColors.grayBlue,
-                          icon: Assets.icons.arrowBack,
-                          iconColor: AppColors.black,
-                          onTap: () => _exitWorkout(context),
-                        ),
-                        Gaps.hGap12,
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                state.totalTime.hhmmss,
-                                style: AppTextStyles.h4.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Gaps.hGap12,
-                        CommonIconButton(
-                          backgroundColor: AppColors.darkBlack,
-                          icon: Assets.icons.check,
-                          iconColor: AppColors.white,
-                          onTap: () => _finishWorkout(context),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                        vertical: 20.h,
+                      ),
+                      child: Row(
                         children: [
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Container(
-                                width: 290.r,
-                                height: 290.r,
-                                decoration: BoxDecoration(
-                                  color: AppColors.secondary.withValues(
-                                    alpha: 0.3,
+                          CommonIconButton(
+                            backgroundColor: AppColors.grayBlue,
+                            icon: Assets.icons.arrowBack,
+                            iconColor: AppColors.black,
+                            onTap: () => _exitWorkout(context),
+                          ),
+                          Gaps.hGap12,
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  state.totalTime.hhmmss,
+                                  style: AppTextStyles.h4.copyWith(
+                                    fontWeight: FontWeight.w600,
                                   ),
-                                  shape: BoxShape.circle,
                                 ),
-                                child: Center(
-                                  child: Container(
-                                    width: 270.r,
-                                    height: 270.r,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.secondary,
-                                      shape: BoxShape.circle,
+                              ],
+                            ),
+                          ),
+                          Gaps.hGap12,
+                          CommonIconButton(
+                            backgroundColor: AppColors.darkBlack,
+                            icon: Assets.icons.check,
+                            iconColor: AppColors.white,
+                            onTap: () => _finishWorkout(context),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Container(
+                                  width: 270.r,
+                                  height: 270.r,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.secondary.withValues(
+                                      alpha: 0.3,
                                     ),
-                                    child: Center(
-                                      child: Container(
-                                        width: 250.r,
-                                        height: 250.r,
-                                        padding: EdgeInsets.all(3.r),
-                                        decoration: BoxDecoration(
-                                          color: AppColors.white,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: TweenAnimationBuilder<double>(
-                                          duration: const Duration(
-                                            milliseconds: 1000,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Center(
+                                    child: Container(
+                                      width: 260.r,
+                                      height: 260.r,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.secondary,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: Container(
+                                          width: 250.r,
+                                          height: 250.r,
+                                          padding: EdgeInsets.all(3.r),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.white,
+                                            shape: BoxShape.circle,
                                           ),
-                                          curve: Curves.linear,
-                                          tween: Tween<double>(
-                                            begin: 1.0,
-                                            end:
-                                                state
-                                                    .restExercisesRemain
-                                                    .inMilliseconds /
-                                                state
-                                                    .workout
-                                                    .restTimeBetweenExercises
-                                                    .inMilliseconds,
+                                          child: TweenAnimationBuilder<double>(
+                                            duration: const Duration(
+                                              milliseconds: 1000,
+                                            ),
+                                            curve: Curves.linear,
+                                            tween: Tween<double>(
+                                              begin: 1.0,
+                                              end:
+                                                  state
+                                                      .restExercisesRemain
+                                                      .inMilliseconds /
+                                                  state
+                                                      .workout
+                                                      .restTimeBetweenExercises
+                                                      .inMilliseconds,
+                                            ),
+                                            builder: (context, value, _) {
+                                              return CircularProgressIndicator(
+                                                strokeWidth: 6.r,
+                                                backgroundColor:
+                                                    AppColors.grayBlue,
+                                                color: AppColors.darkBlack,
+                                                value: value,
+                                              );
+                                            },
                                           ),
-                                          builder: (context, value, _) {
-                                            return CircularProgressIndicator(
-                                              strokeWidth: 6.r,
-                                              backgroundColor: AppColors.primary
-                                                  .withValues(alpha: 0.2),
-                                              color: AppColors.darkBlack,
-                                              value: value,
-                                            );
-                                          },
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Container(
-                                width: 250.r,
-                                padding: EdgeInsets.all(10.r),
-                                child: Text(
-                                  state.restExercisesRemain.mmss,
-                                  style: AppTextStyles.orbitron.copyWith(
-                                    fontSize: 40.sp,
-                                    color: AppColors.darkBlack,
+                                Container(
+                                  width: 250.r,
+                                  padding: EdgeInsets.all(10.r),
+                                  child: Text(
+                                    state.restExercisesRemain.mmss,
+                                    style: AppTextStyles.orbitron.copyWith(
+                                      fontSize: 40.sp,
+                                      color: AppColors.darkBlack,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
                                   ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 1,
                                 ),
-                              ),
-                            ],
-                          ),
-                          Gaps.vGap40,
-                          // Time adjustment buttons
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CommonButton(
-                                text: AppConstants.minusTenSecs,
-                                backgroundColor: AppColors.grayBlue,
-                                textStyle: AppTextStyles.h4.copyWith(
-                                  fontWeight: FontWeight.w600,
+                              ],
+                            ),
+                            Gaps.vGap40,
+                            // Time adjustment buttons
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CommonButton(
+                                  text: AppConstants.minusTenSecs,
+                                  backgroundColor: AppColors.grayBlue,
+                                  textStyle: AppTextStyles.h4.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  isFullWidth: false,
+                                  onPressed: () {
+                                    context
+                                        .read<WorkoutSessionCubit>()
+                                        .decreaseRestExercises(10);
+                                  },
                                 ),
-                                isFullWidth: false,
-                                onPressed: () {
-                                  context
-                                      .read<WorkoutSessionCubit>()
-                                      .decreaseRestExercises(10);
-                                },
-                              ),
-                              Gaps.hGap16,
-                              CommonButton(
-                                text: AppConstants.plusTenSecs,
-                                backgroundColor: AppColors.grayBlue,
-                                textStyle: AppTextStyles.h4.copyWith(
-                                  fontWeight: FontWeight.w600,
+                                Gaps.hGap16,
+                                CommonButton(
+                                  text: AppConstants.plusTenSecs,
+                                  backgroundColor: AppColors.grayBlue,
+                                  textStyle: AppTextStyles.h4.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  isFullWidth: false,
+                                  onPressed: () {
+                                    context
+                                        .read<WorkoutSessionCubit>()
+                                        .increaseRestExercises(10);
+                                  },
                                 ),
-                                isFullWidth: false,
-                                onPressed: () {
-                                  context
-                                      .read<WorkoutSessionCubit>()
-                                      .increaseRestExercises(10);
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  if (nextExercise != null)
-                    NextExerciseCard(
-                      exercise: nextExercise,
-                      onSkip: () => _nextExercise(context),
-                    ),
-                ],
+                    if (nextExercise != null)
+                      NextExerciseCard(
+                        exercise: nextExercise,
+                        onSkip: () => _nextExercise(context),
+                      ),
+                  ],
+                ),
               ),
-            ),
             ),
           );
         },

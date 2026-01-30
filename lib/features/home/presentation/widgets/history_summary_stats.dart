@@ -1,0 +1,111 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../core/constants/app_constants.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/common_gaps.dart';
+import '../../../../core/widgets/common_icons.dart';
+import '../../../../gen/assets.gen.dart';
+
+enum _Trend { up, down, same }
+
+class HistorySummaryStats extends StatelessWidget {
+  const HistorySummaryStats({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: _HistoryStatCard(
+              title: AppConstants.workouts,
+              value: '12',
+              trend: _Trend.up,
+            ),
+          ),
+          Gaps.hGap4,
+          Expanded(
+            child: _HistoryStatCard(
+              title: AppConstants.trainingVolume,
+              value: '48.2k',
+              trend: _Trend.down,
+            ),
+          ),
+          Gaps.hGap4,
+          Expanded(
+            child: _HistoryStatCard(
+              title: AppConstants.time,
+              value: '15h20m',
+              trend: _Trend.same,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HistoryStatCard extends StatelessWidget {
+  const _HistoryStatCard({
+    required this.title,
+    required this.value,
+    required this.trend,
+  });
+
+  final String title;
+  final String value;
+  final _Trend trend;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      decoration: BoxDecoration(
+        color: AppColors.grayBlue,
+        borderRadius: BorderRadius.circular(16.r),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            title,
+            style: AppTextStyles.h5.copyWith(color: AppColors.mediumGray),
+          ),
+          Gaps.vGap4,
+          Row(
+            children: [
+              Flexible(
+                child: Text(
+                  value,
+                  style: AppTextStyles.anton.copyWith(fontSize: 20.sp),
+                ),
+              ),
+              Gaps.hGap4,
+              _TrendIcon(trend: trend),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TrendIcon extends StatelessWidget {
+  const _TrendIcon({required this.trend});
+
+  final _Trend trend;
+
+  @override
+  Widget build(BuildContext context) {
+    final (icon, color) = switch (trend) {
+      _Trend.up => (Assets.icons.arrowUpDiagonal, AppColors.success),
+      _Trend.down => (Assets.icons.arrowDownDiagonal, AppColors.error),
+      _Trend.same => (Assets.icons.equal, AppColors.mediumGray),
+    };
+    return CommonAssetIcon(icon, width: 16.r, height: 16.r, color: color);
+  }
+}

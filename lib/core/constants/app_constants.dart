@@ -258,7 +258,25 @@ class AppConstants {
   // History
   static const thisWeek = 'This Week';
   static const thisMonth = 'This Month';
+  static const history = 'History';
+  static const selectMonthYear = 'Select Month & Year';
+  static const today = 'Today';
+  static const select = 'Select';
   static const noWorkoutsYet = 'No workouts yet';
+  static const trainingVolume = 'Volume';
+  static const totalLoadKg = 'Total load (kg)';
+  static const newPrsThisMonth = 'New PRs this month';
+  // Personal Records
+  static const personalRecords = 'Personal Records';
+  static const pr = 'PR';
+  static const addExercisePR = 'Add Exercise';
+  static const viewAll = 'View All';
+  static const maxWeight = 'Max Weight';
+  static const prDate = 'PR Date';
+  static const noPRsYet = 'No PRs yet';
+  static const doWorkoutAndSetYourPRs = 'Do a workout and break your PRs';
+  static const remove = 'Remove';
+  static const edit = 'Edit';
   static const unlimitedWorkoutGeneration =
       'Unlimited AI-powered workout generation';
   static const advancedProgressTrackingAnalytics =

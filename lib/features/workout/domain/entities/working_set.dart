@@ -116,3 +116,18 @@ extension WorkingSetExtension on WorkingSet {
     );
   }
 }
+
+extension WorkingSetTypeExtension on WorkingSetType {
+  String get label {
+    switch (this) {
+      case WorkingSetType.weightBased:
+        return AppConstants.weight;
+      case WorkingSetType.repsOnly:
+        return AppConstants.reps;
+      case WorkingSetType.timeBased:
+        return AppConstants.duration;
+      case WorkingSetType.distanceBased:
+        return AppConstants.distance;
+    }
+  }
+}
