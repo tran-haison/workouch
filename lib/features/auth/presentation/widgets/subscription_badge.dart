@@ -23,7 +23,7 @@ class SubscriptionBadge extends StatelessWidget {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
           decoration: BoxDecoration(
-            color: user.subscriptionTier.isBasic ? AppColors.grayBlue : null,
+            color: user.subscriptionTier.isBasic ? AppColors.darkBlack : null,
             gradient: user.subscriptionTier.isBasic
                 ? null
                 : AppColors.backgroundGradient,
@@ -31,7 +31,11 @@ class SubscriptionBadge extends StatelessWidget {
           ),
           child: Text(
             user.subscriptionTier.stringShort,
-            style: AppTextStyles.h5,
+            style: AppTextStyles.h5.copyWith(
+              color: user.subscriptionTier.isBasic
+                  ? AppColors.white
+                  : AppColors.text,
+            ),
           ),
         );
       },

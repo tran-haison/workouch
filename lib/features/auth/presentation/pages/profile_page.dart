@@ -17,6 +17,8 @@ import '../../domain/entities/user.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 import '../widgets/avatar_placeholder.dart';
+import '../widgets/bmi_scale_card.dart';
+import '../widgets/calories_card.dart';
 import '../dialogs/profile_update_dialog.dart';
 import '../widgets/subscription_badge.dart';
 
@@ -70,47 +72,53 @@ class ProfilePage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
                     child: Column(
                       children: [
-                        Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: AppColors.grayBlue,
-                                  width: 4.r,
+                        GestureDetector(
+                          onTap: () =>
+                              showProfileUpdateDialog(context, user: user),
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: AppColors.grayBlue,
+                                    width: 4.r,
+                                  ),
                                 ),
-                              ),
-                              child: ClipOval(
-                                child: CommonNetworkImage(
-                                  url: user.avatarUrl,
-                                  width: 80.r,
-                                  height: 80.r,
-                                  radius: 40.r,
-                                  fit: BoxFit.contain,
-                                  errorWidget: AvatarPlaceholder(
-                                    user: user,
-                                    containerSize: 80.r,
+                                child: ClipOval(
+                                  child: CommonNetworkImage(
+                                    url: user.avatarUrl,
+                                    width: 80.r,
+                                    height: 80.r,
+                                    radius: 40.r,
+                                    fit: BoxFit.contain,
+                                    errorWidget: AvatarPlaceholder(
+                                      user: user,
+                                      containerSize: 80.r,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Positioned(
-                              bottom: -6.r,
-                              right: -6.r,
-                              child: CommonIconButton(
-                                backgroundColor: AppColors.grayBlue,
-                                icon: Assets.icons.edit,
-                                iconSize: 18.r,
-                                iconColor: AppColors.black,
-                                onTap: () => showProfileUpdateDialog(
-                                  context,
-                                  user: user,
+                              Positioned(
+                                bottom: -6.r,
+                                right: -6.r,
+                                child: Container(
+                                  padding: EdgeInsets.all(8.r),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.grayBlue,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: CommonAssetIcon(
+                                    Assets.icons.edit,
+                                    width: 18.r,
+                                    height: 18.r,
+                                    color: AppColors.black,
+                                  ),
                                 ),
-                                padding: EdgeInsets.all(8.r),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         Gaps.vGap20,
                         if (user.fullName.isNotEmpty) ...[
@@ -133,41 +141,6 @@ class ProfilePage extends StatelessWidget {
                         Gaps.vGap10,
                         const SubscriptionBadge(),
                         Gaps.vGap30,
-                        Row(
-                          children: [
-                            Expanded(
-                              child: _PersonalInfoCard(
-                                icon: Assets.icons.user,
-                                label: AppConstants.age,
-                                value: '${user.age}',
-                              ),
-                            ),
-                            Gaps.hGap10,
-                            Expanded(
-                              child: _PersonalInfoCard(
-                                icon: user.gender.isMale
-                                    ? Assets.icons.male
-                                    : Assets.icons.female,
-                                label: AppConstants.gender,
-                                value: user.gender.name.capitalized,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Gaps.vGap20,
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                AppConstants.healthMetrics,
-                                style: AppTextStyles.h4.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Gaps.vGap10,
                         Row(
                           children: [
                             Expanded(
@@ -194,18 +167,55 @@ class ProfilePage extends StatelessWidget {
                           children: [
                             Expanded(
                               child: _HealthMetricCard(
-                                label: AppConstants.bmi,
-                                value: user.bmi.toStringAsFixed(1),
-                                icon: Assets.icons.heart,
+                                label: AppConstants.age,
+                                value: '${user.age}',
+                                icon: Assets.icons.calendar,
                               ),
                             ),
                             Gaps.hGap10,
                             Expanded(
                               child: _HealthMetricCard(
-                                label: AppConstants.calories,
-                                value:
-                                    '${user.calories.toStringAsFixed(0)} kcal',
-                                icon: Assets.icons.fire,
+                                label: AppConstants.gender,
+                                value: user.gender.name.capitalized,
+                                icon: user.gender.isMale
+                                    ? Assets.icons.male
+                                    : Assets.icons.female,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Gaps.vGap20,
+                        Row(
+                          children: [
+                            Text(
+                              AppConstants.bodyMetrics,
+                              style: AppTextStyles.h4.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Gaps.vGap10,
+                        Row(
+                          children: [
+                            Expanded(child: BMIScaleCard(bmi: user.bmi)),
+                          ],
+                        ),
+                        Gaps.vGap10,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CaloriesCard(totalCalories: user.calories),
+                            ),
+                          ],
+                        ),
+                        Gaps.vGap20,
+                        Row(
+                          children: [
+                            Text(
+                              AppConstants.fitnessMetrics,
+                              style: AppTextStyles.h4.copyWith(
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
@@ -236,61 +246,6 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
-class _PersonalInfoCard extends StatelessWidget {
-  const _PersonalInfoCard({
-    required this.label,
-    required this.value,
-    required this.icon,
-  });
-
-  final String label;
-  final String value;
-  final SvgGenImage icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<AuthCubit, AuthState>(
-      builder: (context, state) {
-        final user = state.currentUser;
-        if (user == null) {
-          return const SizedBox.shrink();
-        }
-
-        return Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(16.r),
-              decoration: BoxDecoration(
-                color: user.gender.isMale
-                    ? AppColors.secondary
-                    : AppColors.primary,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: CommonAssetIcon(
-                  icon,
-                  width: 20.r,
-                  height: 20.r,
-                  color: AppColors.black,
-                ),
-              ),
-            ),
-            Gaps.vGap8,
-            Text(
-              value,
-              style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
-            ),
-            Text(
-              label,
-              style: AppTextStyles.h5.copyWith(color: AppColors.mediumGray),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
 class _HealthMetricCard extends StatelessWidget {
   const _HealthMetricCard({
     required this.label,
@@ -305,31 +260,35 @@ class _HealthMetricCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.r),
+      padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
         color: AppColors.grayBlue,
         borderRadius: BorderRadius.circular(16.r),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
           CommonAssetIcon(
             icon,
-            width: 18.r,
-            height: 18.r,
+            width: 20.r,
+            height: 20.r,
             color: AppColors.black,
           ),
-          Gaps.vGap12,
-          Text(
-            label,
-            style: AppTextStyles.h5.copyWith(color: AppColors.mediumGray),
-          ),
-          Gaps.vGap4,
-          Text(
-            value,
-            style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
+          Gaps.hGap20,
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: AppTextStyles.h4.copyWith(color: AppColors.mediumGray),
+              ),
+              Gaps.vGap4,
+              Text(
+                value,
+                style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
+              ),
+            ],
           ),
         ],
       ),

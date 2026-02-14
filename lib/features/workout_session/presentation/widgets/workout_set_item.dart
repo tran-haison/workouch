@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:workouch/core/widgets/common_button.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -56,7 +55,7 @@ class WorkoutSetItem extends StatelessWidget {
               height: 40.r,
               decoration: BoxDecoration(
                 color: isCurrent
-                    ? AppColors.secondaryDark.withValues(alpha: 0.7)
+                    ? AppColors.primary
                     : isCompleted
                     ? AppColors.grayBlue
                     : AppColors.black,

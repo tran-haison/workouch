@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../core/utils/health_utils.dart';
+import 'bmi.dart';
 import 'subscription_plan.dart';
 import '../../../workout/domain/enums/activity_level.dart';
 
@@ -33,6 +34,8 @@ extension UserExtension on User {
     if (height == 0 || weight == 0) return 0;
     return weight / pow(height * 0.01, 2); // in kg/m^2
   }
+
+  BmiStatus get bmiStatus => BmiStatusExt.fromBmi(bmi);
 
   double get calories => HealthUtils.calculateTDEEFromUserParams(
     gender: gender,

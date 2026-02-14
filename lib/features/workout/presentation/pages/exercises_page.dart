@@ -86,10 +86,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                                 isFullWidth: false,
                                 text: AppConstants.reset,
                                 onPressed: _reset,
-                                textStyle: AppTextStyles.h4.copyWith(
-                                  color: AppColors.text,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                textStyle: AppTextStyles.h4,
                                 padding: EdgeInsets.symmetric(
                                   horizontal: 10.w,
                                   vertical: 8.h,

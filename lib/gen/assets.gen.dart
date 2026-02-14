@@ -72,6 +72,9 @@ class $AssetsIconsGen {
   SvgGenImage get arrowUpDiagonal =>
       const SvgGenImage('assets/icons/arrow_up_diagonal.svg');
 
+  /// File path: assets/icons/calendar.svg
+  SvgGenImage get calendar => const SvgGenImage('assets/icons/calendar.svg');
+
   /// File path: assets/icons/check.svg
   SvgGenImage get check => const SvgGenImage('assets/icons/check.svg');
 
@@ -188,6 +191,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/sick.svg
   SvgGenImage get sick => const SvgGenImage('assets/icons/sick.svg');
 
+  /// File path: assets/icons/space.svg
+  SvgGenImage get space => const SvgGenImage('assets/icons/space.svg');
+
   /// File path: assets/icons/star.svg
   SvgGenImage get star => const SvgGenImage('assets/icons/star.svg');
 
@@ -240,6 +246,7 @@ class $AssetsIconsGen {
     arrowTopRight,
     arrowUp,
     arrowUpDiagonal,
+    calendar,
     check,
     clock,
     close,
@@ -278,6 +285,7 @@ class $AssetsIconsGen {
     search,
     settings,
     sick,
+    space,
     star,
     starAi,
     subscription,

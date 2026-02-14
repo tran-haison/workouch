@@ -49,7 +49,9 @@ class _ExerciseSelectedListDialog extends StatelessWidget {
                     children: [
                       Text(
                         '${exercises.length} ${AppConstants.exercises.toLowerCase()}',
-                        style: AppTextStyles.h3,
+                        style: AppTextStyles.h3.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       Text(
                         AppConstants.dragToReorder,
