@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:workouch/core/widgets/common_toast.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/router/app_router.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/date_utils.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_gaps.dart';
@@ -41,13 +42,22 @@ class HomeTab extends StatelessWidget {
                         onTap: () {
                           context.pushNamed(AppRoute.profile.name);
                         },
-                        child: CommonNetworkImage(
-                          url: state.currentUser?.avatarUrl ?? '',
-                          width: 60.r,
-                          height: 60.r,
-                          radius: 30.r,
-                          errorWidget: AvatarPlaceholder(
-                            user: state.currentUser,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppColors.grayBlue,
+                              width: 4.r,
+                            ),
+                          ),
+                          child: CommonNetworkImage(
+                            url: state.currentUser?.avatarUrl ?? '',
+                            width: 60.r,
+                            height: 60.r,
+                            radius: 30.r,
+                            errorWidget: AvatarPlaceholder(
+                              user: state.currentUser,
+                            ),
                           ),
                         ),
                       ),

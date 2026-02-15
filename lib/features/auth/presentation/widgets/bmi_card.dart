@@ -14,8 +14,8 @@ import '../../domain/entities/bmi.dart';
 const double _bmiMin = 15;
 const double _bmiMax = 40;
 
-class BMIScaleCard extends StatelessWidget {
-  const BMIScaleCard({required this.bmi, super.key});
+class BmiCard extends StatelessWidget {
+  const BmiCard({required this.bmi, super.key});
 
   final double bmi;
 
@@ -27,8 +27,15 @@ class BMIScaleCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
-        color: AppColors.grayBlue,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.grayBlue,
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +50,10 @@ class BMIScaleCard extends StatelessWidget {
                 color: AppColors.black,
               ),
               Gaps.hGap8,
-              Text(AppConstants.bmi, style: AppTextStyles.h4),
+              Text(
+                AppConstants.bmi,
+                style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
+              ),
               const Spacer(),
               Text(
                 bmi.toStringAsFixed(1),
@@ -129,21 +139,18 @@ class BMIScaleCard extends StatelessWidget {
               );
             },
           ),
-          Gaps.vGap8,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Gaps.vGap16,
+          Wrap(
+            spacing: 8.w,
+            runSpacing: 12.h,
             children: [
-              Text(
-                '$_bmiMin',
-                style: AppTextStyles.h6.copyWith(color: AppColors.mediumGray),
-              ),
-              Text(
-                '$_bmiMax',
-                style: AppTextStyles.h6.copyWith(color: AppColors.mediumGray),
-              ),
+              _BmiScaleInfo(status: BmiStatus.underweight),
+              _BmiScaleInfo(status: BmiStatus.normal),
+              _BmiScaleInfo(status: BmiStatus.overweight),
+              _BmiScaleInfo(status: BmiStatus.obese),
             ],
           ),
-          Gaps.vGap12,
+          Gaps.vGap16,
           _BmiStatusGuidance(status: BmiStatusExt.fromBmi(bmi)),
         ],
       ),
@@ -202,6 +209,31 @@ class _BmiStatusGuidance extends StatelessWidget {
           Text(instruction, style: AppTextStyles.h6),
         ],
       ),
+    );
+  }
+}
+
+class _BmiScaleInfo extends StatelessWidget {
+  const _BmiScaleInfo({required this.status});
+
+  final BmiStatus status;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 10.r,
+          height: 10.r,
+          decoration: BoxDecoration(
+            color: status.color,
+            shape: BoxShape.circle,
+          ),
+        ),
+        Gaps.hGap4,
+        Text(status.label, style: AppTextStyles.h6),
+      ],
     );
   }
 }

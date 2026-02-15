@@ -30,10 +30,17 @@ class CaloriesCard extends StatelessWidget {
     final fatGrams = totalCalories * _fatRatio / _calPerGFat;
 
     return Container(
-      padding: EdgeInsets.all(16.r),
+      padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
-        color: AppColors.grayBlue,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.grayBlue,
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,17 +49,17 @@ class CaloriesCard extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              CommonAssetIcon(
-                Assets.icons.fire,
-                width: 20.r,
-                height: 20.r,
-                color: AppColors.black,
-              ),
-              Gaps.hGap12,
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  CommonAssetIcon(
+                    Assets.icons.fire,
+                    width: 16.r,
+                    height: 16.r,
+                    color: AppColors.black,
+                  ),
+                  Gaps.vGap8,
                   Text(
                     AppConstants.calories,
                     style: AppTextStyles.h4.copyWith(
@@ -81,7 +88,7 @@ class CaloriesCard extends StatelessWidget {
                 calPerGram: _calPerGProtein,
                 color: AppColors.success,
               ),
-              Gaps.hGap8,
+              Gaps.hGap16,
               _MacroCircularProgress(
                 label: AppConstants.carb,
                 grams: carbGrams,
@@ -89,7 +96,7 @@ class CaloriesCard extends StatelessWidget {
                 calPerGram: _calPerGCarb,
                 color: AppColors.blue,
               ),
-              Gaps.hGap8,
+              Gaps.hGap16,
               _MacroCircularProgress(
                 label: AppConstants.fat,
                 grams: fatGrams,
@@ -122,8 +129,8 @@ class _MacroCircularProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = 56.r;
-    final strokeWidth = 4.r;
+    final size = 52.r;
+    final strokeWidth = 6.r;
 
     // Progress = calories from this macro / total calories
     final caloriesFromMacro = grams * calPerGram;
@@ -134,8 +141,6 @@ class _MacroCircularProgress extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(label, style: AppTextStyles.h5),
-        Gaps.vGap4,
         SizedBox(
           width: size.r,
           height: size.r,
@@ -159,6 +164,8 @@ class _MacroCircularProgress extends StatelessWidget {
             ],
           ),
         ),
+        Gaps.vGap8,
+        Text(label, style: AppTextStyles.h5),
       ],
     );
   }

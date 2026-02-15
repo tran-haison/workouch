@@ -17,7 +17,7 @@ import '../../domain/entities/user.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 import '../widgets/avatar_placeholder.dart';
-import '../widgets/bmi_scale_card.dart';
+import '../widgets/bmi_card.dart';
 import '../widgets/calories_card.dart';
 import '../dialogs/profile_update_dialog.dart';
 import '../widgets/subscription_badge.dart';
@@ -197,9 +197,7 @@ class ProfilePage extends StatelessWidget {
                         ),
                         Gaps.vGap10,
                         Row(
-                          children: [
-                            Expanded(child: BMIScaleCard(bmi: user.bmi)),
-                          ],
+                          children: [Expanded(child: BmiCard(bmi: user.bmi))],
                         ),
                         Gaps.vGap10,
                         Row(
@@ -262,8 +260,15 @@ class _HealthMetricCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
-        color: AppColors.grayBlue,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.grayBlue,
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         children: [
