@@ -72,6 +72,9 @@ class $AssetsIconsGen {
   SvgGenImage get arrowUpDiagonal =>
       const SvgGenImage('assets/icons/arrow_up_diagonal.svg');
 
+  /// File path: assets/icons/award.svg
+  SvgGenImage get award => const SvgGenImage('assets/icons/award.svg');
+
   /// File path: assets/icons/calendar.svg
   SvgGenImage get calendar => const SvgGenImage('assets/icons/calendar.svg');
 
@@ -246,6 +249,7 @@ class $AssetsIconsGen {
     arrowTopRight,
     arrowUp,
     arrowUpDiagonal,
+    award,
     calendar,
     check,
     clock,

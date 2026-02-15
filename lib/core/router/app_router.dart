@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
 
 import '../../features/home/presentation/pages/home_page.dart';
+import '../../features/home/presentation/pages/personal_records_page.dart';
 import '../../features/auth/presentation/pages/profile_page.dart';
 import '../../features/workout/presentation/pages/workout_creation_page.dart';
 import '../../features/workout/presentation/pages/workout_pro_page.dart';
@@ -37,6 +38,7 @@ enum AppRoute {
   workoutRest,
   workoutFinish,
   exercises,
+  personalRecords,
 }
 
 Page<T> _buildSlidePage<T extends Object>(
@@ -156,6 +158,16 @@ final appRouter = GoRouter(
       path: '/exercises',
       pageBuilder: (context, state) => _buildSlidePage(
         const ExercisesPage(),
+        key: state.pageKey,
+        name: state.name,
+        arguments: state.extra,
+      ),
+    ),
+    GoRoute(
+      name: AppRoute.personalRecords.name,
+      path: '/personal-records',
+      pageBuilder: (context, state) => _buildSlidePage(
+        const PersonalRecordsPage(),
         key: state.pageKey,
         name: state.name,
         arguments: state.extra,

@@ -19,6 +19,8 @@ import '../../features/auth/domain/repositories/auth_repo.dart' as _i723;
 import '../../features/auth/domain/repositories/subscription_repo.dart'
     as _i240;
 import '../../features/auth/presentation/cubit/auth_cubit.dart' as _i117;
+import '../../features/home/presentation/cubit/home_history_cubit.dart'
+    as _i280;
 import '../../features/onboard/presentation/cubit/onboard_cubit.dart' as _i754;
 import '../../features/settings/presentation/cubit/settings_cubit.dart'
     as _i792;
@@ -48,6 +50,7 @@ Future<_i174.GetIt> $initGetIt(
 }) async {
   final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
   final injectionModule = _$InjectionModule();
+  gh.factory<_i280.HomeHistoryCubit>(() => _i280.HomeHistoryCubit());
   gh.factory<_i613.WorkoutSessionCubit>(() => _i613.WorkoutSessionCubit());
   gh.factory<_i754.OnboardCubit>(() => _i754.OnboardCubit());
   await gh.lazySingletonAsync<_i460.SharedPreferences>(

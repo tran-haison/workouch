@@ -21,6 +21,12 @@ extension StringExtension on String {
     return replaceRange(0, 1, this[0].toUpperCase());
   }
 
+  String get capitalizeOnlyFirstLetter {
+    if (isEmpty) return this;
+
+    return toLowerCase().capitalized;
+  }
+
   String get capitalizeAllFirstLetter {
     if (isEmpty) return this;
 

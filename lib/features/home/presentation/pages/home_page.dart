@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/widgets/common_bottom_navbar.dart';
 import '../widgets/home_tab.dart';
 import '../widgets/history_tab.dart';
-import '../widgets/exercises_tab.dart';
+import '../widgets/personal_records_tab.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             IndexedStack(
               index: _currentIndex,
-              children: const [HomeTab(), HistoryTab(), ExercisesTab()],
+              children: const [HomeTab(), HistoryTab(), PersonalRecordsTab()],
             ),
             Positioned(
               bottom: 20.h,

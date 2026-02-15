@@ -33,7 +33,25 @@ class AppConstants {
   static const proDescription = 'You manage your workouts';
   static const weight = 'Weight';
   static const bmi = 'BMI';
+  static const bmiYouAreIn = "You're in: ";
+  static const bmiUnderweight = 'Underweight';
+  static const bmiNormal = 'Normal';
+  static const bmiOverweight = 'Overweight';
+  static const bmiObese = 'Obese';
+  static const bmiUnderweightInstruction =
+      'Consider eating nutrient-dense foods to reach a healthy weight.';
+  static const bmiNormalInstruction =
+      "Great! You're in the healthy range. Keep up your habits.";
+  static const bmiOverweightInstruction =
+      'Consider more activity and balanced eating to improve health.';
+  static const bmiObeseInstruction =
+      'Consult a healthcare provider for a personalized plan.';
   static const calories = 'Calories';
+  static const bodyMetrics = 'Body Metrics';
+  static const fitnessMetrics = 'Fitness Metrics';
+  static const protein = 'Protein';
+  static const carb = 'Carb';
+  static const fat = 'Fat';
   static const workouts = 'Workouts';
   static const fullControl = 'Full control over your workouts';
   static const total = 'Total';
@@ -266,17 +284,30 @@ class AppConstants {
   static const trainingVolume = 'Volume';
   static const totalLoadKg = 'Total load (kg)';
   static const newPrsThisMonth = 'New PRs this month';
+  static const totalPRs = 'Total PRs';
+  static const weightPRs = 'Weight PRs';
+  static const repsPRs = 'Reps PRs';
+  static const thisYear = 'This Year';
   // Personal Records
   static const personalRecords = 'Personal Records';
+  static const allPRs = 'All PRs';
   static const pr = 'PR';
+  static const all = 'All';
+  static const newPRs = 'New PRs';
+  static const selectedExercises = 'Selected Exercises';
   static const addExercisePR = 'Add Exercise';
   static const viewAll = 'View All';
   static const maxWeight = 'Max Weight';
   static const prDate = 'PR Date';
   static const noPRsYet = 'No PRs yet';
-  static const doWorkoutAndSetYourPRs = 'Do a workout and break your PRs';
+  static const selectExercisesAndSetPRs =
+      'Select any exercises to track your PRs';
+  static const bestPRsInEachExercise =
+      'Your best PRs achieved in each exercise';
+  static const selected = 'Selected';
   static const remove = 'Remove';
   static const edit = 'Edit';
+  static const topExercises = 'Top Exercises';
   static const unlimitedWorkoutGeneration =
       'Unlimited AI-powered workout generation';
   static const advancedProgressTrackingAnalytics =

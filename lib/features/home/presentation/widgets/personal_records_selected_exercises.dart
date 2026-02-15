@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:workouch/core/extension/string_extension.dart';
 import 'package:workouch/core/widgets/common_button.dart';
 import 'package:workouch/core/widgets/common_images.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/extension/duration_extension.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/date_utils.dart';
@@ -13,17 +17,11 @@ import '../../../../core/widgets/common_icons.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../workout/domain/entities/working_set.dart';
 import '../../domain/entities/exercise_pr.dart';
+import '../cubit/home_history_cubit.dart';
+import '../cubit/home_history_state.dart';
 
-class ExercisesPersonalRecord extends StatefulWidget {
-  const ExercisesPersonalRecord({super.key});
-
-  @override
-  State<ExercisesPersonalRecord> createState() =>
-      _ExercisesPersonalRecordState();
-}
-
-class _ExercisesPersonalRecordState extends State<ExercisesPersonalRecord> {
-  final List<ExercisePR> personalRecords = [];
+class PersonalRecordsSelectedExercises extends StatelessWidget {
+  const PersonalRecordsSelectedExercises({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,20 +34,17 @@ class _ExercisesPersonalRecordState extends State<ExercisesPersonalRecord> {
           children: [
             Flexible(
               child: Text(
-                AppConstants.personalRecords,
-                style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.bold),
+                AppConstants.selectedExercises.capitalizeOnlyFirstLetter,
+                style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
               ),
             ),
             CommonButton(
               isFullWidth: false,
-              onPressed: _onViewAllTap,
+              onPressed: () => context.pushNamed(AppRoute.personalRecords.name),
               text: AppConstants.viewAll,
               radius: 8.r,
               backgroundColor: AppColors.transparent,
-              textStyle: AppTextStyles.h5.copyWith(
-                color: AppColors.mediumGray,
-                fontWeight: FontWeight.w600,
-              ),
+              textStyle: AppTextStyles.h5.copyWith(color: AppColors.mediumGray),
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
               spaceWithTrailing: 6.w,
               trailing: CommonAssetIcon(
@@ -61,14 +56,25 @@ class _ExercisesPersonalRecordState extends State<ExercisesPersonalRecord> {
             ),
           ],
         ),
-        Gaps.vGap16,
-        if (personalRecords.isEmpty)
-          Container(
+        Gaps.vGap12,
+        const _ExercisePrList(),
+      ],
+    );
+  }
+}
+
+class _ExercisePrList extends StatelessWidget {
+  const _ExercisePrList();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeHistoryCubit, HomeHistoryState>(
+      buildWhen: (prev, curr) => prev.selectedPRs != curr.selectedPRs,
+      builder: (context, state) {
+        if (state.selectedPRs.isEmpty) {
+          return Container(
+            width: 1.sw,
             padding: EdgeInsets.all(24.r),
-            decoration: BoxDecoration(
-              color: AppColors.grayBlue,
-              borderRadius: BorderRadius.circular(16.r),
-            ),
             child: Column(
               children: [
                 CommonAssetIcon(
@@ -84,59 +90,47 @@ class _ExercisesPersonalRecordState extends State<ExercisesPersonalRecord> {
                 ),
                 Gaps.vGap4,
                 Text(
-                  AppConstants.doWorkoutAndSetYourPRs,
+                  AppConstants.selectExercisesAndSetPRs,
                   style: AppTextStyles.h5.copyWith(color: AppColors.mediumGray),
                   textAlign: TextAlign.center,
                 ),
               ],
             ),
-          )
-        else
-          ...personalRecords.map(
-            (pr) => _PRCard(
-              pr: pr,
-              onRemove: () => _showEditPRDialog(pr.exerciseId),
-              onEdit: () => _showEditPRDialog(pr.exerciseId),
-            ),
-          ),
-      ],
+          );
+        }
+
+        return ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          separatorBuilder: (context, index) => Gaps.vGap12,
+          itemCount: state.selectedPRs.length,
+          itemBuilder: (context, index) {
+            final pr = state.selectedPRs[index];
+            return _ExercisePrItem(pr: pr);
+          },
+        );
+      },
     );
-  }
-
-  void _showEditPRDialog(String exerciseId) {
-    // TODO: Implement edit PR dialog
-  }
-
-  void _onViewAllTap() {
-    // TODO: Navigate to view all PRs screen
   }
 }
 
-class _PRCard extends StatelessWidget {
-  const _PRCard({
-    required this.pr,
-    required this.onRemove,
-    required this.onEdit,
-  });
+class _ExercisePrItem extends StatelessWidget {
+  const _ExercisePrItem({required this.pr});
 
   final ExercisePR pr;
-  final VoidCallback onRemove;
-  final VoidCallback onEdit;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 12.h),
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppColors.grayBlue),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _ExerciseThumbnail(gifUrl: pr.gifUrl),
+          _ExerciseImg(gifUrl: pr.gifUrl),
           Gaps.hGap20,
           Expanded(
             child: Column(
@@ -191,36 +185,36 @@ class _PRCard extends StatelessWidget {
       ),
     );
   }
-}
 
-Color _getSetTypeColor(WorkingSetType setType) {
-  switch (setType) {
-    case WorkingSetType.weightBased:
-      return AppColors.primary;
-    case WorkingSetType.repsOnly:
-      return AppColors.secondary;
-    case WorkingSetType.timeBased:
-      return AppColors.warning;
-    case WorkingSetType.distanceBased:
-      return AppColors.blue;
+  Color _getSetTypeColor(WorkingSetType setType) {
+    switch (setType) {
+      case WorkingSetType.weightBased:
+        return AppColors.primary;
+      case WorkingSetType.repsOnly:
+        return AppColors.secondary;
+      case WorkingSetType.timeBased:
+        return AppColors.warning;
+      case WorkingSetType.distanceBased:
+        return AppColors.blue;
+    }
+  }
+
+  String _getFormattedValue(ExercisePR pr) {
+    switch (pr.setType) {
+      case WorkingSetType.weightBased:
+        return '${pr.maxWeight.toStringAsFixed(1)} ${AppConstants.kg} × ${pr.maxReps} ${AppConstants.reps}';
+      case WorkingSetType.repsOnly:
+        return '${pr.maxReps} ${AppConstants.reps}';
+      case WorkingSetType.timeBased:
+        return pr.maxDuration.hhmmss;
+      case WorkingSetType.distanceBased:
+        return '${pr.maxDistance.toStringAsFixed(1)} m';
+    }
   }
 }
 
-String _getFormattedValue(ExercisePR pr) {
-  switch (pr.setType) {
-    case WorkingSetType.weightBased:
-      return '${pr.maxWeight.toStringAsFixed(1)} ${AppConstants.kg} × ${pr.maxReps} ${AppConstants.reps}';
-    case WorkingSetType.repsOnly:
-      return '${pr.maxReps} ${AppConstants.reps}';
-    case WorkingSetType.timeBased:
-      return pr.maxDuration.hhmmss;
-    case WorkingSetType.distanceBased:
-      return '${pr.maxDistance.toStringAsFixed(1)} m';
-  }
-}
-
-class _ExerciseThumbnail extends StatelessWidget {
-  const _ExerciseThumbnail({required this.gifUrl});
+class _ExerciseImg extends StatelessWidget {
+  const _ExerciseImg({required this.gifUrl});
 
   final String gifUrl;
 

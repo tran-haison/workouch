@@ -153,7 +153,7 @@ class _MacroCircularProgress extends StatelessWidget {
                 child: CircularProgressIndicator(
                   value: progress,
                   strokeWidth: strokeWidth.r,
-                  backgroundColor: AppColors.mediumGray.withValues(alpha: 0.3),
+                  backgroundColor: AppColors.grayBlue,
                   valueColor: AlwaysStoppedAnimation<Color>(color),
                 ),
               ),
