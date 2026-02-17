@@ -13,9 +13,6 @@ import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../core/widgets/common_text_field.dart';
 import '../../../../gen/assets.gen.dart';
-import '../../../workout/domain/entities/exercise_filter.dart';
-import '../../../workout/presentation/cubit/workout_cubit.dart';
-import '../../../workout/presentation/dialogs/exercise_filter_dialog.dart';
 import '../cubit/home_history_cubit.dart';
 import '../cubit/home_history_state.dart';
 import '../widgets/personal_records_card_selectable.dart';
@@ -31,6 +28,7 @@ class _PersonalRecordsPageState extends State<PersonalRecordsPage> {
   final _searchController = TextEditingController();
   final _scrollController = ScrollController();
   Timer? _searchDebounce;
+  bool _isSearchVisible = false;
 
   @override
   void initState() {
@@ -60,8 +58,7 @@ class _PersonalRecordsPageState extends State<PersonalRecordsPage> {
                   child: Column(
                     children: [
                       _buildHeader(),
-                      Gaps.vGap16,
-                      _buildSearchAndFilter(),
+                      _buildAnimatedSearchField(),
                       Gaps.vGap16,
                     ],
                   ),
@@ -119,7 +116,16 @@ class _PersonalRecordsPageState extends State<PersonalRecordsPage> {
             style: AppTextStyles.h1.copyWith(fontWeight: FontWeight.bold),
           ),
         ),
-        Gaps.hGap16,
+        Gaps.hGap10,
+        CommonIconButton(
+          icon: Assets.icons.search,
+          iconColor: AppColors.black,
+          backgroundColor: _isSearchVisible
+              ? AppColors.secondary
+              : AppColors.grayBlue,
+          onTap: _toggleSearch,
+        ),
+        Gaps.hGap6,
         BlocBuilder<HomeHistoryCubit, HomeHistoryState>(
           builder: (context, state) {
             if (state.selectedPRIds.isEmpty) return const SizedBox.shrink();
@@ -137,52 +143,62 @@ class _PersonalRecordsPageState extends State<PersonalRecordsPage> {
     );
   }
 
-  Widget _buildSearchAndFilter() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Expanded(
-          child: CommonTextField(
-            controller: _searchController,
-            hintText: AppConstants.searchByName,
-            backgroundColor: AppColors.grayBlue,
-            prefix: CommonAssetIcon(
-              Assets.icons.search,
-              width: 20.r,
-              height: 20.r,
-              color: AppColors.black,
+  Widget _buildAnimatedSearchField() {
+    return AnimatedSize(
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeInOut,
+      alignment: Alignment.topCenter,
+      child: Visibility(
+        visible: _isSearchVisible,
+        maintainState: true,
+        maintainSize: false,
+        maintainAnimation: true,
+        maintainInteractivity: false,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Gaps.vGap16,
+            CommonTextField(
+              controller: _searchController,
+              hintText: AppConstants.searchByName,
+              backgroundColor: AppColors.grayBlue,
+              prefix: CommonAssetIcon(
+                Assets.icons.search,
+                width: 20.r,
+                height: 20.r,
+                color: AppColors.black,
+              ),
+              suffix: _searchController.text.isNotEmpty
+                  ? CommonIconButton(
+                      icon: Assets.icons.close,
+                      iconSize: 20.r,
+                      iconColor: AppColors.black,
+                      padding: EdgeInsets.zero,
+                      onTap: () {
+                        _clearSearch();
+                      },
+                    )
+                  : null,
+              onChanged: _onSearchChanged,
             ),
-            suffix: _searchController.text.isNotEmpty
-                ? CommonIconButton(
-                    icon: Assets.icons.close,
-                    iconSize: 20.r,
-                    iconColor: AppColors.black,
-                    padding: EdgeInsets.zero,
-                    onTap: () {
-                      _searchController.clear();
-                      _onSearchChanged('');
-                    },
-                  )
-                : null,
-            onChanged: _onSearchChanged,
-          ),
+          ],
         ),
-        Gaps.hGap10,
-        BlocBuilder<HomeHistoryCubit, HomeHistoryState>(
-          builder: (context, state) {
-            return CommonIconButton(
-              icon: Assets.icons.filter,
-              iconColor: AppColors.black,
-              iconSize: 20.r,
-              backgroundColor: state.filter.hasAnyFilter
-                  ? AppColors.secondary
-                  : AppColors.grayBlue,
-              onTap: _showFilterDialog,
-            );
-          },
-        ),
-      ],
+      ),
     );
+  }
+
+  void _toggleSearch() {
+    if (_isSearchVisible) {
+      _clearSearch();
+      setState(() => _isSearchVisible = false);
+    } else {
+      setState(() => _isSearchVisible = true);
+    }
+  }
+
+  void _clearSearch() {
+    _searchController.clear();
+    _onSearchChanged('');
   }
 
   Widget _buildPRList(HomeHistoryState state) {
@@ -315,25 +331,5 @@ class _PersonalRecordsPageState extends State<PersonalRecordsPage> {
     _searchController.clear();
     context.read<HomeHistoryCubit>().reset();
     context.read<HomeHistoryCubit>().getAllPRs();
-  }
-
-  Future<void> _showFilterDialog() async {
-    final homeHistoryCubit = context.read<HomeHistoryCubit>();
-    final workoutCubit = context.read<WorkoutCubit>();
-
-    final muscles = workoutCubit.state.bodyParts;
-    final equipments = workoutCubit.state.equipments;
-
-    final filter = await showExerciseFilterDialog(
-      context,
-      muscles: muscles,
-      equipments: equipments,
-      initialFilter: homeHistoryCubit.state.filter,
-    );
-
-    if (mounted && filter is ExerciseFilter) {
-      homeHistoryCubit.updateFilter(filter);
-      homeHistoryCubit.getAllPRs();
-    }
   }
 }
