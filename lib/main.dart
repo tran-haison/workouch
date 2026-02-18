@@ -14,7 +14,6 @@ import 'core/services/subscription_service.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/log.dart';
 import 'features/auth/presentation/cubit/auth_cubit.dart';
-import 'features/home/presentation/cubit/home_history_cubit.dart';
 import 'features/workout/presentation/cubit/workout_cubit.dart';
 
 Future<void> main() async {
@@ -49,7 +48,6 @@ class WorkouchApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => getIt<AuthCubit>()),
           BlocProvider(create: (context) => getIt<WorkoutCubit>()),
-          BlocProvider(create: (context) => getIt<HomeHistoryCubit>()),
         ],
         child: const AuthAppWrapper(),
       ),

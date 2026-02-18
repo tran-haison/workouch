@@ -153,6 +153,7 @@ class SupabaseWorkoutService {
                 sets: sets,
                 restTimeBetweenSets:
                     exerciseJson['rest_time_between_sets'] as int? ?? 0,
+                exerciseOrder: exerciseJson['exercise_order'] as int? ?? 0,
                 setType: exerciseJson['set_type'] as String?,
               );
             } catch (e) {
@@ -273,6 +274,7 @@ class SupabaseWorkoutService {
                   sets: sets,
                   restTimeBetweenSets:
                       exerciseJson['rest_time_between_sets'] as int? ?? 0,
+                  exerciseOrder: exerciseJson['exercise_order'] as int? ?? 0,
                   setType: exerciseJson['set_type'] as String?,
                 );
               } catch (e) {

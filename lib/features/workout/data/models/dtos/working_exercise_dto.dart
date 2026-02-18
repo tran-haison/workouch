@@ -22,6 +22,7 @@ abstract class WorkingExerciseDto with _$WorkingExerciseDto {
     required List<String> instructions,
     required List<WorkingSetDto> sets,
     required int restTimeBetweenSets, // in seconds
+    required int exerciseOrder,
     String? setType,
   }) = _WorkingExerciseDto;
 
@@ -41,6 +42,7 @@ abstract class WorkingExerciseDto with _$WorkingExerciseDto {
       instructions: entity.instructions,
       sets: entity.sets.map((set) => WorkingSetDto.fromEntity(set)).toList(),
       restTimeBetweenSets: entity.restTimeBetweenSets.inSeconds,
+      exerciseOrder: entity.exerciseOrder,
       setType: entity.setType?.name,
     );
   }
@@ -60,12 +62,8 @@ extension WorkingExerciseDtoExtension on WorkingExerciseDto {
       instructions: instructions,
       sets: sets.map((set) => set.toEntity()).toList(),
       restTimeBetweenSets: Duration(seconds: restTimeBetweenSets),
-      setType: setType != null
-          ? WorkingSetType.values.firstWhere(
-              (e) => e.name == setType,
-              orElse: () => WorkingSetType.weightBased,
-            )
-          : null,
+      exerciseOrder: exerciseOrder,
+      setType: setType != null ? WorkingSetTypeExt.fromString(setType!) : null,
     );
   }
 }

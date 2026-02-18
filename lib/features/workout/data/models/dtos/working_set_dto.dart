@@ -45,11 +45,7 @@ abstract class WorkingSetDto with _$WorkingSetDto {
 
 extension WorkingSetDtoExtension on WorkingSetDto {
   WorkingSet toEntity() {
-    final setType = WorkingSetType.values.firstWhere(
-      (e) => e.name == type,
-      orElse: () => throw ArgumentError('Invalid WorkingSetDto type: $type'),
-    );
-
+    final setType = WorkingSetTypeExt.fromString(type);
     switch (setType) {
       case WorkingSetType.weightBased:
         return WorkingSet.weightBased(sets: sets, reps: reps, weight: weight);

@@ -105,4 +105,19 @@ class AppDateUtils {
   static String formatMonthYear(DateTime date) {
     return DateFormat('MMMM yyyy').format(date);
   }
+
+  // Format: dd/mm/yyyy - example: 18/02/2026
+  static String ddmmyyyy(DateTime date) {
+    return DateFormat('dd/MM/yyyy').format(date);
+  }
+
+  /// Get Monday of the week for a given date.
+  /// Returns the date only (ignore time)
+  static DateTime getWeekStartDate(DateTime date) {
+    return DateTime(
+      date.year,
+      date.month,
+      date.day,
+    ).subtract(Duration(days: date.weekday - 1));
+  }
 }

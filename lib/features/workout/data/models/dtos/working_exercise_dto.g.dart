@@ -9,6 +9,7 @@ part of 'working_exercise_dto.dart';
 _$WorkingExerciseDtoImpl _$$WorkingExerciseDtoImplFromJson(
   Map<String, dynamic> json,
 ) => _$WorkingExerciseDtoImpl(
+  exerciseOrder: (json['exerciseOrder'] as num).toInt(),
   exerciseId: json['exerciseId'] as String,
   name: json['name'] as String,
   gifUrl: json['gifUrl'] as String,
@@ -38,6 +39,7 @@ _$WorkingExerciseDtoImpl _$$WorkingExerciseDtoImplFromJson(
 Map<String, dynamic> _$$WorkingExerciseDtoImplToJson(
   _$WorkingExerciseDtoImpl instance,
 ) => <String, dynamic>{
+  'exerciseOrder': instance.exerciseOrder,
   'exerciseId': instance.exerciseId,
   'name': instance.name,
   'gifUrl': instance.gifUrl,

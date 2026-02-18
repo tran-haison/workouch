@@ -20,6 +20,7 @@ class WorkingExercise with _$WorkingExercise {
     @Default([]) List<String> instructions,
     @Default([]) List<WorkingSet> sets,
     @Default(Duration.zero) Duration restTimeBetweenSets,
+    @Default(0) int exerciseOrder,
     WorkingSetType? setType,
   }) = _WorkingExercise;
 

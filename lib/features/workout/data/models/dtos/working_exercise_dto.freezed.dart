@@ -21,6 +21,7 @@ WorkingExerciseDto _$WorkingExerciseDtoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$WorkingExerciseDto {
+  int get exerciseOrder => throw _privateConstructorUsedError;
   String get exerciseId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get gifUrl => throw _privateConstructorUsedError;
@@ -53,6 +54,7 @@ abstract class $WorkingExerciseDtoCopyWith<$Res> {
   ) = _$WorkingExerciseDtoCopyWithImpl<$Res, WorkingExerciseDto>;
   @useResult
   $Res call({
+    int exerciseOrder,
     String exerciseId,
     String name,
     String gifUrl,
@@ -83,6 +85,7 @@ class _$WorkingExerciseDtoCopyWithImpl<$Res, $Val extends WorkingExerciseDto>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? exerciseOrder = null,
     Object? exerciseId = null,
     Object? name = null,
     Object? gifUrl = null,
@@ -98,6 +101,10 @@ class _$WorkingExerciseDtoCopyWithImpl<$Res, $Val extends WorkingExerciseDto>
   }) {
     return _then(
       _value.copyWith(
+            exerciseOrder: null == exerciseOrder
+                ? _value.exerciseOrder
+                : exerciseOrder // ignore: cast_nullable_to_non_nullable
+                      as int,
             exerciseId: null == exerciseId
                 ? _value.exerciseId
                 : exerciseId // ignore: cast_nullable_to_non_nullable
@@ -162,6 +169,7 @@ abstract class _$$WorkingExerciseDtoImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
+    int exerciseOrder,
     String exerciseId,
     String name,
     String gifUrl,
@@ -191,6 +199,7 @@ class __$$WorkingExerciseDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? exerciseOrder = null,
     Object? exerciseId = null,
     Object? name = null,
     Object? gifUrl = null,
@@ -206,6 +215,10 @@ class __$$WorkingExerciseDtoImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$WorkingExerciseDtoImpl(
+        exerciseOrder: null == exerciseOrder
+            ? _value.exerciseOrder
+            : exerciseOrder // ignore: cast_nullable_to_non_nullable
+                  as int,
         exerciseId: null == exerciseId
             ? _value.exerciseId
             : exerciseId // ignore: cast_nullable_to_non_nullable
@@ -263,6 +276,7 @@ class __$$WorkingExerciseDtoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$WorkingExerciseDtoImpl implements _WorkingExerciseDto {
   const _$WorkingExerciseDtoImpl({
+    required this.exerciseOrder,
     required this.exerciseId,
     required this.name,
     required this.gifUrl,
@@ -285,6 +299,8 @@ class _$WorkingExerciseDtoImpl implements _WorkingExerciseDto {
   factory _$WorkingExerciseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$WorkingExerciseDtoImplFromJson(json);
 
+  @override
+  final int exerciseOrder;
   @override
   final String exerciseId;
   @override
@@ -350,7 +366,7 @@ class _$WorkingExerciseDtoImpl implements _WorkingExerciseDto {
 
   @override
   String toString() {
-    return 'WorkingExerciseDto(exerciseId: $exerciseId, name: $name, gifUrl: $gifUrl, description: $description, targetMuscles: $targetMuscles, bodyParts: $bodyParts, equipments: $equipments, secondaryMuscles: $secondaryMuscles, instructions: $instructions, sets: $sets, restTimeBetweenSets: $restTimeBetweenSets, setType: $setType)';
+    return 'WorkingExerciseDto(exerciseOrder: $exerciseOrder, exerciseId: $exerciseId, name: $name, gifUrl: $gifUrl, description: $description, targetMuscles: $targetMuscles, bodyParts: $bodyParts, equipments: $equipments, secondaryMuscles: $secondaryMuscles, instructions: $instructions, sets: $sets, restTimeBetweenSets: $restTimeBetweenSets, setType: $setType)';
   }
 
   @override
@@ -358,6 +374,8 @@ class _$WorkingExerciseDtoImpl implements _WorkingExerciseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WorkingExerciseDtoImpl &&
+            (identical(other.exerciseOrder, exerciseOrder) ||
+                other.exerciseOrder == exerciseOrder) &&
             (identical(other.exerciseId, exerciseId) ||
                 other.exerciseId == exerciseId) &&
             (identical(other.name, name) || other.name == name) &&
@@ -394,6 +412,7 @@ class _$WorkingExerciseDtoImpl implements _WorkingExerciseDto {
   @override
   int get hashCode => Object.hash(
     runtimeType,
+    exerciseOrder,
     exerciseId,
     name,
     gifUrl,
@@ -427,6 +446,7 @@ class _$WorkingExerciseDtoImpl implements _WorkingExerciseDto {
 
 abstract class _WorkingExerciseDto implements WorkingExerciseDto {
   const factory _WorkingExerciseDto({
+    required final int exerciseOrder,
     required final String exerciseId,
     required final String name,
     required final String gifUrl,
@@ -444,6 +464,8 @@ abstract class _WorkingExerciseDto implements WorkingExerciseDto {
   factory _WorkingExerciseDto.fromJson(Map<String, dynamic> json) =
       _$WorkingExerciseDtoImpl.fromJson;
 
+  @override
+  int get exerciseOrder;
   @override
   String get exerciseId;
   @override

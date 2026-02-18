@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$WorkingExercise {
+  int get exerciseOrder => throw _privateConstructorUsedError;
   String get exerciseId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get gifUrl => throw _privateConstructorUsedError;
@@ -45,6 +46,7 @@ abstract class $WorkingExerciseCopyWith<$Res> {
   ) = _$WorkingExerciseCopyWithImpl<$Res, WorkingExercise>;
   @useResult
   $Res call({
+    int exerciseOrder,
     String exerciseId,
     String name,
     String gifUrl,
@@ -75,6 +77,7 @@ class _$WorkingExerciseCopyWithImpl<$Res, $Val extends WorkingExercise>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? exerciseOrder = null,
     Object? exerciseId = null,
     Object? name = null,
     Object? gifUrl = null,
@@ -90,6 +93,10 @@ class _$WorkingExerciseCopyWithImpl<$Res, $Val extends WorkingExercise>
   }) {
     return _then(
       _value.copyWith(
+            exerciseOrder: null == exerciseOrder
+                ? _value.exerciseOrder
+                : exerciseOrder // ignore: cast_nullable_to_non_nullable
+                      as int,
             exerciseId: null == exerciseId
                 ? _value.exerciseId
                 : exerciseId // ignore: cast_nullable_to_non_nullable
@@ -154,6 +161,7 @@ abstract class _$$WorkingExerciseImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
+    int exerciseOrder,
     String exerciseId,
     String name,
     String gifUrl,
@@ -183,6 +191,7 @@ class __$$WorkingExerciseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? exerciseOrder = null,
     Object? exerciseId = null,
     Object? name = null,
     Object? gifUrl = null,
@@ -198,6 +207,10 @@ class __$$WorkingExerciseImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$WorkingExerciseImpl(
+        exerciseOrder: null == exerciseOrder
+            ? _value.exerciseOrder
+            : exerciseOrder // ignore: cast_nullable_to_non_nullable
+                  as int,
         exerciseId: null == exerciseId
             ? _value.exerciseId
             : exerciseId // ignore: cast_nullable_to_non_nullable
@@ -255,6 +268,7 @@ class __$$WorkingExerciseImplCopyWithImpl<$Res>
 
 class _$WorkingExerciseImpl extends _WorkingExercise {
   const _$WorkingExerciseImpl({
+    this.exerciseOrder = 0,
     this.exerciseId = '',
     this.name = '',
     this.gifUrl = '',
@@ -275,6 +289,9 @@ class _$WorkingExerciseImpl extends _WorkingExercise {
        _sets = sets,
        super._();
 
+  @override
+  @JsonKey()
+  final int exerciseOrder;
   @override
   @JsonKey()
   final String exerciseId;
@@ -350,7 +367,7 @@ class _$WorkingExerciseImpl extends _WorkingExercise {
 
   @override
   String toString() {
-    return 'WorkingExercise(exerciseId: $exerciseId, name: $name, gifUrl: $gifUrl, description: $description, targetMuscles: $targetMuscles, bodyParts: $bodyParts, equipments: $equipments, secondaryMuscles: $secondaryMuscles, instructions: $instructions, sets: $sets, restTimeBetweenSets: $restTimeBetweenSets, setType: $setType)';
+    return 'WorkingExercise(exerciseOrder: $exerciseOrder, exerciseId: $exerciseId, name: $name, gifUrl: $gifUrl, description: $description, targetMuscles: $targetMuscles, bodyParts: $bodyParts, equipments: $equipments, secondaryMuscles: $secondaryMuscles, instructions: $instructions, sets: $sets, restTimeBetweenSets: $restTimeBetweenSets, setType: $setType)';
   }
 
   @override
@@ -358,6 +375,8 @@ class _$WorkingExerciseImpl extends _WorkingExercise {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WorkingExerciseImpl &&
+            (identical(other.exerciseOrder, exerciseOrder) ||
+                other.exerciseOrder == exerciseOrder) &&
             (identical(other.exerciseId, exerciseId) ||
                 other.exerciseId == exerciseId) &&
             (identical(other.name, name) || other.name == name) &&
@@ -393,6 +412,7 @@ class _$WorkingExerciseImpl extends _WorkingExercise {
   @override
   int get hashCode => Object.hash(
     runtimeType,
+    exerciseOrder,
     exerciseId,
     name,
     gifUrl,
@@ -421,6 +441,7 @@ class _$WorkingExerciseImpl extends _WorkingExercise {
 
 abstract class _WorkingExercise extends WorkingExercise {
   const factory _WorkingExercise({
+    final int exerciseOrder,
     final String exerciseId,
     final String name,
     final String gifUrl,
@@ -436,6 +457,8 @@ abstract class _WorkingExercise extends WorkingExercise {
   }) = _$WorkingExerciseImpl;
   const _WorkingExercise._() : super._();
 
+  @override
+  int get exerciseOrder;
   @override
   String get exerciseId;
   @override

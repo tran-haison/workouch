@@ -432,6 +432,14 @@ class _Supabase {
   String get tableUsers => 'users';
 
   String get tableUserSubscription => 'user_subscription';
+
+  String get tableWorkoutSessions => 'workout_sessions';
+
+  String get tableWorkoutSessionExercises => 'workout_session_exercises';
+
+  String get tableExercisePersonalRecords => 'exercise_personal_records';
+
+  String get tableUserWorkoutWeeks => 'user_workout_weeks';
 }
 
 class _Time {

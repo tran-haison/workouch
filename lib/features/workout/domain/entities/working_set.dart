@@ -117,7 +117,7 @@ extension WorkingSetExtension on WorkingSet {
   }
 }
 
-extension WorkingSetTypeExtension on WorkingSetType {
+extension WorkingSetTypeExt on WorkingSetType {
   String get label {
     switch (this) {
       case WorkingSetType.weightBased:
@@ -129,5 +129,12 @@ extension WorkingSetTypeExtension on WorkingSetType {
       case WorkingSetType.distanceBased:
         return AppConstants.distance;
     }
+  }
+
+  static WorkingSetType fromString(String type) {
+    return WorkingSetType.values.firstWhere(
+      (e) => e.name == type,
+      orElse: () => WorkingSetType.weightBased,
+    );
   }
 }

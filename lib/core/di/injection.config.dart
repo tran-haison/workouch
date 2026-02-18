@@ -19,8 +19,6 @@ import '../../features/auth/domain/repositories/auth_repo.dart' as _i723;
 import '../../features/auth/domain/repositories/subscription_repo.dart'
     as _i240;
 import '../../features/auth/presentation/cubit/auth_cubit.dart' as _i117;
-import '../../features/home/presentation/cubit/home_history_cubit.dart'
-    as _i280;
 import '../../features/onboard/presentation/cubit/onboard_cubit.dart' as _i754;
 import '../../features/settings/presentation/cubit/settings_cubit.dart'
     as _i792;
@@ -32,6 +30,8 @@ import '../../features/workout/domain/repositories/ai_workout_repo.dart'
 import '../../features/workout/domain/repositories/exercise_repo.dart' as _i275;
 import '../../features/workout/domain/repositories/workout_repo.dart' as _i597;
 import '../../features/workout/presentation/cubit/workout_cubit.dart' as _i645;
+import '../../features/workout_session/data/services/supabase_workout_session_service.dart'
+    as _i638;
 import '../../features/workout_session/presentation/cubit/workout_session_cubit.dart'
     as _i613;
 import '../services/firebase_service.dart' as _i758;
@@ -50,7 +50,6 @@ Future<_i174.GetIt> $initGetIt(
 }) async {
   final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
   final injectionModule = _$InjectionModule();
-  gh.factory<_i280.HomeHistoryCubit>(() => _i280.HomeHistoryCubit());
   gh.factory<_i613.WorkoutSessionCubit>(() => _i613.WorkoutSessionCubit());
   gh.factory<_i754.OnboardCubit>(() => _i754.OnboardCubit());
   await gh.lazySingletonAsync<_i460.SharedPreferences>(
@@ -70,6 +69,9 @@ Future<_i174.GetIt> $initGetIt(
   );
   gh.lazySingleton<_i275.SupabaseWorkoutService>(
     () => _i275.SupabaseWorkoutService(),
+  );
+  gh.lazySingleton<_i638.SupabaseWorkoutSessionService>(
+    () => _i638.SupabaseWorkoutSessionService(),
   );
   gh.lazySingleton<_i306.AppPrefs>(
     () => _i306.AppPrefs(gh<_i460.SharedPreferences>()),
