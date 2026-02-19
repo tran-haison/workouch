@@ -9,7 +9,6 @@ part of 'working_exercise_dto.dart';
 _$WorkingExerciseDtoImpl _$$WorkingExerciseDtoImplFromJson(
   Map<String, dynamic> json,
 ) => _$WorkingExerciseDtoImpl(
-  exerciseOrder: (json['exerciseOrder'] as num).toInt(),
   exerciseId: json['exerciseId'] as String,
   name: json['name'] as String,
   gifUrl: json['gifUrl'] as String,
@@ -33,13 +32,13 @@ _$WorkingExerciseDtoImpl _$$WorkingExerciseDtoImplFromJson(
       .map((e) => WorkingSetDto.fromJson(e as Map<String, dynamic>))
       .toList(),
   restTimeBetweenSets: (json['restTimeBetweenSets'] as num).toInt(),
+  exerciseOrder: (json['exerciseOrder'] as num).toInt(),
   setType: json['setType'] as String?,
 );
 
 Map<String, dynamic> _$$WorkingExerciseDtoImplToJson(
   _$WorkingExerciseDtoImpl instance,
 ) => <String, dynamic>{
-  'exerciseOrder': instance.exerciseOrder,
   'exerciseId': instance.exerciseId,
   'name': instance.name,
   'gifUrl': instance.gifUrl,
@@ -51,5 +50,6 @@ Map<String, dynamic> _$$WorkingExerciseDtoImplToJson(
   'instructions': instance.instructions,
   'sets': instance.sets,
   'restTimeBetweenSets': instance.restTimeBetweenSets,
+  'exerciseOrder': instance.exerciseOrder,
   'setType': instance.setType,
 };

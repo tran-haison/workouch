@@ -114,6 +114,9 @@ class AppConstants {
       'Are you sure you want to delete this workout? This action cannot be undone.';
   static const workoutDeletedSuccessfully = 'Workout deleted successfully';
   static const workoutDeletedError = 'Failed to delete workout';
+  static const workoutSessionSavedError = 'Failed to save workout session';
+  static const exercisePersonalRecordSavedError =
+      'Failed to save exercise personal record';
   static const signInSubtitle = 'Sign in to continue';
   static const pleaseSignIn = 'Please sign in to continue';
   static const signingIn = 'Signing in...';

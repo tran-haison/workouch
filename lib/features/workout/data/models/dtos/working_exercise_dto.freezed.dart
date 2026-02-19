@@ -21,7 +21,6 @@ WorkingExerciseDto _$WorkingExerciseDtoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$WorkingExerciseDto {
-  int get exerciseOrder => throw _privateConstructorUsedError;
   String get exerciseId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get gifUrl => throw _privateConstructorUsedError;
@@ -34,6 +33,7 @@ mixin _$WorkingExerciseDto {
   List<WorkingSetDto> get sets => throw _privateConstructorUsedError;
   int get restTimeBetweenSets =>
       throw _privateConstructorUsedError; // in seconds
+  int get exerciseOrder => throw _privateConstructorUsedError;
   String? get setType => throw _privateConstructorUsedError;
 
   /// Serializes this WorkingExerciseDto to a JSON map.
@@ -54,7 +54,6 @@ abstract class $WorkingExerciseDtoCopyWith<$Res> {
   ) = _$WorkingExerciseDtoCopyWithImpl<$Res, WorkingExerciseDto>;
   @useResult
   $Res call({
-    int exerciseOrder,
     String exerciseId,
     String name,
     String gifUrl,
@@ -66,6 +65,7 @@ abstract class $WorkingExerciseDtoCopyWith<$Res> {
     List<String> instructions,
     List<WorkingSetDto> sets,
     int restTimeBetweenSets,
+    int exerciseOrder,
     String? setType,
   });
 }
@@ -85,7 +85,6 @@ class _$WorkingExerciseDtoCopyWithImpl<$Res, $Val extends WorkingExerciseDto>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? exerciseOrder = null,
     Object? exerciseId = null,
     Object? name = null,
     Object? gifUrl = null,
@@ -97,14 +96,11 @@ class _$WorkingExerciseDtoCopyWithImpl<$Res, $Val extends WorkingExerciseDto>
     Object? instructions = null,
     Object? sets = null,
     Object? restTimeBetweenSets = null,
+    Object? exerciseOrder = null,
     Object? setType = freezed,
   }) {
     return _then(
       _value.copyWith(
-            exerciseOrder: null == exerciseOrder
-                ? _value.exerciseOrder
-                : exerciseOrder // ignore: cast_nullable_to_non_nullable
-                      as int,
             exerciseId: null == exerciseId
                 ? _value.exerciseId
                 : exerciseId // ignore: cast_nullable_to_non_nullable
@@ -149,6 +145,10 @@ class _$WorkingExerciseDtoCopyWithImpl<$Res, $Val extends WorkingExerciseDto>
                 ? _value.restTimeBetweenSets
                 : restTimeBetweenSets // ignore: cast_nullable_to_non_nullable
                       as int,
+            exerciseOrder: null == exerciseOrder
+                ? _value.exerciseOrder
+                : exerciseOrder // ignore: cast_nullable_to_non_nullable
+                      as int,
             setType: freezed == setType
                 ? _value.setType
                 : setType // ignore: cast_nullable_to_non_nullable
@@ -169,7 +169,6 @@ abstract class _$$WorkingExerciseDtoImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    int exerciseOrder,
     String exerciseId,
     String name,
     String gifUrl,
@@ -181,6 +180,7 @@ abstract class _$$WorkingExerciseDtoImplCopyWith<$Res>
     List<String> instructions,
     List<WorkingSetDto> sets,
     int restTimeBetweenSets,
+    int exerciseOrder,
     String? setType,
   });
 }
@@ -199,7 +199,6 @@ class __$$WorkingExerciseDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? exerciseOrder = null,
     Object? exerciseId = null,
     Object? name = null,
     Object? gifUrl = null,
@@ -211,14 +210,11 @@ class __$$WorkingExerciseDtoImplCopyWithImpl<$Res>
     Object? instructions = null,
     Object? sets = null,
     Object? restTimeBetweenSets = null,
+    Object? exerciseOrder = null,
     Object? setType = freezed,
   }) {
     return _then(
       _$WorkingExerciseDtoImpl(
-        exerciseOrder: null == exerciseOrder
-            ? _value.exerciseOrder
-            : exerciseOrder // ignore: cast_nullable_to_non_nullable
-                  as int,
         exerciseId: null == exerciseId
             ? _value.exerciseId
             : exerciseId // ignore: cast_nullable_to_non_nullable
@@ -263,6 +259,10 @@ class __$$WorkingExerciseDtoImplCopyWithImpl<$Res>
             ? _value.restTimeBetweenSets
             : restTimeBetweenSets // ignore: cast_nullable_to_non_nullable
                   as int,
+        exerciseOrder: null == exerciseOrder
+            ? _value.exerciseOrder
+            : exerciseOrder // ignore: cast_nullable_to_non_nullable
+                  as int,
         setType: freezed == setType
             ? _value.setType
             : setType // ignore: cast_nullable_to_non_nullable
@@ -276,7 +276,6 @@ class __$$WorkingExerciseDtoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$WorkingExerciseDtoImpl implements _WorkingExerciseDto {
   const _$WorkingExerciseDtoImpl({
-    required this.exerciseOrder,
     required this.exerciseId,
     required this.name,
     required this.gifUrl,
@@ -288,6 +287,7 @@ class _$WorkingExerciseDtoImpl implements _WorkingExerciseDto {
     required final List<String> instructions,
     required final List<WorkingSetDto> sets,
     required this.restTimeBetweenSets,
+    required this.exerciseOrder,
     this.setType,
   }) : _targetMuscles = targetMuscles,
        _bodyParts = bodyParts,
@@ -299,8 +299,6 @@ class _$WorkingExerciseDtoImpl implements _WorkingExerciseDto {
   factory _$WorkingExerciseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$WorkingExerciseDtoImplFromJson(json);
 
-  @override
-  final int exerciseOrder;
   @override
   final String exerciseId;
   @override
@@ -362,11 +360,13 @@ class _$WorkingExerciseDtoImpl implements _WorkingExerciseDto {
   final int restTimeBetweenSets;
   // in seconds
   @override
+  final int exerciseOrder;
+  @override
   final String? setType;
 
   @override
   String toString() {
-    return 'WorkingExerciseDto(exerciseOrder: $exerciseOrder, exerciseId: $exerciseId, name: $name, gifUrl: $gifUrl, description: $description, targetMuscles: $targetMuscles, bodyParts: $bodyParts, equipments: $equipments, secondaryMuscles: $secondaryMuscles, instructions: $instructions, sets: $sets, restTimeBetweenSets: $restTimeBetweenSets, setType: $setType)';
+    return 'WorkingExerciseDto(exerciseId: $exerciseId, name: $name, gifUrl: $gifUrl, description: $description, targetMuscles: $targetMuscles, bodyParts: $bodyParts, equipments: $equipments, secondaryMuscles: $secondaryMuscles, instructions: $instructions, sets: $sets, restTimeBetweenSets: $restTimeBetweenSets, exerciseOrder: $exerciseOrder, setType: $setType)';
   }
 
   @override
@@ -374,8 +374,6 @@ class _$WorkingExerciseDtoImpl implements _WorkingExerciseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WorkingExerciseDtoImpl &&
-            (identical(other.exerciseOrder, exerciseOrder) ||
-                other.exerciseOrder == exerciseOrder) &&
             (identical(other.exerciseId, exerciseId) ||
                 other.exerciseId == exerciseId) &&
             (identical(other.name, name) || other.name == name) &&
@@ -405,6 +403,8 @@ class _$WorkingExerciseDtoImpl implements _WorkingExerciseDto {
             const DeepCollectionEquality().equals(other._sets, _sets) &&
             (identical(other.restTimeBetweenSets, restTimeBetweenSets) ||
                 other.restTimeBetweenSets == restTimeBetweenSets) &&
+            (identical(other.exerciseOrder, exerciseOrder) ||
+                other.exerciseOrder == exerciseOrder) &&
             (identical(other.setType, setType) || other.setType == setType));
   }
 
@@ -412,7 +412,6 @@ class _$WorkingExerciseDtoImpl implements _WorkingExerciseDto {
   @override
   int get hashCode => Object.hash(
     runtimeType,
-    exerciseOrder,
     exerciseId,
     name,
     gifUrl,
@@ -424,6 +423,7 @@ class _$WorkingExerciseDtoImpl implements _WorkingExerciseDto {
     const DeepCollectionEquality().hash(_instructions),
     const DeepCollectionEquality().hash(_sets),
     restTimeBetweenSets,
+    exerciseOrder,
     setType,
   );
 
@@ -446,7 +446,6 @@ class _$WorkingExerciseDtoImpl implements _WorkingExerciseDto {
 
 abstract class _WorkingExerciseDto implements WorkingExerciseDto {
   const factory _WorkingExerciseDto({
-    required final int exerciseOrder,
     required final String exerciseId,
     required final String name,
     required final String gifUrl,
@@ -458,14 +457,13 @@ abstract class _WorkingExerciseDto implements WorkingExerciseDto {
     required final List<String> instructions,
     required final List<WorkingSetDto> sets,
     required final int restTimeBetweenSets,
+    required final int exerciseOrder,
     final String? setType,
   }) = _$WorkingExerciseDtoImpl;
 
   factory _WorkingExerciseDto.fromJson(Map<String, dynamic> json) =
       _$WorkingExerciseDtoImpl.fromJson;
 
-  @override
-  int get exerciseOrder;
   @override
   String get exerciseId;
   @override
@@ -488,6 +486,8 @@ abstract class _WorkingExerciseDto implements WorkingExerciseDto {
   List<WorkingSetDto> get sets;
   @override
   int get restTimeBetweenSets; // in seconds
+  @override
+  int get exerciseOrder;
   @override
   String? get setType;
 

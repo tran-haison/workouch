@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$WorkoutSessionState {
+  User get user => throw _privateConstructorUsedError;
   Workout get workout => throw _privateConstructorUsedError;
   int get currentExerciseIndex => throw _privateConstructorUsedError;
   Map<String, int> get setIndexTracker =>
@@ -40,6 +41,7 @@ abstract class $WorkoutSessionStateCopyWith<$Res> {
   ) = _$WorkoutSessionStateCopyWithImpl<$Res, WorkoutSessionState>;
   @useResult
   $Res call({
+    User user,
     Workout workout,
     int currentExerciseIndex,
     Map<String, int> setIndexTracker,
@@ -48,6 +50,7 @@ abstract class $WorkoutSessionStateCopyWith<$Res> {
     Duration restExercisesRemain,
   });
 
+  $UserCopyWith<$Res> get user;
   $WorkoutCopyWith<$Res> get workout;
 }
 
@@ -66,6 +69,7 @@ class _$WorkoutSessionStateCopyWithImpl<$Res, $Val extends WorkoutSessionState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? user = null,
     Object? workout = null,
     Object? currentExerciseIndex = null,
     Object? setIndexTracker = null,
@@ -75,6 +79,10 @@ class _$WorkoutSessionStateCopyWithImpl<$Res, $Val extends WorkoutSessionState>
   }) {
     return _then(
       _value.copyWith(
+            user: null == user
+                ? _value.user
+                : user // ignore: cast_nullable_to_non_nullable
+                      as User,
             workout: null == workout
                 ? _value.workout
                 : workout // ignore: cast_nullable_to_non_nullable
@@ -108,6 +116,16 @@ class _$WorkoutSessionStateCopyWithImpl<$Res, $Val extends WorkoutSessionState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
+  $UserCopyWith<$Res> get user {
+    return $UserCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
+
+  /// Create a copy of WorkoutSessionState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
   $WorkoutCopyWith<$Res> get workout {
     return $WorkoutCopyWith<$Res>(_value.workout, (value) {
       return _then(_value.copyWith(workout: value) as $Val);
@@ -125,6 +143,7 @@ abstract class _$$WorkoutSessionStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
+    User user,
     Workout workout,
     int currentExerciseIndex,
     Map<String, int> setIndexTracker,
@@ -133,6 +152,8 @@ abstract class _$$WorkoutSessionStateImplCopyWith<$Res>
     Duration restExercisesRemain,
   });
 
+  @override
+  $UserCopyWith<$Res> get user;
   @override
   $WorkoutCopyWith<$Res> get workout;
 }
@@ -151,6 +172,7 @@ class __$$WorkoutSessionStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? user = null,
     Object? workout = null,
     Object? currentExerciseIndex = null,
     Object? setIndexTracker = null,
@@ -160,6 +182,10 @@ class __$$WorkoutSessionStateImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$WorkoutSessionStateImpl(
+        user: null == user
+            ? _value.user
+            : user // ignore: cast_nullable_to_non_nullable
+                  as User,
         workout: null == workout
             ? _value.workout
             : workout // ignore: cast_nullable_to_non_nullable
@@ -193,6 +219,7 @@ class __$$WorkoutSessionStateImplCopyWithImpl<$Res>
 
 class _$WorkoutSessionStateImpl implements _WorkoutSessionState {
   const _$WorkoutSessionStateImpl({
+    this.user = const User(),
     this.workout = const Workout(),
     this.currentExerciseIndex = 0,
     final Map<String, int> setIndexTracker = const {},
@@ -201,6 +228,9 @@ class _$WorkoutSessionStateImpl implements _WorkoutSessionState {
     this.restExercisesRemain = Duration.zero,
   }) : _setIndexTracker = setIndexTracker;
 
+  @override
+  @JsonKey()
+  final User user;
   @override
   @JsonKey()
   final Workout workout;
@@ -229,7 +259,7 @@ class _$WorkoutSessionStateImpl implements _WorkoutSessionState {
 
   @override
   String toString() {
-    return 'WorkoutSessionState(workout: $workout, currentExerciseIndex: $currentExerciseIndex, setIndexTracker: $setIndexTracker, totalTime: $totalTime, restSetsRemain: $restSetsRemain, restExercisesRemain: $restExercisesRemain)';
+    return 'WorkoutSessionState(user: $user, workout: $workout, currentExerciseIndex: $currentExerciseIndex, setIndexTracker: $setIndexTracker, totalTime: $totalTime, restSetsRemain: $restSetsRemain, restExercisesRemain: $restExercisesRemain)';
   }
 
   @override
@@ -237,6 +267,7 @@ class _$WorkoutSessionStateImpl implements _WorkoutSessionState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WorkoutSessionStateImpl &&
+            (identical(other.user, user) || other.user == user) &&
             (identical(other.workout, workout) || other.workout == workout) &&
             (identical(other.currentExerciseIndex, currentExerciseIndex) ||
                 other.currentExerciseIndex == currentExerciseIndex) &&
@@ -255,6 +286,7 @@ class _$WorkoutSessionStateImpl implements _WorkoutSessionState {
   @override
   int get hashCode => Object.hash(
     runtimeType,
+    user,
     workout,
     currentExerciseIndex,
     const DeepCollectionEquality().hash(_setIndexTracker),
@@ -277,6 +309,7 @@ class _$WorkoutSessionStateImpl implements _WorkoutSessionState {
 
 abstract class _WorkoutSessionState implements WorkoutSessionState {
   const factory _WorkoutSessionState({
+    final User user,
     final Workout workout,
     final int currentExerciseIndex,
     final Map<String, int> setIndexTracker,
@@ -285,6 +318,8 @@ abstract class _WorkoutSessionState implements WorkoutSessionState {
     final Duration restExercisesRemain,
   }) = _$WorkoutSessionStateImpl;
 
+  @override
+  User get user;
   @override
   Workout get workout;
   @override

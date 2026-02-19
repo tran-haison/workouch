@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/di/injection.dart';
+import '../../../auth/presentation/cubit/auth_cubit.dart';
 import '../../../workout/domain/entities/workout.dart';
 import '../cubit/workout_session_cubit.dart';
 
@@ -33,6 +34,8 @@ class _WorkoutSessionScopeProviderState
     if (widget.workout != null) {
       _workoutSessionCubit.initWorkout(widget.workout!);
     }
+    final authState = context.read<AuthCubit>().state;
+    _workoutSessionCubit.initUser(authState.currentUser);
   }
 
   @override

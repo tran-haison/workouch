@@ -77,8 +77,11 @@ class SupabaseWorkoutSessionService {
       // Upsert user_workout_weeks for week streak
       await _upsertUserWorkoutWeek(
         userId: userId,
-        completedAt: session.completedAt,
+        completedAt: session.completedAt.toUtc(),
       );
+
+      // Save/update personal records from completed exercises
+      await _trySavePersonalRecordsFromSession(session);
 
       return true;
     } catch (e) {
@@ -94,7 +97,7 @@ class SupabaseWorkoutSessionService {
   }) async {
     try {
       final weekStart = AppDateUtils.getWeekStartDate(completedAt);
-      final weekStartStr = AppDateUtils.ddmmyyyy(weekStart.toUtc());
+      final weekStartStr = AppDateUtils.ddmmyyyy(weekStart);
 
       final existing = await _supabase
           .from(AppConstants.supabase.tableUserWorkoutWeeks)
@@ -121,6 +124,21 @@ class SupabaseWorkoutSessionService {
       }
     } catch (e) {
       Log.e('Error upserting user_workout_week: $e');
+    }
+  }
+
+  /// Builds potential PRs from session exercises and saves only when new value
+  /// is greater than existing (via saveExercisePersonalRecord).
+  Future<void> _trySavePersonalRecordsFromSession(
+    WorkoutSession session,
+  ) async {
+    final prDate = session.completedAt;
+    for (final exercise in session.exercises) {
+      final record = ExercisePersonalRecordExt.fromSessionExercise(
+        exercise: exercise,
+        prDate: prDate,
+      );
+      await _saveExercisePersonalRecord(record);
     }
   }
 
@@ -204,16 +222,33 @@ class SupabaseWorkoutSessionService {
     }
   }
 
-  /// Save or update exercise personal record
-  Future<bool> saveExercisePersonalRecord(ExercisePersonalRecord record) async {
+  /// Save or update exercise personal record only when new value is greater
+  /// than existing (by set_type: weight/reps/duration/distance).
+  Future<bool> _saveExercisePersonalRecord(
+    ExercisePersonalRecord record,
+  ) async {
     try {
       final userId = _currentUserId;
       if (userId == null) return false;
 
-      final dto = ExercisePersonalRecordDto.fromEntity(
-        record.copyWith(userId: userId),
-      );
+      final newRecord = record.copyWith(userId: userId);
 
+      final existing = await _supabase
+          .from(AppConstants.supabase.tableExercisePersonalRecords)
+          .select()
+          .eq('user_id', userId)
+          .eq('exercise_id', newRecord.exerciseId)
+          .maybeSingle();
+
+      if (existing != null) {
+        final existingRecord = ExercisePersonalRecordDto.fromJson(
+          existing,
+        ).toEntity();
+        final isNewBetter = existingRecord.isNewRecordBetter(newRecord);
+        if (!isNewBetter) return true; // no update needed
+      }
+
+      final dto = ExercisePersonalRecordDto.fromEntity(newRecord);
       await _supabase
           .from(AppConstants.supabase.tableExercisePersonalRecords)
           .upsert({

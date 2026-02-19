@@ -2,16 +2,28 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../../auth/domain/entities/user.dart';
 import '../../../workout/domain/entities/workout.dart';
+import '../../domain/entities/workout_session.dart';
+import '../../domain/repositories/workout_session_repo.dart';
 import 'workout_session_state.dart';
 
 @injectable
 class WorkoutSessionCubit extends Cubit<WorkoutSessionState> {
-  WorkoutSessionCubit() : super(const WorkoutSessionState());
+  WorkoutSessionCubit(this._workoutSessionRepo)
+    : super(const WorkoutSessionState());
+
+  final WorkoutSessionRepo _workoutSessionRepo;
 
   Timer? totalTimer;
   Timer? restSetsTimer;
   Timer? restExercisesTimer;
+
+  void initUser(User? user) {
+    if (user == null) return;
+    emit(state.copyWith(user: user));
+  }
 
   void initWorkout(Workout workout) {
     // Initialize setIndexTracker for all exercises
@@ -20,6 +32,21 @@ class WorkoutSessionCubit extends Cubit<WorkoutSessionState> {
       tracker[exercise.exerciseId] = 0; // 0 means first set
     }
     emit(state.copyWith(workout: workout, setIndexTracker: tracker));
+  }
+
+  Future<void> saveWorkoutSession() async {
+    final session = WorkoutSessionExt.fromWorkout(state.workout).copyWith(
+      userId: state.user.id,
+      totalDurationSeconds: state.totalTime.inSeconds,
+      totalVolumeKg: state.totalVolumeKgCompleted,
+      totalSets: state.totalSetsCompleted,
+      totalExercises: state.totalExercisesCompleted,
+      caloriesBurned: state.caloriesBurned,
+      notes: '',
+      exercises: state.exercisesSessionCompleted,
+    );
+
+    await _workoutSessionRepo.saveWorkoutSession(session);
   }
 
   void goNextExercise() {

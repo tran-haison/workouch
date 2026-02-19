@@ -282,7 +282,7 @@ class WorkoutMainPage extends StatelessWidget {
 
   void _nextExercise(BuildContext context, WorkoutSessionState state) {
     if (state.hasNextExercise) {
-      if (state.hasRestExercises) {
+      if (state.hasRestBetweenExercises) {
         // Navigate to rest page before advancing to next exercise
         context.pushNamed(AppRoute.workoutRest.name);
       } else {
@@ -300,7 +300,7 @@ class WorkoutMainPage extends StatelessWidget {
     // If not, start rest timer and return
     if (!state.allSetsCompleted) {
       // Start rest timer if rest time is configured
-      if (state.hasRestSets) {
+      if (state.hasRestBetweenSets) {
         context.read<WorkoutSessionCubit>().startRestSetsTimer(
           state.currentExercise.restTimeBetweenSets,
         );

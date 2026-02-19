@@ -17,7 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$WorkingExercise {
-  int get exerciseOrder => throw _privateConstructorUsedError;
   String get exerciseId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get gifUrl => throw _privateConstructorUsedError;
@@ -29,6 +28,7 @@ mixin _$WorkingExercise {
   List<String> get instructions => throw _privateConstructorUsedError;
   List<WorkingSet> get sets => throw _privateConstructorUsedError;
   Duration get restTimeBetweenSets => throw _privateConstructorUsedError;
+  int get exerciseOrder => throw _privateConstructorUsedError;
   WorkingSetType? get setType => throw _privateConstructorUsedError;
 
   /// Create a copy of WorkingExercise
@@ -46,7 +46,6 @@ abstract class $WorkingExerciseCopyWith<$Res> {
   ) = _$WorkingExerciseCopyWithImpl<$Res, WorkingExercise>;
   @useResult
   $Res call({
-    int exerciseOrder,
     String exerciseId,
     String name,
     String gifUrl,
@@ -58,6 +57,7 @@ abstract class $WorkingExerciseCopyWith<$Res> {
     List<String> instructions,
     List<WorkingSet> sets,
     Duration restTimeBetweenSets,
+    int exerciseOrder,
     WorkingSetType? setType,
   });
 }
@@ -77,7 +77,6 @@ class _$WorkingExerciseCopyWithImpl<$Res, $Val extends WorkingExercise>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? exerciseOrder = null,
     Object? exerciseId = null,
     Object? name = null,
     Object? gifUrl = null,
@@ -89,14 +88,11 @@ class _$WorkingExerciseCopyWithImpl<$Res, $Val extends WorkingExercise>
     Object? instructions = null,
     Object? sets = null,
     Object? restTimeBetweenSets = null,
+    Object? exerciseOrder = null,
     Object? setType = freezed,
   }) {
     return _then(
       _value.copyWith(
-            exerciseOrder: null == exerciseOrder
-                ? _value.exerciseOrder
-                : exerciseOrder // ignore: cast_nullable_to_non_nullable
-                      as int,
             exerciseId: null == exerciseId
                 ? _value.exerciseId
                 : exerciseId // ignore: cast_nullable_to_non_nullable
@@ -141,6 +137,10 @@ class _$WorkingExerciseCopyWithImpl<$Res, $Val extends WorkingExercise>
                 ? _value.restTimeBetweenSets
                 : restTimeBetweenSets // ignore: cast_nullable_to_non_nullable
                       as Duration,
+            exerciseOrder: null == exerciseOrder
+                ? _value.exerciseOrder
+                : exerciseOrder // ignore: cast_nullable_to_non_nullable
+                      as int,
             setType: freezed == setType
                 ? _value.setType
                 : setType // ignore: cast_nullable_to_non_nullable
@@ -161,7 +161,6 @@ abstract class _$$WorkingExerciseImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    int exerciseOrder,
     String exerciseId,
     String name,
     String gifUrl,
@@ -173,6 +172,7 @@ abstract class _$$WorkingExerciseImplCopyWith<$Res>
     List<String> instructions,
     List<WorkingSet> sets,
     Duration restTimeBetweenSets,
+    int exerciseOrder,
     WorkingSetType? setType,
   });
 }
@@ -191,7 +191,6 @@ class __$$WorkingExerciseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? exerciseOrder = null,
     Object? exerciseId = null,
     Object? name = null,
     Object? gifUrl = null,
@@ -203,14 +202,11 @@ class __$$WorkingExerciseImplCopyWithImpl<$Res>
     Object? instructions = null,
     Object? sets = null,
     Object? restTimeBetweenSets = null,
+    Object? exerciseOrder = null,
     Object? setType = freezed,
   }) {
     return _then(
       _$WorkingExerciseImpl(
-        exerciseOrder: null == exerciseOrder
-            ? _value.exerciseOrder
-            : exerciseOrder // ignore: cast_nullable_to_non_nullable
-                  as int,
         exerciseId: null == exerciseId
             ? _value.exerciseId
             : exerciseId // ignore: cast_nullable_to_non_nullable
@@ -255,6 +251,10 @@ class __$$WorkingExerciseImplCopyWithImpl<$Res>
             ? _value.restTimeBetweenSets
             : restTimeBetweenSets // ignore: cast_nullable_to_non_nullable
                   as Duration,
+        exerciseOrder: null == exerciseOrder
+            ? _value.exerciseOrder
+            : exerciseOrder // ignore: cast_nullable_to_non_nullable
+                  as int,
         setType: freezed == setType
             ? _value.setType
             : setType // ignore: cast_nullable_to_non_nullable
@@ -268,7 +268,6 @@ class __$$WorkingExerciseImplCopyWithImpl<$Res>
 
 class _$WorkingExerciseImpl extends _WorkingExercise {
   const _$WorkingExerciseImpl({
-    this.exerciseOrder = 0,
     this.exerciseId = '',
     this.name = '',
     this.gifUrl = '',
@@ -280,6 +279,7 @@ class _$WorkingExerciseImpl extends _WorkingExercise {
     final List<String> instructions = const [],
     final List<WorkingSet> sets = const [],
     this.restTimeBetweenSets = Duration.zero,
+    this.exerciseOrder = 0,
     this.setType,
   }) : _targetMuscles = targetMuscles,
        _bodyParts = bodyParts,
@@ -289,9 +289,6 @@ class _$WorkingExerciseImpl extends _WorkingExercise {
        _sets = sets,
        super._();
 
-  @override
-  @JsonKey()
-  final int exerciseOrder;
   @override
   @JsonKey()
   final String exerciseId;
@@ -363,11 +360,14 @@ class _$WorkingExerciseImpl extends _WorkingExercise {
   @JsonKey()
   final Duration restTimeBetweenSets;
   @override
+  @JsonKey()
+  final int exerciseOrder;
+  @override
   final WorkingSetType? setType;
 
   @override
   String toString() {
-    return 'WorkingExercise(exerciseOrder: $exerciseOrder, exerciseId: $exerciseId, name: $name, gifUrl: $gifUrl, description: $description, targetMuscles: $targetMuscles, bodyParts: $bodyParts, equipments: $equipments, secondaryMuscles: $secondaryMuscles, instructions: $instructions, sets: $sets, restTimeBetweenSets: $restTimeBetweenSets, setType: $setType)';
+    return 'WorkingExercise(exerciseId: $exerciseId, name: $name, gifUrl: $gifUrl, description: $description, targetMuscles: $targetMuscles, bodyParts: $bodyParts, equipments: $equipments, secondaryMuscles: $secondaryMuscles, instructions: $instructions, sets: $sets, restTimeBetweenSets: $restTimeBetweenSets, exerciseOrder: $exerciseOrder, setType: $setType)';
   }
 
   @override
@@ -375,8 +375,6 @@ class _$WorkingExerciseImpl extends _WorkingExercise {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WorkingExerciseImpl &&
-            (identical(other.exerciseOrder, exerciseOrder) ||
-                other.exerciseOrder == exerciseOrder) &&
             (identical(other.exerciseId, exerciseId) ||
                 other.exerciseId == exerciseId) &&
             (identical(other.name, name) || other.name == name) &&
@@ -406,13 +404,14 @@ class _$WorkingExerciseImpl extends _WorkingExercise {
             const DeepCollectionEquality().equals(other._sets, _sets) &&
             (identical(other.restTimeBetweenSets, restTimeBetweenSets) ||
                 other.restTimeBetweenSets == restTimeBetweenSets) &&
+            (identical(other.exerciseOrder, exerciseOrder) ||
+                other.exerciseOrder == exerciseOrder) &&
             (identical(other.setType, setType) || other.setType == setType));
   }
 
   @override
   int get hashCode => Object.hash(
     runtimeType,
-    exerciseOrder,
     exerciseId,
     name,
     gifUrl,
@@ -424,6 +423,7 @@ class _$WorkingExerciseImpl extends _WorkingExercise {
     const DeepCollectionEquality().hash(_instructions),
     const DeepCollectionEquality().hash(_sets),
     restTimeBetweenSets,
+    exerciseOrder,
     setType,
   );
 
@@ -441,7 +441,6 @@ class _$WorkingExerciseImpl extends _WorkingExercise {
 
 abstract class _WorkingExercise extends WorkingExercise {
   const factory _WorkingExercise({
-    final int exerciseOrder,
     final String exerciseId,
     final String name,
     final String gifUrl,
@@ -453,12 +452,11 @@ abstract class _WorkingExercise extends WorkingExercise {
     final List<String> instructions,
     final List<WorkingSet> sets,
     final Duration restTimeBetweenSets,
+    final int exerciseOrder,
     final WorkingSetType? setType,
   }) = _$WorkingExerciseImpl;
   const _WorkingExercise._() : super._();
 
-  @override
-  int get exerciseOrder;
   @override
   String get exerciseId;
   @override
@@ -481,6 +479,8 @@ abstract class _WorkingExercise extends WorkingExercise {
   List<WorkingSet> get sets;
   @override
   Duration get restTimeBetweenSets;
+  @override
+  int get exerciseOrder;
   @override
   WorkingSetType? get setType;
 

@@ -32,6 +32,8 @@ import '../../features/workout/domain/repositories/workout_repo.dart' as _i597;
 import '../../features/workout/presentation/cubit/workout_cubit.dart' as _i645;
 import '../../features/workout_session/data/services/supabase_workout_session_service.dart'
     as _i638;
+import '../../features/workout_session/domain/repositories/workout_session_repo.dart'
+    as _i885;
 import '../../features/workout_session/presentation/cubit/workout_session_cubit.dart'
     as _i613;
 import '../services/firebase_service.dart' as _i758;
@@ -50,7 +52,6 @@ Future<_i174.GetIt> $initGetIt(
 }) async {
   final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
   final injectionModule = _$InjectionModule();
-  gh.factory<_i613.WorkoutSessionCubit>(() => _i613.WorkoutSessionCubit());
   gh.factory<_i754.OnboardCubit>(() => _i754.OnboardCubit());
   await gh.lazySingletonAsync<_i460.SharedPreferences>(
     () => injectionModule.sharedPreferences,
@@ -95,6 +96,10 @@ Future<_i174.GetIt> $initGetIt(
   gh.lazySingleton<_i306.StorageService>(
     () => _i306.StorageService(gh<_i306.AppPrefs>()),
   );
+  gh.lazySingleton<_i885.WorkoutSessionRepo>(
+    () =>
+        _i885.WorkoutSessionRepoImpl(gh<_i638.SupabaseWorkoutSessionService>()),
+  );
   gh.lazySingleton<_i597.WorkoutRepo>(
     () => _i597.WorkoutRepoImpl(gh<_i275.SupabaseWorkoutService>()),
   );
@@ -106,6 +111,9 @@ Future<_i174.GetIt> $initGetIt(
   );
   gh.lazySingleton<_i747.ExerciseService>(
     () => _i747.ExerciseService(gh<_i361.Dio>(instanceName: 'exercise-db')),
+  );
+  gh.factory<_i613.WorkoutSessionCubit>(
+    () => _i613.WorkoutSessionCubit(gh<_i885.WorkoutSessionRepo>()),
   );
   gh.lazySingleton<_i275.ExerciseRepo>(
     () => _i275.ExerciseRepoImpl(gh<_i747.ExerciseService>()),

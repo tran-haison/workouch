@@ -144,7 +144,7 @@ class _RestTimerOverlayState extends State<RestTimerOverlay>
   Widget build(BuildContext context) {
     return BlocBuilder<WorkoutSessionCubit, WorkoutSessionState>(
       builder: (context, state) {
-        if (!state.hasRestSets || !state.isRestSetsActive) {
+        if (!state.hasRestBetweenSets || !state.isRestSetsActive) {
           return const SizedBox.shrink();
         }
 

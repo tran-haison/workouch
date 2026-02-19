@@ -12,7 +12,6 @@ import '../../../../core/services/posthog_analytics_service.dart';
 import '../../../../core/services/review_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/utils/health_utils.dart';
 import '../../../../core/widgets/common_button.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
@@ -34,6 +33,7 @@ class _WorkoutFinishPageState extends State<WorkoutFinishPage> {
   void initState() {
     super.initState();
     context.read<WorkoutSessionCubit>().stopAllTimers();
+    context.read<WorkoutSessionCubit>().saveWorkoutSession();
 
     // Show review dialog after page is built
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -47,12 +47,6 @@ class _WorkoutFinishPageState extends State<WorkoutFinishPage> {
       builder: (context, authState) {
         return BlocBuilder<WorkoutSessionCubit, WorkoutSessionState>(
           builder: (context, state) {
-            // Calculate calories (placeholder calculation)
-            final calories = HealthUtils.calculateCalories(
-              weight: authState.currentUser?.weight ?? 0.0,
-              minutes: state.totalTime.minutes,
-            );
-
             return PopScope(
               canPop: false,
               child: Scaffold(
@@ -121,7 +115,7 @@ class _WorkoutFinishPageState extends State<WorkoutFinishPage> {
                               child: _SummaryCard(
                                 icon: Assets.icons.fire,
                                 iconColor: AppColors.black,
-                                value: '$calories',
+                                value: '${state.caloriesBurned}',
                                 label: AppConstants.calories,
                                 backgroundColor: AppColors.grayBlue,
                                 textColor: AppColors.text,
