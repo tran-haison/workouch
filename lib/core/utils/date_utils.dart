@@ -38,8 +38,8 @@ class AppDateUtils {
     }
   }
 
-  /// Format a date for display (e.g., "15th October 2024")
-  static String formatDate(DateTime date) {
+  /// Format a date for display (e.g., "Monday, 15th Oct 2024")
+  static String fullDate(DateTime date) {
     final weekday = DateFormat('EEEE').format(date);
     final month = DateFormat('MMM').format(date);
     final day = date.day;
@@ -86,9 +86,21 @@ class AppDateUtils {
     return (firstDay.weekday - 1) % 7;
   }
 
+  static bool isThisYear(DateTime date) {
+    final now = DateTime.now();
+    return date.year == now.year;
+  }
+
   static bool isThisMonth(DateTime date) {
     final now = DateTime.now();
     return date.year == now.year && date.month == now.month;
+  }
+
+  /// True if [date] falls in the same calendar week (Monday–Sunday) as now.
+  static bool isThisWeek(DateTime date) {
+    final now = DateTime.now();
+    return getWeekStartDate(DateTime(date.year, date.month, date.day)) ==
+        getWeekStartDate(DateTime(now.year, now.month, now.day));
   }
 
   static List<String> weekdays = [
@@ -106,9 +118,9 @@ class AppDateUtils {
     return DateFormat('MMMM yyyy').format(date);
   }
 
-  // Format: dd/mm/yyyy - example: 18/02/2026
-  static String ddmmyyyy(DateTime date) {
-    return DateFormat('dd/MM/yyyy').format(date);
+  /// ISO date for database (PostgreSQL DATE): yyyy-MM-dd
+  static String yyyyMMdd(DateTime date) {
+    return DateFormat('yyyy-MM-dd').format(date);
   }
 
   /// Get Monday of the week for a given date.

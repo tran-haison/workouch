@@ -9,6 +9,9 @@ import '../entities/workout_session.dart';
 
 abstract class WorkoutSessionRepo {
   Future<Either<Error, bool>> saveWorkoutSession(WorkoutSession session);
+  Future<Either<Error, bool>> saveExercisePersonalRecord(
+    ExercisePersonalRecord record,
+  );
   Future<Either<Error, List<WorkoutSession>>> getWorkoutSessions({
     DateTime? from,
     DateTime? to,
@@ -17,7 +20,10 @@ abstract class WorkoutSessionRepo {
   });
   Future<Either<Error, int>> getWeekStreak();
   Future<Either<Error, List<ExercisePersonalRecord>>>
-  getExercisePersonalRecords({bool? isVisibleOnHistory});
+  getExercisePersonalRecords({
+    bool? isVisibleOnHistory,
+    String? searchByName,
+  });
 }
 
 @LazySingleton(as: WorkoutSessionRepo)
@@ -36,6 +42,28 @@ class WorkoutSessionRepoImpl implements WorkoutSessionRepo {
       return Left(
         Error(
           message: AppConstants.workoutSessionSavedError,
+          errorType: ErrorType.other,
+        ),
+      );
+    } catch (e) {
+      return Left(handleException(e));
+    }
+  }
+
+  @override
+  Future<Either<Error, bool>> saveExercisePersonalRecord(
+    ExercisePersonalRecord record,
+  ) async {
+    try {
+      final success = await _workoutSessionService.saveExercisePersonalRecord(
+        record,
+      );
+      if (success) {
+        return const Right(true);
+      }
+      return Left(
+        Error(
+          message: AppConstants.exercisePersonalRecordSavedError,
           errorType: ErrorType.other,
         ),
       );
@@ -76,10 +104,14 @@ class WorkoutSessionRepoImpl implements WorkoutSessionRepo {
 
   @override
   Future<Either<Error, List<ExercisePersonalRecord>>>
-  getExercisePersonalRecords({bool? isVisibleOnHistory}) async {
+  getExercisePersonalRecords({
+    bool? isVisibleOnHistory,
+    String? searchByName,
+  }) async {
     try {
       final records = await _workoutSessionService.getExercisePersonalRecords(
         isVisibleOnHistory: isVisibleOnHistory,
+        searchByName: searchByName,
       );
       return Right(records);
     } catch (e) {

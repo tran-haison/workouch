@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/extension/duration_extension.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/date_utils.dart';
@@ -10,18 +8,17 @@ import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../core/widgets/common_images.dart';
 import '../../../../gen/assets.gen.dart';
-import '../../../workout/domain/entities/working_set.dart';
-import '../../domain/entities/exercise_pr.dart';
+import '../../../workout_session/domain/entities/exercise_personal_record.dart';
 
 class PersonalRecordsCardSelectable extends StatelessWidget {
   const PersonalRecordsCardSelectable({
-    required this.pr,
+    required this.personalRecord,
     required this.isSelected,
     required this.onTap,
     super.key,
   });
 
-  final ExercisePR pr;
+  final ExercisePersonalRecord personalRecord;
   final bool isSelected;
   final VoidCallback onTap;
 
@@ -42,7 +39,7 @@ class PersonalRecordsCardSelectable extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _ExerciseThumbnail(gifUrl: pr.gifUrl),
+            _ExerciseThumbnail(gifUrl: personalRecord.gifUrl),
             Gaps.hGap12,
             Expanded(
               child: Column(
@@ -50,16 +47,16 @@ class PersonalRecordsCardSelectable extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    pr.name,
+                    personalRecord.name,
                     style: AppTextStyles.h4,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Gaps.vGap4,
                   Text(
-                    _getFormattedValue(pr).toLowerCase(),
-                    style: AppTextStyles.h2.copyWith(
-                      fontWeight: FontWeight.w700,
+                    personalRecord.displayValue.toLowerCase(),
+                    style: AppTextStyles.h3.copyWith(
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   Gaps.vGap8,
@@ -74,7 +71,7 @@ class PersonalRecordsCardSelectable extends StatelessWidget {
                       Gaps.hGap4,
                       Expanded(
                         child: Text(
-                          AppDateUtils.formatDate(pr.prDate),
+                          AppDateUtils.fullDate(personalRecord.prDate),
                           style: AppTextStyles.h6.copyWith(
                             color: AppColors.mediumGray,
                           ),
@@ -113,19 +110,6 @@ class PersonalRecordsCardSelectable extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _getFormattedValue(ExercisePR pr) {
-    switch (pr.setType) {
-      case WorkingSetType.weightBased:
-        return '${pr.maxWeight.toStringAsFixed(1)} ${AppConstants.kg} × ${pr.maxReps} ${AppConstants.reps}';
-      case WorkingSetType.repsOnly:
-        return '${pr.maxReps} ${AppConstants.reps}';
-      case WorkingSetType.timeBased:
-        return pr.maxDuration.hhmmss;
-      case WorkingSetType.distanceBased:
-        return '${pr.maxDistance.toStringAsFixed(1)} m';
-    }
   }
 }
 

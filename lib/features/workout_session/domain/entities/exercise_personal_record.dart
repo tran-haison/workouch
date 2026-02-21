@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:workouch/features/workout/domain/entities/working_set.dart';
 
+import '../../../../core/constants/app_constants.dart';
+import '../../../../core/extension/duration_extension.dart';
 import 'workout_session_exercise.dart';
 
 part 'exercise_personal_record.freezed.dart';
@@ -18,15 +20,28 @@ class ExercisePersonalRecord with _$ExercisePersonalRecord {
     @Default('') String gifUrl,
     @Default(0) int maxReps,
     @Default(0.0) double maxWeightKg,
-    @Default(0) int maxDurationSeconds,
+    @Default(Duration.zero) Duration maxDuration,
     @Default(0.0) double maxDistanceMeters,
     @Default(WorkingSetType.weightBased) WorkingSetType setType,
     required DateTime prDate,
-    @Default(true) bool isVisibleOnHistory,
+    @Default(false) bool isVisibleOnHistory,
   }) = _ExercisePersonalRecord;
 }
 
 extension ExercisePersonalRecordExt on ExercisePersonalRecord {
+  String get displayValue {
+    switch (setType) {
+      case WorkingSetType.weightBased:
+        return '${maxWeightKg.toStringAsFixed(1)} ${AppConstants.kg} × $maxReps ${AppConstants.reps}';
+      case WorkingSetType.repsOnly:
+        return '$maxReps ${AppConstants.reps}';
+      case WorkingSetType.timeBased:
+        return maxDuration.hhmmss;
+      case WorkingSetType.distanceBased:
+        return '${maxDistanceMeters.toStringAsFixed(1)} m';
+    }
+  }
+
   bool isNewRecordBetter(ExercisePersonalRecord newRecord) {
     switch (newRecord.setType) {
       case WorkingSetType.weightBased:
@@ -34,7 +49,7 @@ extension ExercisePersonalRecordExt on ExercisePersonalRecord {
       case WorkingSetType.repsOnly:
         return newRecord.maxReps > maxReps;
       case WorkingSetType.timeBased:
-        return newRecord.maxDurationSeconds > maxDurationSeconds;
+        return newRecord.maxDuration > maxDuration;
       case WorkingSetType.distanceBased:
         return newRecord.maxDistanceMeters > maxDistanceMeters;
     }
@@ -46,7 +61,7 @@ extension ExercisePersonalRecordExt on ExercisePersonalRecord {
   }) {
     var maxReps = 0;
     var maxWeightKg = 0.0;
-    var maxDurationSeconds = 0;
+    var maxDuration = Duration.zero;
     var maxDistanceMeters = 0.0;
 
     for (final set in exercise.sets) {
@@ -61,8 +76,7 @@ extension ExercisePersonalRecordExt on ExercisePersonalRecord {
           if (reps > maxReps) maxReps = reps;
         },
         timeBased: (duration) {
-          final sec = duration.inSeconds;
-          if (sec > maxDurationSeconds) maxDurationSeconds = sec;
+          if (duration > maxDuration) maxDuration = duration;
         },
         distanceBased: (distance) {
           if (distance > maxDistanceMeters) maxDistanceMeters = distance;
@@ -76,11 +90,10 @@ extension ExercisePersonalRecordExt on ExercisePersonalRecord {
       gifUrl: exercise.gifUrl,
       maxReps: maxReps,
       maxWeightKg: maxWeightKg,
-      maxDurationSeconds: maxDurationSeconds,
+      maxDuration: maxDuration,
       maxDistanceMeters: maxDistanceMeters,
       setType: exercise.setType,
       prDate: prDate,
-      isVisibleOnHistory: true,
     );
   }
 }

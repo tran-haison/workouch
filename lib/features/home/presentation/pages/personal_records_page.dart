@@ -13,8 +13,8 @@ import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../core/widgets/common_text_field.dart';
 import '../../../../gen/assets.gen.dart';
-import '../cubit/home_history_cubit.dart';
-import '../cubit/home_history_state.dart';
+import '../cubit/home_cubit.dart';
+import '../cubit/home_state.dart';
 import '../widgets/personal_records_card_selectable.dart';
 
 class PersonalRecordsPage extends StatefulWidget {
@@ -26,21 +26,11 @@ class PersonalRecordsPage extends StatefulWidget {
 
 class _PersonalRecordsPageState extends State<PersonalRecordsPage> {
   final _searchController = TextEditingController();
-  final _scrollController = ScrollController();
   Timer? _searchDebounce;
-  bool _isSearchVisible = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_onScroll);
-    context.read<HomeHistoryCubit>().getAllPRs();
-  }
+  var _isSearchVisible = false;
 
   @override
   void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
     _searchDebounce?.cancel();
     super.dispose();
   }
@@ -64,9 +54,14 @@ class _PersonalRecordsPageState extends State<PersonalRecordsPage> {
                   ),
                 ),
                 Expanded(
-                  child: BlocBuilder<HomeHistoryCubit, HomeHistoryState>(
+                  child: BlocBuilder<HomeCubit, HomeState>(
+                    buildWhen: (prev, curr) =>
+                        prev.status != curr.status ||
+                        prev.personalRecords != curr.personalRecords ||
+                        prev.selectedPersonalRecords !=
+                            curr.selectedPersonalRecords,
                     builder: (context, state) {
-                      if (state.status == HomeHistoryStatus.loading) {
+                      if (state.status == HomeStateStatus.loading) {
                         return const Center(
                           child: CircularProgressIndicator(
                             color: AppColors.black,
@@ -74,24 +69,24 @@ class _PersonalRecordsPageState extends State<PersonalRecordsPage> {
                         );
                       }
 
-                      if (state.status == HomeHistoryStatus.error) {
+                      if (state.status == HomeStateStatus.error) {
                         return _buildErrorState();
                       }
 
-                      if (state.allPRs.isEmpty) {
+                      if (state.personalRecords.isEmpty) {
                         return _buildEmptyState();
                       }
 
-                      return _buildPRList(state);
+                      return _buildPRList();
                     },
                   ),
                 ),
               ],
             ),
             if (context
-                .watch<HomeHistoryCubit>()
+                .watch<HomeCubit>()
                 .state
-                .selectedPRIds
+                .selectedPersonalRecords
                 .isNotEmpty)
               _buildSelectedCount(),
           ],
@@ -116,7 +111,7 @@ class _PersonalRecordsPageState extends State<PersonalRecordsPage> {
             style: AppTextStyles.h1.copyWith(fontWeight: FontWeight.bold),
           ),
         ),
-        Gaps.hGap10,
+        Gaps.hGap16,
         CommonIconButton(
           icon: Assets.icons.search,
           iconColor: AppColors.black,
@@ -124,20 +119,6 @@ class _PersonalRecordsPageState extends State<PersonalRecordsPage> {
               ? AppColors.secondary
               : AppColors.grayBlue,
           onTap: _toggleSearch,
-        ),
-        Gaps.hGap6,
-        BlocBuilder<HomeHistoryCubit, HomeHistoryState>(
-          builder: (context, state) {
-            if (state.selectedPRIds.isEmpty) return const SizedBox.shrink();
-            return CommonButton(
-              isFullWidth: false,
-              text: AppConstants.reset,
-              onPressed: () => _reset(),
-              textStyle: AppTextStyles.h4,
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
-              backgroundColor: AppColors.transparent,
-            );
-          },
         ),
       ],
     );
@@ -187,46 +168,30 @@ class _PersonalRecordsPageState extends State<PersonalRecordsPage> {
     );
   }
 
-  void _toggleSearch() {
-    if (_isSearchVisible) {
-      _clearSearch();
-      setState(() => _isSearchVisible = false);
-    } else {
-      setState(() => _isSearchVisible = true);
-    }
-  }
+  Widget _buildPRList() {
+    return BlocBuilder<HomeCubit, HomeState>(
+      buildWhen: (prev, curr) =>
+          prev.personalRecords != curr.personalRecords ||
+          prev.selectedPersonalRecords != curr.selectedPersonalRecords,
+      builder: (context, state) {
+        return ListView.separated(
+          padding: EdgeInsets.only(left: 10.w, right: 10.w, bottom: 80.h),
+          itemCount: state.personalRecords.length,
+          separatorBuilder: (_, _) => Gaps.vGap10,
+          itemBuilder: (context, index) {
+            final pr = state.personalRecords[index];
+            final isSelected = state.selectedPersonalRecords.any(
+              (e) => e.exerciseId == pr.exerciseId,
+            );
 
-  void _clearSearch() {
-    _searchController.clear();
-    _onSearchChanged('');
-  }
-
-  Widget _buildPRList(HomeHistoryState state) {
-    return ListView.separated(
-      controller: _scrollController,
-      padding: EdgeInsets.only(left: 10.w, right: 10.w, bottom: 80.h),
-      itemCount:
-          state.allPRs.length +
-          (state.status == HomeHistoryStatus.loadingMore ? 1 : 0),
-      separatorBuilder: (_, _) => Gaps.vGap10,
-      itemBuilder: (context, index) {
-        if (index >= state.allPRs.length) {
-          return Center(
-            child: Padding(
-              padding: EdgeInsets.all(16.r),
-              child: const CircularProgressIndicator(color: AppColors.black),
-            ),
-          );
-        }
-
-        final pr = state.allPRs[index];
-        final isSelected = state.isPRSelected(pr.exerciseId);
-
-        return PersonalRecordsCardSelectable(
-          pr: pr,
-          isSelected: isSelected,
-          onTap: () =>
-              context.read<HomeHistoryCubit>().togglePRSelection(pr.exerciseId),
+            return PersonalRecordsCardSelectable(
+              personalRecord: pr,
+              isSelected: isSelected,
+              onTap: () {
+                context.read<HomeCubit>().togglePersonalRecordSelection(pr);
+              },
+            );
+          },
         );
       },
     );
@@ -251,7 +216,7 @@ class _PersonalRecordsPageState extends State<PersonalRecordsPage> {
               fontWeight: FontWeight.w600,
             ),
             isFullWidth: false,
-            onPressed: () => context.read<HomeHistoryCubit>().getAllPRs(),
+            onPressed: () => context.read<HomeCubit>().getAllPersonalRecords(),
           ),
         ],
       ),
@@ -261,7 +226,7 @@ class _PersonalRecordsPageState extends State<PersonalRecordsPage> {
   Widget _buildEmptyState() {
     return Center(
       child: Text(
-        AppConstants.noPRsYet,
+        AppConstants.noExerciseFound,
         style: AppTextStyles.h4.copyWith(color: AppColors.mediumGray),
       ),
     );
@@ -272,7 +237,9 @@ class _PersonalRecordsPageState extends State<PersonalRecordsPage> {
       bottom: 10.h,
       right: 0,
       left: 0,
-      child: BlocBuilder<HomeHistoryCubit, HomeHistoryState>(
+      child: BlocBuilder<HomeCubit, HomeState>(
+        buildWhen: (prev, curr) =>
+            prev.selectedPersonalRecords != curr.selectedPersonalRecords,
         builder: (context, state) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -290,8 +257,9 @@ class _PersonalRecordsPageState extends State<PersonalRecordsPage> {
                 ),
                 child: CommonButton(
                   isFullWidth: false,
-                  text: '${state.selectedPRIds.length} ${AppConstants.selected}'
-                      .toLowerCase(),
+                  text:
+                      '${state.selectedPersonalRecords.length} ${AppConstants.selected}'
+                          .toLowerCase(),
                   backgroundColor: AppColors.primary,
                   padding: EdgeInsets.symmetric(
                     horizontal: 20.w,
@@ -308,28 +276,28 @@ class _PersonalRecordsPageState extends State<PersonalRecordsPage> {
     );
   }
 
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      context.read<HomeHistoryCubit>().getAllPRs(loadMore: true);
-    }
-  }
-
   void _onSearchChanged(String value) {
     _searchDebounce?.cancel();
     _searchDebounce = Timer(
       Duration(milliseconds: AppConstants.timeConst.searchDebounce),
       () {
         // Update search and get PRs with the new search
-        context.read<HomeHistoryCubit>().updateSearch(value);
-        context.read<HomeHistoryCubit>().getAllPRs();
+        context.read<HomeCubit>().getAllPersonalRecords(searchByName: value);
       },
     );
   }
 
-  void _reset() {
+  void _toggleSearch() {
+    if (_isSearchVisible) {
+      _clearSearch();
+      setState(() => _isSearchVisible = false);
+    } else {
+      setState(() => _isSearchVisible = true);
+    }
+  }
+
+  void _clearSearch() {
     _searchController.clear();
-    context.read<HomeHistoryCubit>().reset();
-    context.read<HomeHistoryCubit>().getAllPRs();
+    _onSearchChanged('');
   }
 }

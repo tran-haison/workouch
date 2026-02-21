@@ -24,7 +24,7 @@ mixin _$ExercisePersonalRecord {
   String get gifUrl => throw _privateConstructorUsedError;
   int get maxReps => throw _privateConstructorUsedError;
   double get maxWeightKg => throw _privateConstructorUsedError;
-  int get maxDurationSeconds => throw _privateConstructorUsedError;
+  Duration get maxDuration => throw _privateConstructorUsedError;
   double get maxDistanceMeters => throw _privateConstructorUsedError;
   WorkingSetType get setType => throw _privateConstructorUsedError;
   DateTime get prDate => throw _privateConstructorUsedError;
@@ -52,7 +52,7 @@ abstract class $ExercisePersonalRecordCopyWith<$Res> {
     String gifUrl,
     int maxReps,
     double maxWeightKg,
-    int maxDurationSeconds,
+    Duration maxDuration,
     double maxDistanceMeters,
     WorkingSetType setType,
     DateTime prDate,
@@ -85,7 +85,7 @@ class _$ExercisePersonalRecordCopyWithImpl<
     Object? gifUrl = null,
     Object? maxReps = null,
     Object? maxWeightKg = null,
-    Object? maxDurationSeconds = null,
+    Object? maxDuration = null,
     Object? maxDistanceMeters = null,
     Object? setType = null,
     Object? prDate = null,
@@ -121,10 +121,10 @@ class _$ExercisePersonalRecordCopyWithImpl<
                 ? _value.maxWeightKg
                 : maxWeightKg // ignore: cast_nullable_to_non_nullable
                       as double,
-            maxDurationSeconds: null == maxDurationSeconds
-                ? _value.maxDurationSeconds
-                : maxDurationSeconds // ignore: cast_nullable_to_non_nullable
-                      as int,
+            maxDuration: null == maxDuration
+                ? _value.maxDuration
+                : maxDuration // ignore: cast_nullable_to_non_nullable
+                      as Duration,
             maxDistanceMeters: null == maxDistanceMeters
                 ? _value.maxDistanceMeters
                 : maxDistanceMeters // ignore: cast_nullable_to_non_nullable
@@ -164,7 +164,7 @@ abstract class _$$ExercisePersonalRecordImplCopyWith<$Res>
     String gifUrl,
     int maxReps,
     double maxWeightKg,
-    int maxDurationSeconds,
+    Duration maxDuration,
     double maxDistanceMeters,
     WorkingSetType setType,
     DateTime prDate,
@@ -194,7 +194,7 @@ class __$$ExercisePersonalRecordImplCopyWithImpl<$Res>
     Object? gifUrl = null,
     Object? maxReps = null,
     Object? maxWeightKg = null,
-    Object? maxDurationSeconds = null,
+    Object? maxDuration = null,
     Object? maxDistanceMeters = null,
     Object? setType = null,
     Object? prDate = null,
@@ -230,10 +230,10 @@ class __$$ExercisePersonalRecordImplCopyWithImpl<$Res>
             ? _value.maxWeightKg
             : maxWeightKg // ignore: cast_nullable_to_non_nullable
                   as double,
-        maxDurationSeconds: null == maxDurationSeconds
-            ? _value.maxDurationSeconds
-            : maxDurationSeconds // ignore: cast_nullable_to_non_nullable
-                  as int,
+        maxDuration: null == maxDuration
+            ? _value.maxDuration
+            : maxDuration // ignore: cast_nullable_to_non_nullable
+                  as Duration,
         maxDistanceMeters: null == maxDistanceMeters
             ? _value.maxDistanceMeters
             : maxDistanceMeters // ignore: cast_nullable_to_non_nullable
@@ -266,11 +266,11 @@ class _$ExercisePersonalRecordImpl extends _ExercisePersonalRecord {
     this.gifUrl = '',
     this.maxReps = 0,
     this.maxWeightKg = 0.0,
-    this.maxDurationSeconds = 0,
+    this.maxDuration = Duration.zero,
     this.maxDistanceMeters = 0.0,
     this.setType = WorkingSetType.weightBased,
     required this.prDate,
-    this.isVisibleOnHistory = true,
+    this.isVisibleOnHistory = false,
   }) : super._();
 
   @override
@@ -296,7 +296,7 @@ class _$ExercisePersonalRecordImpl extends _ExercisePersonalRecord {
   final double maxWeightKg;
   @override
   @JsonKey()
-  final int maxDurationSeconds;
+  final Duration maxDuration;
   @override
   @JsonKey()
   final double maxDistanceMeters;
@@ -311,7 +311,7 @@ class _$ExercisePersonalRecordImpl extends _ExercisePersonalRecord {
 
   @override
   String toString() {
-    return 'ExercisePersonalRecord(id: $id, userId: $userId, exerciseId: $exerciseId, name: $name, gifUrl: $gifUrl, maxReps: $maxReps, maxWeightKg: $maxWeightKg, maxDurationSeconds: $maxDurationSeconds, maxDistanceMeters: $maxDistanceMeters, setType: $setType, prDate: $prDate, isVisibleOnHistory: $isVisibleOnHistory)';
+    return 'ExercisePersonalRecord(id: $id, userId: $userId, exerciseId: $exerciseId, name: $name, gifUrl: $gifUrl, maxReps: $maxReps, maxWeightKg: $maxWeightKg, maxDuration: $maxDuration, maxDistanceMeters: $maxDistanceMeters, setType: $setType, prDate: $prDate, isVisibleOnHistory: $isVisibleOnHistory)';
   }
 
   @override
@@ -328,8 +328,8 @@ class _$ExercisePersonalRecordImpl extends _ExercisePersonalRecord {
             (identical(other.maxReps, maxReps) || other.maxReps == maxReps) &&
             (identical(other.maxWeightKg, maxWeightKg) ||
                 other.maxWeightKg == maxWeightKg) &&
-            (identical(other.maxDurationSeconds, maxDurationSeconds) ||
-                other.maxDurationSeconds == maxDurationSeconds) &&
+            (identical(other.maxDuration, maxDuration) ||
+                other.maxDuration == maxDuration) &&
             (identical(other.maxDistanceMeters, maxDistanceMeters) ||
                 other.maxDistanceMeters == maxDistanceMeters) &&
             (identical(other.setType, setType) || other.setType == setType) &&
@@ -348,7 +348,7 @@ class _$ExercisePersonalRecordImpl extends _ExercisePersonalRecord {
     gifUrl,
     maxReps,
     maxWeightKg,
-    maxDurationSeconds,
+    maxDuration,
     maxDistanceMeters,
     setType,
     prDate,
@@ -377,7 +377,7 @@ abstract class _ExercisePersonalRecord extends ExercisePersonalRecord {
     final String gifUrl,
     final int maxReps,
     final double maxWeightKg,
-    final int maxDurationSeconds,
+    final Duration maxDuration,
     final double maxDistanceMeters,
     final WorkingSetType setType,
     required final DateTime prDate,
@@ -400,7 +400,7 @@ abstract class _ExercisePersonalRecord extends ExercisePersonalRecord {
   @override
   double get maxWeightKg;
   @override
-  int get maxDurationSeconds;
+  Duration get maxDuration;
   @override
   double get maxDistanceMeters;
   @override

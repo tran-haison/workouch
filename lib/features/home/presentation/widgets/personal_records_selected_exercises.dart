@@ -7,7 +7,6 @@ import 'package:workouch/core/widgets/common_button.dart';
 import 'package:workouch/core/widgets/common_images.dart';
 
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/extension/duration_extension.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -16,9 +15,9 @@ import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../workout/domain/entities/working_set.dart';
-import '../../domain/entities/exercise_pr.dart';
-import '../cubit/home_history_cubit.dart';
-import '../cubit/home_history_state.dart';
+import '../../../workout_session/domain/entities/exercise_personal_record.dart';
+import '../cubit/home_cubit.dart';
+import '../cubit/home_state.dart';
 
 class PersonalRecordsSelectedExercises extends StatelessWidget {
   const PersonalRecordsSelectedExercises({super.key});
@@ -68,10 +67,11 @@ class _ExercisePrList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeHistoryCubit, HomeHistoryState>(
-      buildWhen: (prev, curr) => prev.selectedPRs != curr.selectedPRs,
+    return BlocBuilder<HomeCubit, HomeState>(
+      buildWhen: (prev, curr) =>
+          prev.selectedPersonalRecords != curr.selectedPersonalRecords,
       builder: (context, state) {
-        if (state.selectedPRs.isEmpty) {
+        if (state.selectedPersonalRecords.isEmpty) {
           return Container(
             width: 1.sw,
             padding: EdgeInsets.all(24.r),
@@ -103,10 +103,10 @@ class _ExercisePrList extends StatelessWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           separatorBuilder: (context, index) => Gaps.vGap12,
-          itemCount: state.selectedPRs.length,
+          itemCount: state.selectedPersonalRecords.length,
           itemBuilder: (context, index) {
-            final pr = state.selectedPRs[index];
-            return _ExercisePrItem(pr: pr);
+            final pr = state.selectedPersonalRecords[index];
+            return _ExercisePrItem(personalRecord: pr);
           },
         );
       },
@@ -115,9 +115,9 @@ class _ExercisePrList extends StatelessWidget {
 }
 
 class _ExercisePrItem extends StatelessWidget {
-  const _ExercisePrItem({required this.pr});
+  const _ExercisePrItem({required this.personalRecord});
 
-  final ExercisePR pr;
+  final ExercisePersonalRecord personalRecord;
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +130,7 @@ class _ExercisePrItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _ExerciseImg(gifUrl: pr.gifUrl),
+          _ExerciseImg(gifUrl: personalRecord.gifUrl),
           Gaps.hGap20,
           Expanded(
             child: Column(
@@ -138,7 +138,9 @@ class _ExercisePrItem extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Expanded(child: Text(pr.name, style: AppTextStyles.h4)),
+                    Expanded(
+                      child: Text(personalRecord.name, style: AppTextStyles.h4),
+                    ),
                     Gaps.hGap8,
                     Container(
                       padding: EdgeInsets.symmetric(
@@ -146,17 +148,20 @@ class _ExercisePrItem extends StatelessWidget {
                         vertical: 4.h,
                       ),
                       decoration: BoxDecoration(
-                        color: _getSetTypeColor(pr.setType),
+                        color: _getSetTypeColor(personalRecord.setType),
                         borderRadius: BorderRadius.circular(50.r),
                       ),
-                      child: Text(pr.setType.label, style: AppTextStyles.h6),
+                      child: Text(
+                        personalRecord.setType.label,
+                        style: AppTextStyles.h6,
+                      ),
                     ),
                   ],
                 ),
                 Gaps.vGap4,
                 Text(
-                  _getFormattedValue(pr).toLowerCase(),
-                  style: AppTextStyles.h2.copyWith(fontWeight: FontWeight.w700),
+                  personalRecord.displayValue.toLowerCase(),
+                  style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w600),
                 ),
                 Gaps.vGap8,
                 Row(
@@ -170,7 +175,7 @@ class _ExercisePrItem extends StatelessWidget {
                     Gaps.hGap4,
                     Expanded(
                       child: Text(
-                        AppDateUtils.formatDate(pr.prDate),
+                        AppDateUtils.fullDate(personalRecord.prDate),
                         style: AppTextStyles.h6.copyWith(
                           color: AppColors.mediumGray,
                         ),
@@ -196,19 +201,6 @@ class _ExercisePrItem extends StatelessWidget {
         return AppColors.warning;
       case WorkingSetType.distanceBased:
         return AppColors.blue;
-    }
-  }
-
-  String _getFormattedValue(ExercisePR pr) {
-    switch (pr.setType) {
-      case WorkingSetType.weightBased:
-        return '${pr.maxWeight.toStringAsFixed(1)} ${AppConstants.kg} × ${pr.maxReps} ${AppConstants.reps}';
-      case WorkingSetType.repsOnly:
-        return '${pr.maxReps} ${AppConstants.reps}';
-      case WorkingSetType.timeBased:
-        return pr.maxDuration.hhmmss;
-      case WorkingSetType.distanceBased:
-        return '${pr.maxDistance.toStringAsFixed(1)} m';
     }
   }
 }

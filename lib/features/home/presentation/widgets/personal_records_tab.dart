@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:workouch/core/widgets/common_icons.dart';
-import 'package:workouch/features/home/presentation/cubit/home_history_cubit.dart';
 import 'package:workouch/gen/assets.gen.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_gaps.dart';
-import '../cubit/home_history_state.dart';
+import '../cubit/home_cubit.dart';
+import '../cubit/home_state.dart';
 import 'personal_records_selected_exercises.dart';
 
 class PersonalRecordsTab extends StatelessWidget {
@@ -39,7 +39,7 @@ class PersonalRecordsTab extends StatelessWidget {
           ),
         ),
         Gaps.vGap10,
-        BlocBuilder<HomeHistoryCubit, HomeHistoryState>(
+        BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -50,7 +50,7 @@ class PersonalRecordsTab extends StatelessWidget {
                       Expanded(
                         child: _PrsOverviewNumberCard(
                           title: AppConstants.total,
-                          value: state.allPRs.length.toString(),
+                          value: state.personalRecords.length.toString(),
                           textColor: AppColors.white,
                           backgroundColor: AppColors.darkBlack,
                         ),
@@ -59,7 +59,8 @@ class PersonalRecordsTab extends StatelessWidget {
                       Expanded(
                         child: _PrsOverviewNumberCard(
                           title: AppConstants.selected,
-                          value: state.selectedPRIds.length.toString(),
+                          value: state.selectedPersonalRecords.length
+                              .toString(),
                         ),
                       ),
                     ],
@@ -109,7 +110,7 @@ class PersonalRecordsTab extends StatelessWidget {
                             Expanded(
                               child: _PrsCountByTimeCard(
                                 title: AppConstants.thisWeek,
-                                value: '100',
+                                value: state.newPRsThisWeek.toString(),
                                 color: AppColors.primaryDark,
                               ),
                             ),
@@ -117,7 +118,7 @@ class PersonalRecordsTab extends StatelessWidget {
                             Expanded(
                               child: _PrsCountByTimeCard(
                                 title: AppConstants.thisMonth,
-                                value: '100',
+                                value: state.newPRsThisMonth.toString(),
                                 color: AppColors.secondaryDark,
                               ),
                             ),
@@ -125,7 +126,7 @@ class PersonalRecordsTab extends StatelessWidget {
                             Expanded(
                               child: _PrsCountByTimeCard(
                                 title: AppConstants.thisYear,
-                                value: '100',
+                                value: state.newPRsThisYear.toString(),
                                 color: AppColors.warningDark,
                               ),
                             ),

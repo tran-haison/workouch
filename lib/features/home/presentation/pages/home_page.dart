@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/widgets/common_bottom_navbar.dart';
+import '../cubit/home_cubit.dart';
 import '../widgets/home_tab.dart';
 import '../widgets/history_tab.dart';
 import '../widgets/personal_records_tab.dart';
@@ -19,6 +21,15 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _currentIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<HomeCubit>().getWeekStreak();
+    context.read<HomeCubit>().getWorkoutSessions();
+    context.read<HomeCubit>().getAllPersonalRecords();
+    context.read<HomeCubit>().getSelectedPersonalRecords();
   }
 
   @override

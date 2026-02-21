@@ -26,7 +26,7 @@ Future<void> showProLimitDialog(
   BuildContext context, {
   required DateTime currPeriodEnd,
 }) async {
-  final formattedDate = AppDateUtils.formatDate(currPeriodEnd);
+  final formattedDate = AppDateUtils.fullDate(currPeriodEnd);
   final message =
       '${AppConstants.proLimitReachedMessage}\n\nNext period starts on: $formattedDate';
 

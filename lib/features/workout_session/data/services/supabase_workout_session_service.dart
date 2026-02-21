@@ -97,7 +97,7 @@ class SupabaseWorkoutSessionService {
   }) async {
     try {
       final weekStart = AppDateUtils.getWeekStartDate(completedAt);
-      final weekStartStr = AppDateUtils.ddmmyyyy(weekStart);
+      final weekStartStr = AppDateUtils.yyyyMMdd(weekStart);
 
       final existing = await _supabase
           .from(AppConstants.supabase.tableUserWorkoutWeeks)
@@ -138,7 +138,7 @@ class SupabaseWorkoutSessionService {
         exercise: exercise,
         prDate: prDate,
       );
-      await _saveExercisePersonalRecord(record);
+      await saveExercisePersonalRecord(record);
     }
   }
 
@@ -156,18 +156,24 @@ class SupabaseWorkoutSessionService {
       var query = _supabase
           .from(AppConstants.supabase.tableWorkoutSessions)
           .select()
-          .eq('user_id', userId)
-          .gte('completed_at', from?.toUtc().toIso8601String() ?? '')
-          .lte('completed_at', to?.toUtc().toIso8601String() ?? '')
-          .order('completed_at', ascending: false);
+          .eq('user_id', userId);
 
-      if (limit != null && offset != null) {
-        query = query.range(offset, offset + limit - 1);
-      } else if (limit != null) {
-        query = query.limit(limit);
+      if (from != null) {
+        query = query.gte('completed_at', from.toUtc().toIso8601String());
+      }
+      if (to != null) {
+        query = query.lte('completed_at', to.toUtc().toIso8601String());
       }
 
-      final sessionsResponse = await query as List;
+      var transformQuery = query.order('completed_at', ascending: false);
+
+      if (limit != null && offset != null) {
+        transformQuery = transformQuery.range(offset, offset + limit - 1);
+      } else if (limit != null) {
+        transformQuery = transformQuery.limit(limit);
+      }
+
+      final sessionsResponse = await transformQuery as List;
 
       if (sessionsResponse.isEmpty) return [];
 
@@ -224,9 +230,8 @@ class SupabaseWorkoutSessionService {
 
   /// Save or update exercise personal record only when new value is greater
   /// than existing (by set_type: weight/reps/duration/distance).
-  Future<bool> _saveExercisePersonalRecord(
-    ExercisePersonalRecord record,
-  ) async {
+  /// or visibility changed
+  Future<bool> saveExercisePersonalRecord(ExercisePersonalRecord record) async {
     try {
       final userId = _currentUserId;
       if (userId == null) return false;
@@ -245,7 +250,9 @@ class SupabaseWorkoutSessionService {
           existing,
         ).toEntity();
         final isNewBetter = existingRecord.isNewRecordBetter(newRecord);
-        if (!isNewBetter) return true; // no update needed
+        final visibilityChanged =
+            existingRecord.isVisibleOnHistory != newRecord.isVisibleOnHistory;
+        if (!isNewBetter && !visibilityChanged) return true; // no update needed
       }
 
       final dto = ExercisePersonalRecordDto.fromEntity(newRecord);
@@ -272,9 +279,11 @@ class SupabaseWorkoutSessionService {
     }
   }
 
-  /// Get all exercise personal records for the current user
+  /// Get all exercise personal records for the current user.
+  /// [searchByName] filters by exercise name (case-insensitive partial match).
   Future<List<ExercisePersonalRecord>> getExercisePersonalRecords({
     bool? isVisibleOnHistory,
+    String? searchByName,
   }) async {
     try {
       final userId = _currentUserId;
@@ -287,6 +296,10 @@ class SupabaseWorkoutSessionService {
 
       if (isVisibleOnHistory != null) {
         query = query.eq('is_visible_on_history', isVisibleOnHistory);
+      }
+      final search = searchByName?.trim();
+      if (search != null && search.isNotEmpty) {
+        query = query.ilike('name', '%$search%');
       }
 
       final response = await query.order('pr_date', ascending: false);
