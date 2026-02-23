@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constants/app_constants.dart';
@@ -7,6 +8,9 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../domain/entities/history_stats.dart';
+import '../cubit/home_cubit.dart';
+import '../cubit/home_state.dart';
 
 enum _Trend { up, down, same }
 
@@ -15,36 +19,89 @@ class HistorySummaryStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: _HistoryStatCard(
-              title: AppConstants.workouts,
-              value: '12',
-              trend: _Trend.up,
+    return BlocBuilder<HomeCubit, HomeState>(
+      buildWhen: (prev, curr) =>
+          prev.thisMonthHistoryStats != curr.thisMonthHistoryStats,
+      builder: (context, state) {
+        final thisMonthStats = state.thisMonthHistoryStats;
+        final lastMonthStats = state.lastMonthHistoryStats;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.w),
+              child: Text(
+                AppConstants.thisMonth,
+                style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          Gaps.hGap4,
-          Expanded(
-            child: _HistoryStatCard(
-              title: AppConstants.trainingVolume,
-              value: '48.2k',
-              trend: _Trend.down,
+            Gaps.vGap12,
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: _HistoryStatCard(
+                      title: AppConstants.workouts,
+                      value: thisMonthStats.totalWorkouts.toString(),
+                      trend: _getWorkoutTrend(thisMonthStats, lastMonthStats),
+                    ),
+                  ),
+                  Gaps.hGap4,
+                  Expanded(
+                    child: _HistoryStatCard(
+                      title: AppConstants.trainingVolume,
+                      value: thisMonthStats.totalTrainingVolumeString,
+                      trend: _getVolumeTrend(thisMonthStats, lastMonthStats),
+                    ),
+                  ),
+                  Gaps.hGap4,
+                  Expanded(
+                    child: _HistoryStatCard(
+                      title: AppConstants.time,
+                      value: thisMonthStats.totalTimeString,
+                      trend: _getTimeTrend(thisMonthStats, lastMonthStats),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Gaps.hGap4,
-          Expanded(
-            child: _HistoryStatCard(
-              title: AppConstants.time,
-              value: '15h20m',
-              trend: _Trend.same,
-            ),
-          ),
-        ],
-      ),
+          ],
+        );
+      },
     );
+  }
+
+  _Trend _getWorkoutTrend(HistoryStats curr, HistoryStats prev) {
+    if (curr.totalWorkouts > prev.totalWorkouts) {
+      return _Trend.up;
+    } else if (curr.totalWorkouts < prev.totalWorkouts) {
+      return _Trend.down;
+    } else {
+      return _Trend.same;
+    }
+  }
+
+  _Trend _getVolumeTrend(HistoryStats curr, HistoryStats prev) {
+    if (curr.totalTrainingVolume > prev.totalTrainingVolume) {
+      return _Trend.up;
+    } else if (curr.totalTrainingVolume < prev.totalTrainingVolume) {
+      return _Trend.down;
+    } else {
+      return _Trend.same;
+    }
+  }
+
+  _Trend _getTimeTrend(HistoryStats curr, HistoryStats prev) {
+    if (curr.totalTime > prev.totalTime) {
+      return _Trend.up;
+    } else if (curr.totalTime < prev.totalTime) {
+      return _Trend.down;
+    } else {
+      return _Trend.same;
+    }
   }
 }
 
@@ -76,15 +133,17 @@ class _HistoryStatCard extends StatelessWidget {
             style: AppTextStyles.h5.copyWith(color: AppColors.mediumGray),
           ),
           Gaps.vGap4,
-          Row(
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 4.w,
+            runSpacing: 4.h,
             children: [
-              Flexible(
-                child: Text(
-                  value,
-                  style: AppTextStyles.anton.copyWith(fontSize: 20.sp),
-                ),
+              Text(
+                value,
+                style: AppTextStyles.anton.copyWith(fontSize: 20.sp),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              Gaps.hGap4,
               _TrendIcon(trend: trend),
             ],
           ),

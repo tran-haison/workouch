@@ -132,4 +132,19 @@ class AppDateUtils {
       date.day,
     ).subtract(Duration(days: date.weekday - 1));
   }
+
+  /// Format a month as "yyyy-MM"
+  static String yyyyMM(DateTime date) {
+    return DateFormat('yyyy-MM').format(DateTime(date.year, date.month, 1));
+  }
+
+  /// Get the first day of the month
+  static DateTime firstDateOfMonth(DateTime date) {
+    return DateTime(date.year, date.month, 1);
+  }
+
+  /// Get the last day of the month
+  static DateTime lastDateOfMonth(DateTime date) {
+    return DateTime(date.year, date.month + 1, 0, 23, 59, 59, 999);
+  }
 }

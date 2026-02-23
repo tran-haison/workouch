@@ -27,7 +27,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     context.read<HomeCubit>().getWeekStreak();
-    context.read<HomeCubit>().getWorkoutSessions();
+    context.read<HomeCubit>().getThisMonthHistoryStats();
+    context.read<HomeCubit>().loadSessionsForMonth(DateTime.now());
     context.read<HomeCubit>().getAllPersonalRecords();
     context.read<HomeCubit>().getSelectedPersonalRecords();
   }

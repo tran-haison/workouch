@@ -19,7 +19,12 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeState {
   HomeStateStatus get status => throw _privateConstructorUsedError;
   int get weekStreak => throw _privateConstructorUsedError;
-  List<WorkoutSession> get sessions => throw _privateConstructorUsedError;
+  Map<String, List<WorkoutSession>> get sessionsByMonth =>
+      throw _privateConstructorUsedError;
+  DateTime? get viewingMonth =>
+      throw _privateConstructorUsedError; // Month currently being viewed
+  HistoryStats get thisMonthHistoryStats => throw _privateConstructorUsedError;
+  HistoryStats get lastMonthHistoryStats => throw _privateConstructorUsedError;
   List<ExercisePersonalRecord> get personalRecords =>
       throw _privateConstructorUsedError;
   List<ExercisePersonalRecord> get selectedPersonalRecords =>
@@ -41,12 +46,17 @@ abstract class $HomeStateCopyWith<$Res> {
   $Res call({
     HomeStateStatus status,
     int weekStreak,
-    List<WorkoutSession> sessions,
+    Map<String, List<WorkoutSession>> sessionsByMonth,
+    DateTime? viewingMonth,
+    HistoryStats thisMonthHistoryStats,
+    HistoryStats lastMonthHistoryStats,
     List<ExercisePersonalRecord> personalRecords,
     List<ExercisePersonalRecord> selectedPersonalRecords,
     Error? error,
   });
 
+  $HistoryStatsCopyWith<$Res> get thisMonthHistoryStats;
+  $HistoryStatsCopyWith<$Res> get lastMonthHistoryStats;
   $ErrorCopyWith<$Res>? get error;
 }
 
@@ -67,7 +77,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   $Res call({
     Object? status = null,
     Object? weekStreak = null,
-    Object? sessions = null,
+    Object? sessionsByMonth = null,
+    Object? viewingMonth = freezed,
+    Object? thisMonthHistoryStats = null,
+    Object? lastMonthHistoryStats = null,
     Object? personalRecords = null,
     Object? selectedPersonalRecords = null,
     Object? error = freezed,
@@ -82,10 +95,22 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
                 ? _value.weekStreak
                 : weekStreak // ignore: cast_nullable_to_non_nullable
                       as int,
-            sessions: null == sessions
-                ? _value.sessions
-                : sessions // ignore: cast_nullable_to_non_nullable
-                      as List<WorkoutSession>,
+            sessionsByMonth: null == sessionsByMonth
+                ? _value.sessionsByMonth
+                : sessionsByMonth // ignore: cast_nullable_to_non_nullable
+                      as Map<String, List<WorkoutSession>>,
+            viewingMonth: freezed == viewingMonth
+                ? _value.viewingMonth
+                : viewingMonth // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
+            thisMonthHistoryStats: null == thisMonthHistoryStats
+                ? _value.thisMonthHistoryStats
+                : thisMonthHistoryStats // ignore: cast_nullable_to_non_nullable
+                      as HistoryStats,
+            lastMonthHistoryStats: null == lastMonthHistoryStats
+                ? _value.lastMonthHistoryStats
+                : lastMonthHistoryStats // ignore: cast_nullable_to_non_nullable
+                      as HistoryStats,
             personalRecords: null == personalRecords
                 ? _value.personalRecords
                 : personalRecords // ignore: cast_nullable_to_non_nullable
@@ -101,6 +126,26 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           )
           as $Val,
     );
+  }
+
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $HistoryStatsCopyWith<$Res> get thisMonthHistoryStats {
+    return $HistoryStatsCopyWith<$Res>(_value.thisMonthHistoryStats, (value) {
+      return _then(_value.copyWith(thisMonthHistoryStats: value) as $Val);
+    });
+  }
+
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $HistoryStatsCopyWith<$Res> get lastMonthHistoryStats {
+    return $HistoryStatsCopyWith<$Res>(_value.lastMonthHistoryStats, (value) {
+      return _then(_value.copyWith(lastMonthHistoryStats: value) as $Val);
+    });
   }
 
   /// Create a copy of HomeState
@@ -130,12 +175,19 @@ abstract class _$$HomeStateImplCopyWith<$Res>
   $Res call({
     HomeStateStatus status,
     int weekStreak,
-    List<WorkoutSession> sessions,
+    Map<String, List<WorkoutSession>> sessionsByMonth,
+    DateTime? viewingMonth,
+    HistoryStats thisMonthHistoryStats,
+    HistoryStats lastMonthHistoryStats,
     List<ExercisePersonalRecord> personalRecords,
     List<ExercisePersonalRecord> selectedPersonalRecords,
     Error? error,
   });
 
+  @override
+  $HistoryStatsCopyWith<$Res> get thisMonthHistoryStats;
+  @override
+  $HistoryStatsCopyWith<$Res> get lastMonthHistoryStats;
   @override
   $ErrorCopyWith<$Res>? get error;
 }
@@ -156,7 +208,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? weekStreak = null,
-    Object? sessions = null,
+    Object? sessionsByMonth = null,
+    Object? viewingMonth = freezed,
+    Object? thisMonthHistoryStats = null,
+    Object? lastMonthHistoryStats = null,
     Object? personalRecords = null,
     Object? selectedPersonalRecords = null,
     Object? error = freezed,
@@ -171,10 +226,22 @@ class __$$HomeStateImplCopyWithImpl<$Res>
             ? _value.weekStreak
             : weekStreak // ignore: cast_nullable_to_non_nullable
                   as int,
-        sessions: null == sessions
-            ? _value._sessions
-            : sessions // ignore: cast_nullable_to_non_nullable
-                  as List<WorkoutSession>,
+        sessionsByMonth: null == sessionsByMonth
+            ? _value._sessionsByMonth
+            : sessionsByMonth // ignore: cast_nullable_to_non_nullable
+                  as Map<String, List<WorkoutSession>>,
+        viewingMonth: freezed == viewingMonth
+            ? _value.viewingMonth
+            : viewingMonth // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        thisMonthHistoryStats: null == thisMonthHistoryStats
+            ? _value.thisMonthHistoryStats
+            : thisMonthHistoryStats // ignore: cast_nullable_to_non_nullable
+                  as HistoryStats,
+        lastMonthHistoryStats: null == lastMonthHistoryStats
+            ? _value.lastMonthHistoryStats
+            : lastMonthHistoryStats // ignore: cast_nullable_to_non_nullable
+                  as HistoryStats,
         personalRecords: null == personalRecords
             ? _value._personalRecords
             : personalRecords // ignore: cast_nullable_to_non_nullable
@@ -198,13 +265,16 @@ class _$HomeStateImpl implements _HomeState {
   const _$HomeStateImpl({
     this.status = HomeStateStatus.initial,
     this.weekStreak = 0,
-    final List<WorkoutSession> sessions = const <WorkoutSession>[],
+    final Map<String, List<WorkoutSession>> sessionsByMonth = const {},
+    this.viewingMonth,
+    this.thisMonthHistoryStats = const HistoryStats(),
+    this.lastMonthHistoryStats = const HistoryStats(),
     final List<ExercisePersonalRecord> personalRecords =
         const <ExercisePersonalRecord>[],
     final List<ExercisePersonalRecord> selectedPersonalRecords =
         const <ExercisePersonalRecord>[],
     this.error,
-  }) : _sessions = sessions,
+  }) : _sessionsByMonth = sessionsByMonth,
        _personalRecords = personalRecords,
        _selectedPersonalRecords = selectedPersonalRecords;
 
@@ -214,15 +284,24 @@ class _$HomeStateImpl implements _HomeState {
   @override
   @JsonKey()
   final int weekStreak;
-  final List<WorkoutSession> _sessions;
+  final Map<String, List<WorkoutSession>> _sessionsByMonth;
   @override
   @JsonKey()
-  List<WorkoutSession> get sessions {
-    if (_sessions is EqualUnmodifiableListView) return _sessions;
+  Map<String, List<WorkoutSession>> get sessionsByMonth {
+    if (_sessionsByMonth is EqualUnmodifiableMapView) return _sessionsByMonth;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_sessions);
+    return EqualUnmodifiableMapView(_sessionsByMonth);
   }
 
+  @override
+  final DateTime? viewingMonth;
+  // Month currently being viewed
+  @override
+  @JsonKey()
+  final HistoryStats thisMonthHistoryStats;
+  @override
+  @JsonKey()
+  final HistoryStats lastMonthHistoryStats;
   final List<ExercisePersonalRecord> _personalRecords;
   @override
   @JsonKey()
@@ -247,7 +326,7 @@ class _$HomeStateImpl implements _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(status: $status, weekStreak: $weekStreak, sessions: $sessions, personalRecords: $personalRecords, selectedPersonalRecords: $selectedPersonalRecords, error: $error)';
+    return 'HomeState(status: $status, weekStreak: $weekStreak, sessionsByMonth: $sessionsByMonth, viewingMonth: $viewingMonth, thisMonthHistoryStats: $thisMonthHistoryStats, lastMonthHistoryStats: $lastMonthHistoryStats, personalRecords: $personalRecords, selectedPersonalRecords: $selectedPersonalRecords, error: $error)';
   }
 
   @override
@@ -258,7 +337,16 @@ class _$HomeStateImpl implements _HomeState {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.weekStreak, weekStreak) ||
                 other.weekStreak == weekStreak) &&
-            const DeepCollectionEquality().equals(other._sessions, _sessions) &&
+            const DeepCollectionEquality().equals(
+              other._sessionsByMonth,
+              _sessionsByMonth,
+            ) &&
+            (identical(other.viewingMonth, viewingMonth) ||
+                other.viewingMonth == viewingMonth) &&
+            (identical(other.thisMonthHistoryStats, thisMonthHistoryStats) ||
+                other.thisMonthHistoryStats == thisMonthHistoryStats) &&
+            (identical(other.lastMonthHistoryStats, lastMonthHistoryStats) ||
+                other.lastMonthHistoryStats == lastMonthHistoryStats) &&
             const DeepCollectionEquality().equals(
               other._personalRecords,
               _personalRecords,
@@ -275,7 +363,10 @@ class _$HomeStateImpl implements _HomeState {
     runtimeType,
     status,
     weekStreak,
-    const DeepCollectionEquality().hash(_sessions),
+    const DeepCollectionEquality().hash(_sessionsByMonth),
+    viewingMonth,
+    thisMonthHistoryStats,
+    lastMonthHistoryStats,
     const DeepCollectionEquality().hash(_personalRecords),
     const DeepCollectionEquality().hash(_selectedPersonalRecords),
     error,
@@ -294,7 +385,10 @@ abstract class _HomeState implements HomeState {
   const factory _HomeState({
     final HomeStateStatus status,
     final int weekStreak,
-    final List<WorkoutSession> sessions,
+    final Map<String, List<WorkoutSession>> sessionsByMonth,
+    final DateTime? viewingMonth,
+    final HistoryStats thisMonthHistoryStats,
+    final HistoryStats lastMonthHistoryStats,
     final List<ExercisePersonalRecord> personalRecords,
     final List<ExercisePersonalRecord> selectedPersonalRecords,
     final Error? error,
@@ -305,7 +399,13 @@ abstract class _HomeState implements HomeState {
   @override
   int get weekStreak;
   @override
-  List<WorkoutSession> get sessions;
+  Map<String, List<WorkoutSession>> get sessionsByMonth;
+  @override
+  DateTime? get viewingMonth; // Month currently being viewed
+  @override
+  HistoryStats get thisMonthHistoryStats;
+  @override
+  HistoryStats get lastMonthHistoryStats;
   @override
   List<ExercisePersonalRecord> get personalRecords;
   @override

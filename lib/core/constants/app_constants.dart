@@ -280,6 +280,9 @@ class AppConstants {
   static const thisWeek = 'This Week';
   static const thisMonth = 'This Month';
   static const history = 'History';
+  static const weekStreak = 'Week Streak';
+  static const weekStreakExplanation =
+      'Weeks in a row you completed at least one workout. Do one workout per week to keep your streak.';
   static const selectMonthYear = 'Select Month & Year';
   static const today = 'Today';
   static const select = 'Select';
