@@ -35,9 +35,6 @@ extension WorkoutSessionExt on WorkoutSession {
       workoutName: workout.name,
       startedAt: DateTime.now(),
       completedAt: DateTime.now(),
-      exercises: workout.exercises
-          .map((e) => WorkoutSessionExerciseExt.fromExercise(e))
-          .toList(),
     );
   }
 

@@ -179,9 +179,11 @@ class HomeCubit extends Cubit<HomeState> {
 
     emit(state.copyWith(selectedPersonalRecords: newSelected));
 
-    final res = await _workoutSessionRepo.saveExercisePersonalRecord(
-      personalRecord.copyWith(isVisibleOnHistory: !isSelected),
-    );
+    final res = await _workoutSessionRepo
+        .toggleExercisePersonalRecordVisibility(
+          exerciseId: personalRecord.exerciseId,
+          isVisibleOnHistory: !isSelected,
+        );
 
     // Fallback to previous state if save fails
     if (res.isLeft || (res.isRight && res.right == false)) {

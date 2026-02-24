@@ -138,7 +138,7 @@ class SupabaseWorkoutSessionService {
         exercise: exercise,
         prDate: prDate,
       );
-      await saveExercisePersonalRecord(record);
+      await _saveExercisePersonalRecord(record);
     }
   }
 
@@ -230,8 +230,9 @@ class SupabaseWorkoutSessionService {
 
   /// Save or update exercise personal record only when new value is greater
   /// than existing (by set_type: weight/reps/duration/distance).
-  /// or visibility changed
-  Future<bool> saveExercisePersonalRecord(ExercisePersonalRecord record) async {
+  Future<bool> _saveExercisePersonalRecord(
+    ExercisePersonalRecord record,
+  ) async {
     try {
       final userId = _currentUserId;
       if (userId == null) return false;
@@ -250,9 +251,7 @@ class SupabaseWorkoutSessionService {
           existing,
         ).toEntity();
         final isNewBetter = existingRecord.isNewRecordBetter(newRecord);
-        final visibilityChanged =
-            existingRecord.isVisibleOnHistory != newRecord.isVisibleOnHistory;
-        if (!isNewBetter && !visibilityChanged) return true; // no update needed
+        if (!isNewBetter) return true; // no update needed
       }
 
       final dto = ExercisePersonalRecordDto.fromEntity(newRecord);
@@ -269,12 +268,34 @@ class SupabaseWorkoutSessionService {
             'max_distance_meters': dto.maxDistanceMeters,
             'set_type': dto.setType,
             'pr_date': dto.prDate,
-            'is_visible_on_history': dto.isVisibleOnHistory,
           }, onConflict: 'user_id,exercise_id');
 
       return true;
     } catch (e) {
       Log.e('Error saving exercise personal record: $e');
+      return false;
+    }
+  }
+
+  /// Toggle visibility of an exercise personal record on History tab.
+  /// Only updates the `is_visible_on_history` flag for the current user.
+  Future<bool> toggleExercisePersonalRecordVisibility({
+    required String exerciseId,
+    required bool isVisibleOnHistory,
+  }) async {
+    try {
+      final userId = _currentUserId;
+      if (userId == null) return false;
+
+      await _supabase
+          .from(AppConstants.supabase.tableExercisePersonalRecords)
+          .update({'is_visible_on_history': isVisibleOnHistory})
+          .eq('user_id', userId)
+          .eq('exercise_id', exerciseId);
+
+      return true;
+    } catch (e) {
+      Log.e('Error toggling exercise personal record visibility: $e');
       return false;
     }
   }

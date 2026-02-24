@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:workouch/core/extension/string_extension.dart';
 import 'package:workouch/core/widgets/common_button.dart';
 import 'package:workouch/core/widgets/common_images.dart';
 
@@ -33,7 +32,7 @@ class PersonalRecordsSelectedExercises extends StatelessWidget {
           children: [
             Flexible(
               child: Text(
-                AppConstants.selectedExercises.capitalizeOnlyFirstLetter,
+                AppConstants.featuredExercises,
                 style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
               ),
             ),

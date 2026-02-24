@@ -44,19 +44,34 @@ class ReviewDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CommonAssetIcon(Assets.icons.star, color: AppColors.primary),
+                CommonAssetIcon(
+                  Assets.icons.star,
+                  color: AppColors.secondaryDark,
+                ),
                 Gaps.hGap4,
-                CommonAssetIcon(Assets.icons.star, color: AppColors.primary),
+                CommonAssetIcon(
+                  Assets.icons.star,
+                  color: AppColors.secondaryDark,
+                ),
                 Gaps.hGap4,
-                CommonAssetIcon(Assets.icons.star, color: AppColors.primary),
+                CommonAssetIcon(
+                  Assets.icons.star,
+                  color: AppColors.secondaryDark,
+                ),
                 Gaps.hGap4,
-                CommonAssetIcon(Assets.icons.star, color: AppColors.primary),
+                CommonAssetIcon(
+                  Assets.icons.star,
+                  color: AppColors.secondaryDark,
+                ),
                 Gaps.hGap4,
-                CommonAssetIcon(Assets.icons.star, color: AppColors.primary),
+                CommonAssetIcon(
+                  Assets.icons.star,
+                  color: AppColors.secondaryDark,
+                ),
                 Gaps.hGap8,
                 Icon(
                   Icons.sentiment_satisfied_alt,
-                  color: AppColors.primary,
+                  color: AppColors.darkBlack,
                   size: 24.r,
                 ),
               ],

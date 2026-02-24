@@ -58,7 +58,7 @@ class PersonalRecordsTab extends StatelessWidget {
                       Gaps.hGap6,
                       Expanded(
                         child: _PrsOverviewNumberCard(
-                          title: AppConstants.selected,
+                          title: AppConstants.featured,
                           value: state.selectedPersonalRecords.length
                               .toString(),
                         ),

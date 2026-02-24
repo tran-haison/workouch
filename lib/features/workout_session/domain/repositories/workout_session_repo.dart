@@ -9,9 +9,10 @@ import '../entities/workout_session.dart';
 
 abstract class WorkoutSessionRepo {
   Future<Either<Error, bool>> saveWorkoutSession(WorkoutSession session);
-  Future<Either<Error, bool>> saveExercisePersonalRecord(
-    ExercisePersonalRecord record,
-  );
+  Future<Either<Error, bool>> toggleExercisePersonalRecordVisibility({
+    required String exerciseId,
+    required bool isVisibleOnHistory,
+  });
   Future<Either<Error, List<WorkoutSession>>> getWorkoutSessions({
     DateTime? from,
     DateTime? to,
@@ -20,10 +21,7 @@ abstract class WorkoutSessionRepo {
   });
   Future<Either<Error, int>> getWeekStreak();
   Future<Either<Error, List<ExercisePersonalRecord>>>
-  getExercisePersonalRecords({
-    bool? isVisibleOnHistory,
-    String? searchByName,
-  });
+  getExercisePersonalRecords({bool? isVisibleOnHistory, String? searchByName});
 }
 
 @LazySingleton(as: WorkoutSessionRepo)
@@ -51,13 +49,16 @@ class WorkoutSessionRepoImpl implements WorkoutSessionRepo {
   }
 
   @override
-  Future<Either<Error, bool>> saveExercisePersonalRecord(
-    ExercisePersonalRecord record,
-  ) async {
+  Future<Either<Error, bool>> toggleExercisePersonalRecordVisibility({
+    required String exerciseId,
+    required bool isVisibleOnHistory,
+  }) async {
     try {
-      final success = await _workoutSessionService.saveExercisePersonalRecord(
-        record,
-      );
+      final success = await _workoutSessionService
+          .toggleExercisePersonalRecordVisibility(
+            exerciseId: exerciseId,
+            isVisibleOnHistory: isVisibleOnHistory,
+          );
       if (success) {
         return const Right(true);
       }

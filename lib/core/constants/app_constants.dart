@@ -300,6 +300,8 @@ class AppConstants {
   static const pr = 'PR';
   static const all = 'All';
   static const newPRs = 'New PRs';
+  static const featured = 'Featured';
+  static const featuredExercises = 'Featured Exercises';
   static const selectedExercises = 'Selected Exercises';
   static const addExercisePR = 'Add Exercise';
   static const viewAll = 'View All';

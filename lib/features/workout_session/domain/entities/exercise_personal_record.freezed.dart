@@ -270,7 +270,7 @@ class _$ExercisePersonalRecordImpl extends _ExercisePersonalRecord {
     this.maxDistanceMeters = 0.0,
     this.setType = WorkingSetType.weightBased,
     required this.prDate,
-    this.isVisibleOnHistory = false,
+    this.isVisibleOnHistory = true,
   }) : super._();
 
   @override

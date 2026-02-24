@@ -24,7 +24,7 @@ class ExercisePersonalRecord with _$ExercisePersonalRecord {
     @Default(0.0) double maxDistanceMeters,
     @Default(WorkingSetType.weightBased) WorkingSetType setType,
     required DateTime prDate,
-    @Default(false) bool isVisibleOnHistory,
+    @Default(true) bool isVisibleOnHistory,
   }) = _ExercisePersonalRecord;
 }
 
