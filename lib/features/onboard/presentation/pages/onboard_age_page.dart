@@ -11,7 +11,6 @@ import '../../../../core/widgets/common_spinner.dart';
 import '../../../../gen/assets.gen.dart';
 import '../cubit/onboard_cubit.dart';
 import '../cubit/onboard_state.dart';
-import '../../utils/onboard_utils.dart';
 
 class OnboardAgePage extends StatelessWidget {
   const OnboardAgePage({super.key});
@@ -56,16 +55,19 @@ class OnboardAgePage extends StatelessWidget {
                         Center(
                           child: CommonSpinner<int>(
                             height: 200.h,
-                            initialItem: OnboardUtils.getAgeIndex(state.age),
-                            items: OnboardUtils.availableAges
+                            initialItem: AppConstants.humanMetrics.getAgeIndex(
+                              state.age ?? 18,
+                            ),
+                            items: AppConstants.humanMetrics.availableAges
                                 .map(
                                   (age) =>
                                       SpinnerItem(label: '$age', item: age),
                                 )
                                 .toList(),
                             onSelected: (index) {
-                              final selectedAge =
-                                  OnboardUtils.availableAges[index];
+                              final selectedAge = AppConstants
+                                  .humanMetrics
+                                  .availableAges[index];
                               context.read<OnboardCubit>().updateAge(
                                 selectedAge,
                               );

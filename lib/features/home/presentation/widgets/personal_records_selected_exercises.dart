@@ -89,7 +89,7 @@ class _ExercisePrList extends StatelessWidget {
                 ),
                 Gaps.vGap4,
                 Text(
-                  AppConstants.selectExercisesAndSetPRs,
+                  AppConstants.selectFeaturedExercises,
                   style: AppTextStyles.h5.copyWith(color: AppColors.mediumGray),
                   textAlign: TextAlign.center,
                 ),

@@ -9,6 +9,11 @@ import 'onboard_state.dart';
 class OnboardCubit extends Cubit<OnboardState> {
   OnboardCubit() : super(const OnboardState());
 
+  void updateMeasurementSystem(MeasurementSystem measurementSystem) {
+    if (isClosed) return;
+    emit(state.copyWith(measurementSystem: measurementSystem));
+  }
+
   void updateGender(Gender gender) {
     if (isClosed) return;
     emit(state.copyWith(gender: gender));
@@ -19,14 +24,14 @@ class OnboardCubit extends Cubit<OnboardState> {
     emit(state.copyWith(age: age));
   }
 
-  void updateHeight(double height) {
+  void updateHeightCm(double heightCm) {
     if (isClosed) return;
-    emit(state.copyWith(height: height));
+    emit(state.copyWith(heightCm: heightCm));
   }
 
-  void updateWeight(double weight) {
+  void updateWeightKg(double weightKg) {
     if (isClosed) return;
-    emit(state.copyWith(weight: weight));
+    emit(state.copyWith(weightKg: weightKg));
   }
 
   void updateActivityLevel(ActivityLevel activityLevel) {

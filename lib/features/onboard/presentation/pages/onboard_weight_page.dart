@@ -4,14 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruler_slider/ruler_slider.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/extension/double_extension.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_button.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../../auth/domain/entities/user.dart';
 import '../cubit/onboard_cubit.dart';
 import '../cubit/onboard_state.dart';
-import '../../utils/onboard_utils.dart';
 
 class OnboardWeightPage extends StatelessWidget {
   const OnboardWeightPage({super.key});
@@ -55,20 +56,23 @@ class OnboardWeightPage extends StatelessWidget {
                         Gaps.vGap60,
                         Center(
                           child: Text(
-                            '${state.weight.toStringAsFixed(1)} ${AppConstants.kg.toLowerCase()}',
+                            state.displayWeight,
                             style: AppTextStyles.h1,
                           ),
                         ),
                         RulerSlider(
-                          minValue: OnboardUtils.minWeight,
-                          maxValue: OnboardUtils.maxWeight,
-                          initialValue: state.weight,
+                          minValue: _getMinValue(state),
+                          maxValue: _getMaxValue(state),
+                          initialValue: _getInitialValue(state),
                           rulerHeight: 100.h,
                           selectedBarColor: AppColors.black,
                           unselectedBarColor: AppColors.grayBlue,
                           tickSpacing: 14.w,
-                          onChanged: (double value) {
-                            context.read<OnboardCubit>().updateWeight(value);
+                          onChanged: (value) {
+                            final weightKg = _getWeightKg(state, value);
+                            context.read<OnboardCubit>().updateWeightKg(
+                              weightKg,
+                            );
                           },
                           showFixedBar: true,
                           showFixedLabel: false,
@@ -88,7 +92,7 @@ class OnboardWeightPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (state.weight > 0)
+                  if (state.weightKg > 0)
                     CommonButton(
                       text: AppConstants.next,
                       onPressed: () {
@@ -111,5 +115,32 @@ class OnboardWeightPage extends StatelessWidget {
         );
       },
     );
+  }
+
+  double _getMinValue(OnboardState state) {
+    return state.measurementSystem?.isMetric ?? true
+        ? AppConstants.humanMetrics.minWeightKg.toDouble()
+        : AppConstants.humanMetrics.minWeightLbs.toDouble();
+  }
+
+  double _getMaxValue(OnboardState state) {
+    return state.measurementSystem?.isMetric ?? true
+        ? AppConstants.humanMetrics.maxWeightKg.toDouble()
+        : AppConstants.humanMetrics.maxWeightLbs.toDouble();
+  }
+
+  double _getInitialValue(OnboardState state) {
+    return state.measurementSystem?.isMetric ?? true
+        ? state.weightKg
+        : state.weightLbs;
+  }
+
+  double _getWeightKg(OnboardState state, double value) {
+    switch (state.measurementSystem ?? MeasurementSystem.metric) {
+      case MeasurementSystem.metric:
+        return value;
+      case MeasurementSystem.imperial:
+        return value.lbsToKg;
+    }
   }
 }

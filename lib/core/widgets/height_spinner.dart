@@ -12,11 +12,15 @@ class HeightSpinner extends StatelessWidget {
     required this.measurementSystem,
     required this.initialHeightCm,
     required this.onHeightChanged,
+    this.textStyle,
+    this.height,
   });
 
   final MeasurementSystem measurementSystem;
   final double initialHeightCm;
   final ValueChanged<double> onHeightChanged;
+  final TextStyle? textStyle;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +29,15 @@ class HeightSpinner extends StatelessWidget {
         return _HeightMetricSpinner(
           initialHeightCm: initialHeightCm,
           onChanged: onHeightChanged,
+          textStyle: textStyle,
+          height: height,
         );
       case MeasurementSystem.imperial:
         return _HeightImperialSpinner(
           initialHeightCm: initialHeightCm,
           onChanged: onHeightChanged,
+          textStyle: textStyle,
+          height: height,
         );
     }
   }
@@ -39,16 +47,20 @@ class _HeightMetricSpinner extends StatelessWidget {
   const _HeightMetricSpinner({
     required this.initialHeightCm,
     required this.onChanged,
+    this.textStyle,
+    this.height,
   });
 
   final double initialHeightCm;
   final ValueChanged<double> onChanged;
-
-  static const minCm = 50;
-  static const maxCm = 300;
+  final TextStyle? textStyle;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
+    final minCm = AppConstants.humanMetrics.minHeightCm;
+    final maxCm = AppConstants.humanMetrics.maxHeightCm;
+
     final items = List<SpinnerItem<double>>.generate(maxCm - minCm + 1, (i) {
       final value = (minCm + i).toDouble();
       return SpinnerItem<double>(
@@ -60,8 +72,10 @@ class _HeightMetricSpinner extends StatelessWidget {
     final initialIndex = (initialHeightCm - minCm).round();
 
     return CommonSpinner<double>(
+      height: height,
       items: items,
       initialItem: initialIndex,
+      textStyle: textStyle,
       onSelected: (index) {
         final value = (minCm + index).toDouble();
         onChanged(value);
@@ -74,21 +88,20 @@ class _HeightImperialSpinner extends StatefulWidget {
   const _HeightImperialSpinner({
     required this.initialHeightCm,
     required this.onChanged,
+    this.textStyle,
+    this.height,
   });
 
   final double initialHeightCm;
   final ValueChanged<double> onChanged;
+  final TextStyle? textStyle;
+  final double? height;
 
   @override
   State<_HeightImperialSpinner> createState() => _HeightImperialSpinnerState();
 }
 
 class _HeightImperialSpinnerState extends State<_HeightImperialSpinner> {
-  final minFeet = 1;
-  final maxFeet = 9;
-  final minInch = 0;
-  final maxInch = 11;
-
   var currFeet = 0;
   var currInches = 0;
   var feetValues = <int>[];
@@ -97,6 +110,11 @@ class _HeightImperialSpinnerState extends State<_HeightImperialSpinner> {
   @override
   void initState() {
     super.initState();
+    final minFeet = AppConstants.humanMetrics.minHeightFt;
+    final maxFeet = AppConstants.humanMetrics.maxHeightFt;
+    final minInch = AppConstants.humanMetrics.minHeightInch;
+    final maxInch = AppConstants.humanMetrics.maxHeightInch;
+
     final initialHeightIn = widget.initialHeightCm.cmToIn;
     currFeet = (initialHeightIn / 12).floor().clamp(minFeet, maxFeet);
     currInches = (initialHeightIn % 12).round().clamp(minInch, maxInch);
@@ -117,6 +135,7 @@ class _HeightImperialSpinnerState extends State<_HeightImperialSpinner> {
       children: [
         Expanded(
           child: CommonSpinner<int>(
+            height: widget.height,
             items: feetValues
                 .map(
                   (f) => SpinnerItem<int>(
@@ -126,6 +145,7 @@ class _HeightImperialSpinnerState extends State<_HeightImperialSpinner> {
                 )
                 .toList(),
             initialItem: currFeetIndex,
+            textStyle: widget.textStyle,
             onSelected: (i) {
               setState(() {
                 currFeet = feetValues[i];
@@ -138,6 +158,7 @@ class _HeightImperialSpinnerState extends State<_HeightImperialSpinner> {
         Gaps.hGap12,
         Expanded(
           child: CommonSpinner<int>(
+            height: widget.height,
             items: inchValues
                 .map(
                   (i) => SpinnerItem<int>(
@@ -147,6 +168,7 @@ class _HeightImperialSpinnerState extends State<_HeightImperialSpinner> {
                 )
                 .toList(),
             initialItem: currInchIndex,
+            textStyle: widget.textStyle,
             onSelected: (i) {
               setState(() {
                 currInches = inchValues[i];

@@ -168,7 +168,7 @@ class OnboardActivityLevelPage extends StatelessWidget {
                         }
                       },
                       child: CommonButton(
-                        text: AppConstants.completeSetup,
+                        text: AppConstants.finish,
                         onPressed: () => _completeOnboarding(context),
                         textStyle: AppTextStyles.h3.copyWith(
                           color: AppColors.white,
@@ -195,8 +195,9 @@ class OnboardActivityLevelPage extends StatelessWidget {
     await context.read<AuthCubit>().updateUserProfile(
       age: state.age,
       gender: state.gender,
-      height: state.height,
-      weight: state.weight,
+      measurementSystem: state.measurementSystem,
+      heightCm: state.heightCm,
+      weightKg: state.weightKg,
       activityLevel: state.activityLevel,
       hasOnboard: true,
     );

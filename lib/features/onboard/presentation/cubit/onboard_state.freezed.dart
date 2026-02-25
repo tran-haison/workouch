@@ -19,10 +19,12 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$OnboardState {
   OnboardStateStatus get status => throw _privateConstructorUsedError;
   int get currentPage => throw _privateConstructorUsedError;
+  MeasurementSystem? get measurementSystem =>
+      throw _privateConstructorUsedError;
   Gender? get gender => throw _privateConstructorUsedError;
   int? get age => throw _privateConstructorUsedError;
-  double get height => throw _privateConstructorUsedError;
-  double get weight => throw _privateConstructorUsedError;
+  double get heightCm => throw _privateConstructorUsedError;
+  double get weightKg => throw _privateConstructorUsedError;
   ActivityLevel? get activityLevel => throw _privateConstructorUsedError;
   Error? get error => throw _privateConstructorUsedError;
 
@@ -43,10 +45,11 @@ abstract class $OnboardStateCopyWith<$Res> {
   $Res call({
     OnboardStateStatus status,
     int currentPage,
+    MeasurementSystem? measurementSystem,
     Gender? gender,
     int? age,
-    double height,
-    double weight,
+    double heightCm,
+    double weightKg,
     ActivityLevel? activityLevel,
     Error? error,
   });
@@ -71,10 +74,11 @@ class _$OnboardStateCopyWithImpl<$Res, $Val extends OnboardState>
   $Res call({
     Object? status = null,
     Object? currentPage = null,
+    Object? measurementSystem = freezed,
     Object? gender = freezed,
     Object? age = freezed,
-    Object? height = null,
-    Object? weight = null,
+    Object? heightCm = null,
+    Object? weightKg = null,
     Object? activityLevel = freezed,
     Object? error = freezed,
   }) {
@@ -88,6 +92,10 @@ class _$OnboardStateCopyWithImpl<$Res, $Val extends OnboardState>
                 ? _value.currentPage
                 : currentPage // ignore: cast_nullable_to_non_nullable
                       as int,
+            measurementSystem: freezed == measurementSystem
+                ? _value.measurementSystem
+                : measurementSystem // ignore: cast_nullable_to_non_nullable
+                      as MeasurementSystem?,
             gender: freezed == gender
                 ? _value.gender
                 : gender // ignore: cast_nullable_to_non_nullable
@@ -96,13 +104,13 @@ class _$OnboardStateCopyWithImpl<$Res, $Val extends OnboardState>
                 ? _value.age
                 : age // ignore: cast_nullable_to_non_nullable
                       as int?,
-            height: null == height
-                ? _value.height
-                : height // ignore: cast_nullable_to_non_nullable
+            heightCm: null == heightCm
+                ? _value.heightCm
+                : heightCm // ignore: cast_nullable_to_non_nullable
                       as double,
-            weight: null == weight
-                ? _value.weight
-                : weight // ignore: cast_nullable_to_non_nullable
+            weightKg: null == weightKg
+                ? _value.weightKg
+                : weightKg // ignore: cast_nullable_to_non_nullable
                       as double,
             activityLevel: freezed == activityLevel
                 ? _value.activityLevel
@@ -144,10 +152,11 @@ abstract class _$$OnboardStateImplCopyWith<$Res>
   $Res call({
     OnboardStateStatus status,
     int currentPage,
+    MeasurementSystem? measurementSystem,
     Gender? gender,
     int? age,
-    double height,
-    double weight,
+    double heightCm,
+    double weightKg,
     ActivityLevel? activityLevel,
     Error? error,
   });
@@ -172,10 +181,11 @@ class __$$OnboardStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? currentPage = null,
+    Object? measurementSystem = freezed,
     Object? gender = freezed,
     Object? age = freezed,
-    Object? height = null,
-    Object? weight = null,
+    Object? heightCm = null,
+    Object? weightKg = null,
     Object? activityLevel = freezed,
     Object? error = freezed,
   }) {
@@ -189,6 +199,10 @@ class __$$OnboardStateImplCopyWithImpl<$Res>
             ? _value.currentPage
             : currentPage // ignore: cast_nullable_to_non_nullable
                   as int,
+        measurementSystem: freezed == measurementSystem
+            ? _value.measurementSystem
+            : measurementSystem // ignore: cast_nullable_to_non_nullable
+                  as MeasurementSystem?,
         gender: freezed == gender
             ? _value.gender
             : gender // ignore: cast_nullable_to_non_nullable
@@ -197,13 +211,13 @@ class __$$OnboardStateImplCopyWithImpl<$Res>
             ? _value.age
             : age // ignore: cast_nullable_to_non_nullable
                   as int?,
-        height: null == height
-            ? _value.height
-            : height // ignore: cast_nullable_to_non_nullable
+        heightCm: null == heightCm
+            ? _value.heightCm
+            : heightCm // ignore: cast_nullable_to_non_nullable
                   as double,
-        weight: null == weight
-            ? _value.weight
-            : weight // ignore: cast_nullable_to_non_nullable
+        weightKg: null == weightKg
+            ? _value.weightKg
+            : weightKg // ignore: cast_nullable_to_non_nullable
                   as double,
         activityLevel: freezed == activityLevel
             ? _value.activityLevel
@@ -224,10 +238,11 @@ class _$OnboardStateImpl implements _OnboardState {
   const _$OnboardStateImpl({
     this.status = OnboardStateStatus.initial,
     this.currentPage = 0,
+    this.measurementSystem,
     this.gender,
     this.age,
-    this.height = OnboardUtils.defaultHeight,
-    this.weight = OnboardUtils.defaultWeight,
+    this.heightCm = 170.0,
+    this.weightKg = 70.0,
     this.activityLevel,
     this.error,
   });
@@ -239,15 +254,17 @@ class _$OnboardStateImpl implements _OnboardState {
   @JsonKey()
   final int currentPage;
   @override
+  final MeasurementSystem? measurementSystem;
+  @override
   final Gender? gender;
   @override
   final int? age;
   @override
   @JsonKey()
-  final double height;
+  final double heightCm;
   @override
   @JsonKey()
-  final double weight;
+  final double weightKg;
   @override
   final ActivityLevel? activityLevel;
   @override
@@ -255,7 +272,7 @@ class _$OnboardStateImpl implements _OnboardState {
 
   @override
   String toString() {
-    return 'OnboardState(status: $status, currentPage: $currentPage, gender: $gender, age: $age, height: $height, weight: $weight, activityLevel: $activityLevel, error: $error)';
+    return 'OnboardState(status: $status, currentPage: $currentPage, measurementSystem: $measurementSystem, gender: $gender, age: $age, heightCm: $heightCm, weightKg: $weightKg, activityLevel: $activityLevel, error: $error)';
   }
 
   @override
@@ -266,10 +283,14 @@ class _$OnboardStateImpl implements _OnboardState {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.currentPage, currentPage) ||
                 other.currentPage == currentPage) &&
+            (identical(other.measurementSystem, measurementSystem) ||
+                other.measurementSystem == measurementSystem) &&
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.age, age) || other.age == age) &&
-            (identical(other.height, height) || other.height == height) &&
-            (identical(other.weight, weight) || other.weight == weight) &&
+            (identical(other.heightCm, heightCm) ||
+                other.heightCm == heightCm) &&
+            (identical(other.weightKg, weightKg) ||
+                other.weightKg == weightKg) &&
             (identical(other.activityLevel, activityLevel) ||
                 other.activityLevel == activityLevel) &&
             (identical(other.error, error) || other.error == error));
@@ -280,10 +301,11 @@ class _$OnboardStateImpl implements _OnboardState {
     runtimeType,
     status,
     currentPage,
+    measurementSystem,
     gender,
     age,
-    height,
-    weight,
+    heightCm,
+    weightKg,
     activityLevel,
     error,
   );
@@ -301,10 +323,11 @@ abstract class _OnboardState implements OnboardState {
   const factory _OnboardState({
     final OnboardStateStatus status,
     final int currentPage,
+    final MeasurementSystem? measurementSystem,
     final Gender? gender,
     final int? age,
-    final double height,
-    final double weight,
+    final double heightCm,
+    final double weightKg,
     final ActivityLevel? activityLevel,
     final Error? error,
   }) = _$OnboardStateImpl;
@@ -314,13 +337,15 @@ abstract class _OnboardState implements OnboardState {
   @override
   int get currentPage;
   @override
+  MeasurementSystem? get measurementSystem;
+  @override
   Gender? get gender;
   @override
   int? get age;
   @override
-  double get height;
+  double get heightCm;
   @override
-  double get weight;
+  double get weightKg;
   @override
   ActivityLevel? get activityLevel;
   @override

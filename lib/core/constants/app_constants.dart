@@ -8,6 +8,7 @@ class AppConstants {
   static final supabase = _Supabase();
   static final url = _Url();
   static final posthog = _PostHog();
+  static final humanMetrics = _HumanMetrics();
 
   // Exercise DB
   static const exerciseDb = 'exercise-db';
@@ -95,8 +96,10 @@ class AppConstants {
   static const km = 'Km';
   static const meters = 'Meters';
   static const measurementSystem = 'Measurement System';
-  static const metric = 'Metric (kg, cm)';
-  static const imperial = 'Imperial (lbs, in)';
+  static const metricDescription = 'kg, cm';
+  static const imperialDescription = 'lbs, in';
+  static const metric = 'Metric';
+  static const imperial = 'Imperial';
   static const newSet = 'New set';
   static const restBetweenSets = 'Rest between sets';
   static const timeToRest = 'Time to rest';
@@ -315,8 +318,8 @@ class AppConstants {
   static const maxWeight = 'Max Weight';
   static const prDate = 'PR Date';
   static const noPRsYet = 'No PRs yet';
-  static const selectExercisesAndSetPRs =
-      'Select any exercises to track your PRs';
+  static const selectFeaturedExercises =
+      'Select any exercise to show as featured here';
   static const bestPRsInEachExercise =
       'Your best PRs achieved in each exercise';
   static const selected = 'Selected';
@@ -405,6 +408,10 @@ class AppConstants {
   static const onboardAnalyticsConsistency = 'Consistency';
 
   // Onboarding main pages
+  static const onboardMeasurementSystemTitle =
+      'Your preferred measurement system?';
+  static const onboardMeasurementSystemDescription =
+      'Choose between Metric (cm, kg) or Imperial (ft, lbs). You can change this later in your profile.';
   static const onboardGenderTitle = 'What\'s your gender?';
   static const onboardGenderDescription =
       'This helps us personalize your workout plan';
@@ -412,13 +419,16 @@ class AppConstants {
   static const onboardAgeDescription =
       'This helps us calculate your optimal workout intensity';
   static const onboardHeightTitle = 'What\'s your height?';
-  static const onboardHeightDescription = 'Enter your height in centimeters';
+  static const onboardHeightDescription =
+      'This helps us calculate your metrics';
   static const onboardWeightTitle = 'What\'s your weight?';
-  static const onboardWeightDescription = 'Enter your weight in kilograms';
+  static const onboardWeightDescription =
+      'This helps us calculate your metrics';
   static const onboardActivityLevelTitle = 'How active are you?';
   static const onboardActivityLevelDescription =
       'This helps us plan the best workout routines for you';
   static const completeSetup = 'Complete Setup';
+  static const finish = 'Finish';
   static const settingUp = 'Setting up...';
   static const settingUpSuccess = 'Setup completed successfully';
   static const settingUpError = 'Failed to complete setup';
@@ -491,4 +501,38 @@ class _Url {
 class _PostHog {
   String get apiKey => dotenv.env['POSTHOG_API_KEY'] ?? '';
   String get host => dotenv.env['POSTHOG_HOST'] ?? 'https://us.i.posthog.com';
+}
+
+class _HumanMetrics {
+  int get minHeightCm => 50;
+
+  int get maxHeightCm => 300;
+
+  int get minHeightFt => 1;
+
+  int get maxHeightFt => 9;
+
+  int get minHeightInch => 0;
+
+  int get maxHeightInch => 11;
+
+  int get minWeightKg => 20;
+
+  int get maxWeightKg => 300;
+
+  int get minWeightLbs => 45;
+
+  int get maxWeightLbs => 650;
+
+  double get defaultHeightCm => 170.0;
+
+  double get defaultWeightKg => 70.0;
+
+  List<int> get availableAges => List.generate(91, (index) => index + 10);
+
+  int getAgeIndex(int? age) {
+    if (age == null) return 0;
+    final index = availableAges.indexOf(age);
+    return index >= 0 ? index : 0;
+  }
 }

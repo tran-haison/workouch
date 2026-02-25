@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ruler_slider/ruler_slider.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_button.dart';
 import '../../../../core/widgets/common_gaps.dart';
+import '../../../../core/widgets/height_spinner.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../../auth/domain/entities/user.dart';
 import '../cubit/onboard_cubit.dart';
 import '../cubit/onboard_state.dart';
-import '../../utils/onboard_utils.dart';
 
 class OnboardHeightPage extends StatelessWidget {
   const OnboardHeightPage({super.key});
@@ -53,42 +53,25 @@ class OnboardHeightPage extends StatelessWidget {
                           ),
                         ),
                         Gaps.vGap60,
-                        Center(
-                          child: Text(
-                            '${state.height.toStringAsFixed(1)} ${AppConstants.cm.toLowerCase()}',
-                            style: AppTextStyles.h1,
+                        HeightSpinner(
+                          height: 200.h,
+                          measurementSystem:
+                              state.measurementSystem ??
+                              MeasurementSystem.metric,
+                          initialHeightCm: state.heightCm,
+                          textStyle: AppTextStyles.h3.copyWith(
+                            fontWeight: FontWeight.w600,
                           ),
-                        ),
-                        RulerSlider(
-                          minValue: OnboardUtils.minHeight,
-                          maxValue: OnboardUtils.maxHeight,
-                          initialValue: state.height,
-                          rulerHeight: 100.h,
-                          selectedBarColor: AppColors.black,
-                          unselectedBarColor: AppColors.grayBlue,
-                          tickSpacing: 14.w,
-                          onChanged: (double value) {
-                            context.read<OnboardCubit>().updateHeight(value);
+                          onHeightChanged: (heightCm) {
+                            context.read<OnboardCubit>().updateHeightCm(
+                              heightCm,
+                            );
                           },
-                          showFixedBar: true,
-                          showFixedLabel: false,
-                          showBottomLabels: false,
-                          fixedBarColor: AppColors.secondaryDark,
-                          fixedBarWidth: 3.w,
-                          fixedBarHeight: 50.h,
-                          scrollSensitivity: 1.5,
-                          enableSnapping: true,
-                          majorTickInterval: 5,
-                          labelInterval: 1,
-                          labelVerticalOffset: 40.h,
-                          labelTextStyle: AppTextStyles.h5,
-                          majorTickHeight: 16.h,
-                          minorTickHeight: 10.h,
                         ),
                       ],
                     ),
                   ),
-                  if (state.height > 0)
+                  if (state.heightCm > 0)
                     CommonButton(
                       text: AppConstants.next,
                       onPressed: () {

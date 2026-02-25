@@ -47,8 +47,8 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
     _gender = user?.gender ?? Gender.male;
     _measurementSystem = user?.measurementSystem ?? MeasurementSystem.metric;
     _activityLevel = user?.activityLevel ?? ActivityLevel.moderatelyActive;
-    _heightCm = user?.heightCm ?? 170.0;
-    _weightKg = user?.weightKg ?? 70.0;
+    _heightCm = user?.heightCm ?? AppConstants.humanMetrics.defaultHeightCm;
+    _weightKg = user?.weightKg ?? AppConstants.humanMetrics.defaultWeightKg;
   }
 
   @override
@@ -234,6 +234,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                           HeightSpinner(
                             measurementSystem: _measurementSystem,
                             initialHeightCm: _heightCm,
+                            textStyle: AppTextStyles.h4,
                             onHeightChanged: (heightCm) {
                               setState(() {
                                 _heightCm = heightCm;
@@ -249,6 +250,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                           WeightSpinner(
                             measurementSystem: _measurementSystem,
                             initialWeightKg: _weightKg,
+                            textStyle: AppTextStyles.h4,
                             onWeightChanged: (weightKg) {
                               setState(() {
                                 _weightKg = weightKg;
@@ -265,9 +267,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                             text: _activityLevel.description,
                             onPressed: _updateActivityLevel,
                             isFullWidth: true,
-                            textStyle: AppTextStyles.h4.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
+                            textStyle: AppTextStyles.h4,
                             borderColor: AppColors.grayBlue,
                             backgroundColor: AppColors.white,
                             trailing: CommonAssetIcon(

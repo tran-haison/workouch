@@ -40,6 +40,11 @@ extension HistoryStatsExt on HistoryStats {
     final seconds = totalTime.inSeconds.remainder(60) > 0
         ? '${totalTime.inSeconds.remainder(60)}s'
         : '';
+
+    if (hours.isEmpty && minutes.isEmpty && seconds.isEmpty) {
+      return '0';
+    }
+
     return '$hours$minutes$seconds';
   }
 }

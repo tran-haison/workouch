@@ -11,11 +11,15 @@ class WeightSpinner extends StatelessWidget {
     required this.measurementSystem,
     required this.initialWeightKg,
     required this.onWeightChanged,
+    this.textStyle,
+    this.height,
   });
 
   final MeasurementSystem measurementSystem;
   final double initialWeightKg;
   final ValueChanged<double> onWeightChanged;
+  final TextStyle? textStyle;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +28,15 @@ class WeightSpinner extends StatelessWidget {
         return _WeightMetricSpinner(
           initialWeightKg: initialWeightKg,
           onChanged: onWeightChanged,
+          textStyle: textStyle,
+          height: height,
         );
       case MeasurementSystem.imperial:
         return _WeightImperialSpinner(
           initialWeightKg: initialWeightKg,
           onChanged: onWeightChanged,
+          textStyle: textStyle,
+          height: height,
         );
     }
   }
@@ -38,16 +46,20 @@ class _WeightMetricSpinner extends StatelessWidget {
   const _WeightMetricSpinner({
     required this.initialWeightKg,
     required this.onChanged,
+    this.textStyle,
+    this.height,
   });
 
   final double initialWeightKg;
   final ValueChanged<double> onChanged;
-
-  static const minKg = 20;
-  static const maxKg = 300;
+  final TextStyle? textStyle;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
+    final minKg = AppConstants.humanMetrics.minWeightKg;
+    final maxKg = AppConstants.humanMetrics.maxWeightKg;
+
     final items = List<SpinnerItem<double>>.generate(maxKg - minKg + 1, (i) {
       final value = (minKg + i).toDouble();
       return SpinnerItem<double>(
@@ -59,8 +71,10 @@ class _WeightMetricSpinner extends StatelessWidget {
     final initialIndex = (initialWeightKg - minKg).round();
 
     return CommonSpinner<double>(
+      height: height,
       items: items,
       initialItem: initialIndex,
+      textStyle: textStyle,
       onSelected: (index) {
         final kg = (minKg + index).toDouble();
         onChanged(kg);
@@ -73,17 +87,21 @@ class _WeightImperialSpinner extends StatelessWidget {
   const _WeightImperialSpinner({
     required this.initialWeightKg,
     required this.onChanged,
+    this.textStyle,
+    this.height,
   });
 
   final double initialWeightKg;
   final ValueChanged<double> onChanged;
-
-  static const minLbs = 40;
-  static const maxLbs = 650;
+  final TextStyle? textStyle;
+  final double? height;
 
   @override
   @override
   Widget build(BuildContext context) {
+    final minLbs = AppConstants.humanMetrics.minWeightLbs;
+    final maxLbs = AppConstants.humanMetrics.maxWeightLbs;
+
     final initialWeightLbs = initialWeightKg.kgToLbs;
     final initialIndex = (initialWeightLbs - minLbs).round();
 
@@ -96,8 +114,10 @@ class _WeightImperialSpinner extends StatelessWidget {
     });
 
     return CommonSpinner<double>(
+      height: height,
       items: items,
       initialItem: initialIndex,
+      textStyle: textStyle,
       onSelected: (index) {
         final lbs = (minLbs + index).toDouble();
         final kg = lbs.lbsToKg;

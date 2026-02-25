@@ -129,7 +129,7 @@ class _OnboardIntroductionPageState extends State<OnboardIntroductionPage> {
                   Opacity(
                     opacity: 0,
                     child: CommonButton(
-                      text: AppConstants.skip,
+                      text: AppConstants.close,
                       isFullWidth: false,
                       onPressed: () {},
                       textStyle: AppTextStyles.h4.copyWith(
@@ -160,7 +160,7 @@ class _OnboardIntroductionPageState extends State<OnboardIntroductionPage> {
                     ),
                   ),
                   CommonButton(
-                    text: AppConstants.skip,
+                    text: AppConstants.close,
                     isFullWidth: false,
                     onPressed: _onSkip,
                     textStyle: AppTextStyles.h4.copyWith(
