@@ -148,6 +148,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/info.svg
   SvgGenImage get info => const SvgGenImage('assets/icons/info.svg');
 
+  /// File path: assets/icons/lightning.svg
+  SvgGenImage get lightning => const SvgGenImage('assets/icons/lightning.svg');
+
   /// File path: assets/icons/line_weight.svg
   SvgGenImage get lineWeight =>
       const SvgGenImage('assets/icons/line_weight.svg');
@@ -209,6 +212,10 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/support.svg
   SvgGenImage get support => const SvgGenImage('assets/icons/support.svg');
+
+  /// File path: assets/icons/system_coordinate.svg
+  SvgGenImage get systemCoordinate =>
+      const SvgGenImage('assets/icons/system_coordinate.svg');
 
   /// File path: assets/icons/terms.svg
   SvgGenImage get terms => const SvgGenImage('assets/icons/terms.svg');
@@ -274,6 +281,7 @@ class $AssetsIconsGen {
     heart,
     height,
     info,
+    lightning,
     lineWeight,
     loading,
     male,
@@ -294,6 +302,7 @@ class $AssetsIconsGen {
     starAi,
     subscription,
     support,
+    systemCoordinate,
     terms,
     track,
     user,

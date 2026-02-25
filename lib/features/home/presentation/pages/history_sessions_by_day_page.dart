@@ -11,8 +11,8 @@ import '../../../../core/widgets/common_gaps.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../workout_session/domain/entities/workout_session.dart';
 
-class WorkoutSessionsByDayPage extends StatelessWidget {
-  const WorkoutSessionsByDayPage({
+class HistorySessionsByDayPage extends StatelessWidget {
+  const HistorySessionsByDayPage({
     required this.date,
     required this.sessions,
     super.key,

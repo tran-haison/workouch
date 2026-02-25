@@ -19,6 +19,7 @@ abstract class UserDto with _$UserDto {
     required int age,
     required double height, // in cm
     required double weight, // in kg
+    required String measurementSystem,
     required String activityLevel,
     required String subscriptionTier,
     required bool hasOnboard,
@@ -35,8 +36,9 @@ abstract class UserDto with _$UserDto {
       avatarUrl: entity.avatarUrl,
       gender: entity.gender.name,
       age: entity.age,
-      height: entity.height,
-      weight: entity.weight,
+      height: entity.heightCm,
+      weight: entity.weightKg,
+      measurementSystem: entity.measurementSystem.name,
       activityLevel: entity.activityLevel.name,
       subscriptionTier: entity.subscriptionTier.name,
       hasOnboard: entity.hasOnboard,
@@ -53,8 +55,12 @@ extension UserDtoExtension on UserDto {
       avatarUrl: avatarUrl,
       gender: Gender.values.firstWhere((e) => e.name == gender),
       age: age,
-      height: height,
-      weight: weight,
+      heightCm: height,
+      weightKg: weight,
+      measurementSystem: MeasurementSystem.values.firstWhere(
+        (e) => e.name == measurementSystem,
+        orElse: () => MeasurementSystem.metric,
+      ),
       activityLevel: ActivityLevel.values.firstWhere(
         (e) => e.name == activityLevel,
         orElse: () => ActivityLevel.sedentary,

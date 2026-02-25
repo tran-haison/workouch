@@ -121,8 +121,9 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> updateUserProfile({
     int? age,
     Gender? gender,
-    double? height,
-    double? weight,
+    double? heightCm,
+    double? weightKg,
+    MeasurementSystem? measurementSystem,
     ActivityLevel? activityLevel,
     bool? hasOnboard,
   }) async {
@@ -133,8 +134,10 @@ class AuthCubit extends Cubit<AuthState> {
     final user = state.currentUser!.copyWith(
       age: age ?? state.currentUser!.age,
       gender: gender ?? state.currentUser!.gender,
-      height: height ?? state.currentUser!.height,
-      weight: weight ?? state.currentUser!.weight,
+      heightCm: heightCm ?? state.currentUser!.heightCm,
+      weightKg: weightKg ?? state.currentUser!.weightKg,
+      measurementSystem:
+          measurementSystem ?? state.currentUser!.measurementSystem,
       activityLevel: activityLevel ?? state.currentUser!.activityLevel,
       hasOnboard: hasOnboard ?? state.currentUser!.hasOnboard,
     );

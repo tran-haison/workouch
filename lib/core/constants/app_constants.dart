@@ -87,9 +87,16 @@ class AppConstants {
   static const mins = 'Mins';
   static const secs = 'Secs';
   static const kg = 'Kg';
+  static const lbs = 'Lbs';
   static const cm = 'Cm';
+  static const inch = 'In';
+  static const ft = 'Ft';
+  static const kcal = 'Kcal';
   static const km = 'Km';
   static const meters = 'Meters';
+  static const measurementSystem = 'Measurement System';
+  static const metric = 'Metric (kg, cm)';
+  static const imperial = 'Imperial (lbs, in)';
   static const newSet = 'New set';
   static const restBetweenSets = 'Rest between sets';
   static const timeToRest = 'Time to rest';

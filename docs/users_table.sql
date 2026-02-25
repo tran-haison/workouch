@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS public.users (
   age INTEGER NOT NULL DEFAULT 0 CHECK (age >= 0),
   height DOUBLE PRECISION NOT NULL DEFAULT 0 CHECK (height >= 0), -- centimeters
   weight DOUBLE PRECISION NOT NULL DEFAULT 0 CHECK (weight >= 0), -- kilograms
+  measurement_system TEXT NOT NULL DEFAULT 'metric' CHECK (measurement_system IN ('metric', 'imperial')),
   activity_level TEXT NOT NULL DEFAULT 'sedentary' CHECK (activity_level IN ('sedentary', 'lightlyActive', 'moderatelyActive', 'veryActive', 'extremelyActive')),
   subscription_tier TEXT NOT NULL DEFAULT 'basic' CHECK (subscription_tier IN ('basic', 'proMonthly', 'proYearly', 'proLifetime')),
   has_onboard BOOLEAN NOT NULL DEFAULT false,

@@ -83,9 +83,9 @@ class HomeTab extends StatelessWidget {
                 ),
                 Gaps.vGap40,
                 HomeHealthMetrics(
-                  weight: state.currentUser?.weight ?? 0.0,
-                  bmi: state.currentUser?.bmi ?? 0.0,
-                  calories: state.currentUser?.calories ?? 0.0,
+                  weight: state.currentUser?.displayWeight ?? '',
+                  bmi: state.currentUser?.bmi.toStringAsFixed(1) ?? '',
+                  calories: state.currentUser?.displayCalories ?? '',
                 ),
               ],
             ),

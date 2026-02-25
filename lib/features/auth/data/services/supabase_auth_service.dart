@@ -175,6 +175,7 @@ class SupabaseAuthService {
       'gender': dto.gender,
       'height': dto.height,
       'weight': dto.weight,
+      'measurement_system': dto.measurementSystem,
       'activity_level': dto.activityLevel,
       'subscription_tier': dto.subscriptionTier,
       'has_onboard': dto.hasOnboard,

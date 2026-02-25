@@ -18,17 +18,17 @@ class HealthUtils {
   /// Returns BMR in kcal/day, or 0 if required parameters are invalid
   static double calculateBMR({
     required Gender gender,
-    required double weight, // kg
-    required double height, // cm
+    required double weightKg, // kg
+    required double heightCm, // cm
     required int age, // years
   }) {
     // Validate inputs
-    if (weight <= 0 || height <= 0 || age <= 0) {
+    if (weightKg <= 0 || heightCm <= 0 || age <= 0) {
       return 0;
     }
 
     // Base calculation: 10 × weight(kg) + 6.25 × height(cm) - 5 × age(years)
-    final baseBMR = (10 * weight) + (6.25 * height) - (5 * age);
+    final baseBMR = (10 * weightKg) + (6.25 * heightCm) - (5 * age);
 
     // Gender-specific adjustment
     final genderAdjustment = gender.isMale ? 5 : -161;
@@ -67,15 +67,15 @@ class HealthUtils {
   /// Returns TDEE in kcal/day, or 0 if required parameters are invalid
   static double calculateTDEEFromUserParams({
     required Gender gender,
-    required double weight, // kg
-    required double height, // cm
+    required double weightKg, // kg
+    required double heightCm, // cm
     required int age, // years
     required ActivityLevel activityLevel,
   }) {
     final bmr = calculateBMR(
       gender: gender,
-      weight: weight,
-      height: height,
+      weightKg: weightKg,
+      heightCm: heightCm,
       age: age,
     );
 
@@ -88,9 +88,9 @@ class HealthUtils {
   ///
   /// Returns calories burned during workout in kcal
   static int calculateCalories({
-    required double weight, // kg
+    required double weightKg, // kg
     required double minutes,
   }) {
-    return (workoutMET * 3.5 * weight * minutes) ~/ 200;
+    return (workoutMET * 3.5 * weightKg * minutes) ~/ 200;
   }
 }

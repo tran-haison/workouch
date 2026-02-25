@@ -12,9 +12,9 @@ class HomeHealthMetrics extends StatelessWidget {
     required this.calories,
   });
 
-  final double weight;
-  final double bmi;
-  final double calories;
+  final String weight;
+  final String bmi;
+  final String calories;
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +23,9 @@ class HomeHealthMetrics extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _HomeHealthMetricItem(
-            label: AppConstants.weight,
-            value: '${weight.toStringAsFixed(1)} kg',
-          ),
-          _HomeHealthMetricItem(
-            label: AppConstants.bmi,
-            value: bmi.toStringAsFixed(1),
-          ),
-          _HomeHealthMetricItem(
-            label: AppConstants.calories,
-            value: '${calories.toStringAsFixed(0)} kcal',
-          ),
+          _HomeHealthMetricItem(label: AppConstants.weight, value: weight),
+          _HomeHealthMetricItem(label: AppConstants.bmi, value: bmi),
+          _HomeHealthMetricItem(label: AppConstants.calories, value: calories),
         ],
       ),
     );

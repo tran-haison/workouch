@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
 
+import '../../features/auth/presentation/pages/profile_update_page.dart';
 import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/home/presentation/pages/personal_records_page.dart';
-import '../../features/home/presentation/pages/workout_sessions_by_day_page.dart';
+import '../../features/home/presentation/pages/history_sessions_by_day_page.dart';
 import '../../features/auth/presentation/pages/profile_page.dart';
 import '../../features/workout/presentation/pages/workout_creation_page.dart';
 import '../../features/workout/presentation/pages/workout_pro_page.dart';
@@ -28,6 +29,7 @@ enum AppRoute {
   home('/'),
   signIn('/signin'),
   profile('/profile'),
+  profileUpdate('/profile-update'),
   subscription('/subscription'),
   settings('/settings'),
   onboard('/onboard'),
@@ -41,7 +43,7 @@ enum AppRoute {
   workoutFinish('/workout-finish'),
   exercises('/exercises'),
   personalRecords('/personal-records'),
-  workoutSessionsByDay('/workout-sessions-by-day');
+  historySessionsByDay('/history-sessions-by-day');
 
   const AppRoute(this.path);
 
@@ -95,6 +97,16 @@ final appRouter = GoRouter(
       path: AppRoute.profile.path,
       pageBuilder: (context, state) => _buildSlidePage(
         const ProfilePage(),
+        key: state.pageKey,
+        name: state.name,
+        arguments: state.extra,
+      ),
+    ),
+    GoRoute(
+      name: AppRoute.profileUpdate.name,
+      path: AppRoute.profileUpdate.path,
+      pageBuilder: (context, state) => _buildSlidePage(
+        const ProfileUpdatePage(),
         key: state.pageKey,
         name: state.name,
         arguments: state.extra,
@@ -181,8 +193,8 @@ final appRouter = GoRouter(
       ),
     ),
     GoRoute(
-      name: AppRoute.workoutSessionsByDay.name,
-      path: AppRoute.workoutSessionsByDay.path,
+      name: AppRoute.historySessionsByDay.name,
+      path: AppRoute.historySessionsByDay.path,
       pageBuilder: (context, state) {
         final extra = state.extra as Map<String, dynamic>?;
         final date = extra?['date'] as DateTime? ?? DateTime.now();
@@ -190,7 +202,7 @@ final appRouter = GoRouter(
             (extra?['sessions'] as List<WorkoutSession>?) ?? const [];
 
         return _buildSlidePage(
-          WorkoutSessionsByDayPage(date: date, sessions: sessions),
+          HistorySessionsByDayPage(date: date, sessions: sessions),
           key: state.pageKey,
           name: state.name,
           arguments: state.extra,

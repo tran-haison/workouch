@@ -203,7 +203,7 @@ class _HistoryCalendarState extends State<HistoryCalendar> {
     if (sessions.isEmpty) return;
 
     await context.pushNamed(
-      AppRoute.workoutSessionsByDay.name,
+      AppRoute.historySessionsByDay.name,
       extra: {'date': date, 'sessions': sessions} as Map<String, dynamic>,
     );
   }

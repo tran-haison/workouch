@@ -19,7 +19,6 @@ import '../cubit/auth_state.dart';
 import '../widgets/avatar_placeholder.dart';
 import '../widgets/bmi_card.dart';
 import '../widgets/calories_card.dart';
-import '../dialogs/profile_update_dialog.dart';
 import '../widgets/subscription_badge.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -59,9 +58,9 @@ class ProfilePage extends StatelessWidget {
                       ),
                       const Spacer(),
                       CommonIconButton(
-                        backgroundColor: AppColors.darkBlack,
+                        backgroundColor: AppColors.grayBlue,
                         icon: Assets.icons.settings,
-                        iconColor: AppColors.white,
+                        iconColor: AppColors.black,
                         onTap: () => context.pushNamed(AppRoute.settings.name),
                       ),
                     ],
@@ -73,8 +72,9 @@ class ProfilePage extends StatelessWidget {
                     child: Column(
                       children: [
                         GestureDetector(
-                          onTap: () =>
-                              showProfileUpdateDialog(context, user: user),
+                          onTap: () {
+                            context.pushNamed(AppRoute.profileUpdate.name);
+                          },
                           child: Stack(
                             clipBehavior: Clip.none,
                             children: [
@@ -144,19 +144,17 @@ class ProfilePage extends StatelessWidget {
                         Row(
                           children: [
                             Expanded(
-                              child: _HealthMetricCard(
+                              child: _MetricCard(
                                 label: AppConstants.height,
-                                value:
-                                    '${user.height.toStringAsFixed(0)} ${AppConstants.cm.toLowerCase()}',
+                                value: user.displayHeight,
                                 icon: Assets.icons.height,
                               ),
                             ),
                             Gaps.hGap10,
                             Expanded(
-                              child: _HealthMetricCard(
+                              child: _MetricCard(
                                 label: AppConstants.weight,
-                                value:
-                                    '${user.weight.toStringAsFixed(1)} ${AppConstants.kg.toLowerCase()}',
+                                value: user.displayWeight,
                                 icon: Assets.icons.weight,
                               ),
                             ),
@@ -166,7 +164,7 @@ class ProfilePage extends StatelessWidget {
                         Row(
                           children: [
                             Expanded(
-                              child: _HealthMetricCard(
+                              child: _MetricCard(
                                 label: AppConstants.age,
                                 value: '${user.age}',
                                 icon: Assets.icons.calendar,
@@ -174,7 +172,7 @@ class ProfilePage extends StatelessWidget {
                             ),
                             Gaps.hGap10,
                             Expanded(
-                              child: _HealthMetricCard(
+                              child: _MetricCard(
                                 label: AppConstants.gender,
                                 value: user.gender.name.capitalized,
                                 icon: user.gender.isMale
@@ -222,10 +220,11 @@ class ProfilePage extends StatelessWidget {
                         Row(
                           children: [
                             Expanded(
-                              child: _HealthMetricCard(
+                              child: _MetricCard(
                                 label: AppConstants.activityLevel,
-                                value: user.activityLevel.title,
-                                icon: Assets.icons.dumbbell,
+                                value:
+                                    '${user.activityLevel.title} (${user.activityLevel.description})',
+                                icon: Assets.icons.lightning,
                               ),
                             ),
                           ],
@@ -244,8 +243,8 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
-class _HealthMetricCard extends StatelessWidget {
-  const _HealthMetricCard({
+class _MetricCard extends StatelessWidget {
+  const _MetricCard({
     required this.label,
     required this.value,
     required this.icon,
@@ -279,21 +278,23 @@ class _HealthMetricCard extends StatelessWidget {
             color: AppColors.black,
           ),
           Gaps.hGap20,
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: AppTextStyles.h4.copyWith(color: AppColors.mediumGray),
-              ),
-              Gaps.vGap4,
-              Text(
-                value,
-                style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
-              ),
-            ],
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: AppTextStyles.h4.copyWith(color: AppColors.mediumGray),
+                ),
+                Gaps.vGap4,
+                Text(
+                  value,
+                  style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
           ),
         ],
       ),

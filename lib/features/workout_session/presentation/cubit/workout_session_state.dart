@@ -67,7 +67,7 @@ extension WorkoutSessionStateExt on WorkoutSessionState {
   }
 
   double get caloriesBurned => HealthUtils.calculateCalories(
-    weight: user.weight,
+    weightKg: user.weightKg,
     minutes: totalTime.minutes,
   ).toDouble();
 

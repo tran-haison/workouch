@@ -23,8 +23,9 @@ mixin _$User {
   String get avatarUrl => throw _privateConstructorUsedError;
   Gender get gender => throw _privateConstructorUsedError;
   int get age => throw _privateConstructorUsedError;
-  double get height => throw _privateConstructorUsedError; // in cm
-  double get weight => throw _privateConstructorUsedError; // in kg
+  double get heightCm => throw _privateConstructorUsedError;
+  double get weightKg => throw _privateConstructorUsedError;
+  MeasurementSystem get measurementSystem => throw _privateConstructorUsedError;
   ActivityLevel get activityLevel => throw _privateConstructorUsedError;
   SubscriptionTier get subscriptionTier => throw _privateConstructorUsedError;
   bool get hasOnboard => throw _privateConstructorUsedError;
@@ -47,8 +48,9 @@ abstract class $UserCopyWith<$Res> {
     String avatarUrl,
     Gender gender,
     int age,
-    double height,
-    double weight,
+    double heightCm,
+    double weightKg,
+    MeasurementSystem measurementSystem,
     ActivityLevel activityLevel,
     SubscriptionTier subscriptionTier,
     bool hasOnboard,
@@ -76,8 +78,9 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? avatarUrl = null,
     Object? gender = null,
     Object? age = null,
-    Object? height = null,
-    Object? weight = null,
+    Object? heightCm = null,
+    Object? weightKg = null,
+    Object? measurementSystem = null,
     Object? activityLevel = null,
     Object? subscriptionTier = null,
     Object? hasOnboard = null,
@@ -108,14 +111,18 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
                 ? _value.age
                 : age // ignore: cast_nullable_to_non_nullable
                       as int,
-            height: null == height
-                ? _value.height
-                : height // ignore: cast_nullable_to_non_nullable
+            heightCm: null == heightCm
+                ? _value.heightCm
+                : heightCm // ignore: cast_nullable_to_non_nullable
                       as double,
-            weight: null == weight
-                ? _value.weight
-                : weight // ignore: cast_nullable_to_non_nullable
+            weightKg: null == weightKg
+                ? _value.weightKg
+                : weightKg // ignore: cast_nullable_to_non_nullable
                       as double,
+            measurementSystem: null == measurementSystem
+                ? _value.measurementSystem
+                : measurementSystem // ignore: cast_nullable_to_non_nullable
+                      as MeasurementSystem,
             activityLevel: null == activityLevel
                 ? _value.activityLevel
                 : activityLevel // ignore: cast_nullable_to_non_nullable
@@ -149,8 +156,9 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
     String avatarUrl,
     Gender gender,
     int age,
-    double height,
-    double weight,
+    double heightCm,
+    double weightKg,
+    MeasurementSystem measurementSystem,
     ActivityLevel activityLevel,
     SubscriptionTier subscriptionTier,
     bool hasOnboard,
@@ -175,8 +183,9 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? avatarUrl = null,
     Object? gender = null,
     Object? age = null,
-    Object? height = null,
-    Object? weight = null,
+    Object? heightCm = null,
+    Object? weightKg = null,
+    Object? measurementSystem = null,
     Object? activityLevel = null,
     Object? subscriptionTier = null,
     Object? hasOnboard = null,
@@ -207,14 +216,18 @@ class __$$UserImplCopyWithImpl<$Res>
             ? _value.age
             : age // ignore: cast_nullable_to_non_nullable
                   as int,
-        height: null == height
-            ? _value.height
-            : height // ignore: cast_nullable_to_non_nullable
+        heightCm: null == heightCm
+            ? _value.heightCm
+            : heightCm // ignore: cast_nullable_to_non_nullable
                   as double,
-        weight: null == weight
-            ? _value.weight
-            : weight // ignore: cast_nullable_to_non_nullable
+        weightKg: null == weightKg
+            ? _value.weightKg
+            : weightKg // ignore: cast_nullable_to_non_nullable
                   as double,
+        measurementSystem: null == measurementSystem
+            ? _value.measurementSystem
+            : measurementSystem // ignore: cast_nullable_to_non_nullable
+                  as MeasurementSystem,
         activityLevel: null == activityLevel
             ? _value.activityLevel
             : activityLevel // ignore: cast_nullable_to_non_nullable
@@ -242,8 +255,9 @@ class _$UserImpl extends _User {
     this.avatarUrl = '',
     this.gender = Gender.male,
     this.age = 0,
-    this.height = 0.0,
-    this.weight = 0.0,
+    this.heightCm = 0.0,
+    this.weightKg = 0.0,
+    this.measurementSystem = MeasurementSystem.metric,
     this.activityLevel = ActivityLevel.sedentary,
     this.subscriptionTier = SubscriptionTier.basic,
     this.hasOnboard = false,
@@ -269,12 +283,13 @@ class _$UserImpl extends _User {
   final int age;
   @override
   @JsonKey()
-  final double height;
-  // in cm
+  final double heightCm;
   @override
   @JsonKey()
-  final double weight;
-  // in kg
+  final double weightKg;
+  @override
+  @JsonKey()
+  final MeasurementSystem measurementSystem;
   @override
   @JsonKey()
   final ActivityLevel activityLevel;
@@ -287,7 +302,7 @@ class _$UserImpl extends _User {
 
   @override
   String toString() {
-    return 'User(id: $id, email: $email, fullName: $fullName, avatarUrl: $avatarUrl, gender: $gender, age: $age, height: $height, weight: $weight, activityLevel: $activityLevel, subscriptionTier: $subscriptionTier, hasOnboard: $hasOnboard)';
+    return 'User(id: $id, email: $email, fullName: $fullName, avatarUrl: $avatarUrl, gender: $gender, age: $age, heightCm: $heightCm, weightKg: $weightKg, measurementSystem: $measurementSystem, activityLevel: $activityLevel, subscriptionTier: $subscriptionTier, hasOnboard: $hasOnboard)';
   }
 
   @override
@@ -303,8 +318,12 @@ class _$UserImpl extends _User {
                 other.avatarUrl == avatarUrl) &&
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.age, age) || other.age == age) &&
-            (identical(other.height, height) || other.height == height) &&
-            (identical(other.weight, weight) || other.weight == weight) &&
+            (identical(other.heightCm, heightCm) ||
+                other.heightCm == heightCm) &&
+            (identical(other.weightKg, weightKg) ||
+                other.weightKg == weightKg) &&
+            (identical(other.measurementSystem, measurementSystem) ||
+                other.measurementSystem == measurementSystem) &&
             (identical(other.activityLevel, activityLevel) ||
                 other.activityLevel == activityLevel) &&
             (identical(other.subscriptionTier, subscriptionTier) ||
@@ -322,8 +341,9 @@ class _$UserImpl extends _User {
     avatarUrl,
     gender,
     age,
-    height,
-    weight,
+    heightCm,
+    weightKg,
+    measurementSystem,
     activityLevel,
     subscriptionTier,
     hasOnboard,
@@ -346,8 +366,9 @@ abstract class _User extends User {
     final String avatarUrl,
     final Gender gender,
     final int age,
-    final double height,
-    final double weight,
+    final double heightCm,
+    final double weightKg,
+    final MeasurementSystem measurementSystem,
     final ActivityLevel activityLevel,
     final SubscriptionTier subscriptionTier,
     final bool hasOnboard,
@@ -367,9 +388,11 @@ abstract class _User extends User {
   @override
   int get age;
   @override
-  double get height; // in cm
+  double get heightCm;
   @override
-  double get weight; // in kg
+  double get weightKg;
+  @override
+  MeasurementSystem get measurementSystem;
   @override
   ActivityLevel get activityLevel;
   @override

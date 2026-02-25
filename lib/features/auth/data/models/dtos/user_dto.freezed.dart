@@ -29,6 +29,7 @@ mixin _$UserDto {
   int get age => throw _privateConstructorUsedError;
   double get height => throw _privateConstructorUsedError; // in cm
   double get weight => throw _privateConstructorUsedError; // in kg
+  String get measurementSystem => throw _privateConstructorUsedError;
   String get activityLevel => throw _privateConstructorUsedError;
   String get subscriptionTier => throw _privateConstructorUsedError;
   bool get hasOnboard => throw _privateConstructorUsedError;
@@ -56,6 +57,7 @@ abstract class $UserDtoCopyWith<$Res> {
     int age,
     double height,
     double weight,
+    String measurementSystem,
     String activityLevel,
     String subscriptionTier,
     bool hasOnboard,
@@ -85,6 +87,7 @@ class _$UserDtoCopyWithImpl<$Res, $Val extends UserDto>
     Object? age = null,
     Object? height = null,
     Object? weight = null,
+    Object? measurementSystem = null,
     Object? activityLevel = null,
     Object? subscriptionTier = null,
     Object? hasOnboard = null,
@@ -123,6 +126,10 @@ class _$UserDtoCopyWithImpl<$Res, $Val extends UserDto>
                 ? _value.weight
                 : weight // ignore: cast_nullable_to_non_nullable
                       as double,
+            measurementSystem: null == measurementSystem
+                ? _value.measurementSystem
+                : measurementSystem // ignore: cast_nullable_to_non_nullable
+                      as String,
             activityLevel: null == activityLevel
                 ? _value.activityLevel
                 : activityLevel // ignore: cast_nullable_to_non_nullable
@@ -158,6 +165,7 @@ abstract class _$$UserDtoImplCopyWith<$Res> implements $UserDtoCopyWith<$Res> {
     int age,
     double height,
     double weight,
+    String measurementSystem,
     String activityLevel,
     String subscriptionTier,
     bool hasOnboard,
@@ -186,6 +194,7 @@ class __$$UserDtoImplCopyWithImpl<$Res>
     Object? age = null,
     Object? height = null,
     Object? weight = null,
+    Object? measurementSystem = null,
     Object? activityLevel = null,
     Object? subscriptionTier = null,
     Object? hasOnboard = null,
@@ -224,6 +233,10 @@ class __$$UserDtoImplCopyWithImpl<$Res>
             ? _value.weight
             : weight // ignore: cast_nullable_to_non_nullable
                   as double,
+        measurementSystem: null == measurementSystem
+            ? _value.measurementSystem
+            : measurementSystem // ignore: cast_nullable_to_non_nullable
+                  as String,
         activityLevel: null == activityLevel
             ? _value.activityLevel
             : activityLevel // ignore: cast_nullable_to_non_nullable
@@ -254,6 +267,7 @@ class _$UserDtoImpl implements _UserDto {
     required this.age,
     required this.height,
     required this.weight,
+    required this.measurementSystem,
     required this.activityLevel,
     required this.subscriptionTier,
     required this.hasOnboard,
@@ -281,6 +295,8 @@ class _$UserDtoImpl implements _UserDto {
   final double weight;
   // in kg
   @override
+  final String measurementSystem;
+  @override
   final String activityLevel;
   @override
   final String subscriptionTier;
@@ -289,7 +305,7 @@ class _$UserDtoImpl implements _UserDto {
 
   @override
   String toString() {
-    return 'UserDto(id: $id, email: $email, fullName: $fullName, avatarUrl: $avatarUrl, gender: $gender, age: $age, height: $height, weight: $weight, activityLevel: $activityLevel, subscriptionTier: $subscriptionTier, hasOnboard: $hasOnboard)';
+    return 'UserDto(id: $id, email: $email, fullName: $fullName, avatarUrl: $avatarUrl, gender: $gender, age: $age, height: $height, weight: $weight, measurementSystem: $measurementSystem, activityLevel: $activityLevel, subscriptionTier: $subscriptionTier, hasOnboard: $hasOnboard)';
   }
 
   @override
@@ -307,6 +323,8 @@ class _$UserDtoImpl implements _UserDto {
             (identical(other.age, age) || other.age == age) &&
             (identical(other.height, height) || other.height == height) &&
             (identical(other.weight, weight) || other.weight == weight) &&
+            (identical(other.measurementSystem, measurementSystem) ||
+                other.measurementSystem == measurementSystem) &&
             (identical(other.activityLevel, activityLevel) ||
                 other.activityLevel == activityLevel) &&
             (identical(other.subscriptionTier, subscriptionTier) ||
@@ -327,6 +345,7 @@ class _$UserDtoImpl implements _UserDto {
     age,
     height,
     weight,
+    measurementSystem,
     activityLevel,
     subscriptionTier,
     hasOnboard,
@@ -356,6 +375,7 @@ abstract class _UserDto implements UserDto {
     required final int age,
     required final double height,
     required final double weight,
+    required final String measurementSystem,
     required final String activityLevel,
     required final String subscriptionTier,
     required final bool hasOnboard,
@@ -379,6 +399,8 @@ abstract class _UserDto implements UserDto {
   double get height; // in cm
   @override
   double get weight; // in kg
+  @override
+  String get measurementSystem;
   @override
   String get activityLevel;
   @override
