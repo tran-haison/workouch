@@ -207,7 +207,7 @@ class WorkoutMainPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    AppConstants.duration,
+                                    AppConstants.time,
                                     style: AppTextStyles.h5.copyWith(
                                       color: AppColors.mediumGray,
                                     ),

@@ -19,23 +19,23 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$WorkingSet {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int sets, int reps, double weight) weightBased,
+    required TResult Function(int sets, int reps, double weightKg) weightBased,
     required TResult Function(Duration duration) timeBased,
-    required TResult Function(double distance) distanceBased,
+    required TResult Function(double distanceMeters) distanceBased,
     required TResult Function(int sets, int reps) repsOnly,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int sets, int reps, double weight)? weightBased,
+    TResult? Function(int sets, int reps, double weightKg)? weightBased,
     TResult? Function(Duration duration)? timeBased,
-    TResult? Function(double distance)? distanceBased,
+    TResult? Function(double distanceMeters)? distanceBased,
     TResult? Function(int sets, int reps)? repsOnly,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int sets, int reps, double weight)? weightBased,
+    TResult Function(int sets, int reps, double weightKg)? weightBased,
     TResult Function(Duration duration)? timeBased,
-    TResult Function(double distance)? distanceBased,
+    TResult Function(double distanceMeters)? distanceBased,
     TResult Function(int sets, int reps)? repsOnly,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -92,7 +92,7 @@ abstract class _$$WeightBasedSetImplCopyWith<$Res> {
     $Res Function(_$WeightBasedSetImpl) then,
   ) = __$$WeightBasedSetImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int sets, int reps, double weight});
+  $Res call({int sets, int reps, double weightKg});
 }
 
 /// @nodoc
@@ -108,7 +108,11 @@ class __$$WeightBasedSetImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? sets = null, Object? reps = null, Object? weight = null}) {
+  $Res call({
+    Object? sets = null,
+    Object? reps = null,
+    Object? weightKg = null,
+  }) {
     return _then(
       _$WeightBasedSetImpl(
         sets: null == sets
@@ -119,9 +123,9 @@ class __$$WeightBasedSetImplCopyWithImpl<$Res>
             ? _value.reps
             : reps // ignore: cast_nullable_to_non_nullable
                   as int,
-        weight: null == weight
-            ? _value.weight
-            : weight // ignore: cast_nullable_to_non_nullable
+        weightKg: null == weightKg
+            ? _value.weightKg
+            : weightKg // ignore: cast_nullable_to_non_nullable
                   as double,
       ),
     );
@@ -131,8 +135,11 @@ class __$$WeightBasedSetImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$WeightBasedSetImpl extends WeightBasedSet {
-  const _$WeightBasedSetImpl({this.sets = 0, this.reps = 0, this.weight = 0.0})
-    : super._();
+  const _$WeightBasedSetImpl({
+    this.sets = 0,
+    this.reps = 0,
+    this.weightKg = 0.0,
+  }) : super._();
 
   @override
   @JsonKey()
@@ -142,11 +149,11 @@ class _$WeightBasedSetImpl extends WeightBasedSet {
   final int reps;
   @override
   @JsonKey()
-  final double weight;
+  final double weightKg;
 
   @override
   String toString() {
-    return 'WorkingSet.weightBased(sets: $sets, reps: $reps, weight: $weight)';
+    return 'WorkingSet.weightBased(sets: $sets, reps: $reps, weightKg: $weightKg)';
   }
 
   @override
@@ -156,11 +163,12 @@ class _$WeightBasedSetImpl extends WeightBasedSet {
             other is _$WeightBasedSetImpl &&
             (identical(other.sets, sets) || other.sets == sets) &&
             (identical(other.reps, reps) || other.reps == reps) &&
-            (identical(other.weight, weight) || other.weight == weight));
+            (identical(other.weightKg, weightKg) ||
+                other.weightKg == weightKg));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, sets, reps, weight);
+  int get hashCode => Object.hash(runtimeType, sets, reps, weightKg);
 
   /// Create a copy of WorkingSet
   /// with the given fields replaced by the non-null parameter values.
@@ -176,36 +184,36 @@ class _$WeightBasedSetImpl extends WeightBasedSet {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int sets, int reps, double weight) weightBased,
+    required TResult Function(int sets, int reps, double weightKg) weightBased,
     required TResult Function(Duration duration) timeBased,
-    required TResult Function(double distance) distanceBased,
+    required TResult Function(double distanceMeters) distanceBased,
     required TResult Function(int sets, int reps) repsOnly,
   }) {
-    return weightBased(sets, reps, weight);
+    return weightBased(sets, reps, weightKg);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int sets, int reps, double weight)? weightBased,
+    TResult? Function(int sets, int reps, double weightKg)? weightBased,
     TResult? Function(Duration duration)? timeBased,
-    TResult? Function(double distance)? distanceBased,
+    TResult? Function(double distanceMeters)? distanceBased,
     TResult? Function(int sets, int reps)? repsOnly,
   }) {
-    return weightBased?.call(sets, reps, weight);
+    return weightBased?.call(sets, reps, weightKg);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int sets, int reps, double weight)? weightBased,
+    TResult Function(int sets, int reps, double weightKg)? weightBased,
     TResult Function(Duration duration)? timeBased,
-    TResult Function(double distance)? distanceBased,
+    TResult Function(double distanceMeters)? distanceBased,
     TResult Function(int sets, int reps)? repsOnly,
     required TResult orElse(),
   }) {
     if (weightBased != null) {
-      return weightBased(sets, reps, weight);
+      return weightBased(sets, reps, weightKg);
     }
     return orElse();
   }
@@ -252,13 +260,13 @@ abstract class WeightBasedSet extends WorkingSet {
   const factory WeightBasedSet({
     final int sets,
     final int reps,
-    final double weight,
+    final double weightKg,
   }) = _$WeightBasedSetImpl;
   const WeightBasedSet._() : super._();
 
   int get sets;
   int get reps;
-  double get weight;
+  double get weightKg;
 
   /// Create a copy of WorkingSet
   /// with the given fields replaced by the non-null parameter values.
@@ -339,9 +347,9 @@ class _$TimeBasedSetImpl extends TimeBasedSet {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int sets, int reps, double weight) weightBased,
+    required TResult Function(int sets, int reps, double weightKg) weightBased,
     required TResult Function(Duration duration) timeBased,
-    required TResult Function(double distance) distanceBased,
+    required TResult Function(double distanceMeters) distanceBased,
     required TResult Function(int sets, int reps) repsOnly,
   }) {
     return timeBased(duration);
@@ -350,9 +358,9 @@ class _$TimeBasedSetImpl extends TimeBasedSet {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int sets, int reps, double weight)? weightBased,
+    TResult? Function(int sets, int reps, double weightKg)? weightBased,
     TResult? Function(Duration duration)? timeBased,
-    TResult? Function(double distance)? distanceBased,
+    TResult? Function(double distanceMeters)? distanceBased,
     TResult? Function(int sets, int reps)? repsOnly,
   }) {
     return timeBased?.call(duration);
@@ -361,9 +369,9 @@ class _$TimeBasedSetImpl extends TimeBasedSet {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int sets, int reps, double weight)? weightBased,
+    TResult Function(int sets, int reps, double weightKg)? weightBased,
     TResult Function(Duration duration)? timeBased,
-    TResult Function(double distance)? distanceBased,
+    TResult Function(double distanceMeters)? distanceBased,
     TResult Function(int sets, int reps)? repsOnly,
     required TResult orElse(),
   }) {
@@ -431,7 +439,7 @@ abstract class _$$DistanceBasedSetImplCopyWith<$Res> {
     $Res Function(_$DistanceBasedSetImpl) then,
   ) = __$$DistanceBasedSetImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({double distance});
+  $Res call({double distanceMeters});
 }
 
 /// @nodoc
@@ -447,12 +455,12 @@ class __$$DistanceBasedSetImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? distance = null}) {
+  $Res call({Object? distanceMeters = null}) {
     return _then(
       _$DistanceBasedSetImpl(
-        distance: null == distance
-            ? _value.distance
-            : distance // ignore: cast_nullable_to_non_nullable
+        distanceMeters: null == distanceMeters
+            ? _value.distanceMeters
+            : distanceMeters // ignore: cast_nullable_to_non_nullable
                   as double,
       ),
     );
@@ -462,15 +470,15 @@ class __$$DistanceBasedSetImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$DistanceBasedSetImpl extends DistanceBasedSet {
-  const _$DistanceBasedSetImpl({this.distance = 0.0}) : super._();
+  const _$DistanceBasedSetImpl({this.distanceMeters = 0.0}) : super._();
 
   @override
   @JsonKey()
-  final double distance;
+  final double distanceMeters;
 
   @override
   String toString() {
-    return 'WorkingSet.distanceBased(distance: $distance)';
+    return 'WorkingSet.distanceBased(distanceMeters: $distanceMeters)';
   }
 
   @override
@@ -478,12 +486,12 @@ class _$DistanceBasedSetImpl extends DistanceBasedSet {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DistanceBasedSetImpl &&
-            (identical(other.distance, distance) ||
-                other.distance == distance));
+            (identical(other.distanceMeters, distanceMeters) ||
+                other.distanceMeters == distanceMeters));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, distance);
+  int get hashCode => Object.hash(runtimeType, distanceMeters);
 
   /// Create a copy of WorkingSet
   /// with the given fields replaced by the non-null parameter values.
@@ -499,36 +507,36 @@ class _$DistanceBasedSetImpl extends DistanceBasedSet {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int sets, int reps, double weight) weightBased,
+    required TResult Function(int sets, int reps, double weightKg) weightBased,
     required TResult Function(Duration duration) timeBased,
-    required TResult Function(double distance) distanceBased,
+    required TResult Function(double distanceMeters) distanceBased,
     required TResult Function(int sets, int reps) repsOnly,
   }) {
-    return distanceBased(distance);
+    return distanceBased(distanceMeters);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int sets, int reps, double weight)? weightBased,
+    TResult? Function(int sets, int reps, double weightKg)? weightBased,
     TResult? Function(Duration duration)? timeBased,
-    TResult? Function(double distance)? distanceBased,
+    TResult? Function(double distanceMeters)? distanceBased,
     TResult? Function(int sets, int reps)? repsOnly,
   }) {
-    return distanceBased?.call(distance);
+    return distanceBased?.call(distanceMeters);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int sets, int reps, double weight)? weightBased,
+    TResult Function(int sets, int reps, double weightKg)? weightBased,
     TResult Function(Duration duration)? timeBased,
-    TResult Function(double distance)? distanceBased,
+    TResult Function(double distanceMeters)? distanceBased,
     TResult Function(int sets, int reps)? repsOnly,
     required TResult orElse(),
   }) {
     if (distanceBased != null) {
-      return distanceBased(distance);
+      return distanceBased(distanceMeters);
     }
     return orElse();
   }
@@ -572,11 +580,11 @@ class _$DistanceBasedSetImpl extends DistanceBasedSet {
 }
 
 abstract class DistanceBasedSet extends WorkingSet {
-  const factory DistanceBasedSet({final double distance}) =
+  const factory DistanceBasedSet({final double distanceMeters}) =
       _$DistanceBasedSetImpl;
   const DistanceBasedSet._() : super._();
 
-  double get distance;
+  double get distanceMeters;
 
   /// Create a copy of WorkingSet
   /// with the given fields replaced by the non-null parameter values.
@@ -664,9 +672,9 @@ class _$RepsOnlySetImpl extends RepsOnlySet {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int sets, int reps, double weight) weightBased,
+    required TResult Function(int sets, int reps, double weightKg) weightBased,
     required TResult Function(Duration duration) timeBased,
-    required TResult Function(double distance) distanceBased,
+    required TResult Function(double distanceMeters) distanceBased,
     required TResult Function(int sets, int reps) repsOnly,
   }) {
     return repsOnly(sets, reps);
@@ -675,9 +683,9 @@ class _$RepsOnlySetImpl extends RepsOnlySet {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int sets, int reps, double weight)? weightBased,
+    TResult? Function(int sets, int reps, double weightKg)? weightBased,
     TResult? Function(Duration duration)? timeBased,
-    TResult? Function(double distance)? distanceBased,
+    TResult? Function(double distanceMeters)? distanceBased,
     TResult? Function(int sets, int reps)? repsOnly,
   }) {
     return repsOnly?.call(sets, reps);
@@ -686,9 +694,9 @@ class _$RepsOnlySetImpl extends RepsOnlySet {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int sets, int reps, double weight)? weightBased,
+    TResult Function(int sets, int reps, double weightKg)? weightBased,
     TResult Function(Duration duration)? timeBased,
-    TResult Function(double distance)? distanceBased,
+    TResult Function(double distanceMeters)? distanceBased,
     TResult Function(int sets, int reps)? repsOnly,
     required TResult orElse(),
   }) {

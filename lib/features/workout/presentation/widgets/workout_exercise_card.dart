@@ -1,7 +1,11 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:workouch/features/auth/domain/entities/user.dart';
+import 'package:workouch/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:workouch/features/auth/presentation/cubit/auth_state.dart';
 
 import '../../../../core/extension/duration_extension.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -140,59 +144,71 @@ class _WorkoutExerciseCardState extends State<WorkoutExerciseCard>
                   ),
                 ],
               ),
-              ClipRect(
-                child: SizeTransition(
-                  sizeFactor: _heightAnimation,
-                  axisAlignment: -1.0,
-                  child: FadeTransition(
-                    opacity: _heightAnimation,
-                    child: Column(
-                      children: [
-                        if (exercise.displaySetsInfo.isNotEmpty) ...[
-                          Gaps.vGap8,
-                          ...exercise.displaySetsInfo.map((setInfo) {
-                            return Padding(
-                              padding: EdgeInsets.only(top: 8.h),
-                              child: Row(
-                                children: [
-                                  CommonAssetIcon(
-                                    _getSetIcon(exercise.effectiveSetType),
-                                    width: 16.r,
-                                    height: 16.r,
-                                    color: AppColors.black,
-                                  ),
-                                  Gaps.hGap10,
-                                  Expanded(
-                                    child: Text(
-                                      setInfo,
-                                      style: AppTextStyles.h5,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }),
-                        ],
-                        Gaps.vGap8,
-                        Row(
+              BlocBuilder<AuthCubit, AuthState>(
+                buildWhen: (prev, curr) =>
+                    prev.currentUser?.measurementSystem !=
+                    curr.currentUser?.measurementSystem,
+                builder: (context, state) {
+                  final system =
+                      state.currentUser?.measurementSystem ??
+                      MeasurementSystem.metric;
+                  final displaySetsInfo = exercise.displaySetsInfo(system);
+
+                  return ClipRect(
+                    child: SizeTransition(
+                      sizeFactor: _heightAnimation,
+                      axisAlignment: -1.0,
+                      child: FadeTransition(
+                        opacity: _heightAnimation,
+                        child: Column(
                           children: [
-                            CommonAssetIcon(
-                              Assets.icons.rest,
-                              width: 16.r,
-                              height: 16.r,
-                              color: AppColors.black,
-                            ),
-                            Gaps.hGap10,
-                            Text(
-                              exercise.restTimeBetweenSets.mmss,
-                              style: AppTextStyles.h5,
+                            if (displaySetsInfo.isNotEmpty) ...[
+                              Gaps.vGap8,
+                              ...displaySetsInfo.map((setInfo) {
+                                return Padding(
+                                  padding: EdgeInsets.only(top: 8.h),
+                                  child: Row(
+                                    children: [
+                                      CommonAssetIcon(
+                                        _getSetIcon(exercise.effectiveSetType),
+                                        width: 16.r,
+                                        height: 16.r,
+                                        color: AppColors.black,
+                                      ),
+                                      Gaps.hGap10,
+                                      Expanded(
+                                        child: Text(
+                                          setInfo,
+                                          style: AppTextStyles.h5,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
+                            ],
+                            Gaps.vGap8,
+                            Row(
+                              children: [
+                                CommonAssetIcon(
+                                  Assets.icons.rest,
+                                  width: 16.r,
+                                  height: 16.r,
+                                  color: AppColors.black,
+                                ),
+                                Gaps.hGap10,
+                                Text(
+                                  exercise.restTimeBetweenSets.mmss,
+                                  style: AppTextStyles.h5,
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
               Gaps.vGap16,
               AnimatedBuilder(

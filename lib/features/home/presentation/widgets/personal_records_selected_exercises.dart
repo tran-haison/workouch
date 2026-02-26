@@ -4,6 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workouch/core/widgets/common_button.dart';
 import 'package:workouch/core/widgets/common_images.dart';
+import 'package:workouch/features/auth/domain/entities/user.dart';
+import 'package:workouch/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:workouch/features/auth/presentation/cubit/auth_state.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/router/app_router.dart';
@@ -158,9 +161,21 @@ class _ExercisePrItem extends StatelessWidget {
                   ],
                 ),
                 Gaps.vGap4,
-                Text(
-                  personalRecord.displayValue.toLowerCase(),
-                  style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w600),
+                BlocBuilder<AuthCubit, AuthState>(
+                  buildWhen: (prev, curr) =>
+                      prev.currentUser?.measurementSystem !=
+                      curr.currentUser?.measurementSystem,
+                  builder: (context, state) {
+                    final system =
+                        state.currentUser?.measurementSystem ??
+                        MeasurementSystem.metric;
+                    return Text(
+                      personalRecord.displayValue(system).toLowerCase(),
+                      style: AppTextStyles.h3.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    );
+                  },
                 ),
                 Gaps.vGap8,
                 Row(

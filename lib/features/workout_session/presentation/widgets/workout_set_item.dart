@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:workouch/features/auth/domain/entities/user.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -11,6 +12,7 @@ import '../../../workout/domain/entities/working_set.dart';
 class WorkoutSetItem extends StatelessWidget {
   const WorkoutSetItem({
     required this.set,
+    required this.measurementSystem,
     required this.isCompleted,
     required this.isCurrent,
     required this.setIndex,
@@ -19,6 +21,7 @@ class WorkoutSetItem extends StatelessWidget {
   });
 
   final WorkingSet set;
+  final MeasurementSystem measurementSystem;
   final bool isCompleted;
   final bool isCurrent;
   final int setIndex;
@@ -75,28 +78,31 @@ class WorkoutSetItem extends StatelessWidget {
               ),
             ),
             Gaps.hGap16,
-            ...set.displayInfoMap?.entries.map(
-                  (entry) => Expanded(
-                    child: Column(
-                      children: [
-                        Text(
-                          entry.key,
-                          style: AppTextStyles.h5.copyWith(
-                            color: AppColors.mediumGray,
-                          ),
+            ...set
+                    .displayInfoMap(measurementSystem)
+                    ?.entries
+                    .map(
+                      (entry) => Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              entry.key,
+                              style: AppTextStyles.h5.copyWith(
+                                color: AppColors.mediumGray,
+                              ),
+                            ),
+                            Gaps.vGap4,
+                            Text(
+                              entry.value,
+                              style: AppTextStyles.h4.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.text,
+                              ),
+                            ),
+                          ],
                         ),
-                        Gaps.vGap4,
-                        Text(
-                          entry.value,
-                          style: AppTextStyles.h4.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.text,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ) ??
+                      ),
+                    ) ??
                 [],
             Gaps.hGap16,
             if (isCurrent)

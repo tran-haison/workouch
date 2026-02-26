@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:workouch/features/auth/domain/entities/user.dart';
+import 'package:workouch/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:workouch/features/auth/presentation/cubit/auth_state.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -53,11 +57,21 @@ class PersonalRecordsCardSelectable extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Gaps.vGap4,
-                  Text(
-                    personalRecord.displayValue.toLowerCase(),
-                    style: AppTextStyles.h3.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                  BlocBuilder<AuthCubit, AuthState>(
+                    buildWhen: (prev, curr) =>
+                        prev.currentUser?.measurementSystem !=
+                        curr.currentUser?.measurementSystem,
+                    builder: (context, state) {
+                      final system =
+                          state.currentUser?.measurementSystem ??
+                          MeasurementSystem.metric;
+                      return Text(
+                        personalRecord.displayValue(system).toLowerCase(),
+                        style: AppTextStyles.h3.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      );
+                    },
                   ),
                   Gaps.vGap8,
                   Row(

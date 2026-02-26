@@ -1,5 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../core/constants/app_constants.dart';
+import '../../../../core/extension/double_extension.dart';
+import '../../../auth/domain/entities/user.dart';
 import '../../../home/domain/entities/history_stats.dart';
 import '../../../workout/domain/entities/workout.dart';
 import 'workout_session_exercise.dart';
@@ -38,8 +41,22 @@ extension WorkoutSessionExt on WorkoutSession {
     );
   }
 
+  Duration get totalDuration {
+    return Duration(seconds: totalDurationSeconds);
+  }
+
   double get totalDurationMinutes {
     return (totalDurationSeconds / 60).toDouble();
+  }
+
+  String totalVolumeString(MeasurementSystem system) {
+    final value = system.isMetric
+        ? totalVolumeKg.toStringAsFixed(1)
+        : totalVolumeKg.kgToLbs.round();
+    final unit = system.isMetric
+        ? AppConstants.kg.toLowerCase()
+        : AppConstants.lbs.toLowerCase();
+    return '$value $unit';
   }
 }
 
@@ -55,7 +72,7 @@ extension WorkoutSessionListExt on List<WorkoutSession> {
 
   HistoryStats get historyStats {
     final totalWorkouts = length;
-    final totalTrainingVolume = fold<double>(
+    final totalTrainingVolumeKg = fold<double>(
       0,
       (sum, s) => sum + s.totalVolumeKg,
     );
@@ -65,7 +82,7 @@ extension WorkoutSessionListExt on List<WorkoutSession> {
     );
     return HistoryStats(
       totalWorkouts: totalWorkouts,
-      totalTrainingVolume: totalTrainingVolume,
+      totalTrainingVolumeKg: totalTrainingVolumeKg,
       totalTime: Duration(seconds: totalTimeSeconds),
     );
   }

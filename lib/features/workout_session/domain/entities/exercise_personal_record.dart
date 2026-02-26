@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:workouch/core/extension/double_extension.dart';
+import 'package:workouch/features/auth/domain/entities/user.dart';
 import 'package:workouch/features/workout/domain/entities/working_set.dart';
 
 import '../../../../core/constants/app_constants.dart';
@@ -7,7 +9,6 @@ import 'workout_session_exercise.dart';
 
 part 'exercise_personal_record.freezed.dart';
 
-/// Personal record for an exercise, stored in exercise_personal_records table.
 @freezed
 class ExercisePersonalRecord with _$ExercisePersonalRecord {
   const ExercisePersonalRecord._();
@@ -29,16 +30,36 @@ class ExercisePersonalRecord with _$ExercisePersonalRecord {
 }
 
 extension ExercisePersonalRecordExt on ExercisePersonalRecord {
-  String get displayValue {
+  String displayValue(MeasurementSystem system) {
     switch (setType) {
       case WorkingSetType.weightBased:
-        return '${maxWeightKg.toStringAsFixed(1)} ${AppConstants.kg} × $maxReps ${AppConstants.reps}';
+        final weightStr = system.isMetric
+            ? '${maxWeightKg.toStringAsFixed(1)} ${AppConstants.kg}'
+            : '${maxWeightKg.kgToLbs.round()} ${AppConstants.lbs}';
+        return '$weightStr × $maxReps ${AppConstants.reps}';
       case WorkingSetType.repsOnly:
         return '$maxReps ${AppConstants.reps}';
       case WorkingSetType.timeBased:
         return maxDuration.hhmmss;
       case WorkingSetType.distanceBased:
-        return '${maxDistanceMeters.toStringAsFixed(1)} m';
+        if (system.isMetric) {
+          if (maxDistanceMeters >= 1000) {
+            final km = maxDistanceMeters / 1000;
+            final kmString = km
+                .toStringAsFixed(3)
+                .replaceAll(RegExp(r'0+$'), '')
+                .replaceAll(RegExp(r'\.$'), '');
+            return '$kmString ${AppConstants.km}';
+          }
+          return '${maxDistanceMeters.round()} ${AppConstants.meters}';
+        } else {
+          final miles = maxDistanceMeters.meterToMile;
+          final milesString = miles
+              .toStringAsFixed(2)
+              .replaceAll(RegExp(r'0+$'), '')
+              .replaceAll(RegExp(r'\.$'), '');
+          return '$milesString ${AppConstants.miles}';
+        }
     }
   }
 
@@ -66,9 +87,9 @@ extension ExercisePersonalRecordExt on ExercisePersonalRecord {
 
     for (final set in exercise.sets) {
       set.when(
-        weightBased: (_, reps, weight) {
-          if (weight > maxWeightKg) {
-            maxWeightKg = weight;
+        weightBased: (_, reps, weightKg) {
+          if (weightKg > maxWeightKg) {
+            maxWeightKg = weightKg;
             maxReps = reps;
           }
         },
@@ -78,8 +99,10 @@ extension ExercisePersonalRecordExt on ExercisePersonalRecord {
         timeBased: (duration) {
           if (duration > maxDuration) maxDuration = duration;
         },
-        distanceBased: (distance) {
-          if (distance > maxDistanceMeters) maxDistanceMeters = distance;
+        distanceBased: (distanceMeters) {
+          if (distanceMeters > maxDistanceMeters) {
+            maxDistanceMeters = distanceMeters;
+          }
         },
       );
     }

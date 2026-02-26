@@ -19,12 +19,14 @@ class WorkoutSetList extends StatelessWidget {
       builder: (context, state) {
         final sets = state.currentExercise.separatedSets;
         final currSetIdx = state.currentSetIndex;
+        final measurementSystem = state.user.measurementSystem;
 
         return ListView.separated(
           itemCount: sets.length,
           itemBuilder: (_, i) => WorkoutSetItem(
             setIndex: i,
             set: sets[i],
+            measurementSystem: measurementSystem,
             isCompleted: i < currSetIdx,
             isCurrent: i == currSetIdx,
             onComplete: onCompleteCurrentSet,

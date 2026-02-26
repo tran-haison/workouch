@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$HistoryStats {
   int get totalWorkouts => throw _privateConstructorUsedError;
-  double get totalTrainingVolume => throw _privateConstructorUsedError;
+  double get totalTrainingVolumeKg => throw _privateConstructorUsedError;
   Duration get totalTime => throw _privateConstructorUsedError;
 
   /// Create a copy of HistoryStats
@@ -37,7 +37,7 @@ abstract class $HistoryStatsCopyWith<$Res> {
   @useResult
   $Res call({
     int totalWorkouts,
-    double totalTrainingVolume,
+    double totalTrainingVolumeKg,
     Duration totalTime,
   });
 }
@@ -58,7 +58,7 @@ class _$HistoryStatsCopyWithImpl<$Res, $Val extends HistoryStats>
   @override
   $Res call({
     Object? totalWorkouts = null,
-    Object? totalTrainingVolume = null,
+    Object? totalTrainingVolumeKg = null,
     Object? totalTime = null,
   }) {
     return _then(
@@ -67,9 +67,9 @@ class _$HistoryStatsCopyWithImpl<$Res, $Val extends HistoryStats>
                 ? _value.totalWorkouts
                 : totalWorkouts // ignore: cast_nullable_to_non_nullable
                       as int,
-            totalTrainingVolume: null == totalTrainingVolume
-                ? _value.totalTrainingVolume
-                : totalTrainingVolume // ignore: cast_nullable_to_non_nullable
+            totalTrainingVolumeKg: null == totalTrainingVolumeKg
+                ? _value.totalTrainingVolumeKg
+                : totalTrainingVolumeKg // ignore: cast_nullable_to_non_nullable
                       as double,
             totalTime: null == totalTime
                 ? _value.totalTime
@@ -92,7 +92,7 @@ abstract class _$$HistoryStatsImplCopyWith<$Res>
   @useResult
   $Res call({
     int totalWorkouts,
-    double totalTrainingVolume,
+    double totalTrainingVolumeKg,
     Duration totalTime,
   });
 }
@@ -112,7 +112,7 @@ class __$$HistoryStatsImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? totalWorkouts = null,
-    Object? totalTrainingVolume = null,
+    Object? totalTrainingVolumeKg = null,
     Object? totalTime = null,
   }) {
     return _then(
@@ -121,9 +121,9 @@ class __$$HistoryStatsImplCopyWithImpl<$Res>
             ? _value.totalWorkouts
             : totalWorkouts // ignore: cast_nullable_to_non_nullable
                   as int,
-        totalTrainingVolume: null == totalTrainingVolume
-            ? _value.totalTrainingVolume
-            : totalTrainingVolume // ignore: cast_nullable_to_non_nullable
+        totalTrainingVolumeKg: null == totalTrainingVolumeKg
+            ? _value.totalTrainingVolumeKg
+            : totalTrainingVolumeKg // ignore: cast_nullable_to_non_nullable
                   as double,
         totalTime: null == totalTime
             ? _value.totalTime
@@ -139,7 +139,7 @@ class __$$HistoryStatsImplCopyWithImpl<$Res>
 class _$HistoryStatsImpl extends _HistoryStats {
   const _$HistoryStatsImpl({
     this.totalWorkouts = 0,
-    this.totalTrainingVolume = 0.0,
+    this.totalTrainingVolumeKg = 0.0,
     this.totalTime = Duration.zero,
   }) : super._();
 
@@ -148,14 +148,14 @@ class _$HistoryStatsImpl extends _HistoryStats {
   final int totalWorkouts;
   @override
   @JsonKey()
-  final double totalTrainingVolume;
+  final double totalTrainingVolumeKg;
   @override
   @JsonKey()
   final Duration totalTime;
 
   @override
   String toString() {
-    return 'HistoryStats(totalWorkouts: $totalWorkouts, totalTrainingVolume: $totalTrainingVolume, totalTime: $totalTime)';
+    return 'HistoryStats(totalWorkouts: $totalWorkouts, totalTrainingVolumeKg: $totalTrainingVolumeKg, totalTime: $totalTime)';
   }
 
   @override
@@ -165,15 +165,15 @@ class _$HistoryStatsImpl extends _HistoryStats {
             other is _$HistoryStatsImpl &&
             (identical(other.totalWorkouts, totalWorkouts) ||
                 other.totalWorkouts == totalWorkouts) &&
-            (identical(other.totalTrainingVolume, totalTrainingVolume) ||
-                other.totalTrainingVolume == totalTrainingVolume) &&
+            (identical(other.totalTrainingVolumeKg, totalTrainingVolumeKg) ||
+                other.totalTrainingVolumeKg == totalTrainingVolumeKg) &&
             (identical(other.totalTime, totalTime) ||
                 other.totalTime == totalTime));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, totalWorkouts, totalTrainingVolume, totalTime);
+      Object.hash(runtimeType, totalWorkouts, totalTrainingVolumeKg, totalTime);
 
   /// Create a copy of HistoryStats
   /// with the given fields replaced by the non-null parameter values.
@@ -187,7 +187,7 @@ class _$HistoryStatsImpl extends _HistoryStats {
 abstract class _HistoryStats extends HistoryStats {
   const factory _HistoryStats({
     final int totalWorkouts,
-    final double totalTrainingVolume,
+    final double totalTrainingVolumeKg,
     final Duration totalTime,
   }) = _$HistoryStatsImpl;
   const _HistoryStats._() : super._();
@@ -195,7 +195,7 @@ abstract class _HistoryStats extends HistoryStats {
   @override
   int get totalWorkouts;
   @override
-  double get totalTrainingVolume;
+  double get totalTrainingVolumeKg;
   @override
   Duration get totalTime;
 

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workouch/core/extension/duration_extension.dart';
+import 'package:workouch/features/auth/domain/entities/user.dart';
+import 'package:workouch/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:workouch/features/workout/domain/entities/working_exercise.dart';
 import 'package:workouch/features/workout/presentation/widgets/exercise_card_item.dart';
 
@@ -14,6 +17,7 @@ import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../../auth/presentation/cubit/auth_state.dart';
 import '../../domain/entities/working_set.dart';
 import 'rest_time_dialog.dart';
 import '../widgets/working_set_input.dart';
@@ -140,15 +144,27 @@ class _ExerciseDetailsDialogState extends State<_ExerciseDetailsDialog> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: _setKeys.length,
                 itemBuilder: (context, index) {
-                  return WorkingSetInput(
-                    key: _setKeys[index],
-                    showDeleteButton: _setKeys.length > 1,
-                    onEdit: (workoutSet) => _editWorkoutSet(workoutSet, index),
-                    onDelete: () => _deleteWorkoutSet(index),
-                    type:
-                        _exercise.effectiveSetType ??
-                        WorkingSetType.weightBased,
-                    initialWorkingSet: _exercise.sets[index],
+                  return BlocBuilder<AuthCubit, AuthState>(
+                    buildWhen: (prev, curr) =>
+                        prev.currentUser?.measurementSystem !=
+                        curr.currentUser?.measurementSystem,
+                    builder: (context, state) {
+                      final system =
+                          state.currentUser?.measurementSystem ??
+                          MeasurementSystem.metric;
+                      return WorkingSetInput(
+                        key: _setKeys[index],
+                        showDeleteButton: _setKeys.length > 1,
+                        onEdit: (workoutSet) =>
+                            _editWorkoutSet(workoutSet, index),
+                        onDelete: () => _deleteWorkoutSet(index),
+                        type:
+                            _exercise.effectiveSetType ??
+                            WorkingSetType.weightBased,
+                        initialWorkingSet: _exercise.sets[index],
+                        measurementSystem: system,
+                      );
+                    },
                   );
                 },
                 separatorBuilder: (_, _) => Gaps.vGap10,

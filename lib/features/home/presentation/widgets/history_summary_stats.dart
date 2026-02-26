@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:workouch/features/auth/domain/entities/user.dart';
+import 'package:workouch/features/auth/presentation/cubit/auth_cubit.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -8,6 +10,7 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../../auth/presentation/cubit/auth_state.dart';
 import '../../domain/entities/history_stats.dart';
 import '../cubit/home_cubit.dart';
 import '../cubit/home_state.dart';
@@ -26,49 +29,70 @@ class HistorySummaryStats extends StatelessWidget {
         final thisMonthStats = state.thisMonthHistoryStats;
         final lastMonthStats = state.lastMonthHistoryStats;
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.w),
-              child: Text(
-                AppConstants.thisMonth,
-                style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.bold),
-              ),
-            ),
-            Gaps.vGap12,
-            IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: _HistoryStatCard(
-                      title: AppConstants.workouts,
-                      value: thisMonthStats.totalWorkouts.toString(),
-                      trend: _getWorkoutTrend(thisMonthStats, lastMonthStats),
+        return BlocBuilder<AuthCubit, AuthState>(
+          buildWhen: (prev, curr) =>
+              prev.currentUser?.measurementSystem !=
+              curr.currentUser?.measurementSystem,
+          builder: (context, state) {
+            final system =
+                state.currentUser?.measurementSystem ??
+                MeasurementSystem.metric;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w),
+                  child: Text(
+                    AppConstants.thisMonth,
+                    style: AppTextStyles.h3.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Gaps.hGap4,
-                  Expanded(
-                    child: _HistoryStatCard(
-                      title: AppConstants.trainingVolume,
-                      value: thisMonthStats.totalTrainingVolumeString,
-                      trend: _getVolumeTrend(thisMonthStats, lastMonthStats),
-                    ),
+                ),
+                Gaps.vGap12,
+                IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: _HistoryStatCard(
+                          title: AppConstants.workouts,
+                          value: thisMonthStats.totalWorkouts.toString(),
+                          trend: _getWorkoutTrend(
+                            thisMonthStats,
+                            lastMonthStats,
+                          ),
+                        ),
+                      ),
+                      Gaps.hGap4,
+                      Expanded(
+                        child: _HistoryStatCard(
+                          title: AppConstants.trainingVolume,
+                          value: thisMonthStats.totalTrainingVolumeString(
+                            system,
+                          ),
+                          trend: _getVolumeTrend(
+                            thisMonthStats,
+                            lastMonthStats,
+                          ),
+                        ),
+                      ),
+                      Gaps.hGap4,
+                      Expanded(
+                        child: _HistoryStatCard(
+                          title: AppConstants.time,
+                          value: thisMonthStats.totalTimeString,
+                          trend: _getTimeTrend(thisMonthStats, lastMonthStats),
+                        ),
+                      ),
+                    ],
                   ),
-                  Gaps.hGap4,
-                  Expanded(
-                    child: _HistoryStatCard(
-                      title: AppConstants.time,
-                      value: thisMonthStats.totalTimeString,
-                      trend: _getTimeTrend(thisMonthStats, lastMonthStats),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+                ),
+              ],
+            );
+          },
         );
       },
     );
@@ -85,9 +109,9 @@ class HistorySummaryStats extends StatelessWidget {
   }
 
   _Trend _getVolumeTrend(HistoryStats curr, HistoryStats prev) {
-    if (curr.totalTrainingVolume > prev.totalTrainingVolume) {
+    if (curr.totalTrainingVolumeKg > prev.totalTrainingVolumeKg) {
       return _Trend.up;
-    } else if (curr.totalTrainingVolume < prev.totalTrainingVolume) {
+    } else if (curr.totalTrainingVolumeKg < prev.totalTrainingVolumeKg) {
       return _Trend.down;
     } else {
       return _Trend.same;

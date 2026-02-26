@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:workouch/core/extension/double_extension.dart';
+import 'package:workouch/features/auth/domain/entities/user.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -16,6 +18,7 @@ class WorkingSetInput extends StatefulWidget {
     required this.onEdit,
     required this.onDelete,
     required this.type,
+    required this.measurementSystem,
     this.showDeleteButton = true,
     this.initialWorkingSet,
     super.key,
@@ -24,6 +27,7 @@ class WorkingSetInput extends StatefulWidget {
   final Function(WorkingSet workingSet) onEdit;
   final VoidCallback onDelete;
   final WorkingSetType type;
+  final MeasurementSystem measurementSystem;
   final bool showDeleteButton;
   final WorkingSet? initialWorkingSet;
 
@@ -79,17 +83,21 @@ class _WorkingSetInputState extends State<WorkingSetInput> {
           label: _firstInputLabel,
           onChanged: _onFirstInputChanged,
           maxLength: _firstInputMaxLength,
-          allowDecimal: false,
+          allowDecimal:
+              widget.type.isDistanceBased &&
+              widget.measurementSystem.isImperial,
         ),
-        Gaps.hGap10,
-        // Second input field (always present)
-        _InputField(
-          initialValue: _secondInputInitialValue,
-          label: _secondInputLabel,
-          onChanged: _onSecondInputChanged,
-          maxLength: _secondInputMaxLength,
-          allowDecimal: false,
-        ),
+        // Second input field (hidden for distance in imperial)
+        if (_hasSecondInput) ...[
+          Gaps.hGap10,
+          _InputField(
+            initialValue: _secondInputInitialValue,
+            label: _secondInputLabel,
+            onChanged: _onSecondInputChanged,
+            maxLength: _secondInputMaxLength,
+            allowDecimal: false,
+          ),
+        ],
         // Third input field (only for weightBased)
         if (_hasThirdInput) ...[
           Gaps.hGap10,
@@ -98,7 +106,7 @@ class _WorkingSetInputState extends State<WorkingSetInput> {
             label: _thirdInputLabel,
             onChanged: _onThirdInputChanged,
             maxLength: _thirdInputMaxLength,
-            allowDecimal: true, // Weight allows decimal
+            allowDecimal: widget.measurementSystem.isMetric,
           ),
         ],
         if (widget.showDeleteButton) ...[
@@ -116,8 +124,13 @@ class _WorkingSetInputState extends State<WorkingSetInput> {
     );
   }
 
+  bool get _hasSecondInput {
+    return !(widget.type.isDistanceBased &&
+        widget.measurementSystem.isImperial);
+  }
+
   bool get _hasThirdInput {
-    return widget.type == WorkingSetType.weightBased;
+    return widget.type.isWeightBased;
   }
 
   String? get _firstInputInitialValue {
@@ -126,9 +139,12 @@ class _WorkingSetInputState extends State<WorkingSetInput> {
       timeBased: (duration) => duration.inSeconds != 0
           ? (duration.inSeconds ~/ 60).toString()
           : null, // Show minutes
-      distanceBased: (distance) => distance != 0
-          ? (distance ~/ 1000).toString()
-          : null, // Show km (integer)
+      distanceBased: (distanceMeters) {
+        if (distanceMeters == 0) return null;
+        return widget.measurementSystem.isMetric
+            ? (distanceMeters ~/ 1000).toString()
+            : (distanceMeters.meterToMile).toStringAsFixed(2);
+      },
       repsOnly: (sets, reps) => sets != 0 ? sets.toString() : null,
     );
   }
@@ -140,8 +156,9 @@ class _WorkingSetInputState extends State<WorkingSetInput> {
         final seconds = duration.inSeconds % 60;
         return seconds != 0 ? seconds.toString() : null;
       },
-      distanceBased: (distance) {
-        final meters = (distance % 1000).toInt();
+      distanceBased: (distanceMeters) {
+        if (widget.measurementSystem.isImperial) return null;
+        final meters = (distanceMeters % 1000).toInt();
         return meters != 0 ? meters.toString() : null;
       },
       repsOnly: (sets, reps) => reps != 0 ? reps.toString() : null,
@@ -151,8 +168,12 @@ class _WorkingSetInputState extends State<WorkingSetInput> {
   String? get _thirdInputInitialValue {
     if (!_hasThirdInput) return null;
     return _workingSet.when(
-      weightBased: (sets, reps, weight) =>
-          weight != 0 ? weight.toStringAsFixed(1) : null,
+      weightBased: (sets, reps, weightKg) {
+        if (weightKg == 0) return null;
+        return widget.measurementSystem.isMetric
+            ? weightKg.toStringAsFixed(1)
+            : weightKg.kgToLbs.round().toString();
+      },
       timeBased: (duration) => null,
       distanceBased: (distance) => null,
       repsOnly: (sets, reps) => null,
@@ -167,7 +188,7 @@ class _WorkingSetInputState extends State<WorkingSetInput> {
       case WorkingSetType.timeBased:
         return 3; // minutes
       case WorkingSetType.distanceBased:
-        return 3; // km
+        return widget.measurementSystem.isMetric ? 3 : 6; // km or miles
     }
   }
 
@@ -179,7 +200,9 @@ class _WorkingSetInputState extends State<WorkingSetInput> {
       case WorkingSetType.timeBased:
         return 2; // seconds (0-59)
       case WorkingSetType.distanceBased:
-        return 3; // meters (0-999)
+        return widget.measurementSystem.isMetric
+            ? 3 // meters (0-999)
+            : 0; // (no second input for imperial)
     }
   }
 
@@ -195,7 +218,9 @@ class _WorkingSetInputState extends State<WorkingSetInput> {
       case WorkingSetType.timeBased:
         return AppConstants.mins.toLowerCase();
       case WorkingSetType.distanceBased:
-        return AppConstants.km.toLowerCase();
+        return widget.measurementSystem.isMetric
+            ? AppConstants.km.toLowerCase()
+            : AppConstants.miles.toLowerCase();
     }
   }
 
@@ -207,16 +232,20 @@ class _WorkingSetInputState extends State<WorkingSetInput> {
       case WorkingSetType.timeBased:
         return AppConstants.secs.toLowerCase();
       case WorkingSetType.distanceBased:
-        return AppConstants.meters.toLowerCase();
+        return widget.measurementSystem.isMetric
+            ? AppConstants.meters.toLowerCase()
+            : '';
     }
   }
 
   String get _thirdInputLabel {
-    return AppConstants.kg.toLowerCase();
+    return widget.measurementSystem.isMetric
+        ? AppConstants.kg.toLowerCase()
+        : AppConstants.lbs.toLowerCase();
   }
 
   void _onFirstInputChanged(String value) {
-    final parsedValue = int.tryParse(value) ?? 0;
+    final parsedValue = double.tryParse(value) ?? 0.0;
     _workingSet = _updateFirstInput(parsedValue);
     widget.onEdit(_workingSet);
   }
@@ -233,32 +262,40 @@ class _WorkingSetInputState extends State<WorkingSetInput> {
     widget.onEdit(_workingSet);
   }
 
-  WorkingSet _updateFirstInput(int value) {
+  WorkingSet _updateFirstInput(double value) {
     return _workingSet.when(
-      weightBased: (sets, reps, weight) =>
-          WorkingSet.weightBased(sets: value, reps: reps, weight: weight),
+      weightBased: (_, reps, weight) => WorkingSet.weightBased(
+        sets: value.toInt(),
+        reps: reps,
+        weightKg: weight,
+      ),
       timeBased: (duration) {
         // Combine new minutes with existing seconds
-        final minutes = value;
+        final minutes = value.toInt();
         final seconds = duration.inSeconds % 60;
         return WorkingSet.timeBased(
           duration: Duration(seconds: minutes * 60 + seconds),
         );
       },
-      distanceBased: (distance) {
-        // Combine new km with existing meters
-        final km = value;
-        final meters = (distance % 1000).toInt();
-        return WorkingSet.distanceBased(distance: km * 1000.0 + meters);
+      distanceBased: (distanceMeters) {
+        if (widget.measurementSystem.isImperial) {
+          final meters = value.mileToMeter;
+          return WorkingSet.distanceBased(distanceMeters: meters);
+        }
+        // Combine new km with existing meters (metric)
+        final km = value.toInt();
+        final meters = (distanceMeters % 1000).toInt();
+        return WorkingSet.distanceBased(distanceMeters: km * 1000.0 + meters);
       },
-      repsOnly: (sets, reps) => WorkingSet.repsOnly(sets: value, reps: reps),
+      repsOnly: (_, reps) =>
+          WorkingSet.repsOnly(sets: value.toInt(), reps: reps),
     );
   }
 
   WorkingSet _updateSecondInput(int value) {
     return _workingSet.when(
-      weightBased: (sets, reps, weight) =>
-          WorkingSet.weightBased(sets: sets, reps: value, weight: weight),
+      weightBased: (sets, _, weight) =>
+          WorkingSet.weightBased(sets: sets, reps: value, weightKg: weight),
       timeBased: (duration) {
         // Combine existing minutes with new seconds
         final minutes = duration.inSeconds ~/ 60;
@@ -266,22 +303,36 @@ class _WorkingSetInputState extends State<WorkingSetInput> {
           duration: Duration(seconds: minutes * 60 + value),
         );
       },
-      distanceBased: (distance) {
+      distanceBased: (distanceMeters) {
+        if (widget.measurementSystem.isImperial) {
+          // No second input for imperial
+          return _workingSet;
+        }
         // Combine existing km with new meters
-        final km = (distance ~/ 1000).toInt();
-        return WorkingSet.distanceBased(distance: km * 1000.0 + value);
+        final km = (distanceMeters ~/ 1000).toInt();
+        final meters = value;
+        return WorkingSet.distanceBased(distanceMeters: km * 1000.0 + meters);
       },
-      repsOnly: (sets, reps) => WorkingSet.repsOnly(sets: sets, reps: value),
+      repsOnly: (sets, _) => WorkingSet.repsOnly(sets: sets, reps: value),
     );
   }
 
   WorkingSet _updateThirdInput(double value) {
     return _workingSet.when(
-      weightBased: (sets, reps, weight) =>
-          WorkingSet.weightBased(sets: sets, reps: reps, weight: value),
-      timeBased: (duration) => _workingSet, // No third input
-      distanceBased: (distance) => _workingSet, // No third input
-      repsOnly: (sets, reps) => _workingSet, // No third input
+      weightBased: (sets, reps, _) {
+        final weightKg = widget.measurementSystem.isMetric
+            ? value
+            : value.lbsToKg;
+
+        return WorkingSet.weightBased(
+          sets: sets,
+          reps: reps,
+          weightKg: weightKg,
+        );
+      },
+      timeBased: (_) => _workingSet, // No third input
+      distanceBased: (_) => _workingSet, // No third input
+      repsOnly: (_, _) => _workingSet, // No third input
     );
   }
 }

@@ -95,6 +95,7 @@ class AppConstants {
   static const kcal = 'Kcal';
   static const km = 'Km';
   static const meters = 'Meters';
+  static const miles = 'Miles';
   static const measurementSystem = 'Measurement System';
   static const metricDescription = 'kg, cm';
   static const imperialDescription = 'lbs, in';

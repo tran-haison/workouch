@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:workouch/features/auth/domain/entities/user.dart';
+
 import 'exercise.dart';
 import 'working_set.dart';
 
@@ -65,19 +67,16 @@ extension WorkingExerciseX on WorkingExercise {
 
   String get displayMainInfo => '${bodyParts[0]} > ${equipments[0]}';
 
-  List<String> get displaySetsInfo {
+  List<String> displaySetsInfo(MeasurementSystem system) {
     if (sets.isEmpty) {
       return [];
     }
 
-    // Format all sets
-    final formattedSets = sets
-        .map((set) => set.displayInfo)
+    return sets
+        .map((set) => set.displayInfo(system))
         .where((info) => info != null)
         .cast<String>()
         .toList();
-
-    return formattedSets;
   }
 
   // Convert working sets to separated sets
@@ -88,11 +87,11 @@ extension WorkingExerciseX on WorkingExercise {
 
     for (final workingSet in sets) {
       workingSet.when(
-        weightBased: (sets, reps, weight) {
+        weightBased: (sets, reps, weightKg) {
           // Create 'sets' number of individual sets, each with sets=1
           for (int i = 0; i < sets; i++) {
             newSets.add(
-              WorkingSet.weightBased(sets: 1, reps: reps, weight: weight),
+              WorkingSet.weightBased(sets: 1, reps: reps, weightKg: weightKg),
             );
           }
         },
@@ -106,9 +105,9 @@ extension WorkingExerciseX on WorkingExercise {
           // Time-based sets are single sets, just add one
           newSets.add(WorkingSet.timeBased(duration: duration));
         },
-        distanceBased: (distance) {
+        distanceBased: (distanceMeters) {
           // Distance-based sets are single sets, just add one
-          newSets.add(WorkingSet.distanceBased(distance: distance));
+          newSets.add(WorkingSet.distanceBased(distanceMeters: distanceMeters));
         },
       );
     }

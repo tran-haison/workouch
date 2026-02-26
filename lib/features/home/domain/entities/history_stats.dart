@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:workouch/core/extension/double_extension.dart';
+import 'package:workouch/features/auth/domain/entities/user.dart';
 
 import '../../../../core/constants/app_constants.dart';
 
@@ -10,24 +12,28 @@ class HistoryStats with _$HistoryStats {
 
   const factory HistoryStats({
     @Default(0) int totalWorkouts,
-    @Default(0.0) double totalTrainingVolume,
+    @Default(0.0) double totalTrainingVolumeKg,
     @Default(Duration.zero) Duration totalTime,
   }) = _HistoryStats;
 }
 
 extension HistoryStatsExt on HistoryStats {
-  String get totalTrainingVolumeString {
-    // If more than million, show "m"
-    if (totalTrainingVolume >= 1000000) {
-      return '${(totalTrainingVolume / 1000000).toStringAsFixed(1)}m ${AppConstants.kg.toLowerCase()}';
-    }
+  String totalTrainingVolumeString(MeasurementSystem system) {
+    final value = system.isMetric
+        ? totalTrainingVolumeKg
+        : totalTrainingVolumeKg.kgToLbs;
 
-    // If more than thousand, show "k"
-    if (totalTrainingVolume >= 1000) {
-      return '${(totalTrainingVolume / 1000).toStringAsFixed(1)}k ${AppConstants.kg.toLowerCase()}';
-    }
+    final unit = system.isMetric
+        ? AppConstants.kg.toLowerCase()
+        : AppConstants.lbs.toLowerCase();
 
-    return '${totalTrainingVolume.toStringAsFixed(1)} ${AppConstants.kg.toLowerCase()}';
+    if (value >= 1000000) {
+      return '${(value / 1000000).toStringAsFixed(3)}m $unit';
+    }
+    if (value >= 1000) {
+      return '${(value / 1000).toStringAsFixed(2)}k $unit';
+    }
+    return '${value.round()} $unit';
   }
 
   String get totalTimeString {

@@ -48,11 +48,11 @@ extension WorkingSetDtoExtension on WorkingSetDto {
     final setType = WorkingSetTypeExt.fromString(type);
     switch (setType) {
       case WorkingSetType.weightBased:
-        return WorkingSet.weightBased(sets: sets, reps: reps, weight: weight);
+        return WorkingSet.weightBased(sets: sets, reps: reps, weightKg: weight);
       case WorkingSetType.timeBased:
         return WorkingSet.timeBased(duration: Duration(seconds: duration));
       case WorkingSetType.distanceBased:
-        return WorkingSet.distanceBased(distance: distance);
+        return WorkingSet.distanceBased(distanceMeters: distance);
       case WorkingSetType.repsOnly:
         return WorkingSet.repsOnly(sets: sets, reps: reps);
     }
