@@ -23,14 +23,15 @@ import '../dialogs/rest_time_dialog.dart';
 import '../dialogs/exercise_details_dialog.dart';
 import '../widgets/workout_exercise_card.dart';
 
-class WorkoutCreationPage extends StatefulWidget {
-  const WorkoutCreationPage({super.key});
+class WorkoutManualCreatePage extends StatefulWidget {
+  const WorkoutManualCreatePage({super.key});
 
   @override
-  State<WorkoutCreationPage> createState() => _WorkoutCreationPageState();
+  State<WorkoutManualCreatePage> createState() =>
+      _WorkoutManualCreatePageState();
 }
 
-class _WorkoutCreationPageState extends State<WorkoutCreationPage> {
+class _WorkoutManualCreatePageState extends State<WorkoutManualCreatePage> {
   final _nameController = TextEditingController();
 
   @override

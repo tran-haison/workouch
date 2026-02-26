@@ -9,8 +9,8 @@ import '../../../../core/widgets/common_icons.dart';
 import '../../../../core/widgets/common_single_select_option_dialog.dart';
 import '../../../../gen/assets.gen.dart';
 
-class LazyLocationSelector extends StatefulWidget {
-  const LazyLocationSelector({
+class NeatLocationSelector extends StatefulWidget {
+  const NeatLocationSelector({
     super.key,
     required this.initialLocation,
     required this.onChanged,
@@ -20,10 +20,10 @@ class LazyLocationSelector extends StatefulWidget {
   final ValueChanged<String> onChanged;
 
   @override
-  State<LazyLocationSelector> createState() => _LazyLocationSelectorState();
+  State<NeatLocationSelector> createState() => _NeatLocationSelectorState();
 }
 
-class _LazyLocationSelectorState extends State<LazyLocationSelector> {
+class _NeatLocationSelectorState extends State<NeatLocationSelector> {
   late String _currentLocation;
   final locations = [
     AppConstants.locationRoom,

@@ -11,12 +11,12 @@ import '../../../../gen/assets.gen.dart';
 class HomeWorkoutCard extends StatelessWidget {
   const HomeWorkoutCard({
     super.key,
-    required this.onLazyTap,
-    required this.onProTap,
+    required this.onCreateTap,
+    required this.onManageTap,
   });
 
-  final VoidCallback onLazyTap;
-  final VoidCallback onProTap;
+  final VoidCallback onCreateTap;
+  final VoidCallback onManageTap;
 
   @override
   Widget build(BuildContext context) {
@@ -69,23 +69,23 @@ class HomeWorkoutCard extends StatelessWidget {
               ),
               Gaps.vGap20,
               _HomeWorkoutOption(
-                title: AppConstants.lazy,
-                description: AppConstants.lazyDescription,
+                title: AppConstants.create.toUpperCase(),
+                description: AppConstants.createDescription,
                 icon: Assets.icons.userLay,
                 textColor: AppColors.text,
                 iconColor: AppColors.text,
                 backgroundColor: AppColors.white,
-                onTap: onLazyTap,
+                onTap: onCreateTap,
               ),
               Gaps.vGap4,
               _HomeWorkoutOption(
-                title: AppConstants.pro,
-                description: AppConstants.proDescription,
+                title: AppConstants.manage.toUpperCase(),
+                description: AppConstants.manageDescription,
                 icon: Assets.icons.userWalk,
                 textColor: AppColors.white,
                 iconColor: AppColors.white,
                 backgroundColor: AppColors.darkBlack,
-                onTap: onProTap,
+                onTap: onManageTap,
               ),
             ],
           ),
@@ -203,6 +203,7 @@ class _HomeWorkoutOptionState extends State<_HomeWorkoutOption>
                         fontSize: 16.sp,
                       ),
                     ),
+                    Gaps.vGap2,
                     Text(
                       widget.description,
                       style: AppTextStyles.h5.copyWith(

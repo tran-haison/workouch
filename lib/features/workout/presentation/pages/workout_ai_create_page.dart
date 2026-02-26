@@ -21,21 +21,21 @@ import '../../domain/entities/user_subscription.dart';
 import '../../domain/enums/workout_goal.dart';
 import '../../domain/enums/workout_intensity.dart';
 import '../cubit/workout_cubit.dart';
-import '../widgets/lazy_body_parts_selector.dart';
-import '../widgets/lazy_duration_selector.dart';
-import '../widgets/lazy_equipments_selector.dart';
-import '../widgets/lazy_goals_selector.dart';
-import '../widgets/lazy_intensity_selector.dart';
-import '../widgets/lazy_location_selector.dart';
+import '../widgets/neat_body_parts_selector.dart';
+import '../widgets/neat_duration_selector.dart';
+import '../widgets/neat_equipments_selector.dart';
+import '../widgets/neat_goals_selector.dart';
+import '../widgets/neat_intensity_selector.dart';
+import '../widgets/neat_location_selector.dart';
 
-class WorkoutLazyBuilderPage extends StatefulWidget {
-  const WorkoutLazyBuilderPage({super.key});
+class WorkoutAiCreatePage extends StatefulWidget {
+  const WorkoutAiCreatePage({super.key});
 
   @override
-  State<WorkoutLazyBuilderPage> createState() => _WorkoutLazyBuilderPageState();
+  State<WorkoutAiCreatePage> createState() => _WorkoutAiCreatePageState();
 }
 
-class _WorkoutLazyBuilderPageState extends State<WorkoutLazyBuilderPage>
+class _WorkoutAiCreatePageState extends State<WorkoutAiCreatePage>
     with SingleTickerProviderStateMixin {
   Duration _workoutDuration = const Duration(minutes: 30);
   WorkoutIntensity _workoutIntensity = WorkoutIntensity.medium;
@@ -82,7 +82,7 @@ class _WorkoutLazyBuilderPageState extends State<WorkoutLazyBuilderPage>
             exercises: generatedWorkout.exercises,
             restTime: generatedWorkout.restTimeBetweenExercises,
           );
-          context.pushNamed(AppRoute.workoutCreation.name);
+          context.pushNamed(AppRoute.workoutManualCreate.name);
           showCommonToast(AppConstants.workoutGenerated);
           return;
         }
@@ -133,7 +133,7 @@ class _WorkoutLazyBuilderPageState extends State<WorkoutLazyBuilderPage>
                         Gaps.hGap12,
                         Expanded(
                           child: Text(
-                            AppConstants.lazy,
+                            AppConstants.create,
                             style: AppTextStyles.orbitron.copyWith(
                               fontSize: 20.sp,
                             ),
@@ -448,7 +448,7 @@ class _NeatModeTabState extends State<_NeatModeTab>
               _PreferenceSection(
                 title: AppConstants.duration,
                 icon: Assets.icons.clock,
-                child: LazyDurationSelector(
+                child: NeatDurationSelector(
                   initialDuration: widget.workoutDuration,
                   onChanged: widget.onDurationChanged,
                 ),
@@ -458,7 +458,7 @@ class _NeatModeTabState extends State<_NeatModeTab>
               _PreferenceSection(
                 title: AppConstants.intensity,
                 icon: Assets.icons.fire,
-                child: LazyIntensitySelector(
+                child: NeatIntensitySelector(
                   initialIntensity: widget.workoutIntensity,
                   onChanged: widget.onIntensityChanged,
                 ),
@@ -468,7 +468,7 @@ class _NeatModeTabState extends State<_NeatModeTab>
               _PreferenceSection(
                 title: AppConstants.workoutGoals,
                 icon: Assets.icons.goal,
-                child: LazyGoalsSelector(
+                child: NeatGoalsSelector(
                   initialGoals: widget.workoutGoals,
                   onChanged: widget.onGoalsChanged,
                 ),
@@ -478,7 +478,7 @@ class _NeatModeTabState extends State<_NeatModeTab>
               _PreferenceSection(
                 title: AppConstants.targetBodyParts,
                 icon: Assets.icons.muscle,
-                child: LazyBodyPartsSelector(
+                child: NeatBodyPartsSelector(
                   initialBodyParts: widget.workoutBodyParts,
                   bodyParts: state.bodyParts,
                   onChanged: widget.onBodyPartsChanged,
@@ -489,7 +489,7 @@ class _NeatModeTabState extends State<_NeatModeTab>
               _PreferenceSection(
                 title: AppConstants.availableEquipments,
                 icon: Assets.icons.dumbbellOutline,
-                child: LazyEquipmentsSelector(
+                child: NeatEquipmentsSelector(
                   initialEquipments: widget.workoutEquipments,
                   equipments: state.equipments,
                   onChanged: widget.onEquipmentsChanged,
@@ -500,7 +500,7 @@ class _NeatModeTabState extends State<_NeatModeTab>
               _PreferenceSection(
                 title: AppConstants.location,
                 icon: Assets.icons.distance,
-                child: LazyLocationSelector(
+                child: NeatLocationSelector(
                   initialLocation: widget.workoutLocation,
                   onChanged: widget.onLocationChanged,
                 ),

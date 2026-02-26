@@ -28,10 +28,11 @@ class AppConstants {
 
   // App
   static const workout = 'Workout';
-  static const lazy = 'LAZY';
-  static const lazyDescription = 'Let AI build a quick workout';
+  static const create = 'Create';
+  static const createDescription = 'Build any workout with AI';
+  static const manage = 'Manage';
+  static const manageDescription = 'Manage all of your workouts';
   static const pro = 'PRO';
-  static const proDescription = 'You manage your workouts';
   static const weight = 'Weight';
   static const bmi = 'BMI';
   static const bmiYouAreIn = "You're in: ";

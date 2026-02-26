@@ -155,7 +155,7 @@ class OnboardActivityLevelPage extends StatelessWidget {
 
                           showCommonToast(AppConstants.settingUpSuccess);
                           context.pushReplacementNamed(
-                            AppRoute.workoutLazyBuilder.name,
+                            AppRoute.workoutAiCreate.name,
                           );
                           return;
                         }

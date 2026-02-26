@@ -76,9 +76,9 @@ class HomeTab extends StatelessWidget {
                 ),
                 Gaps.vGap40,
                 HomeWorkoutCard(
-                  onLazyTap: () => _onLazyTap(context),
-                  onProTap: () {
-                    context.pushNamed(AppRoute.workoutPro.name);
+                  onCreateTap: () => _onCreateTap(context),
+                  onManageTap: () {
+                    context.pushNamed(AppRoute.workoutManage.name);
                   },
                 ),
                 Gaps.vGap40,
@@ -95,7 +95,7 @@ class HomeTab extends StatelessWidget {
     );
   }
 
-  void _onLazyTap(BuildContext context) {
+  void _onCreateTap(BuildContext context) {
     final user = context.read<AuthCubit>().state.currentUser;
 
     if (user == null) {
@@ -106,7 +106,7 @@ class HomeTab extends StatelessWidget {
     if (!user.hasOnboard) {
       context.pushNamed(AppRoute.onboard.name);
     } else {
-      context.pushNamed(AppRoute.workoutLazyBuilder.name);
+      context.pushNamed(AppRoute.workoutAiCreate.name);
     }
   }
 }

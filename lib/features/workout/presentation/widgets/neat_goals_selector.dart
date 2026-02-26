@@ -1,44 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:workouch/core/widgets/common_multi_select_option_dialog.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
-import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
-import '../../../../core/widgets/common_multi_select_option_dialog.dart';
+import '../../domain/enums/workout_goal.dart';
 
-class LazyEquipmentsSelector extends StatefulWidget {
-  const LazyEquipmentsSelector({
+class NeatGoalsSelector extends StatefulWidget {
+  const NeatGoalsSelector({
     super.key,
-    required this.initialEquipments,
-    required this.equipments,
+    required this.initialGoals,
     required this.onChanged,
   });
 
-  final List<String> initialEquipments;
-  final List<String> equipments;
-  final ValueChanged<List<String>> onChanged;
+  final List<WorkoutGoal> initialGoals;
+  final ValueChanged<List<WorkoutGoal>> onChanged;
 
   @override
-  State<LazyEquipmentsSelector> createState() => _LazyEquipmentsSelectorState();
+  State<NeatGoalsSelector> createState() => _NeatGoalsSelectorState();
 }
 
-class _LazyEquipmentsSelectorState extends State<LazyEquipmentsSelector> {
-  late List<String> _currentEquipments;
+class _NeatGoalsSelectorState extends State<NeatGoalsSelector> {
+  late List<WorkoutGoal> _currentGoals;
 
   @override
   void initState() {
     super.initState();
-    _currentEquipments = List.from(widget.initialEquipments);
+    _currentGoals = List.from(widget.initialGoals);
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _handleEquipmentsSelection,
+      onTap: _handleGoalsSelection,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         decoration: BoxDecoration(
@@ -62,12 +60,12 @@ class _LazyEquipmentsSelectorState extends State<LazyEquipmentsSelector> {
                 ),
               ],
             ),
-            if (_currentEquipments.isNotEmpty) ...[
+            if (_currentGoals.isNotEmpty) ...[
               Gaps.vGap8,
               Wrap(
                 spacing: 8.w,
                 runSpacing: 8.h,
-                children: _currentEquipments.map((equipment) {
+                children: _currentGoals.map((goal) {
                   return Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: 12.w,
@@ -78,7 +76,7 @@ class _LazyEquipmentsSelectorState extends State<LazyEquipmentsSelector> {
                       borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: Text(
-                      equipment,
+                      goal.label,
                       style: AppTextStyles.h5.copyWith(
                         color: AppColors.white,
                         fontWeight: FontWeight.w600,
@@ -95,32 +93,27 @@ class _LazyEquipmentsSelectorState extends State<LazyEquipmentsSelector> {
   }
 
   String _getDisplayText() {
-    if (_currentEquipments.isEmpty) {
-      return AppConstants.selectEquipments;
+    if (_currentGoals.isEmpty) {
+      return AppConstants.selectYourGoals;
     }
-    return AppConstants.availableEquipments;
+    return AppConstants.workoutGoals;
   }
 
-  Future<void> _handleEquipmentsSelection() async {
-    if (widget.equipments.isEmpty) {
-      showCommonToast(AppConstants.commonError, isError: true);
-      return;
-    }
-
-    final selected = await showCommonMultiSelectOptionDialog<String>(
+  Future<void> _handleGoalsSelection() async {
+    final selected = await showCommonMultiSelectOptionDialog<WorkoutGoal>(
       context,
-      optionItems: widget.equipments
-          .map((equipment) => OptionItem(label: equipment, value: equipment))
+      optionItems: WorkoutGoal.values
+          .map((goal) => OptionItem(label: goal.label, value: goal))
           .toList(),
-      title: AppConstants.selectEquipments,
-      initialSelected: List.from(_currentEquipments),
+      title: AppConstants.selectYourGoals,
+      initialSelected: List.from(_currentGoals),
     );
 
-    if (mounted && selected is List<String>) {
+    if (mounted && selected is List<WorkoutGoal>) {
       setState(() {
-        _currentEquipments = selected;
+        _currentGoals = selected;
       });
-      widget.onChanged(_currentEquipments);
+      widget.onChanged(_currentGoals);
     }
   }
 }

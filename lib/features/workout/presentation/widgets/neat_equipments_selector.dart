@@ -10,35 +10,35 @@ import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../core/widgets/common_multi_select_option_dialog.dart';
 
-class LazyBodyPartsSelector extends StatefulWidget {
-  const LazyBodyPartsSelector({
+class NeatEquipmentsSelector extends StatefulWidget {
+  const NeatEquipmentsSelector({
     super.key,
-    required this.initialBodyParts,
-    required this.bodyParts,
+    required this.initialEquipments,
+    required this.equipments,
     required this.onChanged,
   });
 
-  final List<String> initialBodyParts;
-  final List<String> bodyParts;
+  final List<String> initialEquipments;
+  final List<String> equipments;
   final ValueChanged<List<String>> onChanged;
 
   @override
-  State<LazyBodyPartsSelector> createState() => _LazyBodyPartsSelectorState();
+  State<NeatEquipmentsSelector> createState() => _NeatEquipmentsSelectorState();
 }
 
-class _LazyBodyPartsSelectorState extends State<LazyBodyPartsSelector> {
-  late List<String> _currentBodyParts;
+class _NeatEquipmentsSelectorState extends State<NeatEquipmentsSelector> {
+  late List<String> _currentEquipments;
 
   @override
   void initState() {
     super.initState();
-    _currentBodyParts = List.from(widget.initialBodyParts);
+    _currentEquipments = List.from(widget.initialEquipments);
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _handleBodyPartsSelection,
+      onTap: _handleEquipmentsSelection,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         decoration: BoxDecoration(
@@ -62,12 +62,12 @@ class _LazyBodyPartsSelectorState extends State<LazyBodyPartsSelector> {
                 ),
               ],
             ),
-            if (_currentBodyParts.isNotEmpty) ...[
+            if (_currentEquipments.isNotEmpty) ...[
               Gaps.vGap8,
               Wrap(
                 spacing: 8.w,
                 runSpacing: 8.h,
-                children: _currentBodyParts.map((bodyPart) {
+                children: _currentEquipments.map((equipment) {
                   return Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: 12.w,
@@ -78,7 +78,7 @@ class _LazyBodyPartsSelectorState extends State<LazyBodyPartsSelector> {
                       borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: Text(
-                      bodyPart,
+                      equipment,
                       style: AppTextStyles.h5.copyWith(
                         color: AppColors.white,
                         fontWeight: FontWeight.w600,
@@ -95,32 +95,32 @@ class _LazyBodyPartsSelectorState extends State<LazyBodyPartsSelector> {
   }
 
   String _getDisplayText() {
-    if (_currentBodyParts.isEmpty) {
-      return AppConstants.selectBodyParts;
+    if (_currentEquipments.isEmpty) {
+      return AppConstants.selectEquipments;
     }
-    return AppConstants.bodyParts;
+    return AppConstants.availableEquipments;
   }
 
-  Future<void> _handleBodyPartsSelection() async {
-    if (widget.bodyParts.isEmpty) {
+  Future<void> _handleEquipmentsSelection() async {
+    if (widget.equipments.isEmpty) {
       showCommonToast(AppConstants.commonError, isError: true);
       return;
     }
 
     final selected = await showCommonMultiSelectOptionDialog<String>(
       context,
-      optionItems: widget.bodyParts
-          .map((bodyPart) => OptionItem(label: bodyPart, value: bodyPart))
+      optionItems: widget.equipments
+          .map((equipment) => OptionItem(label: equipment, value: equipment))
           .toList(),
-      title: AppConstants.selectBodyParts,
-      initialSelected: List.from(_currentBodyParts),
+      title: AppConstants.selectEquipments,
+      initialSelected: List.from(_currentEquipments),
     );
 
     if (mounted && selected is List<String>) {
       setState(() {
-        _currentBodyParts = selected;
+        _currentEquipments = selected;
       });
-      widget.onChanged(_currentBodyParts);
+      widget.onChanged(_currentEquipments);
     }
   }
 }

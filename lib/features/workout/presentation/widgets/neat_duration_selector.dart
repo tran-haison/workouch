@@ -6,8 +6,8 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_gaps.dart';
 
-class LazyDurationSelector extends StatefulWidget {
-  const LazyDurationSelector({
+class NeatDurationSelector extends StatefulWidget {
+  const NeatDurationSelector({
     super.key,
     required this.initialDuration,
     required this.onChanged,
@@ -17,10 +17,10 @@ class LazyDurationSelector extends StatefulWidget {
   final ValueChanged<Duration> onChanged;
 
   @override
-  State<LazyDurationSelector> createState() => _LazyDurationSelectorState();
+  State<NeatDurationSelector> createState() => _NeatDurationSelectorState();
 }
 
-class _LazyDurationSelectorState extends State<LazyDurationSelector> {
+class _NeatDurationSelectorState extends State<NeatDurationSelector> {
   late Duration _currentDuration;
   final durations = [
     const Duration(minutes: 10),

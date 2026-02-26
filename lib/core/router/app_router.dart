@@ -7,11 +7,11 @@ import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/home/presentation/pages/personal_records_page.dart';
 import '../../features/home/presentation/pages/history_sessions_by_day_page.dart';
 import '../../features/auth/presentation/pages/profile_page.dart';
-import '../../features/workout/presentation/pages/workout_creation_page.dart';
-import '../../features/workout/presentation/pages/workout_pro_page.dart';
+import '../../features/workout/presentation/pages/workout_manual_create_page.dart';
+import '../../features/workout/presentation/pages/workout_manage_page.dart';
 import '../../features/workout/presentation/pages/exercises_page.dart';
 import '../../features/workout/presentation/pages/workout_details_page.dart';
-import '../../features/workout/presentation/pages/workout_lazy_builder_page.dart';
+import '../../features/workout/presentation/pages/workout_ai_create_page.dart';
 import '../../features/workout_session/domain/entities/workout_session.dart';
 import '../../features/workout_session/presentation/pages/workout_ready_page.dart';
 import '../../features/workout_session/presentation/pages/workout_main_page.dart';
@@ -33,9 +33,9 @@ enum AppRoute {
   subscription('/subscription'),
   settings('/settings'),
   onboard('/onboard'),
-  workoutPro('/workout-pro'),
-  workoutLazyBuilder('/workout-lazy-builder'),
-  workoutCreation('/workout-creation'),
+  workoutManage('/workout-manage'),
+  workoutAiCreate('/workout-ai-create'),
+  workoutManualCreate('/workout-manual-create'),
   workoutDetails('/workout-details'),
   workoutReady('/workout-ready'),
   workoutMain('/workout-main'),
@@ -143,20 +143,20 @@ final appRouter = GoRouter(
       ),
     ),
     GoRoute(
-      name: AppRoute.workoutPro.name,
-      path: AppRoute.workoutPro.path,
+      name: AppRoute.workoutManage.name,
+      path: AppRoute.workoutManage.path,
       pageBuilder: (context, state) => _buildSlidePage(
-        const WorkoutProPage(),
+        const WorkoutManagePage(),
         key: state.pageKey,
         name: state.name,
         arguments: state.extra,
       ),
     ),
     GoRoute(
-      name: AppRoute.workoutCreation.name,
-      path: AppRoute.workoutCreation.path,
+      name: AppRoute.workoutManualCreate.name,
+      path: AppRoute.workoutManualCreate.path,
       pageBuilder: (context, state) => _buildSlidePage(
-        const WorkoutCreationPage(),
+        const WorkoutManualCreatePage(),
         key: state.pageKey,
         name: state.name,
         arguments: state.extra,
@@ -210,10 +210,10 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-      name: AppRoute.workoutLazyBuilder.name,
-      path: '/workout-lazy-builder',
+      name: AppRoute.workoutAiCreate.name,
+      path: AppRoute.workoutAiCreate.path,
       pageBuilder: (context, state) => _buildSlidePage(
-        const WorkoutLazyBuilderPage(),
+        const WorkoutAiCreatePage(),
         key: state.pageKey,
         name: state.name,
         arguments: state.extra,
@@ -227,7 +227,7 @@ final appRouter = GoRouter(
       routes: [
         GoRoute(
           name: AppRoute.workoutReady.name,
-          path: '/workout-ready',
+          path: AppRoute.workoutReady.path,
           pageBuilder: (context, state) => _buildSlidePage(
             const WorkoutReadyPage(),
             key: state.pageKey,
@@ -237,7 +237,7 @@ final appRouter = GoRouter(
         ),
         GoRoute(
           name: AppRoute.workoutMain.name,
-          path: '/workout-main',
+          path: AppRoute.workoutMain.path,
           pageBuilder: (context, state) => _buildSlidePage(
             const WorkoutMainPage(),
             key: state.pageKey,
@@ -247,7 +247,7 @@ final appRouter = GoRouter(
         ),
         GoRoute(
           name: AppRoute.workoutRest.name,
-          path: '/workout-rest',
+          path: AppRoute.workoutRest.path,
           pageBuilder: (context, state) => _buildSlidePage(
             const WorkoutRestPage(),
             key: state.pageKey,
@@ -257,7 +257,7 @@ final appRouter = GoRouter(
         ),
         GoRoute(
           name: AppRoute.workoutFinish.name,
-          path: '/workout-finish',
+          path: AppRoute.workoutFinish.path,
           pageBuilder: (context, state) => _buildSlidePage(
             const WorkoutFinishPage(),
             key: state.pageKey,

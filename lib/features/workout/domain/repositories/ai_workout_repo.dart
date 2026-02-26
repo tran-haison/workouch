@@ -50,8 +50,8 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
         userContext: user != null
             ? UserContextRequest(
                 age: user.age,
-                height: user.height,
-                weight: user.weight,
+                height: user.heightCm,
+                weight: user.weightKg,
                 activityLevel: user.activityLevel.title,
                 gender: user.gender.name,
               )
@@ -126,8 +126,8 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
         userContext: user != null
             ? UserContextRequest(
                 age: user.age,
-                height: user.height,
-                weight: user.weight,
+                height: user.heightCm,
+                weight: user.weightKg,
                 activityLevel: user.activityLevel.title,
                 gender: user.gender.name,
               )

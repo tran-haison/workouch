@@ -14,14 +14,14 @@ import '../cubit/workout_cubit.dart';
 import '../cubit/workout_state.dart';
 import '../widgets/workout_card_item.dart';
 
-class WorkoutProPage extends StatefulWidget {
-  const WorkoutProPage({super.key});
+class WorkoutManagePage extends StatefulWidget {
+  const WorkoutManagePage({super.key});
 
   @override
-  State<WorkoutProPage> createState() => _WorkoutProPageState();
+  State<WorkoutManagePage> createState() => _WorkoutManagePageState();
 }
 
-class _WorkoutProPageState extends State<WorkoutProPage> {
+class _WorkoutManagePageState extends State<WorkoutManagePage> {
   @override
   void initState() {
     super.initState();
@@ -180,7 +180,7 @@ class _WorkoutProPageState extends State<WorkoutProPage> {
       restTime: Duration.zero,
     );
 
-    await context.pushNamed(AppRoute.workoutCreation.name);
+    await context.pushNamed(AppRoute.workoutManualCreate.name);
   }
 
   Future<void> _viewWorkout(Workout workout) async {

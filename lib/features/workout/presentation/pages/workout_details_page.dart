@@ -245,7 +245,7 @@ class WorkoutDetailsPage extends StatelessWidget {
       restTime: displayedWorkout.restTimeBetweenExercises,
     );
 
-    await context.pushNamed(AppRoute.workoutCreation.name);
+    await context.pushNamed(AppRoute.workoutManualCreate.name);
   }
 
   Future<void> _showDeleteConfirmation(

@@ -1,42 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:workouch/core/widgets/common_multi_select_option_dialog.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
+import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
-import '../../domain/enums/workout_goal.dart';
+import '../../../../core/widgets/common_multi_select_option_dialog.dart';
 
-class LazyGoalsSelector extends StatefulWidget {
-  const LazyGoalsSelector({
+class NeatBodyPartsSelector extends StatefulWidget {
+  const NeatBodyPartsSelector({
     super.key,
-    required this.initialGoals,
+    required this.initialBodyParts,
+    required this.bodyParts,
     required this.onChanged,
   });
 
-  final List<WorkoutGoal> initialGoals;
-  final ValueChanged<List<WorkoutGoal>> onChanged;
+  final List<String> initialBodyParts;
+  final List<String> bodyParts;
+  final ValueChanged<List<String>> onChanged;
 
   @override
-  State<LazyGoalsSelector> createState() => _LazyGoalsSelectorState();
+  State<NeatBodyPartsSelector> createState() => _NeatBodyPartsSelectorState();
 }
 
-class _LazyGoalsSelectorState extends State<LazyGoalsSelector> {
-  late List<WorkoutGoal> _currentGoals;
+class _NeatBodyPartsSelectorState extends State<NeatBodyPartsSelector> {
+  late List<String> _currentBodyParts;
 
   @override
   void initState() {
     super.initState();
-    _currentGoals = List.from(widget.initialGoals);
+    _currentBodyParts = List.from(widget.initialBodyParts);
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _handleGoalsSelection,
+      onTap: _handleBodyPartsSelection,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         decoration: BoxDecoration(
@@ -60,12 +62,12 @@ class _LazyGoalsSelectorState extends State<LazyGoalsSelector> {
                 ),
               ],
             ),
-            if (_currentGoals.isNotEmpty) ...[
+            if (_currentBodyParts.isNotEmpty) ...[
               Gaps.vGap8,
               Wrap(
                 spacing: 8.w,
                 runSpacing: 8.h,
-                children: _currentGoals.map((goal) {
+                children: _currentBodyParts.map((bodyPart) {
                   return Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: 12.w,
@@ -76,7 +78,7 @@ class _LazyGoalsSelectorState extends State<LazyGoalsSelector> {
                       borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: Text(
-                      goal.label,
+                      bodyPart,
                       style: AppTextStyles.h5.copyWith(
                         color: AppColors.white,
                         fontWeight: FontWeight.w600,
@@ -93,27 +95,32 @@ class _LazyGoalsSelectorState extends State<LazyGoalsSelector> {
   }
 
   String _getDisplayText() {
-    if (_currentGoals.isEmpty) {
-      return AppConstants.selectYourGoals;
+    if (_currentBodyParts.isEmpty) {
+      return AppConstants.selectBodyParts;
     }
-    return AppConstants.workoutGoals;
+    return AppConstants.bodyParts;
   }
 
-  Future<void> _handleGoalsSelection() async {
-    final selected = await showCommonMultiSelectOptionDialog<WorkoutGoal>(
+  Future<void> _handleBodyPartsSelection() async {
+    if (widget.bodyParts.isEmpty) {
+      showCommonToast(AppConstants.commonError, isError: true);
+      return;
+    }
+
+    final selected = await showCommonMultiSelectOptionDialog<String>(
       context,
-      optionItems: WorkoutGoal.values
-          .map((goal) => OptionItem(label: goal.label, value: goal))
+      optionItems: widget.bodyParts
+          .map((bodyPart) => OptionItem(label: bodyPart, value: bodyPart))
           .toList(),
-      title: AppConstants.selectYourGoals,
-      initialSelected: List.from(_currentGoals),
+      title: AppConstants.selectBodyParts,
+      initialSelected: List.from(_currentBodyParts),
     );
 
-    if (mounted && selected is List<WorkoutGoal>) {
+    if (mounted && selected is List<String>) {
       setState(() {
-        _currentGoals = selected;
+        _currentBodyParts = selected;
       });
-      widget.onChanged(_currentGoals);
+      widget.onChanged(_currentBodyParts);
     }
   }
 }

@@ -95,13 +95,6 @@ class _WorkoutCardItemState extends State<WorkoutCardItem>
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          CommonAssetIcon(
-                            Assets.icons.fire,
-                            width: 16.r,
-                            height: 16.r,
-                            useDefaultColor: true,
-                          ),
-                          Gaps.hGap6,
                           Text(
                             '${widget.workout.exercises.length} ${AppConstants.exercises.toLowerCase()}',
                             style: AppTextStyles.h5,

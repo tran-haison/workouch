@@ -6,8 +6,8 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../domain/enums/workout_intensity.dart';
 
-class LazyIntensitySelector extends StatefulWidget {
-  const LazyIntensitySelector({
+class NeatIntensitySelector extends StatefulWidget {
+  const NeatIntensitySelector({
     super.key,
     required this.initialIntensity,
     required this.onChanged,
@@ -17,10 +17,10 @@ class LazyIntensitySelector extends StatefulWidget {
   final ValueChanged<WorkoutIntensity> onChanged;
 
   @override
-  State<LazyIntensitySelector> createState() => _LazyIntensitySelectorState();
+  State<NeatIntensitySelector> createState() => _NeatIntensitySelectorState();
 }
 
-class _LazyIntensitySelectorState extends State<LazyIntensitySelector> {
+class _NeatIntensitySelectorState extends State<NeatIntensitySelector> {
   late WorkoutIntensity _currentIntensity;
 
   @override
