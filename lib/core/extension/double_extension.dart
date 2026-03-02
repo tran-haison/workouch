@@ -8,4 +8,14 @@ extension DoubleExt on double {
 
   double get meterToMile => this / 1609.34;
   double get mileToMeter => this * 1609.34;
+
+  String get shortenedString {
+    if (this >= 1000000) {
+      return '${(this / 1000000).toStringAsFixed(3)}m';
+    } else if (this >= 1000) {
+      return '${(this / 1000).toStringAsFixed(2)}k';
+    } else {
+      return round().toString();
+    }
+  }
 }

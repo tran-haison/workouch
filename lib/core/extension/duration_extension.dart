@@ -20,4 +20,21 @@ extension DurationExtension on Duration {
   }
 
   String _twoDigits(int n) => n.toString().padLeft(2, "0");
+
+  // Show as hours + minutes + seconds as "15h20m30s"
+  // If hours and minutes and seconds is 0, return "0"
+  String get hhmmssString {
+    final hours = inHours > 0 ? '${inHours}h' : '';
+    final minutes = inMinutes.remainder(60) > 0
+        ? '${inMinutes.remainder(60)}m'
+        : '';
+    final seconds = inSeconds.remainder(60) > 0
+        ? '${inSeconds.remainder(60)}s'
+        : '';
+
+    if (hours.isEmpty && minutes.isEmpty && seconds.isEmpty) {
+      return '0';
+    }
+    return '$hours$minutes$seconds';
+  }
 }

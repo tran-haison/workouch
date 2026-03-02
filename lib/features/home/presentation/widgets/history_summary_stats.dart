@@ -5,17 +5,17 @@ import 'package:workouch/features/auth/domain/entities/user.dart';
 import 'package:workouch/features/auth/presentation/cubit/auth_cubit.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/extension/double_extension.dart';
+import '../../../../core/extension/duration_extension.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
-import '../../../../gen/assets.gen.dart';
 import '../../../auth/presentation/cubit/auth_state.dart';
 import '../../domain/entities/history_stats.dart';
+import '../../domain/enums/trend.dart';
 import '../cubit/home_cubit.dart';
 import '../cubit/home_state.dart';
-
-enum _Trend { up, down, same }
 
 class HistorySummaryStats extends StatelessWidget {
   const HistorySummaryStats({super.key});
@@ -64,6 +64,10 @@ class HistorySummaryStats extends StatelessWidget {
                             thisMonthStats,
                             lastMonthStats,
                           ),
+                          changes: _getWorkoutChanges(
+                            thisMonthStats,
+                            lastMonthStats,
+                          ),
                         ),
                       ),
                       Gaps.hGap4,
@@ -77,14 +81,23 @@ class HistorySummaryStats extends StatelessWidget {
                             thisMonthStats,
                             lastMonthStats,
                           ),
+                          changes: _getVolumeChanges(
+                            thisMonthStats,
+                            lastMonthStats,
+                            system,
+                          ),
                         ),
                       ),
                       Gaps.hGap4,
                       Expanded(
                         child: _HistoryStatCard(
                           title: AppConstants.time,
-                          value: thisMonthStats.totalTimeString,
+                          value: thisMonthStats.totalTime.hhmmssString,
                           trend: _getTimeTrend(thisMonthStats, lastMonthStats),
+                          changes: _getTimeChanges(
+                            thisMonthStats,
+                            lastMonthStats,
+                          ),
                         ),
                       ),
                     ],
@@ -98,33 +111,74 @@ class HistorySummaryStats extends StatelessWidget {
     );
   }
 
-  _Trend _getWorkoutTrend(HistoryStats curr, HistoryStats prev) {
+  Trend _getWorkoutTrend(HistoryStats curr, HistoryStats prev) {
     if (curr.totalWorkouts > prev.totalWorkouts) {
-      return _Trend.up;
+      return Trend.up;
     } else if (curr.totalWorkouts < prev.totalWorkouts) {
-      return _Trend.down;
+      return Trend.down;
     } else {
-      return _Trend.same;
+      return Trend.same;
     }
   }
 
-  _Trend _getVolumeTrend(HistoryStats curr, HistoryStats prev) {
+  Trend _getVolumeTrend(HistoryStats curr, HistoryStats prev) {
     if (curr.totalTrainingVolumeKg > prev.totalTrainingVolumeKg) {
-      return _Trend.up;
+      return Trend.up;
     } else if (curr.totalTrainingVolumeKg < prev.totalTrainingVolumeKg) {
-      return _Trend.down;
+      return Trend.down;
     } else {
-      return _Trend.same;
+      return Trend.same;
     }
   }
 
-  _Trend _getTimeTrend(HistoryStats curr, HistoryStats prev) {
+  Trend _getTimeTrend(HistoryStats curr, HistoryStats prev) {
     if (curr.totalTime > prev.totalTime) {
-      return _Trend.up;
+      return Trend.up;
     } else if (curr.totalTime < prev.totalTime) {
-      return _Trend.down;
+      return Trend.down;
     } else {
-      return _Trend.same;
+      return Trend.same;
+    }
+  }
+
+  String _getWorkoutChanges(HistoryStats curr, HistoryStats prev) {
+    final workoutChanges = curr.totalWorkouts - prev.totalWorkouts;
+    if (workoutChanges > 0) {
+      return '+$workoutChanges';
+    } else if (workoutChanges < 0) {
+      return '-${workoutChanges.abs()}';
+    } else {
+      return '0';
+    }
+  }
+
+  String _getVolumeChanges(
+    HistoryStats curr,
+    HistoryStats prev,
+    MeasurementSystem system,
+  ) {
+    final volumeChanges = system.isMetric
+        ? curr.totalTrainingVolumeKg - prev.totalTrainingVolumeKg
+        : curr.totalTrainingVolumeKg.kgToLbs -
+              prev.totalTrainingVolumeKg.kgToLbs;
+
+    if (volumeChanges > 0) {
+      return '+${volumeChanges.shortenedString}';
+    } else if (volumeChanges < 0) {
+      return '-${volumeChanges.abs().shortenedString}';
+    } else {
+      return '0';
+    }
+  }
+
+  String _getTimeChanges(HistoryStats curr, HistoryStats prev) {
+    final timeChanges = curr.totalTime - prev.totalTime;
+    if (timeChanges.isNegative) {
+      return '-${timeChanges.abs().hhmmssString}';
+    } else if (timeChanges.isZero) {
+      return '0';
+    } else {
+      return '+${timeChanges.hhmmssString}';
     }
   }
 }
@@ -134,11 +188,13 @@ class _HistoryStatCard extends StatelessWidget {
     required this.title,
     required this.value,
     required this.trend,
+    required this.changes,
   });
 
   final String title;
   final String value;
-  final _Trend trend;
+  final Trend trend;
+  final String changes;
 
   @override
   Widget build(BuildContext context) {
@@ -157,38 +213,32 @@ class _HistoryStatCard extends StatelessWidget {
             style: AppTextStyles.h5.copyWith(color: AppColors.mediumGray),
           ),
           Gaps.vGap4,
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: 4.w,
-            runSpacing: 4.h,
+          Text(
+            value,
+            style: AppTextStyles.anton.copyWith(fontSize: 20.sp),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Gaps.vGap4,
+          Row(
             children: [
-              Text(
-                value,
-                style: AppTextStyles.anton.copyWith(fontSize: 20.sp),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+              CommonAssetIcon(
+                trend.icon,
+                width: 16.r,
+                height: 16.r,
+                color: trend.color,
               ),
-              _TrendIcon(trend: trend),
+              Gaps.hGap4,
+              Expanded(
+                child: Text(
+                  changes,
+                  style: AppTextStyles.h5.copyWith(color: trend.color),
+                ),
+              ),
             ],
           ),
         ],
       ),
     );
-  }
-}
-
-class _TrendIcon extends StatelessWidget {
-  const _TrendIcon({required this.trend});
-
-  final _Trend trend;
-
-  @override
-  Widget build(BuildContext context) {
-    final (icon, color) = switch (trend) {
-      _Trend.up => (Assets.icons.arrowUpDiagonal, AppColors.success),
-      _Trend.down => (Assets.icons.arrowDownDiagonal, AppColors.error),
-      _Trend.same => (Assets.icons.equal, AppColors.mediumGray),
-    };
-    return CommonAssetIcon(icon, width: 16.r, height: 16.r, color: color);
   }
 }

@@ -27,30 +27,6 @@ extension HistoryStatsExt on HistoryStats {
         ? AppConstants.kg.toLowerCase()
         : AppConstants.lbs.toLowerCase();
 
-    if (value >= 1000000) {
-      return '${(value / 1000000).toStringAsFixed(3)}m $unit';
-    }
-    if (value >= 1000) {
-      return '${(value / 1000).toStringAsFixed(2)}k $unit';
-    }
-    return '${value.round()} $unit';
-  }
-
-  String get totalTimeString {
-    // Show as hours + minutes + seconds as "15h20m30s"
-    // If hours or minutes or seconds is 0, don't show it
-    final hours = totalTime.inHours > 0 ? '${totalTime.inHours}h' : '';
-    final minutes = totalTime.inMinutes.remainder(60) > 0
-        ? '${totalTime.inMinutes.remainder(60)}m'
-        : '';
-    final seconds = totalTime.inSeconds.remainder(60) > 0
-        ? '${totalTime.inSeconds.remainder(60)}s'
-        : '';
-
-    if (hours.isEmpty && minutes.isEmpty && seconds.isEmpty) {
-      return '0';
-    }
-
-    return '$hours$minutes$seconds';
+    return '${value.shortenedString} $unit';
   }
 }
