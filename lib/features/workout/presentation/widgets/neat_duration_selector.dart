@@ -80,8 +80,12 @@ class _DurationItem extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.black : AppColors.grayBlue,
+          color: isSelected ? AppColors.darkBlack : AppColors.white,
           borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(
+            color: isSelected ? AppColors.darkBlack : AppColors.grayBlue,
+            width: 1.r,
+          ),
         ),
         child: Center(
           child: Text(

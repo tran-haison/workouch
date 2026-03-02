@@ -4,11 +4,9 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/log.dart';
 import '../../domain/entities/workout.dart';
-import '../../domain/entities/user_subscription.dart';
 import '../models/dtos/working_exercise_dto.dart';
 import '../models/dtos/working_set_dto.dart';
 import '../models/dtos/workout_dto.dart';
-import '../models/dtos/user_subscription_dto.dart';
 
 @lazySingleton
 class SupabaseWorkoutService {
@@ -326,37 +324,6 @@ class SupabaseWorkoutService {
     } catch (e) {
       Log.e('Error deleting workout: $e');
       return false;
-    }
-  }
-
-  /// Get user subscription for the current user
-  Future<UserSubscription?> getUserSubscription() async {
-    try {
-      final userId = _currentUserId;
-      if (userId == null) {
-        Log.e('No authenticated user found');
-        return null;
-      }
-
-      // Fetch user subscription
-      final res = await _supabase
-          .from(AppConstants.supabase.tableUserSubscription)
-          .select()
-          .eq('user_id', userId)
-          .maybeSingle();
-
-      if (res == null) {
-        return null;
-      }
-
-      // Convert to DTO
-      final dto = UserSubscriptionDto.fromJson(res);
-
-      // Convert to entity
-      return dto.toEntity();
-    } catch (e) {
-      Log.e('Error fetching user subscription: $e');
-      return null;
     }
   }
 

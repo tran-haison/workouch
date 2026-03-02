@@ -1,6 +1,5 @@
 import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
-import 'package:workouch/features/workout/domain/entities/user_subscription.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/error.dart';
@@ -12,7 +11,6 @@ abstract class WorkoutRepo {
   Future<Either<Error, Workout>> getWorkout(String workoutId);
   Future<Either<Error, List<Workout>>> getAllWorkouts();
   Future<Either<Error, bool>> deleteWorkout(String workoutId);
-  Future<Either<Error, UserSubscription>> getUserSubscription();
   Future<Either<Error, bool>> incrementWorkoutGenUsed();
   Future<Either<Error, bool>> resetSubscriptionPeriod();
 }
@@ -79,24 +77,6 @@ class WorkoutRepoImpl implements WorkoutRepo {
       return Left(
         Error(
           message: AppConstants.workoutDeletedError,
-          errorType: ErrorType.other,
-        ),
-      );
-    } catch (e) {
-      return Left(handleException(e));
-    }
-  }
-
-  @override
-  Future<Either<Error, UserSubscription>> getUserSubscription() async {
-    try {
-      final subscription = await _workoutService.getUserSubscription();
-      if (subscription != null) {
-        return Right(subscription);
-      }
-      return Left(
-        Error(
-          message: AppConstants.userSubscriptionNotFound,
           errorType: ErrorType.other,
         ),
       );

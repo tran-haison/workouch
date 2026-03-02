@@ -40,6 +40,15 @@ class $AssetsIconsGen {
   /// File path: assets/icons/apple.svg
   SvgGenImage get apple => const SvgGenImage('assets/icons/apple.svg');
 
+  /// File path: assets/icons/arrow-up-1.svg
+  SvgGenImage get arrowUp1 => const SvgGenImage('assets/icons/arrow-up-1.svg');
+
+  /// File path: assets/icons/arrow-up-2.svg
+  SvgGenImage get arrowUp2 => const SvgGenImage('assets/icons/arrow-up-2.svg');
+
+  /// File path: assets/icons/arrow-up-3.svg
+  SvgGenImage get arrowUp3 => const SvgGenImage('assets/icons/arrow-up-3.svg');
+
   /// File path: assets/icons/arrow_back.svg
   SvgGenImage get arrowBack => const SvgGenImage('assets/icons/arrow_back.svg');
 
@@ -247,6 +256,9 @@ class $AssetsIconsGen {
     aiGenerator,
     analytics,
     apple,
+    arrowUp1,
+    arrowUp2,
+    arrowUp3,
     arrowBack,
     arrowDown,
     arrowDownDiagonal,

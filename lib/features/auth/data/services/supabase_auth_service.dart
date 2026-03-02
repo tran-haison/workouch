@@ -10,6 +10,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/log.dart';
+import '../../../workout/data/models/dtos/user_subscription_dto.dart';
+import '../../../workout/domain/entities/user_subscription.dart';
+import '../../domain/entities/subscription_plan.dart';
 import '../../domain/entities/user.dart' as app_user;
 import '../models/dtos/user_dto.dart';
 
@@ -191,6 +194,65 @@ class SupabaseAuthService {
     } catch (e) {
       Log.e('Error updating user profile: $e');
       return false;
+    }
+  }
+
+  /// Update user subscription plan (tier and workout_gen_limit).
+  Future<bool> updateUserSubscription(SubscriptionTier tier) async {
+    try {
+      final userId = _currentUser?.id;
+      if (userId == null || userId.isEmpty) {
+        Log.e('No authenticated user found');
+        return false;
+      }
+
+      final periodStart = DateTime.now().toUtc();
+      final periodEnd = periodStart.add(const Duration(days: 30));
+
+      final updateData = <String, dynamic>{
+        'subscription_tier': tier.name,
+        'workout_gen_limit': tier.workoutGenLimit,
+        'period_start': periodStart.toIso8601String(),
+        'period_end': periodEnd.toIso8601String(),
+      };
+
+      await _supabase
+          .from(AppConstants.supabase.tableUserSubscription)
+          .update(updateData)
+          .eq('user_id', userId);
+
+      return true;
+    } catch (e) {
+      Log.e('Error updating user subscription plan: $e');
+      return false;
+    }
+  }
+
+  /// Get user subscription for the current user
+  Future<UserSubscription?> getUserSubscription() async {
+    try {
+      final userId = _currentUser?.id;
+      if (userId == null) {
+        Log.e('No authenticated user found');
+        return null;
+      }
+
+      // Fetch user subscription
+      final res = await _supabase
+          .from(AppConstants.supabase.tableUserSubscription)
+          .select()
+          .eq('user_id', userId)
+          .maybeSingle();
+
+      if (res == null) {
+        return null;
+      }
+
+      final dto = UserSubscriptionDto.fromJson(res);
+      return dto.toEntity();
+    } catch (e) {
+      Log.e('Error fetching user subscription: $e');
+      return null;
     }
   }
 

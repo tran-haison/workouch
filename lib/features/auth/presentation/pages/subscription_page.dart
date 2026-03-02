@@ -40,14 +40,14 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
         }
 
         if (state.status == AuthStateStatus.purchaseSubSuccess) {
-          context.read<AuthCubit>().initUser();
+          _syncSubscription();
           showCommonToast(AppConstants.purchaseSuccess);
           context.goNamed(AppRoute.home.name);
           return;
         }
 
         if (state.status == AuthStateStatus.restoreSubSuccess) {
-          context.read<AuthCubit>().initUser();
+          _syncSubscription();
           showCommonToast(AppConstants.restoreSuccess);
           context.goNamed(AppRoute.home.name);
           return;
@@ -299,6 +299,10 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
         );
       },
     );
+  }
+
+  Future<void> _syncSubscription() async {
+    await context.read<AuthCubit>().initUser();
   }
 }
 

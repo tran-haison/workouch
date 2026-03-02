@@ -4,13 +4,10 @@ import 'package:workouch/features/workout/domain/entities/workout.dart';
 import '../../../../core/utils/error.dart';
 import '../../domain/entities/exercise.dart';
 import '../../domain/entities/exercise_filter.dart';
-import '../../domain/entities/user_subscription.dart';
 
 part 'workout_state.freezed.dart';
 
 enum WorkoutStateStatus { initial, loading, loadingMore, success, error }
-
-enum WorkoutGenLimitStatus { none, needUpgradePlan, hasReachedProLimit }
 
 @freezed
 class WorkoutState with _$WorkoutState {
@@ -28,9 +25,6 @@ class WorkoutState with _$WorkoutState {
     @Default(Workout()) Workout selectedWorkout,
     @Default(Workout()) Workout displayedWorkout,
     @Default(Workout()) Workout aiGeneratedWorkout,
-    UserSubscription? userSubscription,
-    @Default(WorkoutGenLimitStatus.none)
-    WorkoutGenLimitStatus workoutGenLimitStatus,
     @Default(ExerciseFilter()) ExerciseFilter filter,
     @Default('') String search,
     @Default(0) int currentOffset,
@@ -46,11 +40,4 @@ class WorkoutState with _$WorkoutState {
 
 extension WorkoutStateExt on WorkoutState {
   bool get hasSelectedExercises => selectedWorkout.exercises.isNotEmpty;
-}
-
-extension WorkoutGenLimitStatusExt on WorkoutGenLimitStatus {
-  bool get isNeedUpgradePlan => this == WorkoutGenLimitStatus.needUpgradePlan;
-  bool get isReachedProLimit =>
-      this == WorkoutGenLimitStatus.hasReachedProLimit;
-  bool get isNone => this == WorkoutGenLimitStatus.none;
 }

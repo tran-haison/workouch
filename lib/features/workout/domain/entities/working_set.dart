@@ -51,7 +51,7 @@ extension WorkingSetExtension on WorkingSet {
   String? displayInfo(MeasurementSystem system) {
     return when(
       weightBased: (sets, reps, weightKg) {
-        if (sets == 0 || reps == 0 || weightKg == 0) return null;
+        if (sets == 0 || reps == 0) return null;
         switch (system) {
           case MeasurementSystem.metric:
             return '$sets ${AppConstants.sets} • '

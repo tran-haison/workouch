@@ -3,6 +3,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:workouch/features/auth/domain/entities/subscription_plan.dart';
 
 import '../../../../core/utils/error.dart';
+import '../../../workout/domain/entities/user_subscription.dart';
 import '../../domain/entities/user.dart';
 
 part 'auth_state.freezed.dart';
@@ -25,6 +26,7 @@ class AuthState with _$AuthState {
     @Default(AuthStateStatus.initial) AuthStateStatus status,
     @Default([]) List<Package> availablePackages,
     User? currentUser,
+    UserSubscription? userSubscription,
     Error? error,
   }) = _AuthState;
 }
@@ -81,4 +83,20 @@ extension AuthStateX on AuthState {
     (plan) => plan.tier == SubscriptionTier.proLifetime,
     orElse: () => SubscriptionTier.proLifetime.plan,
   );
+
+  bool get userBasicSubReachLimit {
+    if (userSubscription == null) return false;
+
+    return (userSubscription!.subscriptionTier.isBasic) &&
+        ((userSubscription!.workoutGenUsed) >=
+            (userSubscription!.workoutGenLimit));
+  }
+
+  bool get userProSubReachLimit {
+    if (userSubscription == null) return false;
+
+    return (userSubscription!.subscriptionTier.isPro) &&
+        ((userSubscription!.workoutGenUsed) >=
+            (userSubscription!.workoutGenLimit));
+  }
 }

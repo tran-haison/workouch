@@ -38,14 +38,17 @@ class AuthCubit extends Cubit<AuthState> {
         // Sync user subscription from RevenueCat if it has changed
         final resUserSub = await _subRepo.getUserSubscriptionTier();
         if (resUserSub.isRight && resUserSub.right != user.subscriptionTier) {
-          updatedUser = updatedUser.copyWith(
-            subscriptionTier: resUserSub.right,
-          );
+          final newTier = resUserSub.right;
+          updatedUser = updatedUser.copyWith(subscriptionTier: newTier);
           await _authRepo.updateUserProfile(updatedUser);
+          await _authRepo.updateUserSubscription(newTier);
         }
 
         // Sign in user to PostHog for analytics
         await _authRepo.signInPosthog(updatedUser);
+
+        // Get user subscription from db
+        await getUserSubscription();
 
         emit(
           state.copyWith(
@@ -54,6 +57,14 @@ class AuthCubit extends Cubit<AuthState> {
           ),
         );
       },
+    );
+  }
+
+  Future<void> getUserSubscription() async {
+    final res = await _authRepo.getUserSubscription();
+    res.fold(
+      (_) => emit(state.copyWith(userSubscription: null)),
+      (sub) => emit(state.copyWith(userSubscription: sub)),
     );
   }
 

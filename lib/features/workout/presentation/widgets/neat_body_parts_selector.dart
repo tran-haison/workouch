@@ -42,7 +42,8 @@ class _NeatBodyPartsSelectorState extends State<NeatBodyPartsSelector> {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         decoration: BoxDecoration(
-          color: AppColors.grayBlue,
+          color: AppColors.white,
+          border: Border.all(color: AppColors.grayBlue, width: 1.r),
           borderRadius: BorderRadius.circular(12.r),
         ),
         child: Column(

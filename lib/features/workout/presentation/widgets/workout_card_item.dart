@@ -80,7 +80,9 @@ class _WorkoutCardItemState extends State<WorkoutCardItem>
                   children: [
                     Text(
                       widget.workout.name,
-                      style: AppTextStyles.anton.copyWith(fontSize: 20.sp),
+                      style: AppTextStyles.h2.copyWith(
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                     Gaps.vGap10,
                     Container(
@@ -105,6 +107,7 @@ class _WorkoutCardItemState extends State<WorkoutCardItem>
                   ],
                 ),
               ),
+              Gaps.hGap16,
               CommonAssetIcon(
                 Assets.icons.arrowRightWide,
                 useDefaultColor: true,

@@ -33,7 +33,7 @@ mixin _$WorkingExerciseDto {
   List<WorkingSetDto> get sets => throw _privateConstructorUsedError;
   int get restTimeBetweenSets =>
       throw _privateConstructorUsedError; // in seconds
-  int get exerciseOrder => throw _privateConstructorUsedError;
+  int? get exerciseOrder => throw _privateConstructorUsedError;
   String? get setType => throw _privateConstructorUsedError;
 
   /// Serializes this WorkingExerciseDto to a JSON map.
@@ -65,7 +65,7 @@ abstract class $WorkingExerciseDtoCopyWith<$Res> {
     List<String> instructions,
     List<WorkingSetDto> sets,
     int restTimeBetweenSets,
-    int exerciseOrder,
+    int? exerciseOrder,
     String? setType,
   });
 }
@@ -96,7 +96,7 @@ class _$WorkingExerciseDtoCopyWithImpl<$Res, $Val extends WorkingExerciseDto>
     Object? instructions = null,
     Object? sets = null,
     Object? restTimeBetweenSets = null,
-    Object? exerciseOrder = null,
+    Object? exerciseOrder = freezed,
     Object? setType = freezed,
   }) {
     return _then(
@@ -145,10 +145,10 @@ class _$WorkingExerciseDtoCopyWithImpl<$Res, $Val extends WorkingExerciseDto>
                 ? _value.restTimeBetweenSets
                 : restTimeBetweenSets // ignore: cast_nullable_to_non_nullable
                       as int,
-            exerciseOrder: null == exerciseOrder
+            exerciseOrder: freezed == exerciseOrder
                 ? _value.exerciseOrder
                 : exerciseOrder // ignore: cast_nullable_to_non_nullable
-                      as int,
+                      as int?,
             setType: freezed == setType
                 ? _value.setType
                 : setType // ignore: cast_nullable_to_non_nullable
@@ -180,7 +180,7 @@ abstract class _$$WorkingExerciseDtoImplCopyWith<$Res>
     List<String> instructions,
     List<WorkingSetDto> sets,
     int restTimeBetweenSets,
-    int exerciseOrder,
+    int? exerciseOrder,
     String? setType,
   });
 }
@@ -210,7 +210,7 @@ class __$$WorkingExerciseDtoImplCopyWithImpl<$Res>
     Object? instructions = null,
     Object? sets = null,
     Object? restTimeBetweenSets = null,
-    Object? exerciseOrder = null,
+    Object? exerciseOrder = freezed,
     Object? setType = freezed,
   }) {
     return _then(
@@ -259,10 +259,10 @@ class __$$WorkingExerciseDtoImplCopyWithImpl<$Res>
             ? _value.restTimeBetweenSets
             : restTimeBetweenSets // ignore: cast_nullable_to_non_nullable
                   as int,
-        exerciseOrder: null == exerciseOrder
+        exerciseOrder: freezed == exerciseOrder
             ? _value.exerciseOrder
             : exerciseOrder // ignore: cast_nullable_to_non_nullable
-                  as int,
+                  as int?,
         setType: freezed == setType
             ? _value.setType
             : setType // ignore: cast_nullable_to_non_nullable
@@ -287,7 +287,7 @@ class _$WorkingExerciseDtoImpl implements _WorkingExerciseDto {
     required final List<String> instructions,
     required final List<WorkingSetDto> sets,
     required this.restTimeBetweenSets,
-    required this.exerciseOrder,
+    this.exerciseOrder,
     this.setType,
   }) : _targetMuscles = targetMuscles,
        _bodyParts = bodyParts,
@@ -360,7 +360,7 @@ class _$WorkingExerciseDtoImpl implements _WorkingExerciseDto {
   final int restTimeBetweenSets;
   // in seconds
   @override
-  final int exerciseOrder;
+  final int? exerciseOrder;
   @override
   final String? setType;
 
@@ -457,7 +457,7 @@ abstract class _WorkingExerciseDto implements WorkingExerciseDto {
     required final List<String> instructions,
     required final List<WorkingSetDto> sets,
     required final int restTimeBetweenSets,
-    required final int exerciseOrder,
+    final int? exerciseOrder,
     final String? setType,
   }) = _$WorkingExerciseDtoImpl;
 
@@ -487,7 +487,7 @@ abstract class _WorkingExerciseDto implements WorkingExerciseDto {
   @override
   int get restTimeBetweenSets; // in seconds
   @override
-  int get exerciseOrder;
+  int? get exerciseOrder;
   @override
   String? get setType;
 

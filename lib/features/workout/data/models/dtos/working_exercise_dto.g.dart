@@ -32,7 +32,7 @@ _$WorkingExerciseDtoImpl _$$WorkingExerciseDtoImplFromJson(
       .map((e) => WorkingSetDto.fromJson(e as Map<String, dynamic>))
       .toList(),
   restTimeBetweenSets: (json['restTimeBetweenSets'] as num).toInt(),
-  exerciseOrder: (json['exerciseOrder'] as num).toInt(),
+  exerciseOrder: (json['exerciseOrder'] as num?)?.toInt(),
   setType: json['setType'] as String?,
 );
 

@@ -41,6 +41,8 @@ extension SubscriptionTierExtension on SubscriptionTier {
   bool get isProLifetime => this == SubscriptionTier.proLifetime;
   bool get isPro => isProMonthly || isProYearly || isProLifetime;
 
+  int get workoutGenLimit => isPro ? 50 : 1;
+
   String get string {
     switch (this) {
       case SubscriptionTier.basic:

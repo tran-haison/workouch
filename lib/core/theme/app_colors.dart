@@ -66,6 +66,7 @@ class AppColors {
   static const overlay = Color.fromARGB(49, 200, 200, 200);
 
   // Other Colors
+  static const yellow = Color(0xFFFFD700);
   static const orange = Color(0xFFFFA500);
   static const blue = Color.fromARGB(255, 141, 204, 255);
 

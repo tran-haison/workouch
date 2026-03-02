@@ -213,10 +213,19 @@ class AppConstants {
   static const targetBodyParts = 'Target Body Parts';
   static const availableEquipments = 'Available Equipments';
   static const numberOfExercises = 'Number of Exercises';
-  static const buildMyWorkout = 'Build My Workout';
+  static const buildYourWorkout = 'Build Your Workout';
+  static const startBuilding = 'Start Building';
   static const buildingWorkout = 'Building your workout...';
+  static const includeMyData = 'Include my data';
+  static const includeMyDataInfo =
+      'When this is on, we use your data like height, weight, age, gender, activity level, and any injuries or limitations to better personalize your AI-generated workout.';
   static const workoutGenerated = 'Workout generated successfully';
   static const workoutGenerationError = 'Failed to generate workout';
+  static const discardChanges = 'Discard changes';
+  static const discardChangesMessage =
+      'Are you sure you want to discard your changes? Your workout will not be saved';
+  static const iUnderstood = 'I understood';
+  static const aiWorkoutUsage = 'AI workout usage';
   // AI Workout Generation Messages
   static const List<String> aiGenerationMessages = [
     'Analyzing your preferences...',
@@ -257,6 +266,8 @@ class AppConstants {
   // Tabs
   static const theShuffleMode = '"The Shuffle"';
   static const theNeatMode = '"The Neat"';
+  static const shuffleModeDescription =
+      'Describe your preferences, goals, or anything...';
   static const workoutPreferencesHint =
       'E.g. I have 30 minutes and a pair of dumbbells. Surprise me';
   static const pleaseEnterWorkoutPref = 'Please enter your workout preferences';
@@ -347,13 +358,15 @@ class AppConstants {
       'You\'ve reached your workout generation limit. Upgrade to Pro for unlimited AI workout generation!';
   static const goToSubscription = 'View Plans';
   static const maybeLater = 'Maybe Later';
-  static const limitReached = 'Limit Reached';
-  static const proLimitReachedMessage =
-      'You\'ve used all your workout generations for this period. Please wait until the next period starts.';
+  static const limitExceeded = 'Limit Exceeded';
+  static const limitExceededMessage =
+      'You\'ve used all of your workout generations for this month. Please wait until';
   static const incrementWorkoutGenUsedFailed =
       'Failed to update workout generation count';
   static const resetSubscriptionPeriodFailed =
       'Failed to reset subscription period';
+  static const updateUserSubscriptionFailed =
+      'Failed to update user subscription';
   static const getStarted = 'Get Started';
   static const skip = 'Skip';
   // Onboarding Introduction Features

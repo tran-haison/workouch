@@ -154,7 +154,7 @@ class WorkoutReadyPage extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 20.w,
-                    vertical: 10.h,
+                    vertical: 20.h,
                   ),
                   child: CommonButton(
                     text: AppConstants.letsGo,

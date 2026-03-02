@@ -4,7 +4,9 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/services/posthog_analytics_service.dart';
 import '../../../../core/utils/error.dart';
+import '../../../workout/domain/entities/user_subscription.dart';
 import '../../data/services/supabase_auth_service.dart';
+import '../entities/subscription_plan.dart';
 import '../entities/user.dart';
 
 abstract class AuthRepo {
@@ -18,6 +20,8 @@ abstract class AuthRepo {
     required String password,
   });
   Future<Either<Error, bool>> updateUserProfile(User user);
+  Future<Either<Error, bool>> updateUserSubscription(SubscriptionTier tier);
+  Future<Either<Error, UserSubscription>> getUserSubscription();
   Future<Either<Error, void>> signOut();
   Future<Either<Error, void>> signInPosthog(User user);
 }
@@ -108,6 +112,44 @@ class AuthRepoImpl implements AuthRepo {
       return Left(
         Error(
           message: AppConstants.updateProfileError,
+          errorType: ErrorType.other,
+        ),
+      );
+    } catch (e) {
+      return Left(handleException(e));
+    }
+  }
+
+  @override
+  Future<Either<Error, bool>> updateUserSubscription(
+    SubscriptionTier tier,
+  ) async {
+    try {
+      final success = await _authService.updateUserSubscription(tier);
+      if (success) {
+        return const Right(true);
+      }
+      return Left(
+        Error(
+          message: AppConstants.updateUserSubscriptionFailed,
+          errorType: ErrorType.other,
+        ),
+      );
+    } catch (e) {
+      return Left(handleException(e));
+    }
+  }
+
+  @override
+  Future<Either<Error, UserSubscription>> getUserSubscription() async {
+    try {
+      final subscription = await _authService.getUserSubscription();
+      if (subscription != null) {
+        return Right(subscription);
+      }
+      return Left(
+        Error(
+          message: AppConstants.userSubscriptionNotFound,
           errorType: ErrorType.other,
         ),
       );

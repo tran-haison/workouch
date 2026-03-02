@@ -20,6 +20,7 @@ mixin _$AuthState {
   AuthStateStatus get status => throw _privateConstructorUsedError;
   List<Package> get availablePackages => throw _privateConstructorUsedError;
   User? get currentUser => throw _privateConstructorUsedError;
+  UserSubscription? get userSubscription => throw _privateConstructorUsedError;
   Error? get error => throw _privateConstructorUsedError;
 
   /// Create a copy of AuthState
@@ -38,10 +39,12 @@ abstract class $AuthStateCopyWith<$Res> {
     AuthStateStatus status,
     List<Package> availablePackages,
     User? currentUser,
+    UserSubscription? userSubscription,
     Error? error,
   });
 
   $UserCopyWith<$Res>? get currentUser;
+  $UserSubscriptionCopyWith<$Res>? get userSubscription;
   $ErrorCopyWith<$Res>? get error;
 }
 
@@ -63,6 +66,7 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? status = null,
     Object? availablePackages = null,
     Object? currentUser = freezed,
+    Object? userSubscription = freezed,
     Object? error = freezed,
   }) {
     return _then(
@@ -79,6 +83,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
                 ? _value.currentUser
                 : currentUser // ignore: cast_nullable_to_non_nullable
                       as User?,
+            userSubscription: freezed == userSubscription
+                ? _value.userSubscription
+                : userSubscription // ignore: cast_nullable_to_non_nullable
+                      as UserSubscription?,
             error: freezed == error
                 ? _value.error
                 : error // ignore: cast_nullable_to_non_nullable
@@ -99,6 +107,20 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
 
     return $UserCopyWith<$Res>(_value.currentUser!, (value) {
       return _then(_value.copyWith(currentUser: value) as $Val);
+    });
+  }
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $UserSubscriptionCopyWith<$Res>? get userSubscription {
+    if (_value.userSubscription == null) {
+      return null;
+    }
+
+    return $UserSubscriptionCopyWith<$Res>(_value.userSubscription!, (value) {
+      return _then(_value.copyWith(userSubscription: value) as $Val);
     });
   }
 
@@ -130,11 +152,14 @@ abstract class _$$AuthStateImplCopyWith<$Res>
     AuthStateStatus status,
     List<Package> availablePackages,
     User? currentUser,
+    UserSubscription? userSubscription,
     Error? error,
   });
 
   @override
   $UserCopyWith<$Res>? get currentUser;
+  @override
+  $UserSubscriptionCopyWith<$Res>? get userSubscription;
   @override
   $ErrorCopyWith<$Res>? get error;
 }
@@ -156,6 +181,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? availablePackages = null,
     Object? currentUser = freezed,
+    Object? userSubscription = freezed,
     Object? error = freezed,
   }) {
     return _then(
@@ -172,6 +198,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
             ? _value.currentUser
             : currentUser // ignore: cast_nullable_to_non_nullable
                   as User?,
+        userSubscription: freezed == userSubscription
+            ? _value.userSubscription
+            : userSubscription // ignore: cast_nullable_to_non_nullable
+                  as UserSubscription?,
         error: freezed == error
             ? _value.error
             : error // ignore: cast_nullable_to_non_nullable
@@ -188,6 +218,7 @@ class _$AuthStateImpl implements _AuthState {
     this.status = AuthStateStatus.initial,
     final List<Package> availablePackages = const [],
     this.currentUser,
+    this.userSubscription,
     this.error,
   }) : _availablePackages = availablePackages;
 
@@ -207,11 +238,13 @@ class _$AuthStateImpl implements _AuthState {
   @override
   final User? currentUser;
   @override
+  final UserSubscription? userSubscription;
+  @override
   final Error? error;
 
   @override
   String toString() {
-    return 'AuthState(status: $status, availablePackages: $availablePackages, currentUser: $currentUser, error: $error)';
+    return 'AuthState(status: $status, availablePackages: $availablePackages, currentUser: $currentUser, userSubscription: $userSubscription, error: $error)';
   }
 
   @override
@@ -226,6 +259,8 @@ class _$AuthStateImpl implements _AuthState {
             ) &&
             (identical(other.currentUser, currentUser) ||
                 other.currentUser == currentUser) &&
+            (identical(other.userSubscription, userSubscription) ||
+                other.userSubscription == userSubscription) &&
             (identical(other.error, error) || other.error == error));
   }
 
@@ -235,6 +270,7 @@ class _$AuthStateImpl implements _AuthState {
     status,
     const DeepCollectionEquality().hash(_availablePackages),
     currentUser,
+    userSubscription,
     error,
   );
 
@@ -252,6 +288,7 @@ abstract class _AuthState implements AuthState {
     final AuthStateStatus status,
     final List<Package> availablePackages,
     final User? currentUser,
+    final UserSubscription? userSubscription,
     final Error? error,
   }) = _$AuthStateImpl;
 
@@ -261,6 +298,8 @@ abstract class _AuthState implements AuthState {
   List<Package> get availablePackages;
   @override
   User? get currentUser;
+  @override
+  UserSubscription? get userSubscription;
   @override
   Error? get error;
 

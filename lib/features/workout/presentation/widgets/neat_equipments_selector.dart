@@ -42,8 +42,9 @@ class _NeatEquipmentsSelectorState extends State<NeatEquipmentsSelector> {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         decoration: BoxDecoration(
-          color: AppColors.grayBlue,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(color: AppColors.grayBlue, width: 1.r),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

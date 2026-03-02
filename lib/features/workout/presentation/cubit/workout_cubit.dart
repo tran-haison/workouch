@@ -4,7 +4,6 @@ import 'package:workouch/features/workout/domain/entities/working_exercise.dart'
 import 'package:workouch/features/workout/presentation/cubit/workout_state.dart';
 
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/utils/log.dart';
 import '../../data/models/requests/exercise_filter_request.dart';
 import '../../data/models/requests/paging_request.dart';
 import '../../domain/entities/exercise.dart';
@@ -17,7 +16,6 @@ import '../../domain/repositories/workout_repo.dart';
 import '../../domain/enums/workout_goal.dart';
 import '../../domain/enums/workout_intensity.dart';
 import '../../../auth/domain/entities/user.dart';
-import '../../../auth/domain/entities/subscription_plan.dart';
 import '../../../../core/utils/error.dart';
 
 @injectable
@@ -30,7 +28,6 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     : super(const WorkoutState()) {
     getBodyParts();
     getEquipments();
-    getUserSubscription();
   }
 
   Future<void> saveWorkout(Workout workout) async {
@@ -312,8 +309,9 @@ class WorkoutCubit extends Cubit<WorkoutState> {
   Future<void> generateShuffleModeWorkout({
     required String userPreferences,
     User? user,
+    UserSubscription? userSub,
   }) async {
-    final canProceed = await _validateAndPrepareForGeneration();
+    final canProceed = await _validateAndPrepareForGeneration(userSub);
     if (!canProceed) return;
 
     final res = await _aiWorkoutRepo.generateShuffleModeWorkout(
@@ -326,10 +324,9 @@ class WorkoutCubit extends Cubit<WorkoutState> {
         state.copyWith(
           generateAIWorkoutStatus: WorkoutStateStatus.error,
           generateAIWorkoutError: error,
-          workoutGenLimitStatus: WorkoutGenLimitStatus.none,
         ),
       ),
-      (workout) => _handleSuccessfulGeneration(workout),
+      (workout) => _handleSuccessWorkoutGen(workout),
     );
   }
 
@@ -343,8 +340,9 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     String? location,
     String? injuries,
     User? user,
+    UserSubscription? userSub,
   }) async {
-    final canProceed = await _validateAndPrepareForGeneration();
+    final canProceed = await _validateAndPrepareForGeneration(userSub);
     if (!canProceed) return;
 
     final res = await _aiWorkoutRepo.generateNeatModeWorkout(
@@ -364,33 +362,19 @@ class WorkoutCubit extends Cubit<WorkoutState> {
         state.copyWith(
           generateAIWorkoutStatus: WorkoutStateStatus.error,
           generateAIWorkoutError: error,
-          workoutGenLimitStatus: WorkoutGenLimitStatus.none,
         ),
       ),
-      (workout) => _handleSuccessfulGeneration(workout),
+      (workout) => _handleSuccessWorkoutGen(workout),
     );
-  }
-
-  Future<void> getUserSubscription() async {
-    if (isClosed) return;
-    final res = await _workoutRepo.getUserSubscription();
-    res.fold(
-      (_) => emit(state.copyWith(userSubscription: null)),
-      (sub) => emit(state.copyWith(userSubscription: sub)),
-    );
-  }
-
-  void resetWorkoutGenLimitStatus() {
-    if (isClosed) return;
-    emit(state.copyWith(workoutGenLimitStatus: WorkoutGenLimitStatus.none));
   }
 
   /// Common logic for workout generation: validates subscription, checks limits, and handles generation
-  Future<bool> _validateAndPrepareForGeneration() async {
+  Future<bool> _validateAndPrepareForGeneration(
+    UserSubscription? userSub,
+  ) async {
     if (isClosed) return false;
 
-    // Step 1: Get user subscription
-    var userSub = state.userSubscription;
+    // Step 1: Check if user subscription is available
     if (userSub == null) {
       emit(
         state.copyWith(
@@ -401,61 +385,17 @@ class WorkoutCubit extends Cubit<WorkoutState> {
           ),
         ),
       );
-      Log.e('Failed to fetch subscription information');
       return false;
     }
 
-    // Step 2: Check current date and reset subscription period if needed
-    final hasReset = await _checkAndResetPeriod(userSub);
-    if (hasReset) {
-      // Re-fetch subscription after reset
-      await getUserSubscription();
-      userSub = state.userSubscription;
-      if (userSub == null) {
-        emit(
-          state.copyWith(
-            generateAIWorkoutStatus: WorkoutStateStatus.error,
-            generateAIWorkoutError: Error(
-              message: AppConstants.workoutGenerationError,
-              errorType: ErrorType.other,
-            ),
-          ),
-        );
-        Log.e('Failed to fetch subscription information after reset');
-        return false;
-      }
-    }
+    // Step 2: Reset subscription period if needed
+    await _checkAndResetSubPeriod(userSub);
 
-    // Step 3: Check if has workout generation remaining
-    if (!userSub.hasWorkoutGenRemaining) {
-      if (userSub.subscriptionTier.isBasic) {
-        // Basic user → show upgrade dialog to Pro plan
-        emit(
-          state.copyWith(
-            generateAIWorkoutStatus: WorkoutStateStatus.error,
-            generateAIWorkoutError: null,
-            workoutGenLimitStatus: WorkoutGenLimitStatus.needUpgradePlan,
-          ),
-        );
-      } else {
-        // Pro user → show limit reached dialog
-        emit(
-          state.copyWith(
-            generateAIWorkoutStatus: WorkoutStateStatus.error,
-            generateAIWorkoutError: null,
-            workoutGenLimitStatus: WorkoutGenLimitStatus.hasReachedProLimit,
-          ),
-        );
-      }
-      return false;
-    }
-
-    // Step 4: Set loading status before starting workout generation
+    // Step 3: Set loading status before starting workout generation
     emit(
       state.copyWith(
         generateAIWorkoutStatus: WorkoutStateStatus.loading,
         generateAIWorkoutError: null,
-        workoutGenLimitStatus: WorkoutGenLimitStatus.none,
       ),
     );
 
@@ -463,28 +403,22 @@ class WorkoutCubit extends Cubit<WorkoutState> {
   }
 
   /// Compare current date with subscription period end and reset if needed
-  Future<bool> _checkAndResetPeriod(UserSubscription userSub) async {
+  Future<void> _checkAndResetSubPeriod(UserSubscription userSub) async {
     final now = DateTime.now();
     if (now.isAfter(userSub.periodEnd)) {
-      final res = await _workoutRepo.resetSubscriptionPeriod();
-      if (res.isRight) {
-        return res.right;
-      }
+      await _workoutRepo.resetSubscriptionPeriod();
     }
-    return false;
   }
 
-  Future<void> _handleSuccessfulGeneration(Workout workout) async {
-    // Increment workout generation used and re-fetch user subscription
+  Future<void> _handleSuccessWorkoutGen(Workout workout) async {
+    // Increment workout generation used
     await _workoutRepo.incrementWorkoutGenUsed();
-    await getUserSubscription();
 
     emit(
       state.copyWith(
         generateAIWorkoutStatus: WorkoutStateStatus.success,
         generateAIWorkoutError: null,
         aiGeneratedWorkout: workout,
-        workoutGenLimitStatus: WorkoutGenLimitStatus.none,
       ),
     );
   }

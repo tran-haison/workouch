@@ -27,12 +27,11 @@ Future<void> showProLimitDialog(
   required DateTime currPeriodEnd,
 }) async {
   final formattedDate = AppDateUtils.fullDate(currPeriodEnd);
-  final message =
-      '${AppConstants.proLimitReachedMessage}\n\nNext period starts on: $formattedDate';
+  final message = '${AppConstants.limitExceededMessage}:\n\n$formattedDate';
 
   return await showCommonPopUpDialog(
     context,
-    title: AppConstants.limitReached,
+    title: AppConstants.limitExceeded,
     message: message,
     showSecondButton: false,
     firstButtonText: AppConstants.close,

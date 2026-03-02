@@ -155,7 +155,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                 ),
                 if (state.hasSelectedExercises)
                   Positioned(
-                    bottom: 10.h,
+                    bottom: 20.h,
                     right: 0,
                     left: 0,
                     child: Row(

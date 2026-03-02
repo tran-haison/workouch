@@ -10,14 +10,19 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_button.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
+import '../../../../core/widgets/common_pop_up_dialog.dart';
+import '../../../../core/widgets/common_switch.dart';
 import '../../../../core/widgets/common_text_field.dart';
 import '../../../../core/widgets/common_ai_generating_dialog.dart';
 import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../auth/presentation/cubit/auth_cubit.dart';
+import '../../../auth/presentation/cubit/auth_state.dart';
+import '../../domain/enums/workout_gen_mode.dart';
 import '../cubit/workout_state.dart';
 import '../dialogs/workout_generation_limit_dialog.dart';
 import '../../domain/entities/user_subscription.dart';
+import '../../../../core/utils/date_utils.dart';
 import '../../domain/enums/workout_goal.dart';
 import '../../domain/enums/workout_intensity.dart';
 import '../cubit/workout_cubit.dart';
@@ -35,39 +40,79 @@ class WorkoutAiCreatePage extends StatefulWidget {
   State<WorkoutAiCreatePage> createState() => _WorkoutAiCreatePageState();
 }
 
-class _WorkoutAiCreatePageState extends State<WorkoutAiCreatePage>
-    with SingleTickerProviderStateMixin {
-  Duration _workoutDuration = const Duration(minutes: 30);
-  WorkoutIntensity _workoutIntensity = WorkoutIntensity.medium;
-  List<WorkoutGoal> _workoutGoals = [];
-  List<String> _workoutBodyParts = [];
-  List<String> _workoutEquipments = [];
-  String _workoutLocation = AppConstants.anyLocation;
+class _WorkoutAiCreatePageState extends State<WorkoutAiCreatePage> {
+  // Common
+  final List<Widget> _modesWidgets = [];
+  bool _includeUserData = true;
+  WorkoutGenMode _selectedMode = WorkoutGenMode.shuffle;
 
-  final _nameController = TextEditingController();
-  final _injuriesController = TextEditingController();
-  final _simplePreferencesController = TextEditingController();
+  // Shuffle Mode
+  final _shuffleTextController = TextEditingController();
 
-  late TabController _tabController;
+  // Neat Mode
+  Duration _neatWorkoutDuration = const Duration(minutes: 30);
+  WorkoutIntensity _neatWorkoutIntensity = WorkoutIntensity.medium;
+  List<WorkoutGoal> _neatWorkoutGoals = [];
+  List<String> _neatWorkoutBodyParts = [];
+  List<String> _neatWorkoutEquipments = [];
+  String _neatWorkoutLocation = AppConstants.anyLocation;
+  final _neatNameController = TextEditingController();
+  final _neatInjuriesController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
+    _modesWidgets.addAll([
+      _ShuffleModeTab(controller: _shuffleTextController),
+      _NeatModeTab(
+        nameController: _neatNameController,
+        injuriesController: _neatInjuriesController,
+        workoutDuration: _neatWorkoutDuration,
+        workoutIntensity: _neatWorkoutIntensity,
+        workoutGoals: _neatWorkoutGoals,
+        workoutBodyParts: _neatWorkoutBodyParts,
+        workoutEquipments: _neatWorkoutEquipments,
+        workoutLocation: _neatWorkoutLocation,
+        onDurationChanged: (duration) {
+          setState(() {
+            _neatWorkoutDuration = duration;
+          });
+        },
+        onIntensityChanged: (intensity) {
+          setState(() {
+            _neatWorkoutIntensity = intensity;
+          });
+        },
+        onGoalsChanged: (goals) {
+          setState(() {
+            _neatWorkoutGoals = goals;
+          });
+        },
+        onBodyPartsChanged: (bodyParts) {
+          setState(() {
+            _neatWorkoutBodyParts = bodyParts;
+          });
+        },
+        onEquipmentsChanged: (equipments) {
+          setState(() {
+            _neatWorkoutEquipments = equipments;
+          });
+        },
+        onLocationChanged: (location) {
+          setState(() {
+            _neatWorkoutLocation = location;
+          });
+        },
+      ),
+    ]);
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<WorkoutCubit, WorkoutState>(
       listenWhen: (prev, curr) =>
-          prev.generateAIWorkoutStatus != curr.generateAIWorkoutStatus ||
-          prev.workoutGenLimitStatus != curr.workoutGenLimitStatus,
+          prev.generateAIWorkoutStatus != curr.generateAIWorkoutStatus,
       listener: (context, state) {
         if (state.generateAIWorkoutStatus == WorkoutStateStatus.loading) {
           context.showCommonAiGeneratingDialog();
@@ -82,39 +127,19 @@ class _WorkoutAiCreatePageState extends State<WorkoutAiCreatePage>
             exercises: generatedWorkout.exercises,
             restTime: generatedWorkout.restTimeBetweenExercises,
           );
+          context.read<AuthCubit>().getUserSubscription(); // Sync from db
           context.pushNamed(AppRoute.workoutManualCreate.name);
           showCommonToast(AppConstants.workoutGenerated);
           return;
         }
 
-        if (state.generateAIWorkoutStatus == WorkoutStateStatus.error) {
-          // Basic user → show upgrade dialog to Pro plan
-          if (state.workoutGenLimitStatus.isNeedUpgradePlan) {
-            showUpgradePlanDialog(context);
-            context.read<WorkoutCubit>().resetWorkoutGenLimitStatus();
-            return;
-          }
-
-          // Pro user → show limit reached dialog
-          if (state.workoutGenLimitStatus.isReachedProLimit &&
-              state.userSubscription != null) {
-            showProLimitDialog(
-              context,
-              currPeriodEnd: state.userSubscription!.periodEnd,
-            );
-            context.read<WorkoutCubit>().resetWorkoutGenLimitStatus();
-            return;
-          }
-
-          // Only show error toast if it's not the workout generation limit dialog case
-          showCommonToast(
-            state.generateAIWorkoutError?.message ??
-                AppConstants.workoutGenerationError,
-            isError: true,
-          );
+        if (state.generateAIWorkoutStatus == WorkoutStateStatus.error &&
+            state.generateAIWorkoutError != null) {
+          showCommonToast(state.generateAIWorkoutError!.message, isError: true);
         }
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         body: SafeArea(
           child: Column(
             children: [
@@ -123,6 +148,7 @@ class _WorkoutAiCreatePageState extends State<WorkoutAiCreatePage>
                 child: Column(
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CommonIconButton(
                           backgroundColor: AppColors.grayBlue,
@@ -130,39 +156,31 @@ class _WorkoutAiCreatePageState extends State<WorkoutAiCreatePage>
                           iconColor: AppColors.black,
                           onTap: () => context.pop(),
                         ),
-                        Gaps.hGap12,
-                        Expanded(
-                          child: Text(
-                            AppConstants.create,
-                            style: AppTextStyles.orbitron.copyWith(
-                              fontSize: 20.sp,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Gaps.hGap12,
-                        BlocBuilder<WorkoutCubit, WorkoutState>(
+                        BlocBuilder<AuthCubit, AuthState>(
                           builder: (context, state) {
                             final userSub = state.userSubscription;
                             final hasLeft =
                                 userSub?.hasWorkoutGenRemaining == true;
 
-                            return Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 12.w,
-                                vertical: 8.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: AppColors.grayBlue,
-                                borderRadius: BorderRadius.circular(12.r),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  '${userSub?.workoutGenUsed} / ${userSub?.workoutGenLimit}',
-                                  style: AppTextStyles.h5.copyWith(
-                                    color: hasLeft
-                                        ? AppColors.darkBlack
-                                        : AppColors.mediumGray,
+                            return GestureDetector(
+                              onTap: () => _showUsageInfoDialog(userSub),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12.w,
+                                  vertical: 8.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppColors.grayBlue,
+                                  borderRadius: BorderRadius.circular(12.r),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '${userSub?.workoutGenUsed} / ${userSub?.workoutGenLimit}',
+                                    style: AppTextStyles.h5.copyWith(
+                                      color: hasLeft
+                                          ? AppColors.darkBlack
+                                          : AppColors.mediumGray,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -174,78 +192,111 @@ class _WorkoutAiCreatePageState extends State<WorkoutAiCreatePage>
                   ],
                 ),
               ),
-              // Tab Bar
-              TabBar(
-                controller: _tabController,
-                labelColor: AppColors.black,
-                unselectedLabelColor: AppColors.mediumGray,
-                indicatorColor: AppColors.black,
-                indicatorWeight: 2,
-                labelStyle: AppTextStyles.h4.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-                unselectedLabelStyle: AppTextStyles.h4,
-                dividerColor: AppColors.transparent,
-                overlayColor: WidgetStateProperty.all(AppColors.transparent),
-                tabs: [
-                  Tab(text: AppConstants.theShuffleMode),
-                  Tab(text: AppConstants.theNeatMode),
-                ],
-              ),
               Expanded(
-                child: TabBarView(
-                  controller: _tabController,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CommonAssetIcon(
+                            Assets.icons.aiGenerator,
+                            color: AppColors.darkBlack,
+                          ),
+                          Gaps.vGap10,
+                          Text(
+                            AppConstants.buildYourWorkout,
+                            style: AppTextStyles.orbitron.copyWith(
+                              fontSize: 24.sp,
+                            ),
+                          ),
+                          Gaps.vGap10,
+                          CommonButton(
+                            text: _selectedMode.label,
+                            onPressed: _switchMode,
+                            isFullWidth: false,
+                            textStyle: AppTextStyles.h4,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 12.w,
+                              vertical: 6.h,
+                            ),
+                            radius: 12.r,
+                            borderColor: AppColors.darkBlack,
+                            backgroundColor: AppColors.transparent,
+                            spaceWithTrailing: 6.w,
+                            trailing: CommonAssetIcon(
+                              Assets.icons.arrowDown,
+                              width: 16.r,
+                              height: 16.r,
+                              color: AppColors.darkBlack,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Gaps.vGap20,
+                      IndexedStack(
+                        index: _selectedMode.isShuffle ? 0 : 1,
+                        children: _modesWidgets,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Gaps.vGap10,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
                   children: [
-                    // Shuffle Mode Tab
-                    _ShuffleModeTab(
-                      controller: _simplePreferencesController,
-                      onGenerate: _generateWorkout,
+                    CommonButton(
+                      text: AppConstants.startBuilding,
+                      onPressed: _generateWorkout,
+                      backgroundColor: AppColors.darkBlack,
+                      textStyle: AppTextStyles.h3.copyWith(
+                        color: AppColors.white,
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                        vertical: 18.h,
+                      ),
                     ),
-                    // Neat Mode Tab
-                    _NeatModeTab(
-                      nameController: _nameController,
-                      injuriesController: _injuriesController,
-                      workoutDuration: _workoutDuration,
-                      workoutIntensity: _workoutIntensity,
-                      workoutGoals: _workoutGoals,
-                      workoutBodyParts: _workoutBodyParts,
-                      workoutEquipments: _workoutEquipments,
-                      workoutLocation: _workoutLocation,
-                      onDurationChanged: (duration) {
-                        setState(() {
-                          _workoutDuration = duration;
-                        });
-                      },
-                      onIntensityChanged: (intensity) {
-                        setState(() {
-                          _workoutIntensity = intensity;
-                        });
-                      },
-                      onGoalsChanged: (goals) {
-                        setState(() {
-                          _workoutGoals = goals;
-                        });
-                      },
-                      onBodyPartsChanged: (bodyParts) {
-                        setState(() {
-                          _workoutBodyParts = bodyParts;
-                        });
-                      },
-                      onEquipmentsChanged: (equipments) {
-                        setState(() {
-                          _workoutEquipments = equipments;
-                        });
-                      },
-                      onLocationChanged: (location) {
-                        setState(() {
-                          _workoutLocation = location;
-                        });
-                      },
-                      onGenerate: _generateWorkout,
+                    Gaps.vGap10,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: _showIncludeDataInfoDialog,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                AppConstants.includeMyData,
+                                style: AppTextStyles.h4,
+                              ),
+                              Gaps.hGap10,
+                              CommonAssetIcon(
+                                Assets.icons.info,
+                                width: 20.r,
+                                height: 20.r,
+                                color: AppColors.black,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Gaps.hGap10,
+                        CommonSwitch(
+                          isOn: _includeUserData,
+                          onChanged: (value) {
+                            setState(() {
+                              _includeUserData = value;
+                            });
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
+              Gaps.vGap20,
             ],
           ),
         ),
@@ -253,15 +304,37 @@ class _WorkoutAiCreatePageState extends State<WorkoutAiCreatePage>
     );
   }
 
+  void _switchMode() {
+    setState(() {
+      if (_selectedMode.isShuffle) {
+        _selectedMode = WorkoutGenMode.neat;
+      } else {
+        _selectedMode = WorkoutGenMode.shuffle;
+      }
+    });
+  }
+
   Future<void> _generateWorkout() async {
     final workoutCubit = context.read<WorkoutCubit>();
     final authCubit = context.read<AuthCubit>();
-    final currentUser = authCubit.state.currentUser;
-    final currentTab = _tabController.index;
+    final currentUser = _includeUserData ? authCubit.state.currentUser : null;
+    final userSub = authCubit.state.userSubscription;
 
-    if (currentTab == 0) {
+    // Basic user reach limit → show upgrade dialog to Pro plan
+    if (authCubit.state.userBasicSubReachLimit) {
+      await showUpgradePlanDialog(context);
+      return;
+    }
+
+    // Pro user reach limit → show limit exceeded dialog
+    if (authCubit.state.userProSubReachLimit && userSub != null) {
+      await showProLimitDialog(context, currPeriodEnd: userSub.periodEnd);
+      return;
+    }
+
+    if (_selectedMode.isShuffle) {
       // Shuffle Mode - Simple text input
-      final preferences = _simplePreferencesController.text.trim();
+      final preferences = _shuffleTextController.text.trim();
       if (preferences.isEmpty) {
         showCommonToast(AppConstants.pleaseEnterWorkoutPref, isError: true);
         return;
@@ -270,33 +343,65 @@ class _WorkoutAiCreatePageState extends State<WorkoutAiCreatePage>
       await workoutCubit.generateShuffleModeWorkout(
         userPreferences: preferences,
         user: currentUser,
+        userSub: userSub,
       );
     } else {
       // Neat Mode - Structured preferences
       await workoutCubit.generateNeatModeWorkout(
-        duration: _workoutDuration,
-        intensity: _workoutIntensity,
-        goals: _workoutGoals,
-        bodyParts: _workoutBodyParts,
-        equipments: _workoutEquipments,
-        location: _workoutLocation,
-        workoutName: _nameController.text.trim().isEmpty
+        duration: _neatWorkoutDuration,
+        intensity: _neatWorkoutIntensity,
+        goals: _neatWorkoutGoals,
+        bodyParts: _neatWorkoutBodyParts,
+        equipments: _neatWorkoutEquipments,
+        location: _neatWorkoutLocation,
+        workoutName: _neatNameController.text.trim().isEmpty
             ? null
-            : _nameController.text.trim(),
-        injuries: _injuriesController.text.trim().isEmpty
+            : _neatNameController.text.trim(),
+        injuries: _neatInjuriesController.text.trim().isEmpty
             ? null
-            : _injuriesController.text.trim(),
+            : _neatInjuriesController.text.trim(),
         user: currentUser,
+        userSub: userSub,
       );
     }
+  }
+
+  void _showIncludeDataInfoDialog() {
+    showCommonPopUpDialog(
+      context,
+      title: AppConstants.includeMyData,
+      message: AppConstants.includeMyDataInfo,
+      showSecondButton: false,
+      firstButtonText: AppConstants.iUnderstood,
+    );
+  }
+
+  void _showUsageInfoDialog(UserSubscription? userSub) {
+    if (userSub == null) return;
+
+    final periodEndText = AppDateUtils.fullDate(userSub.periodEnd);
+    final remaining = userSub.remainingWorkoutGen <= 0
+        ? 0
+        : userSub.remainingWorkoutGen;
+
+    final message =
+        'You can generate AI workouts up to ${userSub.workoutGenLimit} times each period.\n\n'
+        'You have $remaining remaining generation(s) in this period, which will be renewed on $periodEndText';
+
+    showCommonPopUpDialog(
+      context,
+      title: AppConstants.aiWorkoutUsage,
+      message: message,
+      showSecondButton: false,
+      firstButtonText: AppConstants.close,
+    );
   }
 }
 
 class _ShuffleModeTab extends StatefulWidget {
-  const _ShuffleModeTab({required this.controller, required this.onGenerate});
+  const _ShuffleModeTab({required this.controller});
 
   final TextEditingController controller;
-  final VoidCallback onGenerate;
 
   @override
   State<_ShuffleModeTab> createState() => _ShuffleModeTabState();
@@ -304,66 +409,78 @@ class _ShuffleModeTab extends StatefulWidget {
 
 class _ShuffleModeTabState extends State<_ShuffleModeTab>
     with AutomaticKeepAliveClientMixin {
+  var _textLength = 0;
+  final _maxTextLength = 500;
+
   @override
   bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
     super.build(context); // Required for AutomaticKeepAliveClientMixin
-    return SingleChildScrollView(
+    return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            AppConstants.letAiPlanWorkoutForYou,
-            style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
-          ),
-          Gaps.vGap8,
+          Text(AppConstants.shuffleModeDescription, style: AppTextStyles.h4),
+          Gaps.vGap16,
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12.r),
               gradient: AppColors.backgroundGradient,
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.3),
+                  color: AppColors.secondary,
                   blurRadius: 8,
-                  offset: Offset(0, 2),
+                  offset: const Offset(2, 2),
+                ),
+                BoxShadow(
+                  color: AppColors.primary.withValues(alpha: 0.8),
+                  blurRadius: 8,
+                  offset: const Offset(-2, -2),
                 ),
               ],
             ),
-            padding: EdgeInsets.all(1.5.r),
-            child: CommonTextField(
-              controller: widget.controller,
-              hintText: AppConstants.workoutPreferencesHint,
-              onChanged: (_) {},
-              isShowBorder: false,
-              backgroundColor: AppColors.white,
-              maxLines: 6,
-              radius: 10.r,
-              inputTextStyle: AppTextStyles.h4.copyWith(
-                color: AppColors.text,
-                fontWeight: FontWeight.w300,
-              ),
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 16.w,
-                vertical: 14.h,
+            padding: EdgeInsets.all(2.r),
+            child: SizedBox(
+              height: 180.h,
+              child: CommonTextField(
+                controller: widget.controller,
+                hintText: AppConstants.workoutPreferencesHint,
+                onChanged: (value) {
+                  setState(() {
+                    _textLength = value.length;
+                  });
+                },
+                isShowBorder: false,
+                backgroundColor: AppColors.white,
+                expands: true,
+                minLines: null,
+                maxLines: null,
+                maxLength: _maxTextLength,
+                textAlignVertical: TextAlignVertical.top,
+                radius: 10.r,
+                inputTextStyle: AppTextStyles.h4.copyWith(
+                  color: AppColors.text,
+                  fontWeight: FontWeight.w300,
+                ),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 16.w,
+                  vertical: 14.h,
+                ),
               ),
             ),
           ),
-          Gaps.vGap30,
-          CommonButton(
-            text: AppConstants.buildMyWorkout,
-            onPressed: widget.onGenerate,
-            backgroundGradientColor: AppColors.backgroundGradient,
-            textStyle: AppTextStyles.h3,
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
-            trailing: CommonAssetIcon(
-              Assets.icons.aiGenerator,
-              width: 20.r,
-              height: 20.r,
-              color: AppColors.black,
-            ),
+          Gaps.vGap10,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                '$_textLength / $_maxTextLength',
+                style: AppTextStyles.h5.copyWith(color: AppColors.mediumGray),
+              ),
+            ],
           ),
         ],
       ),
@@ -387,7 +504,6 @@ class _NeatModeTab extends StatefulWidget {
     required this.onBodyPartsChanged,
     required this.onEquipmentsChanged,
     required this.onLocationChanged,
-    required this.onGenerate,
   });
 
   final TextEditingController nameController;
@@ -404,7 +520,6 @@ class _NeatModeTab extends StatefulWidget {
   final ValueChanged<List<String>> onBodyPartsChanged;
   final ValueChanged<List<String>> onEquipmentsChanged;
   final ValueChanged<String> onLocationChanged;
-  final VoidCallback onGenerate;
 
   @override
   State<_NeatModeTab> createState() => _NeatModeTabState();
@@ -420,7 +535,7 @@ class _NeatModeTabState extends State<_NeatModeTab>
     super.build(context); // Required for AutomaticKeepAliveClientMixin
     return BlocBuilder<WorkoutCubit, WorkoutState>(
       builder: (context, state) {
-        return SingleChildScrollView(
+        return Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -437,7 +552,7 @@ class _NeatModeTabState extends State<_NeatModeTab>
                 onChanged: (_) {},
                 isShowBorder: true,
                 borderColor: AppColors.grayBlue,
-                borderFocusColor: AppColors.black,
+                borderFocusColor: AppColors.darkBlack,
                 inputTextStyle: AppTextStyles.h4.copyWith(
                   color: AppColors.text,
                   fontWeight: FontWeight.w300,
@@ -514,33 +629,14 @@ class _NeatModeTabState extends State<_NeatModeTab>
                   controller: widget.injuriesController,
                   hintText: AppConstants.injuriesLimitationsHint,
                   onChanged: (_) {},
-                  isShowBorder: false,
-                  backgroundColor: AppColors.grayBlue,
+                  isShowBorder: true,
+                  borderColor: AppColors.grayBlue,
+                  borderFocusColor: AppColors.darkBlack,
                   maxLines: 3,
-                  radius: 12.r,
                   inputTextStyle: AppTextStyles.h4.copyWith(
                     color: AppColors.text,
                     fontWeight: FontWeight.w300,
                   ),
-                  contentPadding: EdgeInsets.symmetric(
-                    horizontal: 16.w,
-                    vertical: 14.h,
-                  ),
-                ),
-              ),
-              Gaps.vGap30,
-              // Generate Button
-              CommonButton(
-                text: AppConstants.buildMyWorkout,
-                onPressed: widget.onGenerate,
-                backgroundGradientColor: AppColors.backgroundGradient,
-                textStyle: AppTextStyles.h3,
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
-                trailing: CommonAssetIcon(
-                  Assets.icons.aiGenerator,
-                  width: 20.r,
-                  height: 20.r,
-                  color: AppColors.black,
                 ),
               ),
             ],

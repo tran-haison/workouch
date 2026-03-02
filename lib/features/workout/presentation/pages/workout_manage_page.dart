@@ -144,7 +144,7 @@ class _WorkoutManagePageState extends State<WorkoutManagePage> {
                             ],
                           ),
                           Positioned(
-                            bottom: 10.h,
+                            bottom: 20.h,
                             left: 0,
                             right: 0,
                             child: Row(
