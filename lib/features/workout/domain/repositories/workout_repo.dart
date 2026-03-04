@@ -1,5 +1,6 @@
 import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
+import 'package:workouch/features/workout_session/domain/entities/exercise_personal_record.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/error.dart';
@@ -13,6 +14,11 @@ abstract class WorkoutRepo {
   Future<Either<Error, bool>> deleteWorkout(String workoutId);
   Future<Either<Error, bool>> incrementWorkoutGenUsed();
   Future<Either<Error, bool>> resetSubscriptionPeriod();
+  Future<Either<Error, List<ExercisePersonalRecord>>>
+  getMainLiftPersonalRecords(List<String> exerciseIds);
+  Future<Either<Error, bool>> upsertMainLiftPersonalRecords(
+    List<ExercisePersonalRecord> records,
+  );
 }
 
 @LazySingleton(as: WorkoutRepo)
@@ -113,6 +119,43 @@ class WorkoutRepoImpl implements WorkoutRepo {
       return Left(
         Error(
           message: AppConstants.resetSubscriptionPeriodFailed,
+          errorType: ErrorType.other,
+        ),
+      );
+    } catch (e) {
+      return Left(handleException(e));
+    }
+  }
+
+  @override
+  Future<Either<Error, List<ExercisePersonalRecord>>>
+  getMainLiftPersonalRecords(List<String> exerciseIds) async {
+    try {
+      final records = await _workoutService.getMainLiftPersonalRecords(
+        exerciseIds,
+      );
+      return Right(records);
+    } catch (e) {
+      return Left(handleException(e));
+    }
+  }
+
+  @override
+  Future<Either<Error, bool>> upsertMainLiftPersonalRecords(
+    List<ExercisePersonalRecord> records,
+  ) async {
+    try {
+      final success = await _workoutService.upsertMainLiftPersonalRecords(
+        records,
+      );
+
+      if (success) {
+        return const Right(true);
+      }
+
+      return Left(
+        Error(
+          message: AppConstants.exercisePersonalRecordSavedError,
           errorType: ErrorType.other,
         ),
       );

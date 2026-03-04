@@ -11,6 +11,7 @@ import 'onboard_gender_page.dart';
 import 'onboard_age_page.dart';
 import 'onboard_height_page.dart';
 import 'onboard_weight_page.dart';
+import 'onboard_main_lifts_page.dart';
 import 'onboard_activity_level_page.dart';
 
 class OnboardMainPage extends StatelessWidget {
@@ -23,6 +24,7 @@ class OnboardMainPage extends StatelessWidget {
     OnboardAgePage(),
     OnboardHeightPage(),
     OnboardWeightPage(),
+    OnboardMainLiftsPage(),
     OnboardActivityLevelPage(),
   ];
 

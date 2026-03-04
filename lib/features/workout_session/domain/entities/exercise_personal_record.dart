@@ -30,12 +30,22 @@ class ExercisePersonalRecord with _$ExercisePersonalRecord {
 }
 
 extension ExercisePersonalRecordExt on ExercisePersonalRecord {
+  String maxWeightString(MeasurementSystem system) {
+    return system.isMetric
+        ? maxWeightKg.toStringAsFixed(1)
+        : maxWeightKg.kgToLbs.round().toString();
+  }
+
+  String maxWeightWithUnit(MeasurementSystem system) {
+    final unit = system.isMetric ? AppConstants.kg : AppConstants.lbs;
+    final value = maxWeightString(system);
+    return '$value $unit';
+  }
+
   String displayValue(MeasurementSystem system) {
     switch (setType) {
       case WorkingSetType.weightBased:
-        final weightStr = system.isMetric
-            ? '${maxWeightKg.toStringAsFixed(1)} ${AppConstants.kg}'
-            : '${maxWeightKg.kgToLbs.round()} ${AppConstants.lbs}';
+        final weightStr = maxWeightWithUnit(system);
         return '$weightStr × $maxReps ${AppConstants.reps}';
       case WorkingSetType.repsOnly:
         return '$maxReps ${AppConstants.reps}';

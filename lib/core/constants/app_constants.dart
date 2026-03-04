@@ -218,7 +218,7 @@ class AppConstants {
   static const buildingWorkout = 'Building your workout...';
   static const includeMyData = 'Include my data';
   static const includeMyDataInfo =
-      'When this is on, we use your data like height, weight, age, gender, activity level, and any injuries or limitations to better personalize your AI-generated workout.';
+      'When this is on, we use your data like age, gender, height, weight, activity level, and main lifts PRs to better personalize AI-generated workouts.';
   static const workoutGenerated = 'Workout generated successfully';
   static const workoutGenerationError = 'Failed to generate workout';
   static const discardChanges = 'Discard changes';
@@ -239,6 +239,12 @@ class AppConstants {
   static const lowIntensity = 'Low';
   static const mediumIntensity = 'Medium';
   static const highIntensity = 'High';
+  static const benchPress = 'Bench press';
+  static const squat = 'Squat';
+  static const deadlift = 'Deadlift';
+  static const overheadPress = 'Overhead press';
+  static const weightedPullUp = 'Weighted pull-up';
+  static const mainLifts = 'Main lifts (1RM)';
   static const selectBodyParts = 'Select Body Parts';
   static const selectEquipments = 'Select Equipments';
   static const anyBodyPart = 'Any body part';
@@ -331,6 +337,8 @@ class AppConstants {
   static const maxWeight = 'Max Weight';
   static const prDate = 'PR Date';
   static const noPRsYet = 'No PRs yet';
+  static const noDataYet = 'No data yet';
+  static const saving = 'Saving...';
   static const selectFeaturedExercises =
       'Select any exercise to show as featured here';
   static const bestPRsInEachExercise =
@@ -439,6 +447,8 @@ class AppConstants {
   static const onboardWeightTitle = 'What\'s your weight?';
   static const onboardWeightDescription =
       'This helps us calculate your metrics';
+  static const onboardMainLiftsDescription =
+      'Optional: add your best 1 rep max for these exercises. This helps us calculate your workout intensity and weights';
   static const onboardActivityLevelTitle = 'How active are you?';
   static const onboardActivityLevelDescription =
       'This helps us plan the best workout routines for you';

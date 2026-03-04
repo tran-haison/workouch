@@ -27,6 +27,8 @@ mixin _$WorkoutState {
       throw _privateConstructorUsedError;
   WorkoutStateStatus get generateAIWorkoutStatus =>
       throw _privateConstructorUsedError;
+  WorkoutStateStatus get upsertMainLiftPersonalRecordStatus =>
+      throw _privateConstructorUsedError;
   List<Exercise> get exercises => throw _privateConstructorUsedError;
   List<String> get bodyParts => throw _privateConstructorUsedError;
   List<String> get equipments => throw _privateConstructorUsedError;
@@ -34,6 +36,8 @@ mixin _$WorkoutState {
   Workout get selectedWorkout => throw _privateConstructorUsedError;
   Workout get displayedWorkout => throw _privateConstructorUsedError;
   Workout get aiGeneratedWorkout => throw _privateConstructorUsedError;
+  Map<MainLift, ExercisePersonalRecord?> get mainLiftPersonalRecords =>
+      throw _privateConstructorUsedError;
   ExerciseFilter get filter => throw _privateConstructorUsedError;
   String get search => throw _privateConstructorUsedError;
   int get currentOffset => throw _privateConstructorUsedError;
@@ -44,6 +48,8 @@ mixin _$WorkoutState {
   Error? get getWorkoutsError => throw _privateConstructorUsedError;
   Error? get deleteWorkoutError => throw _privateConstructorUsedError;
   Error? get generateAIWorkoutError => throw _privateConstructorUsedError;
+  Error? get upsertMainLiftPersonalRecordError =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of WorkoutState
   /// with the given fields replaced by the non-null parameter values.
@@ -65,6 +71,7 @@ abstract class $WorkoutStateCopyWith<$Res> {
     WorkoutStateStatus getWorkoutsStatus,
     WorkoutStateStatus deleteWorkoutStatus,
     WorkoutStateStatus generateAIWorkoutStatus,
+    WorkoutStateStatus upsertMainLiftPersonalRecordStatus,
     List<Exercise> exercises,
     List<String> bodyParts,
     List<String> equipments,
@@ -72,6 +79,7 @@ abstract class $WorkoutStateCopyWith<$Res> {
     Workout selectedWorkout,
     Workout displayedWorkout,
     Workout aiGeneratedWorkout,
+    Map<MainLift, ExercisePersonalRecord?> mainLiftPersonalRecords,
     ExerciseFilter filter,
     String search,
     int currentOffset,
@@ -82,6 +90,7 @@ abstract class $WorkoutStateCopyWith<$Res> {
     Error? getWorkoutsError,
     Error? deleteWorkoutError,
     Error? generateAIWorkoutError,
+    Error? upsertMainLiftPersonalRecordError,
   });
 
   $WorkoutCopyWith<$Res> get selectedWorkout;
@@ -93,6 +102,7 @@ abstract class $WorkoutStateCopyWith<$Res> {
   $ErrorCopyWith<$Res>? get getWorkoutsError;
   $ErrorCopyWith<$Res>? get deleteWorkoutError;
   $ErrorCopyWith<$Res>? get generateAIWorkoutError;
+  $ErrorCopyWith<$Res>? get upsertMainLiftPersonalRecordError;
 }
 
 /// @nodoc
@@ -115,6 +125,7 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
     Object? getWorkoutsStatus = null,
     Object? deleteWorkoutStatus = null,
     Object? generateAIWorkoutStatus = null,
+    Object? upsertMainLiftPersonalRecordStatus = null,
     Object? exercises = null,
     Object? bodyParts = null,
     Object? equipments = null,
@@ -122,6 +133,7 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
     Object? selectedWorkout = null,
     Object? displayedWorkout = null,
     Object? aiGeneratedWorkout = null,
+    Object? mainLiftPersonalRecords = null,
     Object? filter = null,
     Object? search = null,
     Object? currentOffset = null,
@@ -132,6 +144,7 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
     Object? getWorkoutsError = freezed,
     Object? deleteWorkoutError = freezed,
     Object? generateAIWorkoutError = freezed,
+    Object? upsertMainLiftPersonalRecordError = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -154,6 +167,11 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
             generateAIWorkoutStatus: null == generateAIWorkoutStatus
                 ? _value.generateAIWorkoutStatus
                 : generateAIWorkoutStatus // ignore: cast_nullable_to_non_nullable
+                      as WorkoutStateStatus,
+            upsertMainLiftPersonalRecordStatus:
+                null == upsertMainLiftPersonalRecordStatus
+                ? _value.upsertMainLiftPersonalRecordStatus
+                : upsertMainLiftPersonalRecordStatus // ignore: cast_nullable_to_non_nullable
                       as WorkoutStateStatus,
             exercises: null == exercises
                 ? _value.exercises
@@ -183,6 +201,10 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
                 ? _value.aiGeneratedWorkout
                 : aiGeneratedWorkout // ignore: cast_nullable_to_non_nullable
                       as Workout,
+            mainLiftPersonalRecords: null == mainLiftPersonalRecords
+                ? _value.mainLiftPersonalRecords
+                : mainLiftPersonalRecords // ignore: cast_nullable_to_non_nullable
+                      as Map<MainLift, ExercisePersonalRecord?>,
             filter: null == filter
                 ? _value.filter
                 : filter // ignore: cast_nullable_to_non_nullable
@@ -222,6 +244,11 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
             generateAIWorkoutError: freezed == generateAIWorkoutError
                 ? _value.generateAIWorkoutError
                 : generateAIWorkoutError // ignore: cast_nullable_to_non_nullable
+                      as Error?,
+            upsertMainLiftPersonalRecordError:
+                freezed == upsertMainLiftPersonalRecordError
+                ? _value.upsertMainLiftPersonalRecordError
+                : upsertMainLiftPersonalRecordError // ignore: cast_nullable_to_non_nullable
                       as Error?,
           )
           as $Val,
@@ -337,6 +364,24 @@ class _$WorkoutStateCopyWithImpl<$Res, $Val extends WorkoutState>
       return _then(_value.copyWith(generateAIWorkoutError: value) as $Val);
     });
   }
+
+  /// Create a copy of WorkoutState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ErrorCopyWith<$Res>? get upsertMainLiftPersonalRecordError {
+    if (_value.upsertMainLiftPersonalRecordError == null) {
+      return null;
+    }
+
+    return $ErrorCopyWith<$Res>(_value.upsertMainLiftPersonalRecordError!, (
+      value,
+    ) {
+      return _then(
+        _value.copyWith(upsertMainLiftPersonalRecordError: value) as $Val,
+      );
+    });
+  }
 }
 
 /// @nodoc
@@ -354,6 +399,7 @@ abstract class _$$WorkoutStateImplCopyWith<$Res>
     WorkoutStateStatus getWorkoutsStatus,
     WorkoutStateStatus deleteWorkoutStatus,
     WorkoutStateStatus generateAIWorkoutStatus,
+    WorkoutStateStatus upsertMainLiftPersonalRecordStatus,
     List<Exercise> exercises,
     List<String> bodyParts,
     List<String> equipments,
@@ -361,6 +407,7 @@ abstract class _$$WorkoutStateImplCopyWith<$Res>
     Workout selectedWorkout,
     Workout displayedWorkout,
     Workout aiGeneratedWorkout,
+    Map<MainLift, ExercisePersonalRecord?> mainLiftPersonalRecords,
     ExerciseFilter filter,
     String search,
     int currentOffset,
@@ -371,6 +418,7 @@ abstract class _$$WorkoutStateImplCopyWith<$Res>
     Error? getWorkoutsError,
     Error? deleteWorkoutError,
     Error? generateAIWorkoutError,
+    Error? upsertMainLiftPersonalRecordError,
   });
 
   @override
@@ -391,6 +439,8 @@ abstract class _$$WorkoutStateImplCopyWith<$Res>
   $ErrorCopyWith<$Res>? get deleteWorkoutError;
   @override
   $ErrorCopyWith<$Res>? get generateAIWorkoutError;
+  @override
+  $ErrorCopyWith<$Res>? get upsertMainLiftPersonalRecordError;
 }
 
 /// @nodoc
@@ -412,6 +462,7 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
     Object? getWorkoutsStatus = null,
     Object? deleteWorkoutStatus = null,
     Object? generateAIWorkoutStatus = null,
+    Object? upsertMainLiftPersonalRecordStatus = null,
     Object? exercises = null,
     Object? bodyParts = null,
     Object? equipments = null,
@@ -419,6 +470,7 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
     Object? selectedWorkout = null,
     Object? displayedWorkout = null,
     Object? aiGeneratedWorkout = null,
+    Object? mainLiftPersonalRecords = null,
     Object? filter = null,
     Object? search = null,
     Object? currentOffset = null,
@@ -429,6 +481,7 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
     Object? getWorkoutsError = freezed,
     Object? deleteWorkoutError = freezed,
     Object? generateAIWorkoutError = freezed,
+    Object? upsertMainLiftPersonalRecordError = freezed,
   }) {
     return _then(
       _$WorkoutStateImpl(
@@ -451,6 +504,11 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
         generateAIWorkoutStatus: null == generateAIWorkoutStatus
             ? _value.generateAIWorkoutStatus
             : generateAIWorkoutStatus // ignore: cast_nullable_to_non_nullable
+                  as WorkoutStateStatus,
+        upsertMainLiftPersonalRecordStatus:
+            null == upsertMainLiftPersonalRecordStatus
+            ? _value.upsertMainLiftPersonalRecordStatus
+            : upsertMainLiftPersonalRecordStatus // ignore: cast_nullable_to_non_nullable
                   as WorkoutStateStatus,
         exercises: null == exercises
             ? _value._exercises
@@ -480,6 +538,10 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
             ? _value.aiGeneratedWorkout
             : aiGeneratedWorkout // ignore: cast_nullable_to_non_nullable
                   as Workout,
+        mainLiftPersonalRecords: null == mainLiftPersonalRecords
+            ? _value._mainLiftPersonalRecords
+            : mainLiftPersonalRecords // ignore: cast_nullable_to_non_nullable
+                  as Map<MainLift, ExercisePersonalRecord?>,
         filter: null == filter
             ? _value.filter
             : filter // ignore: cast_nullable_to_non_nullable
@@ -520,6 +582,11 @@ class __$$WorkoutStateImplCopyWithImpl<$Res>
             ? _value.generateAIWorkoutError
             : generateAIWorkoutError // ignore: cast_nullable_to_non_nullable
                   as Error?,
+        upsertMainLiftPersonalRecordError:
+            freezed == upsertMainLiftPersonalRecordError
+            ? _value.upsertMainLiftPersonalRecordError
+            : upsertMainLiftPersonalRecordError // ignore: cast_nullable_to_non_nullable
+                  as Error?,
       ),
     );
   }
@@ -534,6 +601,7 @@ class _$WorkoutStateImpl implements _WorkoutState {
     this.getWorkoutsStatus = WorkoutStateStatus.initial,
     this.deleteWorkoutStatus = WorkoutStateStatus.initial,
     this.generateAIWorkoutStatus = WorkoutStateStatus.initial,
+    this.upsertMainLiftPersonalRecordStatus = WorkoutStateStatus.initial,
     final List<Exercise> exercises = const [],
     final List<String> bodyParts = const [],
     final List<String> equipments = const [],
@@ -541,6 +609,8 @@ class _$WorkoutStateImpl implements _WorkoutState {
     this.selectedWorkout = const Workout(),
     this.displayedWorkout = const Workout(),
     this.aiGeneratedWorkout = const Workout(),
+    final Map<MainLift, ExercisePersonalRecord?> mainLiftPersonalRecords =
+        const {},
     this.filter = const ExerciseFilter(),
     this.search = '',
     this.currentOffset = 0,
@@ -551,10 +621,12 @@ class _$WorkoutStateImpl implements _WorkoutState {
     this.getWorkoutsError,
     this.deleteWorkoutError,
     this.generateAIWorkoutError,
+    this.upsertMainLiftPersonalRecordError,
   }) : _exercises = exercises,
        _bodyParts = bodyParts,
        _equipments = equipments,
-       _workouts = workouts;
+       _workouts = workouts,
+       _mainLiftPersonalRecords = mainLiftPersonalRecords;
 
   @override
   @JsonKey()
@@ -571,6 +643,9 @@ class _$WorkoutStateImpl implements _WorkoutState {
   @override
   @JsonKey()
   final WorkoutStateStatus generateAIWorkoutStatus;
+  @override
+  @JsonKey()
+  final WorkoutStateStatus upsertMainLiftPersonalRecordStatus;
   final List<Exercise> _exercises;
   @override
   @JsonKey()
@@ -616,6 +691,16 @@ class _$WorkoutStateImpl implements _WorkoutState {
   @override
   @JsonKey()
   final Workout aiGeneratedWorkout;
+  final Map<MainLift, ExercisePersonalRecord?> _mainLiftPersonalRecords;
+  @override
+  @JsonKey()
+  Map<MainLift, ExercisePersonalRecord?> get mainLiftPersonalRecords {
+    if (_mainLiftPersonalRecords is EqualUnmodifiableMapView)
+      return _mainLiftPersonalRecords;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_mainLiftPersonalRecords);
+  }
+
   @override
   @JsonKey()
   final ExerciseFilter filter;
@@ -641,10 +726,12 @@ class _$WorkoutStateImpl implements _WorkoutState {
   final Error? deleteWorkoutError;
   @override
   final Error? generateAIWorkoutError;
+  @override
+  final Error? upsertMainLiftPersonalRecordError;
 
   @override
   String toString() {
-    return 'WorkoutState(getExercisesStatus: $getExercisesStatus, saveWorkoutStatus: $saveWorkoutStatus, getWorkoutsStatus: $getWorkoutsStatus, deleteWorkoutStatus: $deleteWorkoutStatus, generateAIWorkoutStatus: $generateAIWorkoutStatus, exercises: $exercises, bodyParts: $bodyParts, equipments: $equipments, workouts: $workouts, selectedWorkout: $selectedWorkout, displayedWorkout: $displayedWorkout, aiGeneratedWorkout: $aiGeneratedWorkout, filter: $filter, search: $search, currentOffset: $currentOffset, limit: $limit, hasMore: $hasMore, getExercisesError: $getExercisesError, saveWorkoutError: $saveWorkoutError, getWorkoutsError: $getWorkoutsError, deleteWorkoutError: $deleteWorkoutError, generateAIWorkoutError: $generateAIWorkoutError)';
+    return 'WorkoutState(getExercisesStatus: $getExercisesStatus, saveWorkoutStatus: $saveWorkoutStatus, getWorkoutsStatus: $getWorkoutsStatus, deleteWorkoutStatus: $deleteWorkoutStatus, generateAIWorkoutStatus: $generateAIWorkoutStatus, upsertMainLiftPersonalRecordStatus: $upsertMainLiftPersonalRecordStatus, exercises: $exercises, bodyParts: $bodyParts, equipments: $equipments, workouts: $workouts, selectedWorkout: $selectedWorkout, displayedWorkout: $displayedWorkout, aiGeneratedWorkout: $aiGeneratedWorkout, mainLiftPersonalRecords: $mainLiftPersonalRecords, filter: $filter, search: $search, currentOffset: $currentOffset, limit: $limit, hasMore: $hasMore, getExercisesError: $getExercisesError, saveWorkoutError: $saveWorkoutError, getWorkoutsError: $getWorkoutsError, deleteWorkoutError: $deleteWorkoutError, generateAIWorkoutError: $generateAIWorkoutError, upsertMainLiftPersonalRecordError: $upsertMainLiftPersonalRecordError)';
   }
 
   @override
@@ -665,6 +752,12 @@ class _$WorkoutStateImpl implements _WorkoutState {
                   generateAIWorkoutStatus,
                 ) ||
                 other.generateAIWorkoutStatus == generateAIWorkoutStatus) &&
+            (identical(
+                  other.upsertMainLiftPersonalRecordStatus,
+                  upsertMainLiftPersonalRecordStatus,
+                ) ||
+                other.upsertMainLiftPersonalRecordStatus ==
+                    upsertMainLiftPersonalRecordStatus) &&
             const DeepCollectionEquality().equals(
               other._exercises,
               _exercises,
@@ -684,6 +777,10 @@ class _$WorkoutStateImpl implements _WorkoutState {
                 other.displayedWorkout == displayedWorkout) &&
             (identical(other.aiGeneratedWorkout, aiGeneratedWorkout) ||
                 other.aiGeneratedWorkout == aiGeneratedWorkout) &&
+            const DeepCollectionEquality().equals(
+              other._mainLiftPersonalRecords,
+              _mainLiftPersonalRecords,
+            ) &&
             (identical(other.filter, filter) || other.filter == filter) &&
             (identical(other.search, search) || other.search == search) &&
             (identical(other.currentOffset, currentOffset) ||
@@ -699,7 +796,13 @@ class _$WorkoutStateImpl implements _WorkoutState {
             (identical(other.deleteWorkoutError, deleteWorkoutError) ||
                 other.deleteWorkoutError == deleteWorkoutError) &&
             (identical(other.generateAIWorkoutError, generateAIWorkoutError) ||
-                other.generateAIWorkoutError == generateAIWorkoutError));
+                other.generateAIWorkoutError == generateAIWorkoutError) &&
+            (identical(
+                  other.upsertMainLiftPersonalRecordError,
+                  upsertMainLiftPersonalRecordError,
+                ) ||
+                other.upsertMainLiftPersonalRecordError ==
+                    upsertMainLiftPersonalRecordError));
   }
 
   @override
@@ -710,6 +813,7 @@ class _$WorkoutStateImpl implements _WorkoutState {
     getWorkoutsStatus,
     deleteWorkoutStatus,
     generateAIWorkoutStatus,
+    upsertMainLiftPersonalRecordStatus,
     const DeepCollectionEquality().hash(_exercises),
     const DeepCollectionEquality().hash(_bodyParts),
     const DeepCollectionEquality().hash(_equipments),
@@ -717,6 +821,7 @@ class _$WorkoutStateImpl implements _WorkoutState {
     selectedWorkout,
     displayedWorkout,
     aiGeneratedWorkout,
+    const DeepCollectionEquality().hash(_mainLiftPersonalRecords),
     filter,
     search,
     currentOffset,
@@ -727,6 +832,7 @@ class _$WorkoutStateImpl implements _WorkoutState {
     getWorkoutsError,
     deleteWorkoutError,
     generateAIWorkoutError,
+    upsertMainLiftPersonalRecordError,
   ]);
 
   /// Create a copy of WorkoutState
@@ -745,6 +851,7 @@ abstract class _WorkoutState implements WorkoutState {
     final WorkoutStateStatus getWorkoutsStatus,
     final WorkoutStateStatus deleteWorkoutStatus,
     final WorkoutStateStatus generateAIWorkoutStatus,
+    final WorkoutStateStatus upsertMainLiftPersonalRecordStatus,
     final List<Exercise> exercises,
     final List<String> bodyParts,
     final List<String> equipments,
@@ -752,6 +859,7 @@ abstract class _WorkoutState implements WorkoutState {
     final Workout selectedWorkout,
     final Workout displayedWorkout,
     final Workout aiGeneratedWorkout,
+    final Map<MainLift, ExercisePersonalRecord?> mainLiftPersonalRecords,
     final ExerciseFilter filter,
     final String search,
     final int currentOffset,
@@ -762,6 +870,7 @@ abstract class _WorkoutState implements WorkoutState {
     final Error? getWorkoutsError,
     final Error? deleteWorkoutError,
     final Error? generateAIWorkoutError,
+    final Error? upsertMainLiftPersonalRecordError,
   }) = _$WorkoutStateImpl;
 
   @override
@@ -774,6 +883,8 @@ abstract class _WorkoutState implements WorkoutState {
   WorkoutStateStatus get deleteWorkoutStatus;
   @override
   WorkoutStateStatus get generateAIWorkoutStatus;
+  @override
+  WorkoutStateStatus get upsertMainLiftPersonalRecordStatus;
   @override
   List<Exercise> get exercises;
   @override
@@ -788,6 +899,8 @@ abstract class _WorkoutState implements WorkoutState {
   Workout get displayedWorkout;
   @override
   Workout get aiGeneratedWorkout;
+  @override
+  Map<MainLift, ExercisePersonalRecord?> get mainLiftPersonalRecords;
   @override
   ExerciseFilter get filter;
   @override
@@ -808,6 +921,8 @@ abstract class _WorkoutState implements WorkoutState {
   Error? get deleteWorkoutError;
   @override
   Error? get generateAIWorkoutError;
+  @override
+  Error? get upsertMainLiftPersonalRecordError;
 
   /// Create a copy of WorkoutState
   /// with the given fields replaced by the non-null parameter values.

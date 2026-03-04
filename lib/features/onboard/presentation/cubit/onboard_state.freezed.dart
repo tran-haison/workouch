@@ -22,10 +22,12 @@ mixin _$OnboardState {
   MeasurementSystem? get measurementSystem =>
       throw _privateConstructorUsedError;
   Gender? get gender => throw _privateConstructorUsedError;
-  int? get age => throw _privateConstructorUsedError;
+  int get age => throw _privateConstructorUsedError;
   double get heightCm => throw _privateConstructorUsedError;
   double get weightKg => throw _privateConstructorUsedError;
   ActivityLevel? get activityLevel => throw _privateConstructorUsedError;
+  Map<MainLift, double> get mainLiftRecords =>
+      throw _privateConstructorUsedError;
   Error? get error => throw _privateConstructorUsedError;
 
   /// Create a copy of OnboardState
@@ -47,10 +49,11 @@ abstract class $OnboardStateCopyWith<$Res> {
     int currentPage,
     MeasurementSystem? measurementSystem,
     Gender? gender,
-    int? age,
+    int age,
     double heightCm,
     double weightKg,
     ActivityLevel? activityLevel,
+    Map<MainLift, double> mainLiftRecords,
     Error? error,
   });
 
@@ -76,10 +79,11 @@ class _$OnboardStateCopyWithImpl<$Res, $Val extends OnboardState>
     Object? currentPage = null,
     Object? measurementSystem = freezed,
     Object? gender = freezed,
-    Object? age = freezed,
+    Object? age = null,
     Object? heightCm = null,
     Object? weightKg = null,
     Object? activityLevel = freezed,
+    Object? mainLiftRecords = null,
     Object? error = freezed,
   }) {
     return _then(
@@ -100,10 +104,10 @@ class _$OnboardStateCopyWithImpl<$Res, $Val extends OnboardState>
                 ? _value.gender
                 : gender // ignore: cast_nullable_to_non_nullable
                       as Gender?,
-            age: freezed == age
+            age: null == age
                 ? _value.age
                 : age // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as int,
             heightCm: null == heightCm
                 ? _value.heightCm
                 : heightCm // ignore: cast_nullable_to_non_nullable
@@ -116,6 +120,10 @@ class _$OnboardStateCopyWithImpl<$Res, $Val extends OnboardState>
                 ? _value.activityLevel
                 : activityLevel // ignore: cast_nullable_to_non_nullable
                       as ActivityLevel?,
+            mainLiftRecords: null == mainLiftRecords
+                ? _value.mainLiftRecords
+                : mainLiftRecords // ignore: cast_nullable_to_non_nullable
+                      as Map<MainLift, double>,
             error: freezed == error
                 ? _value.error
                 : error // ignore: cast_nullable_to_non_nullable
@@ -154,10 +162,11 @@ abstract class _$$OnboardStateImplCopyWith<$Res>
     int currentPage,
     MeasurementSystem? measurementSystem,
     Gender? gender,
-    int? age,
+    int age,
     double heightCm,
     double weightKg,
     ActivityLevel? activityLevel,
+    Map<MainLift, double> mainLiftRecords,
     Error? error,
   });
 
@@ -183,10 +192,11 @@ class __$$OnboardStateImplCopyWithImpl<$Res>
     Object? currentPage = null,
     Object? measurementSystem = freezed,
     Object? gender = freezed,
-    Object? age = freezed,
+    Object? age = null,
     Object? heightCm = null,
     Object? weightKg = null,
     Object? activityLevel = freezed,
+    Object? mainLiftRecords = null,
     Object? error = freezed,
   }) {
     return _then(
@@ -207,10 +217,10 @@ class __$$OnboardStateImplCopyWithImpl<$Res>
             ? _value.gender
             : gender // ignore: cast_nullable_to_non_nullable
                   as Gender?,
-        age: freezed == age
+        age: null == age
             ? _value.age
             : age // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as int,
         heightCm: null == heightCm
             ? _value.heightCm
             : heightCm // ignore: cast_nullable_to_non_nullable
@@ -223,6 +233,10 @@ class __$$OnboardStateImplCopyWithImpl<$Res>
             ? _value.activityLevel
             : activityLevel // ignore: cast_nullable_to_non_nullable
                   as ActivityLevel?,
+        mainLiftRecords: null == mainLiftRecords
+            ? _value._mainLiftRecords
+            : mainLiftRecords // ignore: cast_nullable_to_non_nullable
+                  as Map<MainLift, double>,
         error: freezed == error
             ? _value.error
             : error // ignore: cast_nullable_to_non_nullable
@@ -240,12 +254,13 @@ class _$OnboardStateImpl implements _OnboardState {
     this.currentPage = 0,
     this.measurementSystem,
     this.gender,
-    this.age,
+    this.age = 18,
     this.heightCm = 170.0,
     this.weightKg = 70.0,
     this.activityLevel,
+    final Map<MainLift, double> mainLiftRecords = const {},
     this.error,
-  });
+  }) : _mainLiftRecords = mainLiftRecords;
 
   @override
   @JsonKey()
@@ -258,7 +273,8 @@ class _$OnboardStateImpl implements _OnboardState {
   @override
   final Gender? gender;
   @override
-  final int? age;
+  @JsonKey()
+  final int age;
   @override
   @JsonKey()
   final double heightCm;
@@ -267,12 +283,21 @@ class _$OnboardStateImpl implements _OnboardState {
   final double weightKg;
   @override
   final ActivityLevel? activityLevel;
+  final Map<MainLift, double> _mainLiftRecords;
+  @override
+  @JsonKey()
+  Map<MainLift, double> get mainLiftRecords {
+    if (_mainLiftRecords is EqualUnmodifiableMapView) return _mainLiftRecords;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_mainLiftRecords);
+  }
+
   @override
   final Error? error;
 
   @override
   String toString() {
-    return 'OnboardState(status: $status, currentPage: $currentPage, measurementSystem: $measurementSystem, gender: $gender, age: $age, heightCm: $heightCm, weightKg: $weightKg, activityLevel: $activityLevel, error: $error)';
+    return 'OnboardState(status: $status, currentPage: $currentPage, measurementSystem: $measurementSystem, gender: $gender, age: $age, heightCm: $heightCm, weightKg: $weightKg, activityLevel: $activityLevel, mainLiftRecords: $mainLiftRecords, error: $error)';
   }
 
   @override
@@ -293,6 +318,10 @@ class _$OnboardStateImpl implements _OnboardState {
                 other.weightKg == weightKg) &&
             (identical(other.activityLevel, activityLevel) ||
                 other.activityLevel == activityLevel) &&
+            const DeepCollectionEquality().equals(
+              other._mainLiftRecords,
+              _mainLiftRecords,
+            ) &&
             (identical(other.error, error) || other.error == error));
   }
 
@@ -307,6 +336,7 @@ class _$OnboardStateImpl implements _OnboardState {
     heightCm,
     weightKg,
     activityLevel,
+    const DeepCollectionEquality().hash(_mainLiftRecords),
     error,
   );
 
@@ -325,10 +355,11 @@ abstract class _OnboardState implements OnboardState {
     final int currentPage,
     final MeasurementSystem? measurementSystem,
     final Gender? gender,
-    final int? age,
+    final int age,
     final double heightCm,
     final double weightKg,
     final ActivityLevel? activityLevel,
+    final Map<MainLift, double> mainLiftRecords,
     final Error? error,
   }) = _$OnboardStateImpl;
 
@@ -341,13 +372,15 @@ abstract class _OnboardState implements OnboardState {
   @override
   Gender? get gender;
   @override
-  int? get age;
+  int get age;
   @override
   double get heightCm;
   @override
   double get weightKg;
   @override
   ActivityLevel? get activityLevel;
+  @override
+  Map<MainLift, double> get mainLiftRecords;
   @override
   Error? get error;
 

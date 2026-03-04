@@ -2,21 +2,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:workouch/features/workout/domain/entities/working_exercise.dart';
 import 'package:workouch/features/workout/presentation/cubit/workout_state.dart';
+import 'package:workouch/features/workout_session/domain/entities/exercise_personal_record.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/utils/error.dart';
+import '../../../auth/domain/entities/user.dart';
 import '../../data/models/requests/exercise_filter_request.dart';
 import '../../data/models/requests/paging_request.dart';
 import '../../domain/entities/exercise.dart';
 import '../../domain/entities/exercise_filter.dart';
 import '../../domain/entities/user_subscription.dart';
 import '../../domain/entities/workout.dart';
+import '../../domain/enums/main_lift.dart';
+import '../../domain/enums/workout_goal.dart';
+import '../../domain/enums/workout_intensity.dart';
 import '../../domain/repositories/ai_workout_repo.dart';
 import '../../domain/repositories/exercise_repo.dart';
 import '../../domain/repositories/workout_repo.dart';
-import '../../domain/enums/workout_goal.dart';
-import '../../domain/enums/workout_intensity.dart';
-import '../../../auth/domain/entities/user.dart';
-import '../../../../core/utils/error.dart';
 
 @injectable
 class WorkoutCubit extends Cubit<WorkoutState> {
@@ -28,6 +30,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     : super(const WorkoutState()) {
     getBodyParts();
     getEquipments();
+    getMainLiftPersonalRecords();
   }
 
   Future<void> saveWorkout(Workout workout) async {
@@ -419,6 +422,73 @@ class WorkoutCubit extends Cubit<WorkoutState> {
         generateAIWorkoutStatus: WorkoutStateStatus.success,
         generateAIWorkoutError: null,
         aiGeneratedWorkout: workout,
+      ),
+    );
+  }
+
+  Future<void> getMainLiftPersonalRecords() async {
+    if (isClosed) return;
+
+    final exerciseIds = MainLift.values.map((e) => e.exerciseId).toList();
+    final res = await _workoutRepo.getMainLiftPersonalRecords(exerciseIds);
+
+    res.fold(
+      (_) {
+        emit(state.copyWith(mainLiftPersonalRecords: {}));
+      },
+      (records) {
+        final maps = <MainLift, ExercisePersonalRecord>{};
+        for (final record in records) {
+          final lift = MainLift.values.firstWhere(
+            (l) => l.exerciseId == record.exerciseId,
+          );
+          maps[lift] = record;
+        }
+        emit(state.copyWith(mainLiftPersonalRecords: maps));
+      },
+    );
+  }
+
+  /// Upsert main lift personal records (pass in a map of lift and weight in kg)
+  Future<void> upsertMainLiftPersonalRecords({
+    required Map<MainLift, double> newRecords,
+  }) async {
+    if (isClosed) return;
+
+    emit(
+      state.copyWith(
+        upsertMainLiftPersonalRecordStatus: WorkoutStateStatus.loading,
+        upsertMainLiftPersonalRecordError: null,
+      ),
+    );
+
+    final records = newRecords.entries
+        .map(
+          (entry) => entry.key.toExercisePersonalRecord(
+            prDate: DateTime.now(), // Current date
+            maxReps: 1, // Always 1 rep-max
+            maxWeightKg: entry.value,
+            isVisibleOnHistory: true, // Always visible on History tab
+          ),
+        )
+        .toList();
+
+    final res = await _workoutRepo.upsertMainLiftPersonalRecords(records);
+
+    res.fold(
+      (error) => emit(
+        state.copyWith(
+          upsertMainLiftPersonalRecordStatus: WorkoutStateStatus.error,
+          upsertMainLiftPersonalRecordError: error,
+        ),
+      ),
+      (success) => emit(
+        state.copyWith(
+          upsertMainLiftPersonalRecordStatus: success
+              ? WorkoutStateStatus.success
+              : WorkoutStateStatus.error,
+          upsertMainLiftPersonalRecordError: null,
+        ),
       ),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:workouch/features/workout/domain/entities/workout.dart';
+import 'package:workouch/features/workout/domain/enums/main_lift.dart';
+import 'package:workouch/features/workout_session/domain/entities/exercise_personal_record.dart';
 
 import '../../../../core/utils/error.dart';
 import '../../domain/entities/exercise.dart';
@@ -18,6 +20,8 @@ class WorkoutState with _$WorkoutState {
     @Default(WorkoutStateStatus.initial) WorkoutStateStatus deleteWorkoutStatus,
     @Default(WorkoutStateStatus.initial)
     WorkoutStateStatus generateAIWorkoutStatus,
+    @Default(WorkoutStateStatus.initial)
+    WorkoutStateStatus upsertMainLiftPersonalRecordStatus,
     @Default([]) List<Exercise> exercises,
     @Default([]) List<String> bodyParts,
     @Default([]) List<String> equipments,
@@ -25,6 +29,7 @@ class WorkoutState with _$WorkoutState {
     @Default(Workout()) Workout selectedWorkout,
     @Default(Workout()) Workout displayedWorkout,
     @Default(Workout()) Workout aiGeneratedWorkout,
+    @Default({}) Map<MainLift, ExercisePersonalRecord?> mainLiftPersonalRecords,
     @Default(ExerciseFilter()) ExerciseFilter filter,
     @Default('') String search,
     @Default(0) int currentOffset,
@@ -35,6 +40,7 @@ class WorkoutState with _$WorkoutState {
     Error? getWorkoutsError,
     Error? deleteWorkoutError,
     Error? generateAIWorkoutError,
+    Error? upsertMainLiftPersonalRecordError,
   }) = _WorkoutState;
 }
 

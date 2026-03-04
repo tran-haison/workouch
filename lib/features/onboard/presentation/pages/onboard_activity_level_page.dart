@@ -17,6 +17,8 @@ import '../../../../core/widgets/common_toast.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../auth/presentation/cubit/auth_state.dart';
 import '../../../workout/domain/enums/activity_level.dart';
+import '../../../workout/presentation/cubit/workout_cubit.dart';
+import '../../../workout/presentation/cubit/workout_state.dart';
 import '../cubit/onboard_cubit.dart';
 import '../cubit/onboard_state.dart';
 
@@ -137,36 +139,55 @@ class OnboardActivityLevelPage extends StatelessWidget {
                     ),
                   ),
                   if (state.activityLevel != null)
-                    BlocListener<AuthCubit, AuthState>(
-                      listenWhen: (prev, curr) => prev.status != curr.status,
-                      listener: (context, state) {
-                        if (state.status == AuthStateStatus.loading) {
-                          context.showLoadingDialog(
-                            message: AppConstants.settingUp,
-                          );
-                        } else {
-                          context.hideLoadingDialog();
-                        }
+                    MultiBlocListener(
+                      listeners: [
+                        BlocListener<AuthCubit, AuthState>(
+                          listenWhen: (prev, curr) =>
+                              prev.status != curr.status,
+                          listener: (context, state) {
+                            if (state.status == AuthStateStatus.loading) {
+                              context.showLoadingDialog(
+                                message: AppConstants.settingUp,
+                              );
+                            } else {
+                              context.hideLoadingDialog();
+                            }
 
-                        if (state.status == AuthStateStatus.authenticated &&
-                            state.currentUser != null) {
-                          // Analytics: onboarding completed
-                          PosthogService.logOnboardingCompleted();
+                            if (state.status == AuthStateStatus.authenticated &&
+                                state.currentUser != null) {
+                              // Analytics: onboarding completed
+                              PosthogService.logOnboardingCompleted();
 
-                          showCommonToast(AppConstants.settingUpSuccess);
-                          context.pushReplacementNamed(
-                            AppRoute.workoutAiCreate.name,
-                          );
-                          return;
-                        }
+                              showCommonToast(AppConstants.settingUpSuccess);
+                              context.pushReplacementNamed(
+                                AppRoute.workoutAiCreate.name,
+                              );
+                              return;
+                            }
 
-                        if (state.status == AuthStateStatus.error) {
-                          showCommonToast(
-                            state.error?.message ?? AppConstants.settingUpError,
-                            isError: true,
-                          );
-                        }
-                      },
+                            if (state.status == AuthStateStatus.error) {
+                              showCommonToast(
+                                state.error?.message ??
+                                    AppConstants.settingUpError,
+                                isError: true,
+                              );
+                            }
+                          },
+                        ),
+                        BlocListener<WorkoutCubit, WorkoutState>(
+                          listenWhen: (prev, curr) =>
+                              prev.upsertMainLiftPersonalRecordStatus !=
+                              curr.upsertMainLiftPersonalRecordStatus,
+                          listener: (context, state) {
+                            if (state.upsertMainLiftPersonalRecordStatus ==
+                                WorkoutStateStatus.success) {
+                              context
+                                  .read<WorkoutCubit>()
+                                  .getMainLiftPersonalRecords();
+                            }
+                          },
+                        ),
+                      ],
                       child: CommonButton(
                         text: AppConstants.finish,
                         onPressed: () => _completeOnboarding(context),
@@ -192,14 +213,19 @@ class OnboardActivityLevelPage extends StatelessWidget {
 
   Future<void> _completeOnboarding(BuildContext context) async {
     final state = context.read<OnboardCubit>().state;
-    await context.read<AuthCubit>().updateUserProfile(
-      age: state.age,
-      gender: state.gender,
-      measurementSystem: state.measurementSystem,
-      heightCm: state.heightCm,
-      weightKg: state.weightKg,
-      activityLevel: state.activityLevel,
-      hasOnboard: true,
-    );
+    await Future.wait([
+      context.read<AuthCubit>().updateUserProfile(
+        age: state.age,
+        gender: state.gender,
+        measurementSystem: state.measurementSystem,
+        heightCm: state.heightCm,
+        weightKg: state.weightKg,
+        activityLevel: state.activityLevel,
+        hasOnboard: true,
+      ),
+      context.read<WorkoutCubit>().upsertMainLiftPersonalRecords(
+        newRecords: state.mainLiftRecords,
+      ),
+    ]);
   }
 }

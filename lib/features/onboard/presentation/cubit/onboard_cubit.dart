@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../auth/domain/entities/user.dart';
 import '../../../workout/domain/enums/activity_level.dart';
+import '../../../workout/domain/enums/main_lift.dart';
 import 'onboard_state.dart';
 
 @injectable
@@ -37,6 +38,11 @@ class OnboardCubit extends Cubit<OnboardState> {
   void updateActivityLevel(ActivityLevel activityLevel) {
     if (isClosed) return;
     emit(state.copyWith(activityLevel: activityLevel));
+  }
+
+  void updateMainLiftRecords(Map<MainLift, double> records) {
+    if (isClosed) return;
+    emit(state.copyWith(mainLiftRecords: records));
   }
 
   void nextPage() {

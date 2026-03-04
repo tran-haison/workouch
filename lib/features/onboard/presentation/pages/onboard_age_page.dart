@@ -56,7 +56,7 @@ class OnboardAgePage extends StatelessWidget {
                           child: CommonSpinner<int>(
                             height: 200.h,
                             initialItem: AppConstants.humanMetrics.getAgeIndex(
-                              state.age ?? 18,
+                              state.age,
                             ),
                             items: AppConstants.humanMetrics.availableAges
                                 .map(
@@ -80,21 +80,20 @@ class OnboardAgePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (state.age != null && state.age! > 0)
-                    CommonButton(
-                      text: AppConstants.next,
-                      onPressed: () {
-                        context.read<OnboardCubit>().nextPage();
-                      },
-                      textStyle: AppTextStyles.h3.copyWith(
-                        color: AppColors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 40.w,
-                        vertical: 16.h,
-                      ),
+                  CommonButton(
+                    text: AppConstants.next,
+                    onPressed: () {
+                      context.read<OnboardCubit>().nextPage();
+                    },
+                    textStyle: AppTextStyles.h3.copyWith(
+                      color: AppColors.white,
+                      fontWeight: FontWeight.w600,
                     ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 40.w,
+                      vertical: 16.h,
+                    ),
+                  ),
                   Gaps.vGap40,
                 ],
               ),

@@ -4,6 +4,8 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/log.dart';
 import '../../domain/entities/workout.dart';
+import '../../../workout_session/domain/entities/exercise_personal_record.dart';
+import '../../../workout_session/data/models/dtos/exercise_personal_record_dto.dart';
 import '../models/dtos/working_exercise_dto.dart';
 import '../models/dtos/working_set_dto.dart';
 import '../models/dtos/workout_dto.dart';
@@ -414,6 +416,67 @@ class SupabaseWorkoutService {
       return true;
     } catch (e) {
       Log.e('Error resetting subscription period: $e');
+      return false;
+    }
+  }
+
+  /// Get PRs for the 5 main lifts (bench/squat/deadlift/OHP/weighted pull-up).
+  /// Returns a list of [ExercisePersonalRecord].
+  Future<List<ExercisePersonalRecord>> getMainLiftPersonalRecords(
+    List<String> exerciseIds,
+  ) async {
+    try {
+      final userId = _currentUserId;
+      if (userId == null) {
+        Log.e('No authenticated user found');
+        return [];
+      }
+
+      final response =
+          await _supabase
+                  .from(AppConstants.supabase.tableExercisePersonalRecords)
+                  .select()
+                  .eq('user_id', userId)
+                  .inFilter('exercise_id', exerciseIds)
+              as List;
+
+      return response
+          .map((e) => ExercisePersonalRecordDto.fromJson(e).toEntity())
+          .toList();
+    } catch (e) {
+      Log.e('Error fetching main lift personal records: $e');
+      return [];
+    }
+  }
+
+  /// Manually upsert personal records for a list of [ExercisePersonalRecord].
+  /// This is used in onboarding/profile edits (it overwrites existing values).
+  Future<bool> upsertMainLiftPersonalRecords(
+    List<ExercisePersonalRecord> records,
+  ) async {
+    try {
+      final userId = _currentUserId;
+      if (userId == null) {
+        Log.e('No authenticated user found');
+        return false;
+      }
+
+      final recordsJson = records.map((r) {
+        final dto = ExercisePersonalRecordDto.fromEntity(
+          r.copyWith(userId: userId),
+        );
+        final json = dto.toJson();
+        json.remove('id');
+        return json;
+      }).toList();
+
+      await _supabase
+          .from(AppConstants.supabase.tableExercisePersonalRecords)
+          .upsert(recordsJson, onConflict: 'user_id,exercise_id');
+
+      return true;
+    } catch (e) {
+      Log.e('Error upserting main lift personal records: $e');
       return false;
     }
   }

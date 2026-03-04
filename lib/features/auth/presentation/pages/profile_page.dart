@@ -19,6 +19,7 @@ import '../cubit/auth_state.dart';
 import '../widgets/avatar_placeholder.dart';
 import '../widgets/bmi_card.dart';
 import '../widgets/calories_card.dart';
+import '../widgets/main_lifts_card.dart';
 import '../widgets/subscription_badge.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -229,6 +230,8 @@ class ProfilePage extends StatelessWidget {
                             ),
                           ],
                         ),
+                        Gaps.vGap20,
+                        MainLiftsCard(system: user.measurementSystem),
                         Gaps.vGap40,
                       ],
                     ),
