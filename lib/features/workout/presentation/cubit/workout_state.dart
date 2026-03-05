@@ -46,4 +46,11 @@ class WorkoutState with _$WorkoutState {
 
 extension WorkoutStateExt on WorkoutState {
   bool get hasSelectedExercises => selectedWorkout.exercises.isNotEmpty;
+
+  List<ExercisePersonalRecord> get mainLifts {
+    return mainLiftPersonalRecords.values
+        .where((e) => e != null)
+        .whereType<ExercisePersonalRecord>()
+        .toList();
+  }
 }

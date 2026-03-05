@@ -32,10 +32,21 @@ abstract class UserContextRequest with _$UserContextRequest {
     double? weight,
     String? activityLevel,
     String? gender,
+    List<MainLiftRequest>? mainLifts,
   }) = _UserContextRequest;
 
   factory UserContextRequest.fromJson(Map<String, dynamic> json) =>
       _$UserContextRequestFromJson(json);
+}
+
+@freezed
+abstract class MainLiftRequest with _$MainLiftRequest {
+  @JsonSerializable(includeIfNull: false)
+  const factory MainLiftRequest({String? exercise, double? maxWeightKg}) =
+      _MainLiftRequest;
+
+  factory MainLiftRequest.fromJson(Map<String, dynamic> json) =>
+      _$MainLiftRequestFromJson(json);
 }
 
 @freezed

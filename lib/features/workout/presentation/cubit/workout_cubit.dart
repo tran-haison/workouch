@@ -320,6 +320,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     final res = await _aiWorkoutRepo.generateShuffleModeWorkout(
       preferences: userPreferences,
       user: user,
+      mainLifts: state.mainLifts,
     );
 
     res.fold(
@@ -358,6 +359,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
       location: location,
       injuries: injuries,
       user: user,
+      mainLifts: state.mainLifts,
     );
 
     res.fold(

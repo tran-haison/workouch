@@ -684,6 +684,7 @@ mixin _$UserContextRequest {
   double? get weight => throw _privateConstructorUsedError;
   String? get activityLevel => throw _privateConstructorUsedError;
   String? get gender => throw _privateConstructorUsedError;
+  List<MainLiftRequest>? get mainLifts => throw _privateConstructorUsedError;
 
   /// Serializes this UserContextRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -708,6 +709,7 @@ abstract class $UserContextRequestCopyWith<$Res> {
     double? weight,
     String? activityLevel,
     String? gender,
+    List<MainLiftRequest>? mainLifts,
   });
 }
 
@@ -731,6 +733,7 @@ class _$UserContextRequestCopyWithImpl<$Res, $Val extends UserContextRequest>
     Object? weight = freezed,
     Object? activityLevel = freezed,
     Object? gender = freezed,
+    Object? mainLifts = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -754,6 +757,10 @@ class _$UserContextRequestCopyWithImpl<$Res, $Val extends UserContextRequest>
                 ? _value.gender
                 : gender // ignore: cast_nullable_to_non_nullable
                       as String?,
+            mainLifts: freezed == mainLifts
+                ? _value.mainLifts
+                : mainLifts // ignore: cast_nullable_to_non_nullable
+                      as List<MainLiftRequest>?,
           )
           as $Val,
     );
@@ -775,6 +782,7 @@ abstract class _$$UserContextRequestImplCopyWith<$Res>
     double? weight,
     String? activityLevel,
     String? gender,
+    List<MainLiftRequest>? mainLifts,
   });
 }
 
@@ -797,6 +805,7 @@ class __$$UserContextRequestImplCopyWithImpl<$Res>
     Object? weight = freezed,
     Object? activityLevel = freezed,
     Object? gender = freezed,
+    Object? mainLifts = freezed,
   }) {
     return _then(
       _$UserContextRequestImpl(
@@ -820,6 +829,10 @@ class __$$UserContextRequestImplCopyWithImpl<$Res>
             ? _value.gender
             : gender // ignore: cast_nullable_to_non_nullable
                   as String?,
+        mainLifts: freezed == mainLifts
+            ? _value._mainLifts
+            : mainLifts // ignore: cast_nullable_to_non_nullable
+                  as List<MainLiftRequest>?,
       ),
     );
   }
@@ -835,7 +848,8 @@ class _$UserContextRequestImpl implements _UserContextRequest {
     this.weight,
     this.activityLevel,
     this.gender,
-  });
+    final List<MainLiftRequest>? mainLifts,
+  }) : _mainLifts = mainLifts;
 
   factory _$UserContextRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserContextRequestImplFromJson(json);
@@ -850,10 +864,19 @@ class _$UserContextRequestImpl implements _UserContextRequest {
   final String? activityLevel;
   @override
   final String? gender;
+  final List<MainLiftRequest>? _mainLifts;
+  @override
+  List<MainLiftRequest>? get mainLifts {
+    final value = _mainLifts;
+    if (value == null) return null;
+    if (_mainLifts is EqualUnmodifiableListView) return _mainLifts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'UserContextRequest(age: $age, height: $height, weight: $weight, activityLevel: $activityLevel, gender: $gender)';
+    return 'UserContextRequest(age: $age, height: $height, weight: $weight, activityLevel: $activityLevel, gender: $gender, mainLifts: $mainLifts)';
   }
 
   @override
@@ -866,13 +889,24 @@ class _$UserContextRequestImpl implements _UserContextRequest {
             (identical(other.weight, weight) || other.weight == weight) &&
             (identical(other.activityLevel, activityLevel) ||
                 other.activityLevel == activityLevel) &&
-            (identical(other.gender, gender) || other.gender == gender));
+            (identical(other.gender, gender) || other.gender == gender) &&
+            const DeepCollectionEquality().equals(
+              other._mainLifts,
+              _mainLifts,
+            ));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, age, height, weight, activityLevel, gender);
+  int get hashCode => Object.hash(
+    runtimeType,
+    age,
+    height,
+    weight,
+    activityLevel,
+    gender,
+    const DeepCollectionEquality().hash(_mainLifts),
+  );
 
   /// Create a copy of UserContextRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -898,6 +932,7 @@ abstract class _UserContextRequest implements UserContextRequest {
     final double? weight,
     final String? activityLevel,
     final String? gender,
+    final List<MainLiftRequest>? mainLifts,
   }) = _$UserContextRequestImpl;
 
   factory _UserContextRequest.fromJson(Map<String, dynamic> json) =
@@ -913,12 +948,188 @@ abstract class _UserContextRequest implements UserContextRequest {
   String? get activityLevel;
   @override
   String? get gender;
+  @override
+  List<MainLiftRequest>? get mainLifts;
 
   /// Create a copy of UserContextRequest
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserContextRequestImplCopyWith<_$UserContextRequestImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+MainLiftRequest _$MainLiftRequestFromJson(Map<String, dynamic> json) {
+  return _MainLiftRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MainLiftRequest {
+  String? get exercise => throw _privateConstructorUsedError;
+  double? get maxWeightKg => throw _privateConstructorUsedError;
+
+  /// Serializes this MainLiftRequest to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of MainLiftRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $MainLiftRequestCopyWith<MainLiftRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MainLiftRequestCopyWith<$Res> {
+  factory $MainLiftRequestCopyWith(
+    MainLiftRequest value,
+    $Res Function(MainLiftRequest) then,
+  ) = _$MainLiftRequestCopyWithImpl<$Res, MainLiftRequest>;
+  @useResult
+  $Res call({String? exercise, double? maxWeightKg});
+}
+
+/// @nodoc
+class _$MainLiftRequestCopyWithImpl<$Res, $Val extends MainLiftRequest>
+    implements $MainLiftRequestCopyWith<$Res> {
+  _$MainLiftRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of MainLiftRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? exercise = freezed, Object? maxWeightKg = freezed}) {
+    return _then(
+      _value.copyWith(
+            exercise: freezed == exercise
+                ? _value.exercise
+                : exercise // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            maxWeightKg: freezed == maxWeightKg
+                ? _value.maxWeightKg
+                : maxWeightKg // ignore: cast_nullable_to_non_nullable
+                      as double?,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$MainLiftRequestImplCopyWith<$Res>
+    implements $MainLiftRequestCopyWith<$Res> {
+  factory _$$MainLiftRequestImplCopyWith(
+    _$MainLiftRequestImpl value,
+    $Res Function(_$MainLiftRequestImpl) then,
+  ) = __$$MainLiftRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? exercise, double? maxWeightKg});
+}
+
+/// @nodoc
+class __$$MainLiftRequestImplCopyWithImpl<$Res>
+    extends _$MainLiftRequestCopyWithImpl<$Res, _$MainLiftRequestImpl>
+    implements _$$MainLiftRequestImplCopyWith<$Res> {
+  __$$MainLiftRequestImplCopyWithImpl(
+    _$MainLiftRequestImpl _value,
+    $Res Function(_$MainLiftRequestImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of MainLiftRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? exercise = freezed, Object? maxWeightKg = freezed}) {
+    return _then(
+      _$MainLiftRequestImpl(
+        exercise: freezed == exercise
+            ? _value.exercise
+            : exercise // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        maxWeightKg: freezed == maxWeightKg
+            ? _value.maxWeightKg
+            : maxWeightKg // ignore: cast_nullable_to_non_nullable
+                  as double?,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+@JsonSerializable(includeIfNull: false)
+class _$MainLiftRequestImpl implements _MainLiftRequest {
+  const _$MainLiftRequestImpl({this.exercise, this.maxWeightKg});
+
+  factory _$MainLiftRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MainLiftRequestImplFromJson(json);
+
+  @override
+  final String? exercise;
+  @override
+  final double? maxWeightKg;
+
+  @override
+  String toString() {
+    return 'MainLiftRequest(exercise: $exercise, maxWeightKg: $maxWeightKg)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MainLiftRequestImpl &&
+            (identical(other.exercise, exercise) ||
+                other.exercise == exercise) &&
+            (identical(other.maxWeightKg, maxWeightKg) ||
+                other.maxWeightKg == maxWeightKg));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, exercise, maxWeightKg);
+
+  /// Create a copy of MainLiftRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MainLiftRequestImplCopyWith<_$MainLiftRequestImpl> get copyWith =>
+      __$$MainLiftRequestImplCopyWithImpl<_$MainLiftRequestImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MainLiftRequestImplToJson(this);
+  }
+}
+
+abstract class _MainLiftRequest implements MainLiftRequest {
+  const factory _MainLiftRequest({
+    final String? exercise,
+    final double? maxWeightKg,
+  }) = _$MainLiftRequestImpl;
+
+  factory _MainLiftRequest.fromJson(Map<String, dynamic> json) =
+      _$MainLiftRequestImpl.fromJson;
+
+  @override
+  String? get exercise;
+  @override
+  double? get maxWeightKg;
+
+  /// Create a copy of MainLiftRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$MainLiftRequestImplCopyWith<_$MainLiftRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

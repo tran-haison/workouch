@@ -6,6 +6,7 @@ import '../../../../core/constants/app_constants.dart';
 import '../../../../core/services/posthog_analytics_service.dart';
 import '../../../../core/utils/error.dart';
 import '../../../auth/domain/entities/user.dart';
+import '../../../workout_session/domain/entities/exercise_personal_record.dart';
 import '../../data/models/dtos/generate_workout_dto.dart';
 import '../../data/models/requests/generate_workout_request.dart';
 import '../../data/services/exercise_service.dart';
@@ -17,6 +18,7 @@ abstract class AIWorkoutRepo {
   Future<Either<Error, Workout>> generateShuffleModeWorkout({
     required String preferences,
     User? user,
+    List<ExercisePersonalRecord>? mainLifts,
   });
 
   Future<Either<Error, Workout>> generateNeatModeWorkout({
@@ -29,6 +31,7 @@ abstract class AIWorkoutRepo {
     String? location,
     String? injuries,
     User? user,
+    List<ExercisePersonalRecord>? mainLifts,
   });
 }
 
@@ -42,8 +45,18 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
   Future<Either<Error, Workout>> generateShuffleModeWorkout({
     required String preferences,
     User? user,
+    List<ExercisePersonalRecord>? mainLifts,
   }) async {
     try {
+      final mainLiftsRequest = mainLifts
+          ?.map(
+            (record) => MainLiftRequest(
+              exercise: record.name,
+              maxWeightKg: record.maxWeightKg,
+            ),
+          )
+          .toList();
+
       final request = GenerateWorkoutRequest.shuffleMode(
         mode: 'shuffle',
         preferences: preferences,
@@ -54,6 +67,7 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
                 weight: user.weightKg,
                 activityLevel: user.activityLevel.title,
                 gender: user.gender.name,
+                mainLifts: mainLiftsRequest,
               )
             : null,
       );
@@ -119,8 +133,18 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
     String? location,
     String? injuries,
     User? user,
+    List<ExercisePersonalRecord>? mainLifts,
   }) async {
     try {
+      final mainLiftsRequest = mainLifts
+          ?.map(
+            (record) => MainLiftRequest(
+              exercise: record.name,
+              maxWeightKg: record.maxWeightKg,
+            ),
+          )
+          .toList();
+
       final request = GenerateWorkoutRequest.neatMode(
         mode: 'neat',
         userContext: user != null
@@ -130,6 +154,7 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
                 weight: user.weightKg,
                 activityLevel: user.activityLevel.title,
                 gender: user.gender.name,
+                mainLifts: mainLiftsRequest,
               )
             : null,
         specifications: SpecificationsRequest(

@@ -60,6 +60,9 @@ _$UserContextRequestImpl _$$UserContextRequestImplFromJson(
   weight: (json['weight'] as num?)?.toDouble(),
   activityLevel: json['activityLevel'] as String?,
   gender: json['gender'] as String?,
+  mainLifts: (json['mainLifts'] as List<dynamic>?)
+      ?.map((e) => MainLiftRequest.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$$UserContextRequestImplToJson(
@@ -70,6 +73,21 @@ Map<String, dynamic> _$$UserContextRequestImplToJson(
   if (instance.weight case final value?) 'weight': value,
   if (instance.activityLevel case final value?) 'activityLevel': value,
   if (instance.gender case final value?) 'gender': value,
+  if (instance.mainLifts case final value?) 'mainLifts': value,
+};
+
+_$MainLiftRequestImpl _$$MainLiftRequestImplFromJson(
+  Map<String, dynamic> json,
+) => _$MainLiftRequestImpl(
+  exercise: json['exercise'] as String?,
+  maxWeightKg: (json['maxWeightKg'] as num?)?.toDouble(),
+);
+
+Map<String, dynamic> _$$MainLiftRequestImplToJson(
+  _$MainLiftRequestImpl instance,
+) => <String, dynamic>{
+  if (instance.exercise case final value?) 'exercise': value,
+  if (instance.maxWeightKg case final value?) 'maxWeightKg': value,
 };
 
 _$SpecificationsRequestImpl _$$SpecificationsRequestImplFromJson(
