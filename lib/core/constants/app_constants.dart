@@ -64,6 +64,7 @@ class AppConstants {
   static const name = 'Name';
   static const nameHint = 'E.g. Chest Workout';
   static const restBetweenExercises = 'Rest between exercises';
+  static const rest = 'Rest';
   static const clearAll = 'Clear all';
   static const reset = 'Reset';
   static const searchByName = 'Search by name';

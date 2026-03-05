@@ -7,6 +7,7 @@ import 'package:workouch/features/auth/domain/entities/user.dart';
 import 'package:workouch/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:workouch/features/auth/presentation/cubit/auth_state.dart';
 
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/extension/duration_extension.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -163,38 +164,99 @@ class _WorkoutExerciseCardState extends State<WorkoutExerciseCard>
                         child: Column(
                           children: [
                             if (displaySetsInfo.isNotEmpty) ...[
-                              Gaps.vGap8,
-                              ...displaySetsInfo.map((setInfo) {
-                                return Padding(
-                                  padding: EdgeInsets.only(top: 8.h),
-                                  child: Row(
-                                    children: [
-                                      CommonAssetIcon(
-                                        _getSetIcon(exercise.effectiveSetType),
-                                        width: 16.r,
-                                        height: 16.r,
-                                        color: AppColors.black,
-                                      ),
-                                      Gaps.hGap10,
-                                      Expanded(
-                                        child: Text(
-                                          setInfo,
-                                          style: AppTextStyles.h5,
-                                        ),
-                                      ),
-                                    ],
+                              Gaps.vGap16,
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10.r,
+                                      vertical: 4.r,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.grayBlue,
+                                      borderRadius: BorderRadius.circular(20.r),
+                                    ),
+                                    child: Text(
+                                      AppConstants.sets,
+                                      style: AppTextStyles.h5,
+                                    ),
                                   ),
-                                );
-                              }),
+                                  Gaps.hGap10,
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        ...displaySetsInfo.map((setInfo) {
+                                          return Padding(
+                                            padding: EdgeInsets.only(
+                                              bottom: 10.h,
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.all(4.r),
+                                                  decoration: BoxDecoration(
+                                                    color: AppColors.blue
+                                                        .withValues(alpha: 0.5),
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  child: CommonAssetIcon(
+                                                    _getSetIcon(
+                                                      exercise.effectiveSetType,
+                                                    ),
+                                                    width: 16.r,
+                                                    height: 16.r,
+                                                    color: AppColors.black,
+                                                  ),
+                                                ),
+                                                Gaps.hGap10,
+                                                Expanded(
+                                                  child: Text(
+                                                    setInfo,
+                                                    style: AppTextStyles.h5,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
-                            Gaps.vGap8,
                             Row(
                               children: [
-                                CommonAssetIcon(
-                                  Assets.icons.rest,
-                                  width: 16.r,
-                                  height: 16.r,
-                                  color: AppColors.black,
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 10.r,
+                                    vertical: 4.r,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.grayBlue,
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                  child: Text(
+                                    AppConstants.rest,
+                                    style: AppTextStyles.h5,
+                                  ),
+                                ),
+                                Gaps.hGap10,
+                                Container(
+                                  padding: EdgeInsets.all(4.r),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.orange.withValues(
+                                      alpha: 0.5,
+                                    ),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: CommonAssetIcon(
+                                    Assets.icons.rest,
+                                    width: 16.r,
+                                    height: 16.r,
+                                    color: AppColors.black,
+                                  ),
                                 ),
                                 Gaps.hGap10,
                                 Text(
