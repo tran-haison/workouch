@@ -16,6 +16,14 @@ class HomeCubit extends Cubit<HomeState> {
   /// Max number of months to keep in cache (viewing month ± 2).
   static const int _sessionsCacheWindow = 5;
 
+  Future<void> loadInitData({bool skipCache = false}) async {
+    await getWeekStreak();
+    await getThisMonthHistoryStats();
+    await loadSessionsForMonth(DateTime.now(), skipCache: skipCache);
+    await getAllPersonalRecords();
+    await getSelectedPersonalRecords();
+  }
+
   Future<void> getWeekStreak() async {
     final res = await _workoutSessionRepo.getWeekStreak();
     res.fold(
@@ -58,7 +66,10 @@ class HomeCubit extends Cubit<HomeState> {
 
   /// Load sessions for [date] (and 2 months before and after). Uses cache
   /// fetches only missing months
-  Future<void> loadSessionsForMonth(DateTime date) async {
+  Future<void> loadSessionsForMonth(
+    DateTime date, {
+    bool skipCache = false,
+  }) async {
     if (isClosed) return;
 
     final monthFirstDate = AppDateUtils.firstDateOfMonth(date);
@@ -67,7 +78,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     final cache = Map<String, List<WorkoutSession>>.from(state.sessionsByMonth);
 
-    if (cache.containsKey(keyByMonth)) {
+    if (cache.containsKey(keyByMonth) && !skipCache) {
       emit(state.copyWith(viewingMonth: monthFirstDate));
       _prefetchAdjacentMonths(monthFirstDate);
       return;

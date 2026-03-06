@@ -61,10 +61,13 @@ class _WorkoutFinishPageState extends State<WorkoutFinishPage> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      Text(
-                        state.workout.name,
-                        style: AppTextStyles.anton.copyWith(fontSize: 32.sp),
-                        textAlign: TextAlign.center,
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: Text(
+                          state.workout.name,
+                          style: AppTextStyles.anton.copyWith(fontSize: 32.sp),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                       Gaps.vGap30,
                       Padding(
@@ -135,7 +138,7 @@ class _WorkoutFinishPageState extends State<WorkoutFinishPage> {
                             PosthogService.logWorkoutCompleted();
 
                             // Navigate to home
-                            context.goNamed(AppRoute.home.name);
+                            context.pushReplacementNamed(AppRoute.home.name);
                           },
                         ),
                       ),

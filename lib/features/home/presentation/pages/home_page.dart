@@ -26,11 +26,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeCubit>().getWeekStreak();
-    context.read<HomeCubit>().getThisMonthHistoryStats();
-    context.read<HomeCubit>().loadSessionsForMonth(DateTime.now());
-    context.read<HomeCubit>().getAllPersonalRecords();
-    context.read<HomeCubit>().getSelectedPersonalRecords();
+    context.read<HomeCubit>().loadInitData(skipCache: true);
   }
 
   @override

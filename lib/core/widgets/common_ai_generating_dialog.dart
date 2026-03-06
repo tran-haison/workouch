@@ -56,45 +56,63 @@ class _CommonAiGeneratingDialogState extends State<CommonAiGeneratingDialog> {
 
     return Dialog(
       backgroundColor: AppColors.transparent,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Column(
-            children: [
-              SizedBox(
-                width: 100.r,
-                height: 100.r,
-                child: Lottie.asset(
-                  Assets.animations.wave,
-                  fit: BoxFit.contain,
-                  repeat: true,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 40.h),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.grayBlue,
+              blurRadius: 6,
+              offset: Offset(0, 0),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Column(
+              children: [
+                SizedBox(
+                  width: 100.r,
+                  height: 100.r,
+                  child: Lottie.asset(
+                    Assets.animations.wave,
+                    fit: BoxFit.contain,
+                    repeat: true,
+                  ),
                 ),
-              ),
-              Gaps.vGap16,
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                transitionBuilder: (Widget child, Animation<double> animation) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: SlideTransition(
-                      position: Tween<Offset>(
-                        begin: const Offset(0.0, 0.2),
-                        end: Offset.zero,
-                      ).animate(animation),
-                      child: child,
+                Gaps.vGap16,
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder:
+                      (Widget child, Animation<double> animation) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(0.0, 0.2),
+                              end: Offset.zero,
+                            ).animate(animation),
+                            child: child,
+                          ),
+                        );
+                      },
+                  child: Text(
+                    currentMessage,
+                    key: ValueKey<String>(currentMessage),
+                    style: AppTextStyles.h3.copyWith(
+                      fontWeight: FontWeight.w600,
                     ),
-                  );
-                },
-                child: Text(
-                  currentMessage,
-                  key: ValueKey<String>(currentMessage),
-                  style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.center,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -111,7 +129,6 @@ extension BuildContextExt on BuildContext {
     showDialog(
       context: this,
       barrierDismissible: barrierDismissible,
-      barrierColor: AppColors.white.withValues(alpha: 0.6),
       builder: (context) => const CommonAiGeneratingDialog(),
     );
   }
