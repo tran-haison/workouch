@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Last Updated: December 2025**
+**Last Updated: March 2026**
 
 ## 1. Introduction
 
@@ -57,7 +57,7 @@ This data is processed by our Exercise API (api.vigorworkouch.com) which uses Op
 We automatically collect certain information when you use our App:
 
 - **Device information** (device type, operating system, app version)
-- **Usage analytics** (feature usage, app interactions) - collected via Firebase Analytics
+- **Usage analytics** (feature usage, app interactions) - collected via Firebase Analytics and Posthog
 - **Crash reports and error logs** - collected via Firebase Crashlytics to improve app stability
 - **App performance data** - collected via Firebase Remote Config for app optimization
 
@@ -149,6 +149,12 @@ We use the following third-party services that may collect, store, or process yo
 - **Purpose**: AI-powered workout generation (via Exercise DB API)
 - **Data processed**: Workout preferences, user context, workout specifications
 - **Privacy Policy**: https://openai.com/policies/privacy-policy
+
+### 5.8 Posthog
+
+- **Purpose**: Product and usage analytics to understand how the App is used and improve features
+- **Data processed**: App usage events, feature interactions, device and app information, and identifiers necessary for analytics
+- **Privacy Policy**: https://posthog.com/privacy
 
 ## 6. Data Sharing and Disclosure
 

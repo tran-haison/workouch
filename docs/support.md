@@ -1,6 +1,6 @@
 # Workouch Support & Help Guide
 
-**Last Updated: December 2025**
+**Last Updated: March 2026**
 
 Welcome to Workouch! This support guide will help you get the most out of your fitness journey with our AI-powered workout planner.
 
@@ -29,8 +29,8 @@ Welcome to Workouch! This support guide will help you get the most out of your f
 
 Workouch is available for iOS and Android devices. Download it from:
 
-- **iOS**: [App Store]
-- **Android**: [Google Play Store]
+- **iOS**: Search for "Workouch" in the App Store
+- **Android**: Search for "Workouch" in the Google Play Store
 
 ### 1.2 Sign Up / Sign In
 
@@ -44,7 +44,7 @@ All authentication methods provide the same features and functionality.
 
 ### 1.3 First Steps
 
-After signing in, you'll be taken to the Home screen. We recommend:
+After signing in, you'll go through a quick onboarding flow to set up your profile. Once you finish onboarding, you'll land on the Home screen. We recommend:
 
 1. **Set up your profile** (see [Profile Setup](#3-profile-setup))
 2. **Explore the app** to familiarize yourself with the interface
@@ -124,7 +124,7 @@ Workouch offers two AI workout generation modes:
 
 Quick and easy workout generation:
 
-1. Tap **"PRO"** or **"LAZY"** from the Home screen
+1. From the Home screen, navigate to the AI workout creation screen
 2. Select **"The Shuffle"** mode
 3. Describe what you need in a single sentence (e.g., "I want a full-body workout at home")
 4. Tap **Generate** and wait a few seconds
@@ -141,7 +141,7 @@ Quick and easy workout generation:
 
 Detailed customization for precise workout generation:
 
-1. Tap **"PRO"** or **"LAZY"** from the Home screen
+1. From the Home screen, navigate to the AI workout creation screen
 2. Select **"The Neat"** mode
 3. Fill in all the details:
    - **Workout Name**: Give your workout a name
@@ -685,4 +685,4 @@ Workouch is continuously improved. Keep your app updated to access new features,
 
 ---
 
-**Last Updated**: December 2025
+**Last Updated**: March 2026

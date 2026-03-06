@@ -1,6 +1,6 @@
 # Terms and Conditions
 
-**Last Updated: December 2025**
+**Last Updated: March 2026**
 
 ## 1. Introduction and Acceptance
 
@@ -236,7 +236,6 @@ You agree to defend, indemnify, and hold harmless us, our affiliates, licensors,
 ### 11.1 Termination by You
 
 You may terminate your account at any time by:
-- Deleting your account through the App settings
 - Using the account deletion form: https://forms.gle/zgemJjqtUz4HqL6J7
 - Contacting us at the email address provided in Section 15
 
@@ -286,6 +285,8 @@ The App may contain links to third-party websites, services, or resources that a
 
 You acknowledge and agree that we are not responsible or liable for the availability, accuracy, content, or practices of such third-party services.
 
+Third-party services we rely on may include, for example, authentication, database, analytics, payment, and AI providers such as Supabase, Firebase, Posthog, RevenueCat, Google, Apple, and OpenAI. Your use of those services may also be subject to their own terms and conditions and privacy policies.
+
 ## 14. Privacy
 
 Your use of the App is also governed by our Privacy Policy. Please review our Privacy Policy, which also governs your use of the App, to understand our practices regarding the collection and use of your information.
@@ -317,14 +318,14 @@ We will respond to your inquiry within a reasonable timeframe, typically within 
 
 ### 17.1 Governing Law
 
-These Terms shall be governed by and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law provisions.
+These Terms shall be governed by and construed in accordance with the laws of the State of California, United States, without regard to its conflict of law provisions.
 
 ### 17.2 Dispute Resolution
 
 Any dispute arising out of or relating to these Terms or the App shall be resolved through:
 - Good faith negotiation between the parties
-- If negotiation fails, through binding arbitration in accordance with the rules of [Arbitration Organization], or
-- In the courts of [Your Jurisdiction]
+- If negotiation fails, through binding arbitration administered by the American Arbitration Association ("AAA") in accordance with its rules, or
+- In the courts of the State of California, United States
 
 You waive any right to participate in a class-action lawsuit or class-wide arbitration against us.
 
