@@ -491,6 +491,8 @@ class _Supabase {
   String get tableExercisePersonalRecords => 'exercise_personal_records';
 
   String get tableUserWorkoutWeeks => 'user_workout_weeks';
+
+  String get testEmail => 'vigor.workouch@gmail.com';
 }
 
 class _Time {

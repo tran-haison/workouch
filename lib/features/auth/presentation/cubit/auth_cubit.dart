@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../core/constants/app_constants.dart';
 import '../../../workout/domain/enums/activity_level.dart';
 import '../../domain/entities/subscription_plan.dart';
 import '../../domain/entities/user.dart';
@@ -36,8 +37,10 @@ class AuthCubit extends Cubit<AuthState> {
         var updatedUser = user;
 
         // Sync user subscription from RevenueCat if it has changed
+        // For test email, always skip any subscription changes
         final resUserSub = await _subRepo.getUserSubscriptionTier();
-        if (resUserSub.isRight && resUserSub.right != user.subscriptionTier) {
+        if ((resUserSub.isRight && resUserSub.right != user.subscriptionTier) &&
+            updatedUser.email != AppConstants.supabase.testEmail) {
           final newTier = resUserSub.right;
           updatedUser = updatedUser.copyWith(subscriptionTier: newTier);
           await _authRepo.updateUserProfile(updatedUser);
