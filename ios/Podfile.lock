@@ -190,7 +190,7 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - PostHog (3.41.2)
+  - PostHog (3.45.0)
   - posthog_flutter (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -347,7 +347,7 @@ SPEC CHECKSUMS:
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
-  PostHog: 2a8daf098230d8e631adbc599b785bd966f7639f
+  PostHog: b244217b00f03daa96d13ccd57d7eee295e7e96a
   posthog_flutter: 9535ac2d4ab65ccb9ace3886dcc0b3105198bad5
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
@@ -362,6 +362,6 @@ SPEC CHECKSUMS:
   sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
   url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
 
-PODFILE CHECKSUM: d0f997b61ad89d640675ef34764aad1b6ce91746
+PODFILE CHECKSUM: b2f5b5929519d7c1cc196b9461835928824ee4e2
 
 COCOAPODS: 1.16.2

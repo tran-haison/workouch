@@ -24,7 +24,7 @@ class FirebaseService {
 
   /// Configure Firebase Crashlytics
   Future<void> _configureCrashlytics() async {
-    // Enable Crashlytics collection while doing development
+    // Enable Crashlytics collection
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
 
     // Set up error handling for Flutter errors
@@ -101,7 +101,9 @@ class FirebaseService {
   /// Test crash (for development only)
   Future<void> testCrash() async {
     try {
-      FirebaseCrashlytics.instance.crash();
+      if (kDebugMode) {
+        FirebaseCrashlytics.instance.crash();
+      }
     } catch (e) {
       Log.e('Failed to test crash: $e');
     }
