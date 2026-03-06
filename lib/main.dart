@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oktoast/oktoast.dart';
@@ -31,6 +32,12 @@ Future<void> main() async {
     await getIt<FirebaseService>().initialize();
     await getIt<SubscriptionService>().initialize();
     await getIt<PostHogAnalyticsService>().initialize();
+
+    // Force portrait orientation
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   } catch (e) {
     Log.e('Failed to initialize dependencies: $e');
   }
