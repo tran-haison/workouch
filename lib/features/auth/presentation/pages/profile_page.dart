@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workouch/core/extension/string_extension.dart';
+import 'package:workouch/features/workout/presentation/cubit/workout_cubit.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/router/app_router.dart';
@@ -22,8 +23,19 @@ import '../widgets/calories_card.dart';
 import '../widgets/main_lifts_card.dart';
 import '../widgets/subscription_badge.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<WorkoutCubit>().getMainLiftPersonalRecords();
+  }
 
   @override
   Widget build(BuildContext context) {

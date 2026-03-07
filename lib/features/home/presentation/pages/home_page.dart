@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeCubit>().loadInitData(skipCache: true);
+    context.read<HomeCubit>().loadInitData();
   }
 
   @override

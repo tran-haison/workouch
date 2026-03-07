@@ -16,10 +16,10 @@ class HomeCubit extends Cubit<HomeState> {
   /// Max number of months to keep in cache (viewing month ± 2).
   static const int _sessionsCacheWindow = 5;
 
-  Future<void> loadInitData({bool skipCache = false}) async {
+  Future<void> loadInitData() async {
     await getWeekStreak();
     await getThisMonthHistoryStats();
-    await loadSessionsForMonth(DateTime.now(), skipCache: skipCache);
+    await loadSessionsForMonth(DateTime.now(), skipCache: true);
     await getAllPersonalRecords();
     await getSelectedPersonalRecords();
   }

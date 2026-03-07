@@ -16,6 +16,7 @@ import '../../../../core/widgets/common_button.dart';
 import '../../../../core/widgets/common_gaps.dart';
 import '../../../../core/widgets/common_icons.dart';
 import '../../../../core/widgets/common_toast.dart';
+import '../../../../core/widgets/exercise_info_dialog.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../auth/presentation/cubit/auth_state.dart';
 import '../../domain/entities/working_set.dart';
@@ -121,7 +122,13 @@ class _ExerciseDetailsDialogState extends State<_ExerciseDetailsDialog> {
         Expanded(
           child: ListView(
             children: [
-              ExerciseCardItem(exercise: _exercise.toExercise()),
+              ExerciseCardItem(
+                exercise: _exercise.toExercise(),
+                showInfo: true,
+                onTap: () {
+                  showExerciseInfoDialog(context, exercise: _exercise);
+                },
+              ),
               Gaps.vGap30,
               Text(
                 AppConstants.exerciseType,

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workouch/core/extension/duration_extension.dart';
+import 'package:workouch/core/widgets/exercise_info_dialog.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/router/app_router.dart';
@@ -192,6 +193,12 @@ class WorkoutDetailsPage extends StatelessWidget {
                                       padding: EdgeInsets.only(bottom: 12.h),
                                       child: WorkoutExerciseCard(
                                         workingExercise: exercise,
+                                        onSelected: () {
+                                          showExerciseInfoDialog(
+                                            context,
+                                            exercise: exercise,
+                                          );
+                                        },
                                       ),
                                     );
                                   }),

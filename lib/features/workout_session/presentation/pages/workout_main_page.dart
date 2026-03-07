@@ -16,7 +16,7 @@ import '../../../../core/widgets/common_images.dart';
 import '../../../../gen/assets.gen.dart';
 import '../cubit/workout_session_cubit.dart';
 import '../cubit/workout_session_state.dart';
-import '../dialogs/exercise_info_dialog.dart';
+import '../../../../core/widgets/exercise_info_dialog.dart';
 import '../dialogs/workout_finish_dialogs.dart';
 import '../widgets/workout_set_list.dart';
 import '../widgets/rest_timer_overlay.dart';
@@ -138,13 +138,6 @@ class WorkoutMainPage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                              ),
-                              Gaps.hGap16,
-                              CommonAssetIcon(
-                                Assets.icons.info,
-                                width: 20.r,
-                                height: 20.r,
-                                color: AppColors.black,
                               ),
                             ],
                           ),

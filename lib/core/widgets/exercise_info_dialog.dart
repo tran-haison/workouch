@@ -3,14 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workouch/features/workout/domain/entities/working_exercise.dart';
 
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/widgets/common_bottom_dialog.dart';
-import '../../../../core/widgets/common_button.dart';
-import '../../../../core/widgets/common_gaps.dart';
-import '../../../../core/widgets/common_images.dart';
-import '../../../../gen/assets.gen.dart';
+import '../constants/app_constants.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
+import 'common_bottom_dialog.dart';
+import 'common_button.dart';
+import 'common_gaps.dart';
+import 'common_images.dart';
+import '../../gen/assets.gen.dart';
 
 Future<void> showExerciseInfoDialog(
   BuildContext context, {

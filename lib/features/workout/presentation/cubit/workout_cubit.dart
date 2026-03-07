@@ -30,7 +30,6 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     : super(const WorkoutState()) {
     getBodyParts();
     getEquipments();
-    getMainLiftPersonalRecords();
   }
 
   Future<void> saveWorkout(Workout workout) async {

@@ -15,12 +15,14 @@ class ExerciseCardItem extends StatelessWidget {
     required this.exercise,
     this.isSelected = false,
     this.noPadding = false,
+    this.showInfo = false,
     this.onTap,
   });
 
   final Exercise exercise;
   final bool isSelected;
   final bool noPadding;
+  final bool showInfo;
   final VoidCallback? onTap;
 
   @override
@@ -75,6 +77,15 @@ class ExerciseCardItem extends StatelessWidget {
                 ],
               ),
             ),
+            if (showInfo) ...[
+              Gaps.hGap12,
+              CommonAssetIcon(
+                Assets.icons.info,
+                width: 20.r,
+                height: 20.r,
+                color: AppColors.mediumGray,
+              ),
+            ],
             if (isSelected) ...[
               Gaps.hGap12,
               CommonAssetIcon(

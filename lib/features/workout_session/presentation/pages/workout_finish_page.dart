@@ -18,6 +18,7 @@ import '../../../../core/widgets/common_icons.dart';
 import '../../../../core/widgets/review_dialog.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../auth/presentation/cubit/auth_state.dart';
+import '../../../home/presentation/cubit/home_cubit.dart';
 import '../cubit/workout_session_cubit.dart';
 import '../cubit/workout_session_state.dart';
 
@@ -137,8 +138,11 @@ class _WorkoutFinishPageState extends State<WorkoutFinishPage> {
                             // Analytics: workout completed
                             PosthogService.logWorkoutCompleted();
 
+                            // Get latest data after a session is completed
+                            context.read<HomeCubit>().loadInitData();
+
                             // Navigate to home
-                            context.pushReplacementNamed(AppRoute.home.name);
+                            context.goNamed(AppRoute.home.name);
                           },
                         ),
                       ),
