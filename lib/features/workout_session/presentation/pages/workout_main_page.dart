@@ -11,7 +11,6 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/common_button.dart';
 import '../../../../core/widgets/common_gaps.dart';
-import '../../../../core/widgets/common_icons.dart';
 import '../../../../core/widgets/common_images.dart';
 import '../../../../gen/assets.gen.dart';
 import '../cubit/workout_session_cubit.dart';

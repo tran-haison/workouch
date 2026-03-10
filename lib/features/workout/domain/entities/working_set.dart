@@ -109,7 +109,7 @@ extension WorkingSetExtension on WorkingSet {
   Map<String, String>? displayInfoMap(MeasurementSystem system) {
     return when(
       weightBased: (sets, reps, weightKg) {
-        if (sets == 0 || reps == 0 || weightKg == 0) return null;
+        if (sets == 0 || reps == 0) return null;
         switch (system) {
           case MeasurementSystem.metric:
             return {
