@@ -19,7 +19,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$WorkoutSession {
   String get id => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
-  String get workoutId => throw _privateConstructorUsedError;
+  String? get workoutId => throw _privateConstructorUsedError;
   String get workoutName => throw _privateConstructorUsedError;
   DateTime get startedAt => throw _privateConstructorUsedError;
   DateTime get completedAt => throw _privateConstructorUsedError;
@@ -49,7 +49,7 @@ abstract class $WorkoutSessionCopyWith<$Res> {
   $Res call({
     String id,
     String userId,
-    String workoutId,
+    String? workoutId,
     String workoutName,
     DateTime startedAt,
     DateTime completedAt,
@@ -80,7 +80,7 @@ class _$WorkoutSessionCopyWithImpl<$Res, $Val extends WorkoutSession>
   $Res call({
     Object? id = null,
     Object? userId = null,
-    Object? workoutId = null,
+    Object? workoutId = freezed,
     Object? workoutName = null,
     Object? startedAt = null,
     Object? completedAt = null,
@@ -102,10 +102,10 @@ class _$WorkoutSessionCopyWithImpl<$Res, $Val extends WorkoutSession>
                 ? _value.userId
                 : userId // ignore: cast_nullable_to_non_nullable
                       as String,
-            workoutId: null == workoutId
+            workoutId: freezed == workoutId
                 ? _value.workoutId
                 : workoutId // ignore: cast_nullable_to_non_nullable
-                      as String,
+                      as String?,
             workoutName: null == workoutName
                 ? _value.workoutName
                 : workoutName // ignore: cast_nullable_to_non_nullable
@@ -164,7 +164,7 @@ abstract class _$$WorkoutSessionImplCopyWith<$Res>
   $Res call({
     String id,
     String userId,
-    String workoutId,
+    String? workoutId,
     String workoutName,
     DateTime startedAt,
     DateTime completedAt,
@@ -194,7 +194,7 @@ class __$$WorkoutSessionImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? userId = null,
-    Object? workoutId = null,
+    Object? workoutId = freezed,
     Object? workoutName = null,
     Object? startedAt = null,
     Object? completedAt = null,
@@ -216,10 +216,10 @@ class __$$WorkoutSessionImplCopyWithImpl<$Res>
             ? _value.userId
             : userId // ignore: cast_nullable_to_non_nullable
                   as String,
-        workoutId: null == workoutId
+        workoutId: freezed == workoutId
             ? _value.workoutId
             : workoutId // ignore: cast_nullable_to_non_nullable
-                  as String,
+                  as String?,
         workoutName: null == workoutName
             ? _value.workoutName
             : workoutName // ignore: cast_nullable_to_non_nullable
@@ -271,7 +271,7 @@ class _$WorkoutSessionImpl extends _WorkoutSession {
   const _$WorkoutSessionImpl({
     this.id = '',
     this.userId = '',
-    this.workoutId = '',
+    this.workoutId,
     this.workoutName = '',
     required this.startedAt,
     required this.completedAt,
@@ -292,8 +292,7 @@ class _$WorkoutSessionImpl extends _WorkoutSession {
   @JsonKey()
   final String userId;
   @override
-  @JsonKey()
-  final String workoutId;
+  final String? workoutId;
   @override
   @JsonKey()
   final String workoutName;
@@ -399,7 +398,7 @@ abstract class _WorkoutSession extends WorkoutSession {
   const factory _WorkoutSession({
     final String id,
     final String userId,
-    final String workoutId,
+    final String? workoutId,
     final String workoutName,
     required final DateTime startedAt,
     required final DateTime completedAt,
@@ -418,7 +417,7 @@ abstract class _WorkoutSession extends WorkoutSession {
   @override
   String get userId;
   @override
-  String get workoutId;
+  String? get workoutId;
   @override
   String get workoutName;
   @override

@@ -75,7 +75,7 @@ class _NeatEquipmentsSelectorState extends State<NeatEquipmentsSelector> {
                       vertical: 6.h,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.black,
+                      color: AppColors.darkBlack,
                       borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: Text(

@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS exercise_personal_records (
   max_distance_meters DECIMAL(12, 2) NOT NULL DEFAULT 0 CHECK (max_distance_meters >= 0),
   set_type TEXT NOT NULL CHECK (set_type IN ('weightBased', 'timeBased', 'distanceBased', 'repsOnly')),
   pr_date DATE NOT NULL,
-  is_visible_on_history BOOLEAN NOT NULL DEFAULT true,
+  is_visible_on_history BOOLEAN NOT NULL DEFAULT false,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   CONSTRAINT exercise_personal_records_user_exercise_unique UNIQUE (user_id, exercise_id)

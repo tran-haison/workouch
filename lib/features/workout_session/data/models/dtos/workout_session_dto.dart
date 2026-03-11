@@ -54,7 +54,7 @@ extension WorkoutSessionDtoExtension on WorkoutSessionDto {
     return WorkoutSession(
       id: id,
       userId: userId,
-      workoutId: workoutId ?? '',
+      workoutId: workoutId,
       workoutName: workoutName,
       startedAt: DateTime.parse(startedAt).toLocal(),
       completedAt: DateTime.parse(completedAt).toLocal(),

@@ -17,7 +17,7 @@ class WorkoutSession with _$WorkoutSession {
   const factory WorkoutSession({
     @Default('') String id,
     @Default('') String userId,
-    @Default('') String workoutId,
+    String? workoutId,
     @Default('') String workoutName,
     required DateTime startedAt,
     required DateTime completedAt,

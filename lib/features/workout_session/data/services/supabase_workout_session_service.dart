@@ -31,7 +31,6 @@ class SupabaseWorkoutSessionService {
       // Insert workout session
       final sessionData = <String, dynamic>{
         'user_id': userId,
-        'workout_id': sessionDto.workoutId,
         'workout_name': sessionDto.workoutName,
         'started_at': sessionDto.startedAt,
         'completed_at': sessionDto.completedAt,
@@ -42,6 +41,11 @@ class SupabaseWorkoutSessionService {
         'calories_burned': sessionDto.caloriesBurned,
         'notes': sessionDto.notes,
       };
+
+      // Only set workout_id when we actually have a valid UUID value.
+      if (sessionDto.workoutId?.isNotEmpty == true) {
+        sessionData['workout_id'] = sessionDto.workoutId;
+      }
 
       final sessionResponse = await _supabase
           .from(AppConstants.supabase.tableWorkoutSessions)
