@@ -75,7 +75,7 @@ dependencies:
   google_sign_in: ^6.3.0
 
   # https://pub.dev/packages/sign_in_with_apple
-  sign_in_with_apple: ^7.0.1
+  sign_in_with_apple: ^8.2.0
 
   # https://pub.dev/packages/flutter_dotenv
   flutter_dotenv: ^5.2.1
