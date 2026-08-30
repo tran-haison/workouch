@@ -123,7 +123,7 @@ dependencies:
   lottie: ^3.3.2
 
   # https://pub.dev/packages/device_info_plus
-  device_info_plus: ^12.3.0
+  device_info_plus: ^12.4.0
 
   # https://pub.dev/packages/package_info_plus
   package_info_plus: ^9.0.0
