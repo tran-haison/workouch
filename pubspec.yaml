@@ -108,7 +108,7 @@ dependencies:
   purchases_ui_flutter: ^9.10.2
 
   # https://pub.dev/packages/go_router
-  go_router: ^16.3.0
+  go_router: ^18.0.0
 
   # https://pub.dev/packages/either_dart
   either_dart: ^1.0.0
