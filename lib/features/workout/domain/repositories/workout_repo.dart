@@ -12,8 +12,6 @@ abstract class WorkoutRepo {
   Future<Either<Error, Workout>> getWorkout(String workoutId);
   Future<Either<Error, List<Workout>>> getAllWorkouts();
   Future<Either<Error, bool>> deleteWorkout(String workoutId);
-  Future<Either<Error, bool>> incrementWorkoutGenUsed();
-  Future<Either<Error, bool>> resetSubscriptionPeriod();
   Future<Either<Error, List<ExercisePersonalRecord>>>
   getMainLiftPersonalRecords(List<String> exerciseIds);
   Future<Either<Error, bool>> upsertMainLiftPersonalRecords(
@@ -83,42 +81,6 @@ class WorkoutRepoImpl implements WorkoutRepo {
       return Left(
         Error(
           message: AppConstants.workoutDeletedError,
-          errorType: ErrorType.other,
-        ),
-      );
-    } catch (e) {
-      return Left(handleException(e));
-    }
-  }
-
-  @override
-  Future<Either<Error, bool>> incrementWorkoutGenUsed() async {
-    try {
-      final success = await _workoutService.incrementWorkoutGenUsed();
-      if (success) {
-        return const Right(true);
-      }
-      return Left(
-        Error(
-          message: AppConstants.incrementWorkoutGenUsedFailed,
-          errorType: ErrorType.other,
-        ),
-      );
-    } catch (e) {
-      return Left(handleException(e));
-    }
-  }
-
-  @override
-  Future<Either<Error, bool>> resetSubscriptionPeriod() async {
-    try {
-      final success = await _workoutService.resetSubscriptionPeriod();
-      if (success) {
-        return const Right(true);
-      }
-      return Left(
-        Error(
-          message: AppConstants.resetSubscriptionPeriodFailed,
           errorType: ErrorType.other,
         ),
       );

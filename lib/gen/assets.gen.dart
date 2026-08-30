@@ -373,18 +373,6 @@ class $AssetsImagesGen {
   AssetGenImage get imgSampleExercise9 =>
       const AssetGenImage('assets/images/img-sample-exercise-9.gif');
 
-  /// File path: assets/images/img-testimonial-1.png
-  AssetGenImage get imgTestimonial1 =>
-      const AssetGenImage('assets/images/img-testimonial-1.png');
-
-  /// File path: assets/images/img-testimonial-2.png
-  AssetGenImage get imgTestimonial2 =>
-      const AssetGenImage('assets/images/img-testimonial-2.png');
-
-  /// File path: assets/images/img-testimonial-3.png
-  AssetGenImage get imgTestimonial3 =>
-      const AssetGenImage('assets/images/img-testimonial-3.png');
-
   /// List of all assets
   List<AssetGenImage> get values => [
     imgPhoneSample1,
@@ -398,9 +386,6 @@ class $AssetsImagesGen {
     imgSampleExercise7,
     imgSampleExercise8,
     imgSampleExercise9,
-    imgTestimonial1,
-    imgTestimonial2,
-    imgTestimonial3,
   ];
 }
 

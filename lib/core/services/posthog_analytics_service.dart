@@ -11,7 +11,7 @@ class PostHogAnalyticsService {
   PostHogAnalyticsService();
 
   /// Initialize PostHog analytics
-  Future<void> initialize() async {
+  Future<void> initialize({required bool enabled}) async {
     try {
       final config = PostHogConfig(AppConstants.posthog.apiKey);
 
@@ -24,7 +24,8 @@ class PostHogAnalyticsService {
       config.debug = kDebugMode;
 
       // Capture application lifecycle events (app open, close, etc.)
-      config.captureApplicationLifecycleEvents = true;
+      config.captureApplicationLifecycleEvents = enabled;
+      config.optOut = !enabled;
 
       // Optional: Enable session replay (uncomment if needed)
       // config.sessionReplay = true;
@@ -34,6 +35,18 @@ class PostHogAnalyticsService {
       Log.i('PostHog analytics initialized successfully');
     } catch (e) {
       Log.e('Failed to initialize PostHog analytics: $e');
+    }
+  }
+
+  Future<void> setEnabled(bool enabled) async {
+    try {
+      if (enabled) {
+        await Posthog().enable();
+      } else {
+        await Posthog().disable();
+      }
+    } catch (e) {
+      Log.e('Failed to update PostHog privacy preference: $e');
     }
   }
 

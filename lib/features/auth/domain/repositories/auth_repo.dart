@@ -6,7 +6,6 @@ import '../../../../core/services/posthog_analytics_service.dart';
 import '../../../../core/utils/error.dart';
 import '../../../workout/domain/entities/user_subscription.dart';
 import '../../data/services/supabase_auth_service.dart';
-import '../entities/subscription_plan.dart';
 import '../entities/user.dart';
 
 abstract class AuthRepo {
@@ -20,7 +19,7 @@ abstract class AuthRepo {
     required String password,
   });
   Future<Either<Error, bool>> updateUserProfile(User user);
-  Future<Either<Error, bool>> updateUserSubscription(SubscriptionTier tier);
+  Future<Either<Error, bool>> syncUserSubscription();
   Future<Either<Error, UserSubscription>> getUserSubscription();
   Future<Either<Error, void>> signOut();
   Future<Either<Error, void>> signInPosthog(User user);
@@ -121,17 +120,15 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   @override
-  Future<Either<Error, bool>> updateUserSubscription(
-    SubscriptionTier tier,
-  ) async {
+  Future<Either<Error, bool>> syncUserSubscription() async {
     try {
-      final success = await _authService.updateUserSubscription(tier);
+      final success = await _authService.syncUserSubscription();
       if (success) {
         return const Right(true);
       }
       return Left(
         Error(
-          message: AppConstants.updateUserSubscriptionFailed,
+          message: 'Failed to verify your subscription',
           errorType: ErrorType.other,
         ),
       );
@@ -175,7 +172,6 @@ class AuthRepoImpl implements AuthRepo {
       await _posthogService.identify(
         userId: user.id,
         properties: {
-          'email': user.email,
           'subscription_tier': user.subscriptionTier.name,
           'has_onboard': user.hasOnboard,
         },

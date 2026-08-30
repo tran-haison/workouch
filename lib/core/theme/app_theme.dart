@@ -38,42 +38,18 @@ class AppTheme {
         inversePrimary: AppColors.primaryLight,
       ),
       textTheme: TextTheme(
-        headlineLarge: AppTextStyles.h1.copyWith(
-          color: AppColors.text,
-        ),
-        headlineMedium: AppTextStyles.h2.copyWith(
-          color: AppColors.text,
-        ),
-        headlineSmall: AppTextStyles.h3.copyWith(
-          color: AppColors.text,
-        ),
-        titleLarge: AppTextStyles.h4.copyWith(
-          color: AppColors.text,
-        ),
-        titleMedium: AppTextStyles.h5.copyWith(
-          color: AppColors.text,
-        ),
-        titleSmall: AppTextStyles.h6.copyWith(
-          color: AppColors.text,
-        ),
-        bodyLarge: AppTextStyles.h1.copyWith(
-          color: AppColors.text,
-        ),
-        bodyMedium: AppTextStyles.h2.copyWith(
-          color: AppColors.text,
-        ),
-        bodySmall: AppTextStyles.h3.copyWith(
-          color: AppColors.text,
-        ),
-        labelLarge: AppTextStyles.h4.copyWith(
-          color: AppColors.text,
-        ),
-        labelMedium: AppTextStyles.h5.copyWith(
-          color: AppColors.text,
-        ),
-        labelSmall: AppTextStyles.h6.copyWith(
-          color: AppColors.text,
-        ),
+        headlineLarge: AppTextStyles.h1.copyWith(color: AppColors.text),
+        headlineMedium: AppTextStyles.h2.copyWith(color: AppColors.text),
+        headlineSmall: AppTextStyles.h3.copyWith(color: AppColors.text),
+        titleLarge: AppTextStyles.h4.copyWith(color: AppColors.text),
+        titleMedium: AppTextStyles.h5.copyWith(color: AppColors.text),
+        titleSmall: AppTextStyles.h6.copyWith(color: AppColors.text),
+        bodyLarge: AppTextStyles.h1.copyWith(color: AppColors.text),
+        bodyMedium: AppTextStyles.h2.copyWith(color: AppColors.text),
+        bodySmall: AppTextStyles.h3.copyWith(color: AppColors.text),
+        labelLarge: AppTextStyles.h4.copyWith(color: AppColors.text),
+        labelMedium: AppTextStyles.h5.copyWith(color: AppColors.text),
+        labelSmall: AppTextStyles.h6.copyWith(color: AppColors.text),
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.surfaceLight,

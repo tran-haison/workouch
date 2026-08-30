@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
 
@@ -38,17 +36,13 @@ class ExerciseRepoImpl implements ExerciseRepo {
         filter: filter,
       );
 
-      if (res.response.statusCode == HttpStatus.ok && res.data.success) {
-        final exercises = res.data.data.map((item) => item.toEntity()).toList();
+      if (res.success) {
+        final exercises = res.data.map((item) => item.toEntity()).toList();
         return Right(exercises);
       }
 
       return Left(
-        Error(
-          message: res.response.statusMessage ?? AppConstants.commonError,
-          code: res.response.statusCode.toString(),
-          errorType: ErrorType.server,
-        ),
+        Error(message: AppConstants.commonError, errorType: ErrorType.server),
       );
     } catch (e) {
       return Left(handleException(e));
@@ -60,19 +54,15 @@ class ExerciseRepoImpl implements ExerciseRepo {
     try {
       final res = await _exerciseService.getBodyParts();
 
-      if (res.response.statusCode == HttpStatus.ok && res.data.success) {
-        final bodyParts = res.data.data
+      if (res.success) {
+        final bodyParts = res.data
             .map((item) => item.name.capitalized)
             .toList();
         return Right(bodyParts);
       }
 
       return Left(
-        Error(
-          message: res.response.statusMessage ?? AppConstants.commonError,
-          code: res.response.statusCode.toString(),
-          errorType: ErrorType.server,
-        ),
+        Error(message: AppConstants.commonError, errorType: ErrorType.server),
       );
     } catch (e) {
       return Left(handleException(e));
@@ -84,19 +74,15 @@ class ExerciseRepoImpl implements ExerciseRepo {
     try {
       final res = await _exerciseService.getEquipments();
 
-      if (res.response.statusCode == HttpStatus.ok && res.data.success) {
-        final equipments = res.data.data
+      if (res.success) {
+        final equipments = res.data
             .map((item) => item.name.capitalized)
             .toList();
         return Right(equipments);
       }
 
       return Left(
-        Error(
-          message: res.response.statusMessage ?? AppConstants.commonError,
-          code: res.response.statusCode.toString(),
-          errorType: ErrorType.server,
-        ),
+        Error(message: AppConstants.commonError, errorType: ErrorType.server),
       );
     } catch (e) {
       return Left(handleException(e));

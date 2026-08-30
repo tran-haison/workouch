@@ -312,7 +312,7 @@ class _WorkoutManualCreatePageState extends State<WorkoutManualCreatePage> {
                                           ),
                                         );
                                       },
-                                      onReorder: (oldIndex, newIndex) =>
+                                      onReorderItem: (oldIndex, newIndex) =>
                                           _reorderExercise(oldIndex, newIndex),
                                     ),
                                 ],

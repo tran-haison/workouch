@@ -12,7 +12,6 @@ import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/log.dart';
 import '../../../workout/data/models/dtos/user_subscription_dto.dart';
 import '../../../workout/domain/entities/user_subscription.dart';
-import '../../domain/entities/subscription_plan.dart';
 import '../../domain/entities/user.dart' as app_user;
 import '../models/dtos/user_dto.dart';
 
@@ -180,7 +179,6 @@ class SupabaseAuthService {
       'weight': dto.weight,
       'measurement_system': dto.measurementSystem,
       'activity_level': dto.activityLevel,
-      'subscription_tier': dto.subscriptionTier,
       'has_onboard': dto.hasOnboard,
     };
 
@@ -197,33 +195,18 @@ class SupabaseAuthService {
     }
   }
 
-  /// Update user subscription plan (tier and workout_gen_limit).
-  Future<bool> updateUserSubscription(SubscriptionTier tier) async {
+  /// Ask the server to verify RevenueCat and persist authoritative entitlements.
+  Future<bool> syncUserSubscription() async {
     try {
-      final userId = _currentUser?.id;
-      if (userId == null || userId.isEmpty) {
+      if (_currentUser == null) {
         Log.e('No authenticated user found');
         return false;
       }
-
-      final periodStart = DateTime.now().toUtc();
-      final periodEnd = periodStart.add(const Duration(days: 30));
-
-      final updateData = <String, dynamic>{
-        'subscription_tier': tier.name,
-        'workout_gen_limit': tier.workoutGenLimit,
-        'period_start': periodStart.toIso8601String(),
-        'period_end': periodEnd.toIso8601String(),
-      };
-
-      await _supabase
-          .from(AppConstants.supabase.tableUserSubscription)
-          .update(updateData)
-          .eq('user_id', userId);
-
-      return true;
+      final response = await _supabase.functions.invoke('sync-subscription');
+      final data = response.data;
+      return data is Map && data['success'] == true;
     } catch (e) {
-      Log.e('Error updating user subscription plan: $e');
+      Log.e('Error syncing user subscription: $e');
       return false;
     }
   }

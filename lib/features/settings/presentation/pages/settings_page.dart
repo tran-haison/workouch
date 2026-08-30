@@ -93,6 +93,31 @@ class _SettingsViewState extends State<_SettingsView> {
                       ],
                     ),
                     Gaps.vGap24,
+                    BlocBuilder<SettingsCubit, SettingsState>(
+                      buildWhen: (previous, current) =>
+                          previous.analyticsEnabled != current.analyticsEnabled,
+                      builder: (context, state) {
+                        return SettingsSection(
+                          title: 'Privacy',
+                          items: [
+                            SettingsItem(
+                              icon: Assets.icons.privacy,
+                              title: 'Share analytics & crash reports',
+                              trailing: Switch.adaptive(
+                                value: state.analyticsEnabled,
+                                onChanged: context
+                                    .read<SettingsCubit>()
+                                    .setAnalyticsEnabled,
+                              ),
+                              onTap: () => context
+                                  .read<SettingsCubit>()
+                                  .setAnalyticsEnabled(!state.analyticsEnabled),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                    Gaps.vGap24,
                     SettingsSection(
                       title: AppConstants.legal,
                       items: [

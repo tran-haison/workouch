@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../constants/app_constants.dart';
 
@@ -19,54 +19,21 @@ abstract class Error with _$Error {
 enum ErrorType { network, server, cache, other }
 
 Error handleException(dynamic e) {
-  if (e is DioException) {
-    // Handle different DioException types
-    if (e.error is SocketException) {
-      return Error(
-        message: AppConstants.networkError,
-        errorType: ErrorType.network,
-      );
-    }
-
-    // Handle timeout errors
-    if (e.type == DioExceptionType.connectionTimeout ||
-        e.type == DioExceptionType.sendTimeout ||
-        e.type == DioExceptionType.receiveTimeout) {
-      return Error(
-        message: 'Request timeout. Please check your connection and try again.',
-        errorType: ErrorType.network,
-      );
-    }
-
-    // Handle connection errors
-    if (e.type == DioExceptionType.connectionError) {
-      return Error(
-        message: AppConstants.networkError,
-        errorType: ErrorType.network,
-      );
-    }
-
-    // Handle server errors (4xx, 5xx)
-    if (e.response != null) {
-      final statusCode = e.response!.statusCode;
-      if (statusCode != null && statusCode >= 400) {
-        return Error(
-          message:
-              e.response?.data?['message']?.toString() ??
-              e.response?.statusMessage ??
-              AppConstants.commonError,
-          code: statusCode.toString(),
-          errorType: ErrorType.server,
-        );
-      }
-    }
-
-    // Other DioException types
+  if (e is FunctionException) {
+    final details = e.details;
+    final message = details is Map ? details['message']?.toString() : null;
     return Error(
-      message: e.message?.toString() ?? AppConstants.networkError,
-      errorType: ErrorType.network,
+      message: message ?? e.reasonPhrase ?? AppConstants.commonError,
+      code: e.status.toString(),
+      errorType: e.status == 0 ? ErrorType.network : ErrorType.server,
     );
   }
 
+  if (e is SocketException) {
+    return Error(
+      message: AppConstants.networkError,
+      errorType: ErrorType.network,
+    );
+  }
   return Error(message: AppConstants.commonError, errorType: ErrorType.other);
 }

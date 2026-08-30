@@ -94,7 +94,7 @@ extension SubscriptionTierExtension on SubscriptionTier {
         return SubscriptionPlan(
           tier: SubscriptionTier.proMonthly,
           name: 'Pro Monthly',
-          description: 'Unlimited access to all features',
+          description: 'Full access to Pro features',
           icon: Assets.icons.rocket,
           price:
               5.99, // This is base price in USD, actual price will be fetched from RevenueCat
@@ -103,7 +103,7 @@ extension SubscriptionTierExtension on SubscriptionTier {
           discountPercent: 0,
           period: 'Monthly',
           features: [
-            'Unlimited AI-powered workout generation',
+            'Up to 50 AI workout generations every 30 days',
             'Advanced progress tracking & analytics',
             'Comprehensive body stats & insights',
             'All future updates included',
@@ -116,7 +116,7 @@ extension SubscriptionTierExtension on SubscriptionTier {
         return SubscriptionPlan(
           tier: SubscriptionTier.proYearly,
           name: 'Pro Yearly',
-          description: 'Unlimited access to all features',
+          description: 'Full access to Pro features',
           icon: Assets.icons.rocket,
           price:
               49.99, // This is base price in USD, actual price will be fetched from RevenueCat
@@ -125,7 +125,7 @@ extension SubscriptionTierExtension on SubscriptionTier {
           discountPercent: 30,
           period: 'Yearly',
           features: [
-            'Unlimited AI-powered workout generation',
+            'Up to 50 AI workout generations every 30 days',
             'Advanced progress tracking & analytics',
             'Comprehensive body stats & insights',
             'All future updates included',
@@ -138,7 +138,7 @@ extension SubscriptionTierExtension on SubscriptionTier {
         return SubscriptionPlan(
           tier: SubscriptionTier.proLifetime,
           name: 'Pro Lifetime',
-          description: 'Unlimited access to all features',
+          description: 'Full access to Pro features',
           icon: Assets.icons.rocket,
           price:
               149.99, // This is base price in USD, actual price will be fetched from RevenueCat
@@ -147,7 +147,7 @@ extension SubscriptionTierExtension on SubscriptionTier {
           discountPercent: 30,
           period: 'Lifetime',
           features: [
-            'Unlimited AI-powered workout generation',
+            'Up to 50 AI workout generations every 30 days',
             'Advanced progress tracking & analytics',
             'Comprehensive body stats & insights',
             'Lifetime access with all future updates',

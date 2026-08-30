@@ -9,7 +9,6 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
@@ -72,6 +71,7 @@ Future<_i174.GetIt> $initGetIt(
   gh.lazySingleton<_i738.SupabaseAuthService>(
     () => _i738.SupabaseAuthService(),
   );
+  gh.lazySingleton<_i747.ExerciseService>(() => _i747.ExerciseService());
   gh.lazySingleton<_i275.SupabaseWorkoutService>(
     () => _i275.SupabaseWorkoutService(),
   );
@@ -87,10 +87,6 @@ Future<_i174.GetIt> $initGetIt(
   gh.lazySingleton<_i240.SubscriptionRepo>(
     () => _i240.SubscriptionRepoImpl(gh<_i833.SubscriptionService>()),
   );
-  gh.lazySingleton<_i361.Dio>(
-    () => injectionModule.dioExerciseDb,
-    instanceName: 'exercise-db',
-  );
   gh.factory<_i117.AuthCubit>(
     () => _i117.AuthCubit(gh<_i723.AuthRepo>(), gh<_i240.SubscriptionRepo>()),
   );
@@ -101,29 +97,31 @@ Future<_i174.GetIt> $initGetIt(
     () =>
         _i885.WorkoutSessionRepoImpl(gh<_i638.SupabaseWorkoutSessionService>()),
   );
+  gh.lazySingleton<_i275.ExerciseRepo>(
+    () => _i275.ExerciseRepoImpl(gh<_i747.ExerciseService>()),
+  );
   gh.lazySingleton<_i597.WorkoutRepo>(
     () => _i597.WorkoutRepoImpl(gh<_i275.SupabaseWorkoutService>()),
   );
   gh.factory<_i792.SettingsCubit>(
-    () => _i792.SettingsCubit(gh<_i999.VersionService>()),
+    () => _i792.SettingsCubit(
+      gh<_i999.VersionService>(),
+      gh<_i306.StorageService>(),
+      gh<_i758.FirebaseService>(),
+      gh<_i135.PostHogAnalyticsService>(),
+    ),
+  );
+  gh.lazySingleton<_i1018.AIWorkoutRepo>(
+    () => _i1018.AIWorkoutRepoImpl(gh<_i747.ExerciseService>()),
   );
   gh.lazySingleton<_i793.ReviewService>(
     () => _i793.ReviewService(gh<_i306.StorageService>()),
-  );
-  gh.lazySingleton<_i747.ExerciseService>(
-    () => _i747.ExerciseService(gh<_i361.Dio>(instanceName: 'exercise-db')),
   );
   gh.factory<_i9.HomeCubit>(
     () => _i9.HomeCubit(gh<_i885.WorkoutSessionRepo>()),
   );
   gh.factory<_i613.WorkoutSessionCubit>(
     () => _i613.WorkoutSessionCubit(gh<_i885.WorkoutSessionRepo>()),
-  );
-  gh.lazySingleton<_i275.ExerciseRepo>(
-    () => _i275.ExerciseRepoImpl(gh<_i747.ExerciseService>()),
-  );
-  gh.lazySingleton<_i1018.AIWorkoutRepo>(
-    () => _i1018.AIWorkoutRepoImpl(gh<_i747.ExerciseService>()),
   );
   gh.factory<_i645.WorkoutCubit>(
     () => _i645.WorkoutCubit(

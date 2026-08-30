@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Last Updated: March 2026**
+**Last Updated: August 31, 2026**
 
 ## 1. Introduction
 
@@ -54,12 +54,15 @@ This data is processed by our Exercise API (api.vigorworkouch.com) which uses Op
 
 ### 2.5 Device and Usage Information
 
-We automatically collect certain information when you use our App:
+If you enable **Share analytics & crash reports** in the App's Privacy settings,
+we collect:
 
 - **Device information** (device type, operating system, app version)
-- **Usage analytics** (feature usage, app interactions) - collected via Firebase Analytics and Posthog
+- **Usage analytics** (feature usage, app interactions) - collected via Firebase Analytics and PostHog
 - **Crash reports and error logs** - collected via Firebase Crashlytics to improve app stability
-- **App performance data** - collected via Firebase Remote Config for app optimization
+
+This collection is disabled by default. We do not include your email address in
+PostHog analytics properties.
 
 ### 2.6 Payment and Subscription Information
 
@@ -113,11 +116,10 @@ We use the following third-party services that may collect, store, or process yo
 
 ### 5.2 Firebase (Google)
 
-- **Services**: Analytics, Crashlytics, Remote Config
+- **Services**: Analytics and Crashlytics
 - **Data processed**:
-  - Analytics: App usage patterns, feature interactions (anonymized)
+  - Analytics: App usage patterns and feature interactions when you opt in
   - Crashlytics: Crash reports, error logs, device information
-  - Remote Config: App configuration settings
 - **Privacy Policy**: https://policies.google.com/privacy
 
 ### 5.3 RevenueCat
@@ -150,10 +152,10 @@ We use the following third-party services that may collect, store, or process yo
 - **Data processed**: Workout preferences, user context, workout specifications
 - **Privacy Policy**: https://openai.com/policies/privacy-policy
 
-### 5.8 Posthog
+### 5.8 PostHog
 
 - **Purpose**: Product and usage analytics to understand how the App is used and improve features
-- **Data processed**: App usage events, feature interactions, device and app information, and identifiers necessary for analytics
+- **Data processed**: App usage events, feature interactions, device and app information, and an app account identifier when you opt in. Your email address is not sent as an analytics property.
 - **Privacy Policy**: https://posthog.com/privacy
 
 ## 6. Data Sharing and Disclosure
@@ -182,7 +184,7 @@ You can update your profile information (age, gender, height, weight, activity l
 You can request deletion of your account and all associated data by:
 
 1. Using the account deletion form: https://forms.gle/zgemJjqtUz4HqL6J7
-2. Contacting us directly at the email address provided in Section 11
+2. Contacting us directly at the email address provided in Section 14
 
 Upon account deletion:
 
@@ -192,7 +194,7 @@ Upon account deletion:
 
 ### 7.4 Data Export
 
-You can export your workout data by accessing your workouts through the App. For a complete data export, please contact us using the information provided in Section 11.
+You can export your workout data by accessing your workouts through the App. For a complete data export, please contact us using the information provided in Section 14.
 
 ### 7.5 Subscription Cancellation
 
@@ -205,18 +207,17 @@ Canceling your subscription will stop future charges, but you will retain access
 
 ### 7.6 Opt-Out of Analytics
 
-You can opt out of analytics data collection by:
-
-- **iOS**: Settings → Privacy → Analytics → Turn off "Share iPhone Analytics"
-- **Android**: Settings → Privacy → Usage & diagnostics → Turn off usage data sharing
-
-Note: Opting out may limit our ability to improve the App and provide support. We do not use your information for advertising purposes.
+Analytics and crash reporting are disabled by default. You can change your
+choice at any time in **Workouch → Settings → Privacy → Share analytics & crash
+reports**. Turning the switch off disables Firebase Analytics, Firebase
+Crashlytics, and PostHog collection for the App. We do not use this information
+for advertising purposes.
 
 ## 8. Children's Privacy
 
 Workouch is not intended for children under the age of 13 (or 16 in the European Union). We do not knowingly collect personal information from children under 13 (or 16 in the EU). If we become aware that we have collected personal information from a child under 13 (or 16 in the EU), we will take steps to delete such information promptly.
 
-If you believe we have collected information from a child under 13 (or 16 in the EU), please contact us immediately using the information provided in Section 11.
+If you believe we have collected information from a child under 13 (or 16 in the EU), please contact us immediately using the information provided in Section 14.
 
 ## 9. Data Retention
 
@@ -244,7 +245,7 @@ If you are a California resident, you have the following rights under the Califo
 - **Right to opt-out**: We do not sell your personal information, so there is no opt-out mechanism needed
 - **Non-discrimination**: We will not discriminate against you for exercising your privacy rights
 
-To exercise these rights, please contact us using the information provided in Section 11.
+To exercise these rights, please contact us using the information provided in Section 14.
 
 ## 12. European Privacy Rights (GDPR)
 
@@ -258,7 +259,7 @@ If you are located in the European Economic Area (EEA) or United Kingdom, you ha
 - **Right to object**: You can object to processing of your personal information
 - **Right to withdraw consent**: You can withdraw consent at any time where we rely on consent
 
-To exercise these rights, please contact us using the information provided in Section 11.
+To exercise these rights, please contact us using the information provided in Section 14.
 
 ## 13. Changes to This Privacy Policy
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
@@ -11,23 +12,19 @@ import '../utils/log.dart';
 @lazySingleton
 class FirebaseService {
   /// Initialize Firebase services
-  Future<void> initialize() async {
+  Future<void> initialize({required bool analyticsEnabled}) async {
     try {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
-      await _configureCrashlytics();
+      await setTelemetryEnabled(analyticsEnabled);
+      _configureErrorHandlers();
     } catch (e) {
       Log.e('Failed to initialize Firebase: $e');
     }
   }
 
-  /// Configure Firebase Crashlytics
-  Future<void> _configureCrashlytics() async {
-    // Enable Crashlytics collection
-    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-
-    // Set up error handling for Flutter errors
+  void _configureErrorHandlers() {
     FlutterError.onError = (FlutterErrorDetails details) {
       FirebaseCrashlytics.instance.recordFlutterFatalError(details);
     };
@@ -37,6 +34,11 @@ class FirebaseService {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
       return true;
     };
+  }
+
+  Future<void> setTelemetryEnabled(bool enabled) async {
+    await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(enabled);
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(enabled);
   }
 
   /// Log an error to Crashlytics

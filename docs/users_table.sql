@@ -44,12 +44,20 @@ DROP POLICY IF EXISTS "Users can update their own profile" ON public.users;
 -- Create RLS policies
 CREATE POLICY "Users can view their own profile"
   ON public.users FOR SELECT
-  USING (auth.uid() = id);
+  TO authenticated
+  USING ((SELECT auth.uid()) = id);
 
 CREATE POLICY "Users can update their own profile"
   ON public.users FOR UPDATE
-  USING (auth.uid() = id)
-  WITH CHECK (auth.uid() = id);
+  TO authenticated
+  USING ((SELECT auth.uid()) = id)
+  WITH CHECK ((SELECT auth.uid()) = id);
+
+REVOKE ALL ON TABLE public.users FROM anon, authenticated;
+GRANT SELECT ON TABLE public.users TO authenticated;
+GRANT UPDATE (
+  age, gender, height, weight, measurement_system, activity_level, has_onboard
+) ON TABLE public.users TO authenticated;
 
 -- ============================================================================
 -- Function: update_users_updated_at()
@@ -81,7 +89,7 @@ CREATE OR REPLACE FUNCTION public.handle_new_auth_user()
 RETURNS TRIGGER
 LANGUAGE plpgsql
 SECURITY DEFINER
-SET search_path = public
+SET search_path = pg_catalog, public
 AS $$
 BEGIN
   INSERT INTO public.users (id, email, full_name, avatar_url)
@@ -115,4 +123,3 @@ EXECUTE FUNCTION public.handle_new_auth_user();
 -- 2. Covers all providers routed through auth.users (Google, Apple, email).
 -- 3. Extend the table with additional profile data as needed.
 -- ============================================================================
-

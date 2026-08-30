@@ -12,6 +12,7 @@ import 'core/di/injection.dart';
 import 'core/services/firebase_service.dart';
 import 'core/services/posthog_analytics_service.dart';
 import 'core/services/subscription_service.dart';
+import 'core/services/storage_service.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/log.dart';
 import 'features/auth/presentation/cubit/auth_cubit.dart';
@@ -29,9 +30,14 @@ Future<void> main() async {
       url: AppConstants.supabase.url,
       anonKey: AppConstants.supabase.anonKey,
     );
-    await getIt<FirebaseService>().initialize();
+    final analyticsEnabled = getIt<StorageService>().getAnalyticsEnabled();
+    await getIt<FirebaseService>().initialize(
+      analyticsEnabled: analyticsEnabled,
+    );
     await getIt<SubscriptionService>().initialize();
-    await getIt<PostHogAnalyticsService>().initialize();
+    await getIt<PostHogAnalyticsService>().initialize(
+      enabled: analyticsEnabled,
+    );
 
     // Force portrait orientation
     await SystemChrome.setPreferredOrientations([

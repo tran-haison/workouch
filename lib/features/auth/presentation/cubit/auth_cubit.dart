@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/constants/app_constants.dart';
 import '../../../workout/domain/enums/activity_level.dart';
 import '../../domain/entities/subscription_plan.dart';
 import '../../domain/entities/user.dart';
@@ -24,42 +23,32 @@ class AuthCubit extends Cubit<AuthState> {
 
     /// Get current user
     final res = await _authRepo.getCurrentUser();
-    res.fold(
-      (error) => emit(
+    if (res.isLeft) {
+      emit(
         state.copyWith(
           status: AuthStateStatus.unauthenticated,
           currentUser: null,
         ),
+      );
+      return;
+    }
+
+    final user = res.right;
+    await _subRepo.login(user.id);
+    // RevenueCat is verified by the server; the client cannot grant itself a
+    // paid tier or increase its generation allowance.
+    await _authRepo.syncUserSubscription();
+    final refreshedUser = await _authRepo.getCurrentUser();
+    final updatedUser = refreshedUser.isRight ? refreshedUser.right : user;
+
+    await _authRepo.signInPosthog(updatedUser);
+    await getUserSubscription();
+
+    emit(
+      state.copyWith(
+        status: AuthStateStatus.authenticated,
+        currentUser: updatedUser,
       ),
-      (user) async {
-        // Login to RevenueCat
-        await _subRepo.login(user.id);
-        var updatedUser = user;
-
-        // Sync user subscription from RevenueCat if it has changed
-        // For test email, always skip any subscription changes
-        final resUserSub = await _subRepo.getUserSubscriptionTier();
-        if ((resUserSub.isRight && resUserSub.right != user.subscriptionTier) &&
-            updatedUser.email != AppConstants.supabase.testEmail) {
-          final newTier = resUserSub.right;
-          updatedUser = updatedUser.copyWith(subscriptionTier: newTier);
-          await _authRepo.updateUserProfile(updatedUser);
-          await _authRepo.updateUserSubscription(newTier);
-        }
-
-        // Sign in user to PostHog for analytics
-        await _authRepo.signInPosthog(updatedUser);
-
-        // Get user subscription from db
-        await getUserSubscription();
-
-        emit(
-          state.copyWith(
-            status: AuthStateStatus.authenticated,
-            currentUser: updatedUser,
-          ),
-        );
-      },
     );
   }
 
@@ -75,36 +64,26 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> signInWithGoogle() async {
     emit(state.copyWith(status: AuthStateStatus.loading, error: null));
     final res = await _authRepo.signInWithGoogle();
-    res.fold(
-      (error) =>
-          emit(state.copyWith(status: AuthStateStatus.error, error: error)),
-      (success) async {
-        if (success) {
-          // Get current user after successful sign in
-          await initUser();
-        } else {
-          emit(state.copyWith(status: AuthStateStatus.error));
-        }
-      },
-    );
+    if (res.isLeft) {
+      emit(state.copyWith(status: AuthStateStatus.error, error: res.left));
+    } else if (res.right) {
+      await initUser();
+    } else {
+      emit(state.copyWith(status: AuthStateStatus.error));
+    }
   }
 
   /// Sign in with Apple
   Future<void> signInWithApple() async {
     emit(state.copyWith(status: AuthStateStatus.loading, error: null));
     final res = await _authRepo.signInWithApple();
-    res.fold(
-      (error) =>
-          emit(state.copyWith(status: AuthStateStatus.error, error: error)),
-      (success) async {
-        if (success) {
-          // Get current user after successful sign in
-          await initUser();
-        } else {
-          emit(state.copyWith(status: AuthStateStatus.error));
-        }
-      },
-    );
+    if (res.isLeft) {
+      emit(state.copyWith(status: AuthStateStatus.error, error: res.left));
+    } else if (res.right) {
+      await initUser();
+    } else {
+      emit(state.copyWith(status: AuthStateStatus.error));
+    }
   }
 
   /// Sign in with email and password
@@ -117,18 +96,13 @@ class AuthCubit extends Cubit<AuthState> {
       email: email,
       password: password,
     );
-    res.fold(
-      (error) =>
-          emit(state.copyWith(status: AuthStateStatus.error, error: error)),
-      (success) async {
-        if (success) {
-          // Get current user after successful sign in
-          await initUser();
-        } else {
-          emit(state.copyWith(status: AuthStateStatus.error));
-        }
-      },
-    );
+    if (res.isLeft) {
+      emit(state.copyWith(status: AuthStateStatus.error, error: res.left));
+    } else if (res.right) {
+      await initUser();
+    } else {
+      emit(state.copyWith(status: AuthStateStatus.error));
+    }
   }
 
   /// Update user profile
@@ -157,18 +131,13 @@ class AuthCubit extends Cubit<AuthState> {
     );
     final res = await _authRepo.updateUserProfile(user);
 
-    res.fold(
-      (error) =>
-          emit(state.copyWith(status: AuthStateStatus.error, error: error)),
-      (success) async {
-        if (success) {
-          // Refresh user data after successful update
-          await initUser();
-        } else {
-          emit(state.copyWith(status: AuthStateStatus.error));
-        }
-      },
-    );
+    if (res.isLeft) {
+      emit(state.copyWith(status: AuthStateStatus.error, error: res.left));
+    } else if (res.right) {
+      await initUser();
+    } else {
+      emit(state.copyWith(status: AuthStateStatus.error));
+    }
   }
 
   /// Sign out
@@ -212,17 +181,27 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     final res = await _subRepo.purchase(package);
-    res.fold(
-      (error) => emit(
-        state.copyWith(status: AuthStateStatus.purchaseSubError, error: error),
-      ),
-      (success) => emit(
+    if (res.isLeft) {
+      emit(
         state.copyWith(
-          status: success
-              ? AuthStateStatus.purchaseSubSuccess
-              : AuthStateStatus.purchaseSubError,
-          error: null,
+          status: AuthStateStatus.purchaseSubError,
+          error: res.left,
         ),
+      );
+      return;
+    }
+
+    final success = res.right;
+    if (success) {
+      await _authRepo.syncUserSubscription();
+      await getUserSubscription();
+    }
+    emit(
+      state.copyWith(
+        status: success
+            ? AuthStateStatus.purchaseSubSuccess
+            : AuthStateStatus.purchaseSubError,
+        error: null,
       ),
     );
   }
@@ -230,17 +209,27 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> restoreSubscription() async {
     emit(state.copyWith(status: AuthStateStatus.loading, error: null));
     final res = await _subRepo.restorePurchases();
-    res.fold(
-      (error) => emit(
-        state.copyWith(status: AuthStateStatus.restoreSubError, error: error),
-      ),
-      (success) => emit(
+    if (res.isLeft) {
+      emit(
         state.copyWith(
-          status: success
-              ? AuthStateStatus.restoreSubSuccess
-              : AuthStateStatus.restoreSubError,
-          error: null,
+          status: AuthStateStatus.restoreSubError,
+          error: res.left,
         ),
+      );
+      return;
+    }
+
+    final success = res.right;
+    if (success) {
+      await _authRepo.syncUserSubscription();
+      await getUserSubscription();
+    }
+    emit(
+      state.copyWith(
+        status: success
+            ? AuthStateStatus.restoreSubSuccess
+            : AuthStateStatus.restoreSubError,
+        error: null,
       ),
     );
   }

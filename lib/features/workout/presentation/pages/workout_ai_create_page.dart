@@ -62,6 +62,7 @@ class _WorkoutAiCreatePageState extends State<WorkoutAiCreatePage> {
   @override
   void initState() {
     super.initState();
+    context.read<WorkoutCubit>().loadExerciseFilters();
 
     _modesWidgets.addAll([
       _ShuffleModeTab(controller: _shuffleTextController),

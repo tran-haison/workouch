@@ -7,5 +7,6 @@ class SettingsState with _$SettingsState {
   const factory SettingsState({
     @Default('') String appVersion,
     @Default('') String appName,
+    @Default(false) bool analyticsEnabled,
   }) = _SettingsState;
 }

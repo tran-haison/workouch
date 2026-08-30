@@ -19,6 +19,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SettingsState {
   String get appVersion => throw _privateConstructorUsedError;
   String get appName => throw _privateConstructorUsedError;
+  bool get analyticsEnabled => throw _privateConstructorUsedError;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -34,7 +35,7 @@ abstract class $SettingsStateCopyWith<$Res> {
     $Res Function(SettingsState) then,
   ) = _$SettingsStateCopyWithImpl<$Res, SettingsState>;
   @useResult
-  $Res call({String appVersion, String appName});
+  $Res call({String appVersion, String appName, bool analyticsEnabled});
 }
 
 /// @nodoc
@@ -51,7 +52,11 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? appVersion = null, Object? appName = null}) {
+  $Res call({
+    Object? appVersion = null,
+    Object? appName = null,
+    Object? analyticsEnabled = null,
+  }) {
     return _then(
       _value.copyWith(
             appVersion: null == appVersion
@@ -62,6 +67,10 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
                 ? _value.appName
                 : appName // ignore: cast_nullable_to_non_nullable
                       as String,
+            analyticsEnabled: null == analyticsEnabled
+                ? _value.analyticsEnabled
+                : analyticsEnabled // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -77,7 +86,7 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
   ) = __$$SettingsStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String appVersion, String appName});
+  $Res call({String appVersion, String appName, bool analyticsEnabled});
 }
 
 /// @nodoc
@@ -93,7 +102,11 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? appVersion = null, Object? appName = null}) {
+  $Res call({
+    Object? appVersion = null,
+    Object? appName = null,
+    Object? analyticsEnabled = null,
+  }) {
     return _then(
       _$SettingsStateImpl(
         appVersion: null == appVersion
@@ -104,6 +117,10 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
             ? _value.appName
             : appName // ignore: cast_nullable_to_non_nullable
                   as String,
+        analyticsEnabled: null == analyticsEnabled
+            ? _value.analyticsEnabled
+            : analyticsEnabled // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -112,7 +129,11 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SettingsStateImpl implements _SettingsState {
-  const _$SettingsStateImpl({this.appVersion = '', this.appName = ''});
+  const _$SettingsStateImpl({
+    this.appVersion = '',
+    this.appName = '',
+    this.analyticsEnabled = false,
+  });
 
   @override
   @JsonKey()
@@ -120,10 +141,13 @@ class _$SettingsStateImpl implements _SettingsState {
   @override
   @JsonKey()
   final String appName;
+  @override
+  @JsonKey()
+  final bool analyticsEnabled;
 
   @override
   String toString() {
-    return 'SettingsState(appVersion: $appVersion, appName: $appName)';
+    return 'SettingsState(appVersion: $appVersion, appName: $appName, analyticsEnabled: $analyticsEnabled)';
   }
 
   @override
@@ -133,11 +157,14 @@ class _$SettingsStateImpl implements _SettingsState {
             other is _$SettingsStateImpl &&
             (identical(other.appVersion, appVersion) ||
                 other.appVersion == appVersion) &&
-            (identical(other.appName, appName) || other.appName == appName));
+            (identical(other.appName, appName) || other.appName == appName) &&
+            (identical(other.analyticsEnabled, analyticsEnabled) ||
+                other.analyticsEnabled == analyticsEnabled));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, appVersion, appName);
+  int get hashCode =>
+      Object.hash(runtimeType, appVersion, appName, analyticsEnabled);
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -152,12 +179,15 @@ abstract class _SettingsState implements SettingsState {
   const factory _SettingsState({
     final String appVersion,
     final String appName,
+    final bool analyticsEnabled,
   }) = _$SettingsStateImpl;
 
   @override
   String get appVersion;
   @override
   String get appName;
+  @override
+  bool get analyticsEnabled;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.

@@ -42,6 +42,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
     _scrollController.addListener(_onScroll);
 
     // Load initial data
+    context.read<WorkoutCubit>().loadExerciseFilters();
     context.read<WorkoutCubit>().getExercises();
   }
 

@@ -3,13 +3,22 @@ import 'package:injectable/injectable.dart';
 
 import '../utils/log.dart';
 
-enum PrefsKey { reviewCount, lastReviewDate, neverShowAgain }
+enum PrefsKey { reviewCount, lastReviewDate, neverShowAgain, analyticsEnabled }
 
 @lazySingleton
 class StorageService {
   StorageService(this._appPrefs);
 
   final AppPrefs _appPrefs;
+
+  /// Analytics and crash reporting are opt-in.
+  bool getAnalyticsEnabled() {
+    return _appPrefs.read<bool>(PrefsKey.analyticsEnabled) ?? false;
+  }
+
+  Future<void> setAnalyticsEnabled(bool enabled) async {
+    await _appPrefs.save(PrefsKey.analyticsEnabled, enabled);
+  }
 
   /// Get never show again flag
   bool getNeverShowAgain() {

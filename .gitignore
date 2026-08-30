@@ -46,4 +46,17 @@ app.*.map.json
 
 .flutter-plugins-dependencies
 
-.env
+.env*
+!.env.example
+
+# Local Supabase state and server-only secrets
+supabase/.temp/
+supabase/.env
+supabase/.env.local
+
+# Signing credentials
+**/key.properties
+**/*.jks
+**/*.keystore
+**/*.p12
+**/*.mobileprovision

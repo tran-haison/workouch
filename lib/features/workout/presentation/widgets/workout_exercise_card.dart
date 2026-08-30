@@ -158,7 +158,7 @@ class _WorkoutExerciseCardState extends State<WorkoutExerciseCard>
                   return ClipRect(
                     child: SizeTransition(
                       sizeFactor: _heightAnimation,
-                      axisAlignment: -1.0,
+                      alignment: AlignmentDirectional.topStart,
                       child: FadeTransition(
                         opacity: _heightAnimation,
                         child: Column(

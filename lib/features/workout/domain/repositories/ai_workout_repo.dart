@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
 
@@ -74,8 +73,8 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
 
       final res = await _exerciseService.generateWorkout(request.toJson());
 
-      if (res.response.statusCode == HttpStatus.ok && res.data.success) {
-        final dto = res.data.data;
+      if (res.success) {
+        final dto = res.data;
         final workout = dto.toEntity();
 
         // Validate that the workout has exercises
@@ -93,28 +92,11 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
         return Right(workout);
       }
 
-      // Try to extract error message from response data
-      String errorMessage = AppConstants.commonError;
-      final responseData = res.response.data;
-      if (responseData is Map<String, dynamic>) {
-        errorMessage =
-            responseData['message']?.toString() ??
-            responseData['error']?.toString() ??
-            res.response.statusMessage ??
-            AppConstants.commonError;
-      } else {
-        errorMessage = res.response.statusMessage ?? AppConstants.commonError;
-      }
+      const errorMessage = AppConstants.commonError;
 
       PosthogService.logWorkoutGeneratedFailed(errorMessage: errorMessage);
 
-      return Left(
-        Error(
-          message: errorMessage,
-          code: res.response.statusCode.toString(),
-          errorType: ErrorType.server,
-        ),
-      );
+      return Left(Error(message: errorMessage, errorType: ErrorType.server));
     } catch (e) {
       final error = handleException(e);
       PosthogService.logWorkoutGeneratedFailed(errorMessage: error.message);
@@ -171,8 +153,8 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
 
       final res = await _exerciseService.generateWorkout(request.toJson());
 
-      if (res.response.statusCode == HttpStatus.ok && res.data.success) {
-        final dto = res.data.data;
+      if (res.success) {
+        final dto = res.data;
         final workout = dto.toEntity();
 
         // Validate that the workout has exercises
@@ -190,28 +172,11 @@ class AIWorkoutRepoImpl implements AIWorkoutRepo {
         return Right(workout);
       }
 
-      // Try to extract error message from response data
-      String errorMessage = AppConstants.commonError;
-      final responseData = res.response.data;
-      if (responseData is Map<String, dynamic>) {
-        errorMessage =
-            responseData['message']?.toString() ??
-            responseData['error']?.toString() ??
-            res.response.statusMessage ??
-            AppConstants.commonError;
-      } else {
-        errorMessage = res.response.statusMessage ?? AppConstants.commonError;
-      }
+      const errorMessage = AppConstants.commonError;
 
       PosthogService.logWorkoutGeneratedFailed(errorMessage: errorMessage);
 
-      return Left(
-        Error(
-          message: errorMessage,
-          code: res.response.statusCode.toString(),
-          errorType: ErrorType.server,
-        ),
-      );
+      return Left(Error(message: errorMessage, errorType: ErrorType.server));
     } catch (e) {
       final error = handleException(e);
       PosthogService.logWorkoutGeneratedFailed(errorMessage: error.message);

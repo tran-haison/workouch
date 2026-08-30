@@ -10,13 +10,6 @@ class AppConstants {
   static final posthog = _PostHog();
   static final humanMetrics = _HumanMetrics();
 
-  // Exercise DB
-  static const exerciseDb = 'exercise-db';
-  static const exerciseDbUrl = 'https://api.vigorworkouch.com';
-  static const exerciseDbApiVersion = '/api/v1';
-  static const exerciseDbApiKeyHeader = 'x-api-key';
-  static const exerciseDbApiKeyEnv = 'EXERCISE_DB_API_KEY';
-
   // Errors
   static const networkError = 'Network error';
   static const commonError = 'Something went wrong';
@@ -348,8 +341,8 @@ class AppConstants {
   static const remove = 'Remove';
   static const edit = 'Edit';
   static const topExercises = 'Top Exercises';
-  static const unlimitedWorkoutGeneration =
-      'Unlimited AI-powered workout generation';
+  static const proWorkoutGeneration =
+      'Up to 50 AI workout generations every 30 days';
   static const advancedProgressTrackingAnalytics =
       'Advanced progress tracking & analytics';
   static const comprehensiveBodyStatsInsights =
@@ -364,18 +357,12 @@ class AppConstants {
   static const userSubscriptionNotFound = 'Failed to get user subscription';
   static const upgradeToPro = 'Upgrade to Pro';
   static const upgradeToProMessage =
-      'You\'ve reached your workout generation limit. Upgrade to Pro for unlimited AI workout generation!';
+      'You\'ve reached your workout generation limit. Upgrade to Pro for up to 50 AI workouts every 30 days!';
   static const goToSubscription = 'View Plans';
   static const maybeLater = 'Maybe Later';
   static const limitExceeded = 'Limit Exceeded';
   static const limitExceededMessage =
       'You\'ve used all of your workout generations for this month. Please wait until';
-  static const incrementWorkoutGenUsedFailed =
-      'Failed to update workout generation count';
-  static const resetSubscriptionPeriodFailed =
-      'Failed to reset subscription period';
-  static const updateUserSubscriptionFailed =
-      'Failed to update user subscription';
   static const getStarted = 'Get Started';
   static const skip = 'Skip';
   // Onboarding Introduction Features
@@ -407,17 +394,6 @@ class AppConstants {
   static const onboardSampleExercise1Info = 'Chest > Cable';
   static const onboardSampleExercise2Name = 'Decline Cable Push';
   static const onboardSampleExercise2Info = 'Chest > Cable';
-
-  // Onboarding testimonials
-  static const onboardTestimonial1UserName = 'James K.';
-  static const onboardTestimonial1Feedback =
-      '"Best workout app I\'ve ever tried! The AI builds perfect routines for my busy schedule"';
-  static const onboardTestimonial2UserName = 'David R.';
-  static const onboardTestimonial2Feedback =
-      '"Incredible results in just weeks! Got my PRs in big compound exercises"';
-  static const onboardTestimonial3UserName = 'Emma L.';
-  static const onboardTestimonial3Feedback =
-      '"Love how personalized the workouts are. I\'ve never been more consistent!"';
 
   // Onboarding analytics
   static const onboardAnalyticsTitle = 'Weekly Progress';
@@ -470,7 +446,10 @@ class AppConstants {
 class _Supabase {
   String get url => dotenv.env['SUPABASE_URL'] ?? '';
 
-  String get anonKey => dotenv.env['SUPABASE_ANON_KEY'] ?? '';
+  String get anonKey =>
+      dotenv.env['SUPABASE_PUBLISHABLE_KEY'] ??
+      dotenv.env['SUPABASE_ANON_KEY'] ??
+      '';
 
   String get iosClientId => dotenv.env['GOOGLE_IOS_CLIENT_ID'] ?? '';
 
@@ -491,8 +470,6 @@ class _Supabase {
   String get tableExercisePersonalRecords => 'exercise_personal_records';
 
   String get tableUserWorkoutWeeks => 'user_workout_weeks';
-
-  String get testEmail => 'vigor.workouch@gmail.com';
 }
 
 class _Time {

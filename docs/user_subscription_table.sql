@@ -41,12 +41,11 @@ DROP POLICY IF EXISTS "Users can update their own subscription" ON public.user_s
 -- Create RLS policies
 CREATE POLICY "Users can view their own subscription"
   ON public.user_subscription FOR SELECT
-  USING (auth.uid() = user_id);
+  TO authenticated
+  USING ((SELECT auth.uid()) = user_id);
 
-CREATE POLICY "Users can update their own subscription"
-  ON public.user_subscription FOR UPDATE
-  USING (auth.uid() = user_id)
-  WITH CHECK (auth.uid() = user_id);
+REVOKE ALL ON TABLE public.user_subscription FROM anon, authenticated;
+GRANT SELECT ON TABLE public.user_subscription TO authenticated;
 
 -- ============================================================================
 -- Function: update_user_subscription_updated_at()
@@ -81,7 +80,7 @@ CREATE OR REPLACE FUNCTION public.create_user_subscription_for_new_user()
 RETURNS TRIGGER
 LANGUAGE plpgsql
 SECURITY DEFINER
-SET search_path = public
+SET search_path = pg_catalog, public
 AS $$
 DECLARE
   period_start_date TIMESTAMPTZ;
@@ -119,10 +118,8 @@ CREATE TRIGGER on_user_created_subscription
 -- 1. Script is idempotent—safe to re-run.
 -- 2. Drops old workout_generations_limit table if it exists.
 -- 3. Auto-creates subscription record when new user is created via auth.users trigger.
--- 4. Reset logic (app-side):
---    - Check if current_date >= period_end
---    - If yes: reset workout_gen_used to 0 and update period_start/period_end
---    - Update workout_gen_limit based on subscription_tier (Basic: 1, Pro: 50)
+-- 4. Entitlements, limits, usage, and period resets are server-managed. Apply
+--    the public-release hardening migration before deploying the app.
 -- 5. Limit values:
 --    - Basic tier: 1 generation per 30-day period
 --    - Pro tier (Monthly/Yearly/Lifetime): 50 generations per 30-day period

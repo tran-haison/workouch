@@ -88,7 +88,7 @@ class _ExerciseSelectedListDialog extends StatelessWidget {
                     onRemove: () => _onRemoveExercise(context, exercise),
                   );
                 },
-                onReorder: (oldIndex, newIndex) =>
+                onReorderItem: (oldIndex, newIndex) =>
                     _onReorderExercises(context, oldIndex, newIndex),
               ),
             ),

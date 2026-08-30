@@ -46,7 +46,8 @@ class UserSubscription with _$UserSubscription {
 }
 
 extension UserSubscriptionExtension on UserSubscription {
-  int get remainingWorkoutGen => workoutGenLimit - workoutGenUsed;
+  int get remainingWorkoutGen =>
+      (workoutGenLimit - workoutGenUsed).clamp(0, workoutGenLimit);
 
   bool get hasWorkoutGenRemaining => workoutGenUsed < workoutGenLimit;
 }

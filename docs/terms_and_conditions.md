@@ -1,6 +1,6 @@
 # Terms and Conditions
 
-**Last Updated: March 2026**
+**Last Updated: August 31, 2026**
 
 ## 1. Introduction and Acceptance
 
@@ -131,7 +131,9 @@ The App, including its original content, features, functionality, design, logos,
 
 You may not:
 - Copy, modify, distribute, sell, or lease any part of our App
-- Reverse engineer or attempt to extract the source code of the App
+- Circumvent access controls, misuse private credentials, or use the App's
+  services in violation of these Terms. Any source code made publicly visible is
+  governed separately by the notice or license in its repository.
 - Remove, alter, or obscure any copyright, trademark, or other proprietary rights notices
 - Use our trademarks, logos, or other proprietary information without our express written consent
 
@@ -348,4 +350,3 @@ You may not assign or transfer these Terms or your rights hereunder, in whole or
 ---
 
 **By using Workouch, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions.**
-

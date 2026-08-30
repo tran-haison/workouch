@@ -172,7 +172,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                         ),
                         Gaps.vGap32,
                         const _BenefitItem(
-                          text: AppConstants.unlimitedWorkoutGeneration,
+                          text: AppConstants.proWorkoutGeneration,
                         ),
                         Gaps.vGap16,
                         const _BenefitItem(

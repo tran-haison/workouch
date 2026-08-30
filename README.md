@@ -96,9 +96,8 @@ Database/External API
 - **Row Level Security (RLS)** - Data isolation and security
 
 ### API Integration
-- **Dio** ^5.9.0 - HTTP client
-- **Retrofit** ^4.9.0 - Type-safe REST client
-- **OpenAI API** - AI workout generation (via Exercise DB API)
+- **Supabase Edge Functions** - Authenticated proxy for exercise data and AI generation
+- **OpenAI API** - AI workout generation via the server-side Exercise API
 
 ### Dependency Injection
 - **get_it** ^8.0.3 - Service locator
@@ -132,7 +131,6 @@ Database/External API
 - **firebase_core** ^3.15.1 - Firebase initialization
 - **firebase_crashlytics** ^4.3.9 - Crash reporting
 - **firebase_analytics** ^11.5.2 - Analytics
-- **firebase_remote_config** ^5.4.7 - Remote configuration
 
 ### Monetization
 - **purchases_flutter** ^8.10.6 - RevenueCat for in-app purchases
@@ -180,8 +178,9 @@ See [`docs/workout_database_schema.md`](docs/workout_database_schema.md) for det
 ## 🔌 API Integrations
 
 ### Exercise DB API
-- **Base URL**: `https://api.vigorworkouch.com/api/v1`
-- **Authentication**: API key via `x-api-key` header
+- The mobile app invokes the authenticated `exercise-api` Supabase Edge Function.
+- The function proxies an allowlist of endpoints and supplies the private
+  upstream key from Supabase secrets.
 - **Endpoints**:
   - `GET /exercises/filter` - Filter and search exercises
   - `GET /bodyparts` - Get available body parts
@@ -217,14 +216,12 @@ See [`docs/workout_database_schema.md`](docs/workout_database_schema.md) for det
    flutter pub get
    ```
 
-3. **Set up environment variables**
-   - Create a `.env` file in the root directory
-   - Add the following variables:
-     ```
-     EXERCISE_DB_API_KEY=your_api_key_here
-     SUPABASE_URL=your_supabase_url
-     SUPABASE_ANON_KEY=your_supabase_anon_key
-     ```
+3. **Set up client configuration**
+   ```bash
+   cp .env.example .env
+   ```
+   Fill in only public client identifiers. The `.env` file is bundled into the
+   application; it is not a secret store.
 
 4. **Configure Firebase**
    - Add `google-services.json` (Android) to `android/app/`
@@ -232,9 +229,17 @@ See [`docs/workout_database_schema.md`](docs/workout_database_schema.md) for det
    - Configure Firebase project settings
 
 5. **Set up Supabase**
-   - Create a Supabase project
-   - Run the SQL scripts in `docs/workout_database_schema.sql`
-   - Configure authentication providers (Google, Apple)
+   - Create a Supabase project and configure Google/Apple authentication.
+   - Apply the SQL files in `docs/` in this order: `users_table.sql`,
+     `user_subscription_table.sql`, `workout_database_schema.sql`, and
+     `workout_history_database_schema.sql`.
+   - Apply `supabase/migrations/20260830150510_public_release_hardening.sql`.
+   - Configure and deploy the server boundary:
+     ```bash
+     supabase secrets set EXERCISE_DB_API_KEY=... REVENUECAT_SECRET_API_KEY=...
+     supabase functions deploy exercise-api
+     supabase functions deploy sync-subscription
+     ```
 
 6. **Generate code**
    ```bash
@@ -277,7 +282,7 @@ lib/
     │   │   │   ├── dtos/     # DTOs for API responses
     │   │   │   └── requests/ # Request models
     │   │   ├── repositories/ # Repository implementations
-    │   │   └── services/     # API services (Retrofit)
+    │   │   └── services/     # Supabase and Edge Function services
     │   ├── domain/
     │   │   ├── entities/     # Domain entities
     │   │   ├── enums/         # Domain enums
@@ -317,7 +322,6 @@ lib/
 ### Dependency Injection
 - Uses `get_it` with `injectable` for code generation
 - Lazy singletons for services and repositories
-- Named dependencies for multiple Dio instances
 - Auto-generated `injection.config.dart`
 
 ### Data Flow
@@ -346,7 +350,6 @@ Run code generation after making changes to:
 - `freezed` classes
 - `json_serializable` classes
 - `injectable` dependencies
-- `retrofit` services
 
 ```bash
 flutter pub run build_runner build --delete-conflicting-outputs
@@ -374,33 +377,46 @@ flutter build ios --release
 
 ## 📝 Environment Variables
 
-Required environment variables (`.env` file):
-- `EXERCISE_DB_API_KEY` - API key for Exercise DB
-- `SUPABASE_URL` - Supabase project URL
-- `SUPABASE_ANON_KEY` - Supabase anonymous key
+Client-visible values (`.env` file; see `.env.example`):
+- `SUPABASE_URL`
+- `SUPABASE_PUBLISHABLE_KEY` (legacy `SUPABASE_ANON_KEY` is also accepted)
+- Google OAuth client IDs
+- PostHog's public project key and host
 
-Optional (for Firebase):
-- Firebase configuration files are required for crashlytics and analytics
+Server-only values are set with `supabase secrets set` and must never appear in
+the Flutter `.env` file:
+- `EXERCISE_DB_API_KEY`
+- `REVENUECAT_SECRET_API_KEY`
+
+Firebase platform configuration files are also required. Firebase Analytics and
+Crashlytics are disabled by default until a user opts in.
 
 ## 🔒 Security
 
 - **Row Level Security (RLS)** on all database tables
-- API keys stored in environment variables (not committed)
+- Paid entitlements are verified server-side with RevenueCat
+- AI quotas are reserved atomically in PostgreSQL
+- Private API keys are held in Supabase Edge Function secrets, never in the app
+- Analytics and crash reporting are opt-in and disabled by default
 - Secure authentication via Supabase Auth
 - OAuth providers (Google, Apple) configured securely
 - Input validation on all user inputs
 
 ## 📄 License
 
-[Add your license here]
+No reuse license is currently granted. Public visibility does not make this
+project open source; all rights are reserved by the copyright holder. Choose and
+add an explicit license before accepting outside contributions or encouraging
+reuse. Third-party assets and dependencies remain subject to their own licenses.
 
 ## 🤝 Contributing
 
-[Add contribution guidelines here]
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## 📞 Support
 
-[Add support information here]
+For support, visit https://vigorworkouch.com/support or email
+vigor.workouch@gmail.com. Report security issues using [SECURITY.md](SECURITY.md).
 
 ---
 

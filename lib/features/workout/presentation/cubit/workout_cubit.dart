@@ -27,9 +27,11 @@ class WorkoutCubit extends Cubit<WorkoutState> {
   final AIWorkoutRepo _aiWorkoutRepo;
 
   WorkoutCubit(this._exerciseRepo, this._workoutRepo, this._aiWorkoutRepo)
-    : super(const WorkoutState()) {
-    getBodyParts();
-    getEquipments();
+    : super(const WorkoutState());
+
+  Future<void> loadExerciseFilters() async {
+    if (state.bodyParts.isNotEmpty && state.equipments.isNotEmpty) return;
+    await Future.wait([getBodyParts(), getEquipments()]);
   }
 
   Future<void> saveWorkout(Workout workout) async {
@@ -241,10 +243,6 @@ class WorkoutCubit extends Cubit<WorkoutState> {
 
   /// Reorder exercise in selection
   void reorderExercise(int oldIndex, int newIndex) {
-    if (oldIndex < newIndex) {
-      newIndex -= 1;
-    }
-
     final oldList = state.selectedWorkout.exercises;
     final selectedItem = oldList[oldIndex];
     final newList = [
@@ -392,10 +390,22 @@ class WorkoutCubit extends Cubit<WorkoutState> {
       return false;
     }
 
-    // Step 2: Reset subscription period if needed
-    await _checkAndResetSubPeriod(userSub);
+    // The Edge Function performs the definitive limit check atomically. This
+    // local check only avoids starting a request that is already known to fail.
+    if (!userSub.hasWorkoutGenRemaining &&
+        DateTime.now().isBefore(userSub.periodEnd)) {
+      emit(
+        state.copyWith(
+          generateAIWorkoutStatus: WorkoutStateStatus.error,
+          generateAIWorkoutError: Error(
+            message: AppConstants.limitExceededMessage,
+            errorType: ErrorType.other,
+          ),
+        ),
+      );
+      return false;
+    }
 
-    // Step 3: Set loading status before starting workout generation
     emit(
       state.copyWith(
         generateAIWorkoutStatus: WorkoutStateStatus.loading,
@@ -406,18 +416,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     return true;
   }
 
-  /// Compare current date with subscription period end and reset if needed
-  Future<void> _checkAndResetSubPeriod(UserSubscription userSub) async {
-    final now = DateTime.now();
-    if (now.isAfter(userSub.periodEnd)) {
-      await _workoutRepo.resetSubscriptionPeriod();
-    }
-  }
-
   Future<void> _handleSuccessWorkoutGen(Workout workout) async {
-    // Increment workout generation used
-    await _workoutRepo.incrementWorkoutGenUsed();
-
     emit(
       state.copyWith(
         generateAIWorkoutStatus: WorkoutStateStatus.success,
