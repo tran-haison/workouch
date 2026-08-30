@@ -69,7 +69,7 @@ dependencies:
   logger: ^2.6.0
 
   # https://pub.dev/packages/supabase_flutter
-  supabase_flutter: ^2.9.1
+  supabase_flutter: ^2.17.2
 
   # https://pub.dev/packages/google_sign_in
   google_sign_in: ^6.3.0
