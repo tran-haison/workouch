@@ -91,8 +91,8 @@ Workouch offers 4 types of subscription plans:
 
 8. LEGAL
 
-• Privacy Policy: https://vigorworkouch.com/privacy-policy
-• Terms & Conditions: https://vigorworkouch.com/terms-conditions
+• Privacy Policy: https://workouch.nosiahstudios.com/privacy-policy
+• Terms & Conditions: https://workouch.nosiahstudios.com/terms-conditions
 
 ---
 

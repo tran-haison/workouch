@@ -293,7 +293,7 @@ Third-party services we rely on may include, for example, authentication, databa
 
 Your use of the App is also governed by our Privacy Policy. Please review our Privacy Policy, which also governs your use of the App, to understand our practices regarding the collection and use of your information.
 
-**Privacy Policy**: https://vigorworkouch.com/privacy-policy
+**Privacy Policy**: https://workouch.nosiahstudios.com/privacy-policy
 
 ## 15. Changes to These Terms
 
@@ -312,7 +312,7 @@ If you have any questions about these Terms, please contact us at:
 
 **Email**: vigor.workouch@gmail.com
 
-**Website**: https://vigorworkouch.com
+**Website**: https://workouch.nosiahstudios.com
 
 We will respond to your inquiry within a reasonable timeframe, typically within 30 days.
 

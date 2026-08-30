@@ -108,7 +108,7 @@ Your profile data is used to:
 - Generate personalized AI workout recommendations
 - Adjust workout intensity based on your fitness level
 
-**Note**: We respect your privacy. All profile data is encrypted and stored securely. See our [Privacy Policy](https://vigorworkouch.com/privacy-policy) for details.
+**Note**: We respect your privacy. All profile data is encrypted and stored securely. See our [Privacy Policy](https://workouch.nosiahstudios.com/privacy-policy) for details.
 
 ---
 
@@ -560,7 +560,7 @@ Once workouts are saved, you can view and execute them offline.
 A: Yes! Your account syncs across all your devices. Sign in on any device to access your workouts and profile.
 
 **Q: Is my data secure?**
-A: Yes. We use industry-standard encryption and security measures. Your data is protected with Row-Level Security (RLS) policies. See our [Privacy Policy](https://vigorworkouch.com/privacy-policy) for details.
+A: Yes. We use industry-standard encryption and security measures. Your data is protected with Row-Level Security (RLS) policies. See our [Privacy Policy](https://workouch.nosiahstudios.com/privacy-policy) for details.
 
 **Q: Can I export my workout data?**
 A: You can view your workouts within the app. For data export requests, contact support at vigor.workouch@gmail.com.
@@ -643,9 +643,9 @@ Please include:
 
 ### 12.3 Additional Resources
 
-- **Privacy Policy**: https://vigorworkouch.com/privacy-policy
-- **Terms & Conditions**: https://vigorworkouch.com/terms-conditions
-- **Website**: https://vigorworkouch.com
+- **Privacy Policy**: https://workouch.nosiahstudios.com/privacy-policy
+- **Terms & Conditions**: https://workouch.nosiahstudios.com/terms-conditions
+- **Website**: https://workouch.nosiahstudios.com
 
 ### 12.4 Feedback & Suggestions
 
@@ -673,7 +673,7 @@ We are not liable for any injuries that may occur during or as a result of using
 
 ### Data Privacy
 
-Your privacy is important to us. All data is encrypted, securely stored, and protected. We never sell your personal information. For details, see our [Privacy Policy](https://vigorworkouch.com/privacy-policy).
+Your privacy is important to us. All data is encrypted, securely stored, and protected. We never sell your personal information. For details, see our [Privacy Policy](https://workouch.nosiahstudios.com/privacy-policy).
 
 ### App Updates
 

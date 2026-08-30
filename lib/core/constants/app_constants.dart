@@ -490,15 +490,17 @@ class _Url {
   String get formDeleteAccount => 'https://forms.gle/zgemJjqtUz4HqL6J7';
 
   String get pageTermsConditions =>
-      'https://vigorworkouch.com/terms-conditions';
+      'https://workouch.nosiahstudios.com/terms-conditions';
 
-  String get pagePrivacyPolicy => 'https://vigorworkouch.com/privacy-policy';
+  String get pagePrivacyPolicy =>
+      'https://workouch.nosiahstudios.com/privacy-policy';
 
-  String get pageSupport => 'https://vigorworkouch.com/support';
+  String get pageSupport => 'https://workouch.nosiahstudios.com/support';
 
-  String get pageFeedback => 'https://vigorworkouch.com/#get-in-touch';
+  String get pageFeedback =>
+      'https://workouch.nosiahstudios.com/#get-in-touch';
 
-  String get website => 'https://vigorworkouch.com';
+  String get website => 'https://workouch.nosiahstudios.com';
 
   String get contactEmail => 'mailto:vigor.workouch@gmail.com';
 }

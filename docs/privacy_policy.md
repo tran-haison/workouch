@@ -277,7 +277,7 @@ If you have any questions, concerns, or requests regarding this Privacy Policy o
 
 **Email**: vigor.workouch@gmail.com
 
-**Website**: https://vigorworkouch.com
+**Website**: https://workouch.nosiahstudios.com
 
 **Account Deletion Request**: https://forms.gle/zgemJjqtUz4HqL6J7
 

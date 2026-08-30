@@ -415,7 +415,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## 📞 Support
 
-For support, visit https://vigorworkouch.com/support or email
+For support, visit https://workouch.nosiahstudios.com/support or email
 vigor.workouch@gmail.com. Report security issues using [SECURITY.md](SECURITY.md).
 
 ---
